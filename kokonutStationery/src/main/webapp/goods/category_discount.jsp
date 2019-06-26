@@ -24,13 +24,13 @@ jQuery('#countDown').countdown({
 <br><br>
 <div id="count">
 	<ul id="countDown">
-		<li><span class="days">00</span><p>일</p></li>
+		<li><span class="days">00</span></li>
 		<li class="seperator">일</li>
-	  	<li><span class="hours">00</span><p>시간</p></li>
+	  	<li><span class="hours">00</span></li>
 		<li class="seperator">시간</li>
-		<li><span class="minutes">00</span><p>분</p></li>
+		<li><span class="minutes">00</span></li>
 		<li class="seperator">분</li>
-		<li><span class="seconds">00</span><p>초</p></li>
+		<li><span class="seconds">00</span></li>
 		<li class="seperator">초</li>
 	</ul>
 </div>

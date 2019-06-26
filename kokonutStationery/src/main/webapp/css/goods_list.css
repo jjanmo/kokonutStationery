@@ -15,7 +15,7 @@ div {
 
 * {
 /* 	font-family: 'Hanna', sans-serif; */
-	font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;
+/* 	font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움; */
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -249,36 +249,41 @@ category_area a:active {
 #count{
 	width:100%;
 	background:#ffffff;
+	font-family: 'Hanna', sans-serif;
+	text-align: center;
+	margin: 0 auto;
 }
+
 ul#countDown {
-     width:500px; height:125px;
-     list-style: none;
-     text-align: center;
-     margin:auto;
+	width: 1000px;
+	height: 100px;
+	list-style: none;
+	text-align: center;
+	margin:auto;
 }
 
 ul#countDown li {
-	float:left;
+	float: left;
 }
 
 ul#countDown li span {
-     font-size: 100px;
-     font-weight: 300;
-     line-height: 80px;
-     color:#fbba13;
+	font-size: 80px;
+	font-weight: 300;
+	line-height: 80px;
+	color:#fbba13;
 }
 
 ul#countDown li.seperator {
-     font-size: 75px;
-     line-height: 70px;
-     vertical-align: top; margin:0 30px;
-     color:#fbba13;
+	font-size: 75px;
+	line-height: 70px;
+	vertical-align: top; margin:0 30px;
+	color:#fbba13;
 }
 
 ul#countDown li p {
-     color: #000000;
-     font-size: 11px;
+	color: #000000;
+	font-size: 11px;
 }
 /* 카운트다운 끝
-     font-family: 'Hanna', sans-serif;*/
+font-family: 'Hanna', sans-serif;*/
 
