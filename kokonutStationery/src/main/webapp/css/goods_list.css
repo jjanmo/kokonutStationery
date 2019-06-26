@@ -15,6 +15,7 @@ div {
 
 * {
 /* 	font-family: 'Hanna', sans-serif; */
+	font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -66,22 +67,22 @@ div {
 }
 
 /* categories */
-a:link {
+category_area a:link {
 	color: #7b7b7b;
 	text-decoration: none;
 }
 
-a:visited {
+category_area a:visited {
 	color: #7b7b7b;
 	text-decoration: none;
 }
 
-a:hover {
+category_area a:hover {
 	color: #7b7b7b;
 	text-decoration: none;
 }
 
-a:active {
+category_area a:active {
 	color: #7b7b7b;
 	text-decoration: none;
 }
