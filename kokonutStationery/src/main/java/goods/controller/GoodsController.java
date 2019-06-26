@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/goods/*")
 public class GoodsController {
 	
-	//Ä«Å×°í¸® ¹®±¸·ù ÆäÀÌÁö
+	//ì¹´í…Œê³ ë¦¬ ë¬¸êµ¬ë¥˜ í˜ì´ì§€
 	@GetMapping("/category_stationery.do")
 	public ModelAndView stationery() {
 		ModelAndView mav = new ModelAndView();
@@ -17,7 +17,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	//Ä«Å×°í¸® ¸®ºù ÆäÀÌÁö
+	//ì¹´í…Œê³ ë¦¬ ë¦¬ë¹™ í˜ì´ì§€
 	@GetMapping("/category_living.do")
 	public ModelAndView living() {
 		ModelAndView mav = new ModelAndView();
@@ -25,7 +25,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	//Ä«Å×°í¸® ¿©Çà ÆäÀÌÁö
+	//ì¹´í…Œê³ ë¦¬ ì—¬í–‰ í˜ì´ì§€
 	@GetMapping("/category_travel.do")
 	public ModelAndView travel() {
 		ModelAndView mav = new ModelAndView();
@@ -33,7 +33,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	//Ä«Å×°í¸® Äİ¶óº¸·¹ÀÌ¼Ç ÆäÀÌÁö
+	//ì¹´í…Œê³ ë¦¬ ì½œë¼ë³´ë ˆì´ì…˜ í˜ì´ì§€
 	@GetMapping("/category_collabo.do")
 	public ModelAndView collabo() {
 		ModelAndView mav = new ModelAndView();
@@ -41,7 +41,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	//±ôÂ¦¼¼ÀÏ ÆäÀÌÁö
+	//ê¹œì§ì„¸ì¼ í˜ì´ì§€
 	@GetMapping("/category_discount.do")
 	public ModelAndView discount() {
 		ModelAndView mav = new ModelAndView();
@@ -49,7 +49,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	//Àß³ª°¡¿ä ÆäÀÌÁö
+	//ì˜ë‚˜ê°€ìš” í˜ì´ì§€
 	@GetMapping("/category_best.do")
 	public ModelAndView best() {
 		ModelAndView mav = new ModelAndView();
@@ -58,7 +58,7 @@ public class GoodsController {
 		return mav;
 	}
 	
-	//Àå¹Ù±¸´Ï ÆäÀÌÁö
+	//ì¥ë°”êµ¬ë‹ˆ í˜ì´ì§€
 	@GetMapping("/goods_cart.do")
 	public ModelAndView cart() {
 		ModelAndView mav = new ModelAndView();
