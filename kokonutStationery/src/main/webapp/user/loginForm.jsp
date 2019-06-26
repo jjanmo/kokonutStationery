@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
     
 <link rel="stylesheet" type="text/css" href="../css/join.css">   
-   
     
-<div class="indiv" style="margin:80px 150px 50px 150px;"><!-- Start indiv -->
+<div class="indiv">
+<!-- Start indiv -->
 
-	<div class="login_bg" style="text-align: center;">
+	<div class="login_bg">
 		<form method="post" id="userLoginForm" name="userLoginForm" >
 			<div class="form_box">
 				<div class="info">
