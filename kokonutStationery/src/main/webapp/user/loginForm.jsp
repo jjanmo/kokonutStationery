@@ -3,7 +3,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/join.css">   
     
-<div class="indiv">
+<div class="indiv" style="padding-top: 100px; margin:90px 150px 50px 150px;">
 <!-- Start indiv -->
 
 	<div class="login_bg">
