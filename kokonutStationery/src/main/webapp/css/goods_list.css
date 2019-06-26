@@ -246,44 +246,35 @@ category_area a:active {
 }
 
 /* 카운트다운 부분 */
-#count{
-	width:100%;
-	background:#ffffff;
-	font-family: 'Hanna', sans-serif;
-	text-align: center;
-	margin: 0 auto;
-}
-
-ul#countDown {
-	width: 1000px;
-	height: 100px;
-	list-style: none;
-	text-align: center;
-	margin:auto;
+#count {
+    width: 1000px;
+    height: 150px;
+    border: 1px solid black;
+    margin: 0 auto;
+    padding: 10px 30px;
+    text-align: center;
+    background:#ffffff;
+    font-family: 'Hanna', sans-serif;
 }
 
 ul#countDown li {
-	float: left;
+	display: inline-block;
 }
 
 ul#countDown li span {
-	font-size: 80px;
+	font-size: 100px;
 	font-weight: 300;
 	line-height: 80px;
 	color:#fbba13;
 }
 
-ul#countDown li.seperator {
-	font-size: 75px;
-	line-height: 70px;
-	vertical-align: top; margin:0 30px;
-	color:#fbba13;
-}
 
-ul#countDown li p {
-	color: #000000;
-	font-size: 11px;
+ul#countDown li.seperator {
+    font-size: 70px;
+    line-height: 70px;
+    vertical-align: bottom;
+    margin: 0 20px;
+    color:#fbba13;
 }
-/* 카운트다운 끝
-font-family: 'Hanna', sans-serif;*/
+/* 카운트다운 끝 */
 

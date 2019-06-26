@@ -10,7 +10,7 @@
 </div>
 
 <!-- 상품 리스트 -->
-<div class="contents_area">
+<div class="contents_area no_cate_bar">
 	<div class="product_list">
 		<!-- 상품 한개(반복) -->
 		<div class="product">
