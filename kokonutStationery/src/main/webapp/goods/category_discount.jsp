@@ -1,19 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" ></script>
-<script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
-<script>
-//카운트다운 영역
-jQuery('#countDown').countdown({
-	date: '07/10/2019 23:59:59',
-	offset: 9,
-	day: 'Day',
-	days: 'Days'
-});
-</script>
 
 <!-- 배너 -->
 <div class="bnr_area">
@@ -56,3 +43,16 @@ jQuery('#countDown').countdown({
 	</div>
 </div>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" ></script>
+<script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/goods_list.js"></script>
+<script>
+//카운트다운 영역
+jQuery('#countDown').countdown({
+	date: '07/10/2019 23:59:59',
+	offset: 9,
+	day: 'Day',
+	days: 'Days'
+});
+</script>
