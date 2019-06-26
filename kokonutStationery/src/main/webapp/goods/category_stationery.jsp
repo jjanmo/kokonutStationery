@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-</style>
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-</head>
-<body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/goods_list.js"></script>
+
 <!-- 배너 -->
 <div class="bnr_area">
 	<div class="bnr_img_wrap category_stationery">
@@ -76,9 +69,4 @@
 	</div>
 </div>
 
-</body>
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
-</html>
 
