@@ -249,7 +249,6 @@ category_area a:active {
 #count {
     width: 1000px;
     height: 150px;
-    border: 1px solid black;
     margin: 0 auto;
     padding: 10px 30px;
     text-align: center;
