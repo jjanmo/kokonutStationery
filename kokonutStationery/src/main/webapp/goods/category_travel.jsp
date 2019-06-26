@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-</head>
-<body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/goods_list.js"></script>
+
 <!-- 배너 -->
 <div class="bnr_area">
 	<div class="bnr_img_wrap category_travel"></div>
@@ -18,7 +14,7 @@
 	<div id="container">
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
-				<span class="category_name selected">문구</span>&ensp;
+				<span class="category_name">문구</span>&ensp;
 				<span>50</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
@@ -26,7 +22,7 @@
 				<span>39</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
-				<span class="category_name">여행</span>&ensp;
+				<span class="category_name selected">여행</span>&ensp;
 				<span>12</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
@@ -35,11 +31,11 @@
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="/baemin/goods/goods_list.do?category=5">
+			<a id="sort_name" href="#">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="/baemin/goods/goods_list.do?category=6">
+			<a id="sort_desc" href="#">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
@@ -71,9 +67,3 @@
 	</div>
 </div>
 
-</body>
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
-
-</html>

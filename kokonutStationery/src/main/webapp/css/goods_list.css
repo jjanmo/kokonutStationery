@@ -14,7 +14,7 @@ div {
 }
 
 * {
-	font-family: 'Hanna', sans-serif;
+/* 	font-family: 'Hanna', sans-serif; */
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -132,7 +132,7 @@ a:active {
 	cursor: pointer;
 }
 
-.sort_area {
+#sort_area {
 	width: 40%;
 	height: 20px;
 	font-size: 12px;

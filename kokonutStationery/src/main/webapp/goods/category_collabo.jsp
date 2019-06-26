@@ -1,16 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-</style>
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-</head>
-<body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/goods_list.js"></script>
+
 <!-- 배너 -->
 <div class="bnr_area">
 	<div class="bnr_img_wrap category_collabo"></div>
@@ -21,7 +14,7 @@
 	<div id="container">
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
-				<span class="category_name selected">문구</span>&nbsp;
+				<span class="category_name">문구</span>&nbsp;
 				<span class="category_product_qty">50</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
@@ -33,20 +26,20 @@
 				<span class="category_product_qty">12</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
-				<span class="category_name">콜라보레이션</span>&nbsp;
+				<span class="category_name selected">콜라보레이션</span>&nbsp;
 				<span class="category_product_qty">29</span>
 			</a>
 		</div>
-		<div class="sort_area">
-			<a class="sort_to_name">
+		<div id="sort_area">
+			<a id="sort_name" href="#">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_to_desc">
+			<a id="sort_desc" href="#">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_to_asc">
+			<a class="sort_asc" href="#">
 				<span class="sort_subject">낮은가격순</span>
 			</a>
 		</div>
@@ -74,9 +67,4 @@
 	</div>
 </div>
 
-</body>
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
-</html>
 

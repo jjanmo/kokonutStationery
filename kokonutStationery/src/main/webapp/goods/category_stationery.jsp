@@ -31,11 +31,11 @@
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="/baemin/goods/goods_list.do?category=5">
+			<a id="sort_name" href="#">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="/baemin/goods/goods_list.do?category=6">
+			<a id="sort_desc" href="#">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
