@@ -24,7 +24,7 @@ public class UserController {
 	@Autowired
 	UserDAO userDAO;
 	
-	//Çì´õÀÇ È¸¿ø°¡ÀÔ ¹öÆ°À» ´­·¶À»¶§ È¸¿ø°¡ÀÔ ÀÔ±¸ÆäÀÌÁö
+	//í—¤ë”ì˜ íšŒì›ê°€ì… ë²„íŠ¼ì„ ëˆŒë €ì„ë•Œ íšŒì›ê°€ì… ì…êµ¬í˜ì´ì§€
 	@RequestMapping(value="/join.do", method=RequestMethod.GET)
 	public ModelAndView join() {
 		ModelAndView mav = new ModelAndView();
@@ -34,7 +34,7 @@ public class UserController {
 		return mav;
 	}
 	
-	//È¸¿ø°¡ÀÔ ¾à°ü µ¿ÀÇ ÆäÀÌÁö
+	//íšŒì›ê°€ì… ì•½ê´€ ë™ì˜ í˜ì´ì§€
 	@RequestMapping(value="/agreement.do", method=RequestMethod.GET)
 	public ModelAndView agreement() {
 		ModelAndView mav = new ModelAndView();
@@ -44,7 +44,7 @@ public class UserController {
 		return mav;
 	}
 	
-	//È¸¿ø°¡ÀÔÆû ÆäÀÌÁö
+	//íšŒì›ê°€ì…í¼ í˜ì´ì§€
 	@RequestMapping(value="/joinForm.do", method=RequestMethod.GET)
 	public ModelAndView joinForm() {
 		ModelAndView mav = new ModelAndView();
@@ -54,44 +54,44 @@ public class UserController {
 		return mav;
 	}
 	
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹¾ÆÀÌµğÃ¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì¤‘ë³µì•„ì´ë””ì²´í¬
 	@RequestMapping(value="/checkId.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkId(@RequestParam String userId) {
 		UserDTO userDTO = userDAO.checkId(userId);
-		if(userDTO == null) { //Áßº¹¾ÆÀÌµğ Á¸ÀçÇÏÁö¾ÊÀ½
+		if(userDTO == null) { //ì¤‘ë³µì•„ì´ë”” ì¡´ì¬í•˜ì§€ì•ŠìŒ
 			return "not_exist";
 		}
-		else {// (userDTO != null) Áßº¹¾ÆÀÌµğ Á¸ÀçÇÔ 
+		else {// (userDTO != null) ì¤‘ë³µì•„ì´ë”” ì¡´ì¬í•¨ 
 			return "exist";
 		}
 	}
 	
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹ÀÌ¸ŞÀÏÃ¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì¤‘ë³µì´ë©”ì¼ì²´í¬
 	@RequestMapping(value="/checkEmail.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkEmail(@RequestParam String userEmail) {
 		UserDTO userDTO = userDAO.checkEmail(userEmail);
-		if(userDTO == null) { //Áßº¹ÀÌ¸ŞÀÏ Á¸ÀçÇÏÁö¾ÊÀ½
+		if(userDTO == null) { //ì¤‘ë³µì´ë©”ì¼ ì¡´ì¬í•˜ì§€ì•ŠìŒ
 			return "not_exist";
 		}
-		else {// (userDTO != null) Áßº¹ÀÌ¸ŞÀÏ Á¸ÀçÇÔ 
+		else {// (userDTO != null) ì¤‘ë³µì´ë©”ì¼ ì¡´ì¬í•¨ 
 			return "exist";
 		}
 	}
 	
-	//È¸¿ø°¡ÀÔÆû¿¡¼­ submit ÈÄ : °¡ÀÔok
+	//íšŒì›ê°€ì…í¼ì—ì„œ submit í›„ : ê°€ì…ok
 	@RequestMapping(value="/joinOk.do", method=RequestMethod.POST)
 	public ModelAndView joinOk(@ModelAttribute UserDTO userDTO, HttpSession session) {
 		
-		//session »ı¼º
+		//session ìƒì„±
 		session.setAttribute("memName", userDTO.getUserName());
 		session.setAttribute("memId", userDTO.getUserId());
 		session.setAttribute("memEmail", userDTO.getUserEmail());
 		
-		//È¸¿ø°¡ÀÔÆûÀ» DB·Î Àü´Ş 
+		//íšŒì›ê°€ì…í¼ì„ DBë¡œ ì „ë‹¬ 
 		userDAO.join(userDTO);
-		System.out.println("È¸¿ø°¡ÀÔ¿Ï·á");
+		System.out.println("íšŒì›ê°€ì…ì™„ë£Œ");
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("display", "/user/joinIndex.jsp");
@@ -101,7 +101,7 @@ public class UserController {
 		
 	}
 	
-	//·Î±×ÀÎÆû ÆäÀÌÁö
+	//ë¡œê·¸ì¸í¼ í˜ì´ì§€
 	@RequestMapping(value="/loginForm.do", method=RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
@@ -110,18 +110,18 @@ public class UserController {
 		return mav;
 	}
 	
-	//·Î±×ÀÎ ¾ÆÀÌµğ/ºñ¹Ğ¹øÈ£ Ã¼Å©
+	//ë¡œê·¸ì¸ ì•„ì´ë””/ë¹„ë°€ë²ˆí˜¸ ì²´í¬
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkLogin(@RequestParam Map<String,String> map , HttpSession session) {
 		
 		UserDTO userDTO = userDAO.login(map);
 		
-		if(userDTO == null) { //userÁ¤º¸ Á¸Àç¾ÈÇÔ - ·Î±×ÀÎ ¸øÇÔ
+		if(userDTO == null) { //userì •ë³´ ì¡´ì¬ì•ˆí•¨ - ë¡œê·¸ì¸ ëª»í•¨
 			return "not_exist";
 		}
-		else { //userÁ¤º¸ Á¸Àç - ·Î±×ÀÎ °¡´É
-			//session »ı¼º
+		else { //userì •ë³´ ì¡´ì¬ - ë¡œê·¸ì¸ ê°€ëŠ¥
+			//session ìƒì„±
 			session.setAttribute("memName", userDTO.getUserName());
 			session.setAttribute("memId", userDTO.getUserId());
 			session.setAttribute("memEmail", userDTO.getUserEmail());
@@ -130,17 +130,31 @@ public class UserController {
 		
 	}
 	
-	//·Î±×¾Æ¿ô
+	//ë¡œê·¸ì•„ì›ƒ
 	@GetMapping(value="/logout.do")
 	public ModelAndView logout(HttpSession session) {
-		//¼¼¼Ç Á¾·á
+		//ì„¸ì…˜ ì¢…ë£Œ
 		session.invalidate();
 		return new ModelAndView("redirect:/main/index.do");
 	}
 	
-
+	//IDì°¾ê¸° í˜ì´ì§€
+	@GetMapping(value="/find_id.do")
+	public ModelAndView findId() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/user/find_id.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
 	
-
+	//ë¹„ë°€ë²ˆí˜¸ì°¾ê¸° í˜ì´ì§€
+	@GetMapping(value="/find_pwd.do")
+	public ModelAndView findPwd() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/user/find_pwd.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
 	
 	
 	
