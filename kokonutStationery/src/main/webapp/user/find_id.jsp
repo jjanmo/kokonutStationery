@@ -42,12 +42,12 @@
 		
 		<div align="center" style="padding:0 0 80px 0" >
 			<div style="width: 150px; display: inline-block; padding-left: 3px;">
-				<a href="../member/loginForm">
+				<a href="/kokonutStationery/user/loginForm.do">
 					<li class="main-button-s" style="text-align:center; height:50px; width:150px; line-height:50px;">로그인하기</li>
 				</a>
 			</div>
 			<div style="width: 150px; display: inline-block; padding-left: 3px;">
-				<a href="../member/find_pwd">
+				<a href="/kokonutStationery/user/find_pwd.do">
 					<li class="sub-button-s" style="text-align:center; height:50px; width:150px; line-height:50px;">비밀번호찾기</li>
 				</a>
 			</div>
