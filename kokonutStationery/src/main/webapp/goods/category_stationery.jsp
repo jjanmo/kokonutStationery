@@ -6,9 +6,7 @@
 
 <!-- 배너 -->
 <div class="bnr_area">
-	<div class="bnr_img_wrap category_stationery">
-		<img src="../image/category_stationery.png" alt="stationery" width="100%" >
-	</div>
+	<div class="bnr_img_wrap category_stationery"></div>
 </div>
 
 <!-- 카테고리바 -->
