@@ -94,7 +94,7 @@ a{color:#1E1E1E; text-decoration:none;}
 						</td>
 						<td><!-- 잘나가요 -->
 							<div>
-								<a href="/kokonutStationery/goods/category_discount.do" class="cate1">잘나가요</a>
+								<a href="/kokonutStationery/goods/category_best.do" class="cate1">잘나가요</a>
 							</div>
 						</td>
 					</tr>
@@ -148,15 +148,6 @@ $(document).ready(function(){
 		$('.subLayer').css('display','none');
 	});
 
-});
-
-
-
-function mypage(){
-	alert("aaa");
-//	var memId = ${memId};
-//	alert(memId);
-	// /kokonutStationery/user/mypage_orderlist.do
 });
 
 </script>

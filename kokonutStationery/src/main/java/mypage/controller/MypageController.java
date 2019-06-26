@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/mypage/*")
 public class MypageController {
 
-	//ÁÖ¹®³»¿ª/¹è¼ÛÁ¶È¸ ÆäÀÌÁö
+	//ì£¼ë¬¸ë‚´ì—­/ë°°ì†¡ì¡°íšŒ í˜ì´ì§€
 	@GetMapping("/mypage_orderlist.do")
 	public ModelAndView orderlist() {
 		ModelAndView mav = new ModelAndView();
