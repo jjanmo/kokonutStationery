@@ -5,15 +5,15 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" ></script>
 <script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="../js/goods_list.js"></script>
-<script>
+<!-- <script>
 //카운트다운 영역
 jQuery('#countDown').countdown({
-	date: '06/20/2019 23:59:59',
+	date: '06/29/2019 23:59:59',
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
 });
-</script>
+</script> -->
 
 <!-- 배너 -->
 <div class="bnr_area">
@@ -24,14 +24,22 @@ jQuery('#countDown').countdown({
 <br><br>
 <div id="count">
 	<ul id="countDown">
-		<li><span class="days">00</span><p>일</p></li>
+		<li><span class="days">00</span></li>
+		<li class="seperator">일</li>
+	  	<li><span class="hours">00</span></li>
+		<li class="seperator">시간</li>
+		<li><span class="minutes">00</span></li>
+		<li class="seperator">분</li>
+		<li><span class="seconds">00</span></li>
+		<li class="seperator">초</li>
+<!-- 	<li><span class="days">00</span><p>일</p></li>
 		<li class="seperator">일</li>
 	  	<li><span class="hours">00</span><p>시간</p></li>
 		<li class="seperator">시간</li>
 		<li><span class="minutes">00</span><p>분</p></li>
 		<li class="seperator">분</li>
 		<li><span class="seconds">00</span><p>초</p></li>
-		<li class="seperator">초</li>
+		<li class="seperator">초</li> -->
 	</ul>
 </div>
 <!-- 카운트다운 끝! -->
