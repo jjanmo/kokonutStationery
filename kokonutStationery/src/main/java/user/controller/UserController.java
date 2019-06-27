@@ -1,5 +1,6 @@
 package user.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -156,9 +157,30 @@ public class UserController {
 		return mav;
 	}
 	
+	//비밀번호찾기
+	@RequestMapping(value="/pwdSearch.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String pwdSearch(HttpSession session,@RequestParam Map<String,String> map) {
+		
+		UserDTO userDTO = userDAO.pwdSearch(map);
+		
+		if(userDTO==null)
+			return "fail";
+		else  {
+			session.setAttribute("userEmail",map.get("userEmail"));
+			return "ok";
+		}
+	}
 	
-	
-	
+	//비밀번호찾기 페이지
+	@RequestMapping(value="/find_pwd_ok.do",method=RequestMethod.GET)
+	public ModelAndView findPwdOk() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/user/find_pwd_ok.jsp");
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
 
 	
 
