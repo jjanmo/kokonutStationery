@@ -15,10 +15,11 @@ div {
 
 * {
 /* 	font-family: 'Hanna', sans-serif; */
-/* 	font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움; */
+/*	font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움; */
     word-wrap: break-word;
     word-break: break-all;
 }
+
 
 /* banner */
 .bnr_img_wrap {
@@ -65,6 +66,7 @@ div {
 	background-size: 1150px 310px;
 	background-color: #2c99f7;
 }
+
 
 /* categories */
 category_area a:link {
@@ -155,6 +157,7 @@ category_area a:active {
 .dot {
 	padding: 0px 10px;
 }
+
 
 /* product list */
 .contents_area {
@@ -256,12 +259,12 @@ category_area a:active {
 /* 카운트다운 부분 */
 #count {
     width: 1000px;
-    height: 150px;
+    height: 70px;
     margin: 0 auto;
     padding: 10px 30px;
     text-align: center;
     background:#ffffff;
-    font-family: 'Hanna', sans-serif;
+    font-family: 'Hanna', sans-serif !important;
 }
 
 ul#countDown li {
@@ -269,12 +272,11 @@ ul#countDown li {
 }
 
 ul#countDown li span {
-	font-size: 100px;
-	font-weight: 300;
-	line-height: 80px;
-	color:#fbba13;
+    font-size: 60px;
+    font-weight: 300;
+    line-height: 70px;
+    color: #fbba13;
 }
-
 
 ul#countDown li.seperator {
     font-size: 70px;
