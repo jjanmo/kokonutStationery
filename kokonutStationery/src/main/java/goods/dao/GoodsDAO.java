@@ -7,6 +7,6 @@ import goods.bean.GoodsDTO;
 
 public interface GoodsDAO {
 
-	GoodsDTO get_goods_list(Map<String, String> map);
+	List<GoodsDTO> get_goods_list(Map<String, String> map);
 
 }

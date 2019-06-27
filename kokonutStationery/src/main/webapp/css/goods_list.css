@@ -219,17 +219,17 @@ category_area a:active {
 
 .status_new {
 	background-image: url(../image/icon_new.gif);
-	background-size: 100% 100%;
+	background-size: 100%;
 }
 
 .status_sale {
-	background-image: url(../image/icon_sale.gif));
-	background-size: 100% 100%;
+	background-image: url(../image/icon_sale.gif);
+	background-size: 100%;
 }
 
 .status_best {
-	background-image: url(../image/icon_best.gif));
-	background-size: 100% 100%;
+	background-image: url(../image/icon_best.gif);
+	background-size: 100%;
 }
 
 .product_price_div {

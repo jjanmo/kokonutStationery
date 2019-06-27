@@ -50,36 +50,31 @@
 <div class="contents_area">
 	<div class="product_list">
 		<!-- 상품 한개(반복) -->
-		<!-- <div class="product">
-			<div class="product_img" 
-				 style="background-image: url(http://store.baemin.com/shop/data/goods/1552366615385s0.jpg); 
-				 		background-size: 100%;">
-			</div>
-			<div class="product_contents">
-				<div class="product_name_div">
-					<span class="product_name">서디페. 마스킹 테이프</span>
-				</div>
-				<div class="product_price_div">
-					<div class="product_status status_new"></div>
-					<span class="original_price">10,000</span>
-				  	<span class="product_price">6,000</span>
-				</div>
-			</div>
-		</div> -->
-		
-		<c:forEach var="goodsDTO" items="${goodsDTO}">
+		<c:forEach var="list" items="${list}">
 			<div class="product">
 				<div class="product_img" 
-					 style="background-image: url('<c:out value="${goodsDTO.thumbImg}"/>'); background-size: 100%;">
+					 style="background-image: url(<c:out value="${list.thumbImg}"/>); background-size: 100%;">
 				</div>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<span class="product_name"><c:out value="${goodsDTO.productName}"/></span>
+						<span class="product_name"><c:out value="${list.productName}"/></span>
 					</div>
 					<div class="product_price_div">
-						<div class="product_status status_new"></div>
-						<span class="original_price"><c:out value="${goodsDTO.originalPrice}"/></span>
-				  		<span class="product_price"><c:out value="${goodsDTO.discountPrice}"/></span>
+					
+						<c:if test="${list.discount==1}">
+							<div class="product_status status_sale"></div>
+							<span class="original_price"><c:out value="${list.originalPrice}"/></span>&nbsp;
+						</c:if>
+						
+						<c:if test="${list.best==1}">
+							<div class="product_status status_best"></div>
+						</c:if>
+						
+						<c:if test="${list.newP==1}">
+							<div class="product_status status_new"></div>
+						</c:if>
+
+				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
 					</div>
 				</div>
 			</div>
@@ -88,5 +83,7 @@
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
+<script type="text/javascript">
+
+</script>
 
