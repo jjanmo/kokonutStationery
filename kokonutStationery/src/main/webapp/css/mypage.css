@@ -22,6 +22,7 @@ a:hover {
   height: 100%;
   margin: 90px auto 0;
   padding: 50px 10px 0px;
+  display:absolute;
 }
 
 .mypage_list {

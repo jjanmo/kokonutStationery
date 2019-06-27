@@ -17,7 +17,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public GoodsDTO get_goods_list(Map<String, String> map) {
-		return sqlSession.selectOne("goodsSQL.get_goods_list", map);
+	public List<GoodsDTO> get_goods_list(Map<String, String> map) {
+		return sqlSession.selectList("goodsSQL.get_goods_list", map);
 	}
 }
