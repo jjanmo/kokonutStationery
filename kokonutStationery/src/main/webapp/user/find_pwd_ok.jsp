@@ -257,7 +257,7 @@ $(document).ready(function(){
 				 $.ajax({
 						type:'POST',
 						url:'/kokonutStationery/mail/auth',
-						data:{'userEmail':userEmail},//'pg='+$('#pg').val() ==> board.js로 빼내어 hidden값으로 pg를 넘겨줬을때
+						data:{'userEmail':userEmail},
 						success:function(data){	
 							alert(data);
 						}
@@ -369,7 +369,6 @@ $(document).ready(function(){
 	  //비밀번호재설정확인
 	  $('#okBtn2').click(function(){
 		  
-		  alert("확인");
 		  var pwdChkClass = $('#pwdChk').attr('class');			
 		  var userPwd = $('#userPwd').val();
 		  
@@ -383,8 +382,6 @@ $(document).ready(function(){
 			alert("비밀번호가 같지않습니다.");
 			$('#rePwd').focus();
 		}else{
-			alert("호잇");
-			
 			$.ajax({
 				type:'POST',
 				url:'/kokonutStationery/mail/changePwd',
