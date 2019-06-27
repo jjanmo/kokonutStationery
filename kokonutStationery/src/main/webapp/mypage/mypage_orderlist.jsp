@@ -44,17 +44,17 @@
         </tr>
         <tr>
           <td id="mem_order">
-            <a>주문내역 · 배송조회</a>
+            <a href="../mypage/mypage_orderlist.do">주문내역 · 배송조회</a>
           </td>
         </tr>
         <tr>
           <th><a>1:1 문의게시판</a></th>
         </tr>
         <tr>
-          <th><a>나의 상품후기<a></th>
+          <th><a href="../mypage/mypage_review.do">나의 상품후기<a></th>
         </tr>
         <tr>
-          <th><a>나의 상품문의</a></th>
+          <th><a href="../mypage/mypage_qna.do">나의 상품문의</a></th>
         </tr>
         <tr>
           <th id="mem_info">개인정보</th>
