@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
 
 <!-- 배너 -->
 <div class="bnr_area">
@@ -50,9 +48,10 @@
 <div class="contents_area">
 	<div class="product_list">
 		<!-- 상품 한개(반복) -->
-		<div class="product">
-			<div class="product_img">
-				<img class="product_img" src="http://store.baemin.com/shop/data/goods/1469007810568s0.jpg">
+		<!-- <div class="product">
+			<div class="product_img" 
+				 style="background-image: url(http://store.baemin.com/shop/data/goods/1552366615385s0.jpg); 
+				 		background-size: 100%;">
 			</div>
 			<div class="product_contents">
 				<div class="product_name_div">
@@ -60,12 +59,14 @@
 				</div>
 				<div class="product_price_div">
 					<div class="product_status status_new"></div>
-				 	<del id="original">10000</del>
-				 	<span class="product_price"><a id="sale">6,000</a></span>
+					<span class="original_price">10,000</span>
+				  	<span class="product_price">6,000</span>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../js/goods_list.js"></script>
 

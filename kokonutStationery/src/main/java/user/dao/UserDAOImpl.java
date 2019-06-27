@@ -14,27 +14,27 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹¾ÆÀÌµğÃ¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì¤‘ë³µì•„ì´ë””ì²´í¬
 	@Override
 	public UserDTO checkId(String userId) {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkId", userId);
 		return userDTO;
 	}
 
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹ÀÌ¸ŞÀÏÃ¼Å©
+	//íšŒì›ê°€ì…ì‹œ ì¤‘ë³µì´ë©”ì¼ì²´í¬
 	@Override
 	public UserDTO checkEmail(String userEmail) {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkEmail", userEmail);
 		return userDTO;
 	}
 	
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	@Override
 	public void join(UserDTO userDTO) {
 		sqlSession.insert("userSQL.join", userDTO);
 	}
 
-	//·Î±×ÀÎ ¾ÆÀÌµğ/ºñ¹Ğ¹øÈ£ Ã¼Å©
+	//ë¡œê·¸ì¸ ì•„ì´ë””/ë¹„ë°€ë²ˆí˜¸ ì²´í¬
 	@Override
 	public UserDTO login(Map<String, String> map) {
 		return sqlSession.selectOne("userSQL.login", map);

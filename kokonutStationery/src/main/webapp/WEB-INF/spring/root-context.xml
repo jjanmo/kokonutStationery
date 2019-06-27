@@ -13,6 +13,8 @@
 	<context:component-scan base-package="user.bean"/>
 	<context:component-scan base-package="user.dao"/>	
 	<context:component-scan base-package="mybatis.config"/>
+	<context:component-scan base-package="goods.bean"/>
+	<context:component-scan base-package="goods.dao"/>
 	
 	<!-- 이메일 관련 -->
 	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">

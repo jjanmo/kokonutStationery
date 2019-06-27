@@ -1,13 +1,24 @@
 package goods.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import goods.bean.GoodsDTO;
+import goods.dao.GoodsDAO;
 
 @Controller
 @RequestMapping("/goods/*")
 public class GoodsController {
+	@Autowired
+	private GoodsDAO goodsDAO;
 	
 	//카테고리 문구류 페이지
 	@GetMapping("/category_stationery.do")
@@ -67,5 +78,14 @@ public class GoodsController {
 		return mav;
 	}
 	
+	//상품리스트
+	@PostMapping("/get_goods_list.do")
+	public ModelAndView get_goods_list(@RequestParam Map<String, String> map) {
+		List<GoodsDTO> list = goodsDAO.get_goods_list(map);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
 	
 }

@@ -237,6 +237,13 @@ category_area a:active {
 	height: 20px;
 }
 
+.original_price {
+    font-size: 13px;
+    font-weight: 400;
+    color: #999;
+    text-decoration: line-through;
+}
+
 .product_price {
 	color: #222;
     font-size: 13px;
@@ -244,6 +251,7 @@ category_area a:active {
     border-bottom: 2px solid #222;
     position: right;
 }
+
 
 /* 카운트다운 부분 */
 #count {
