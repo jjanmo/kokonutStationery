@@ -9,7 +9,7 @@
 	아이디 찾기
 	</div>
 
-	<form method="post" id="idForm" name="idForm" action="" onsubmit="return chkId();" >
+	<form method="post" id="idForm" name="idForm" action="/kokonutStationery/user/idSearch.do" onsubmit="return chkId();" >
 		<div class="hundred no_mem_area" style="background:#efefef;">
 		
 			<div class="login_bg" style="padding-bottom:5px;">
@@ -18,13 +18,13 @@
 					<div class="info" style="padding-bottom:0;">
 						<p style="padding:0;">
 							<label for="search_name" style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">아이디</label>
-							<input name="srch_name" type="text" placeholder="이름" id="search_name" required
+							<input name="search_name" type="text" placeholder="이름" id="search_name" required
 							style="position:relative; border:1px solid #DDD;width:460px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
 						</p>
 						
 						<p style="padding:0;">
 							<label for="search_mail" style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">메일주소</label>
-							<input name="srch_mail" type="text" placeholder="메일주소" id="search_name" required
+							<input name="search_email" type="text" placeholder="메일주소" id="search_email" required
 							style="position:relative; border:1px solid #DDD;width:460px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
 						</p>
 					</div>
@@ -53,6 +53,4 @@
 			</div>
 		</div>
 	</form>
-
-
 </div>
