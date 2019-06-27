@@ -1,5 +1,6 @@
 package user.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,30 +15,42 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹¾ÆÀÌµðÃ¼Å©
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½Ìµï¿½Ã¼Å©
 	@Override
 	public UserDTO checkId(String userId) {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkId", userId);
 		return userDTO;
 	}
 
-	//È¸¿ø°¡ÀÔ½Ã Áßº¹ÀÌ¸ÞÀÏÃ¼Å©
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ ï¿½ßºï¿½ï¿½Ì¸ï¿½ï¿½ï¿½Ã¼Å©
 	@Override
 	public UserDTO checkEmail(String userEmail) {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkEmail", userEmail);
 		return userDTO;
 	}
 	
-	//È¸¿ø°¡ÀÔ
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public void join(UserDTO userDTO) {
 		sqlSession.insert("userSQL.join", userDTO);
 	}
 
-	//·Î±×ÀÎ ¾ÆÀÌµð/ºñ¹Ð¹øÈ£ Ã¼Å©
+	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½/ï¿½ï¿½Ð¹ï¿½È£ Ã¼Å©
 	@Override
 	public UserDTO login(Map<String, String> map) {
 		return sqlSession.selectOne("userSQL.login", map);
+	}
+
+	@Override
+	public UserDTO pwdSearch(Map<String, String> map) {
+		UserDTO userDTO = sqlSession.selectOne("userSQL.pwdSearch",map);
+		return userDTO;
+	}
+	
+	//ë¹„ë°€ë²ˆí˜¸ë³€ê²½
+	@Override
+	public void changePwd(Map<String, String> map) {
+		sqlSession.update("userSQL.changePwd",map);
 	}
 
 }
