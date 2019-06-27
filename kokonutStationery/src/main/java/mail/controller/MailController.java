@@ -1,5 +1,7 @@
 package mail.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -61,12 +63,11 @@ public class MailController {
 	        } catch(Exception e){
 	          System.out.println(e);
 	        }
-	      
-	        mav.addObject("joinCode", joinCode);
-	        mav.setViewName("jsonView");
+	       mav.addObject("joinCode", joinCode);
 	        return mav;
 	      }
 	    
+	    //인증번호확인
 	    @RequestMapping(value="/confirmAuth",method = RequestMethod.POST)
 	    @ResponseBody
 	    public String confirmAuth(HttpSession session,@RequestParam String authKey){
@@ -83,11 +84,17 @@ public class MailController {
 	    	
 	    }
 	    
+	    //새비밀번호변경
 	    @RequestMapping(value="/changePwd",method=RequestMethod.POST)
 	    @ResponseBody
-	    public void changePwd(@RequestParam String userPwd) {
+	    public void changePwd(@RequestParam String userPwd,@RequestParam String userEmail) {
+	    	System.out.println(userEmail+"의 변경할 pwd="+userPwd);
+	    	Map<String,String> map = new HashMap<String,String>();
 	    	
-	    	//userDAO.changePwd(userPwd);
+	    	map.put("userPwd", userPwd);
+	    	map.put("userEmail",userEmail);
+	    	
+	    	userDAO.changePwd(map);
 	    	
 	    }
 }
