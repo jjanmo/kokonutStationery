@@ -1,5 +1,6 @@
 package user.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -138,7 +139,7 @@ public class UserController {
 		return new ModelAndView("redirect:/main/index.do");
 	}
 	
-	//ID찾기 페이지
+	//아이디찾기 페이지
 	@GetMapping(value="/find_id.do")
 	public ModelAndView findId() {
 		ModelAndView mav = new ModelAndView();
@@ -156,42 +157,57 @@ public class UserController {
 		return mav;
 	}
 	
+	//비밀번호찾기
+	@RequestMapping(value="/pwdSearch.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String pwdSearch(HttpSession session,@RequestParam Map<String,String> map) {
+		
+		UserDTO userDTO = userDAO.pwdSearch(map);
+		
+		if(userDTO==null)
+			return "fail";
+		else  {
+			session.setAttribute("userEmail",map.get("userEmail"));
+			return "ok";
+		}
+	}
 	
+	//아이디찾기 체크 메소드
+	@RequestMapping(value="/idSearch.do", method=RequestMethod.POST)
+	public ModelAndView idSearch(@RequestParam Map<String,String> map) {
+		
+		String searchName = map.get("search_name");
+		UserDTO userDTO = userDAO.idSearch(map);
+		ModelAndView mav = new ModelAndView();
+		if(userDTO == null) { //아이디 없는 경우
+			mav.addObject("display", "/user/find_id_fail.jsp");
+			mav.addObject("search_name", searchName);
+			mav.setViewName("/main/nosIndex");
+			return mav;
+		}
+		else { // userDTO != null 아이디 있는 경우
+			mav.addObject("display", "/user/find_id_ok.jsp");
+			mav.addObject("userId", userDTO.getUserId());
+			mav.addObject("search_name", searchName);
+			mav.setViewName("/main/nosIndex");
+			return mav;
+		}
+	}
 	
-	
+	//인증번호 페이지
+	@RequestMapping(value="/find_pwd_ok.do",method=RequestMethod.GET)
+	public ModelAndView findPwdOk() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/user/find_pwd_ok.jsp");
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
 
 	
 
 	
 	
 	
-	
-	@RequestMapping(value="/find_id", method=RequestMethod.GET)
-	public ModelAndView find_id() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/member/find_id.jsp");
-		mav.setViewName("/member/joinIndex");
-		return mav;
-	}
-	
-	@RequestMapping(value="/find_pwd", method=RequestMethod.GET)
-	public ModelAndView find_pwd() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/member/find_pwd.jsp");
-		mav.setViewName("/member/joinIndex");
-		return mav;
-	}
-	
-	
-
-	
-	@RequestMapping(value="/joinOk", method=RequestMethod.POST)
-	public ModelAndView joinOk() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/member/joinOk.jsp");
-		mav.addObject("mainContent", "/member/joinIndex.jsp");
-		mav.setViewName("/main/index2");
-		return mav;
-	}
 
 }

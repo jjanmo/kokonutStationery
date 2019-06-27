@@ -8,7 +8,7 @@
 	<div class="mem_tit" style="margin-bottom:13px; font-size: 26px; font-weight: 700; text-align: center;">
 	비밀번호 찾기
 	</div>
-	<form method="post" name="fm" action="" onsubmit="return chkPwd();" id="form">
+	<form method="post" >
 		<div class="hundred no_mem_area" style="background:#efefef;">
 		
 			<div class="login_bg" style="padding-bottom:5px;">
@@ -17,17 +17,17 @@
 					<div class="info" style="padding-bottom:0;">
 						<p style="padding:0;">
 							<label style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">아이디</label>
-							<input name="userId" type="text" placeholder="아이디" id="userId" required
+							<input name="userId" type="text" placeholder="아이디" id="userId" 
 							style="position:relative; border:1px solid #DDD;width:460px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
 						</p>
 						<p style="padding:0;">
 							<label style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">이름</label>
-							<input name="userName" type="text" placeholder="이름" id="userName" required
+							<input name="userName" type="text" placeholder="이름" id="userName" 
 							style="position:relative; border:1px solid #DDD;width:460px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
 						</p>
 						<p style="padding:0;">
 							<label style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">메일주소</label>
-							<input name="userEmail" type="text" placeholder="메일주소" id="userEmail" required
+							<input name="userEmail" type="text" placeholder="메일주소" id="userEmail" 
 							style="position:relative; border:1px solid #DDD;width:460px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
 						</p>
 					</div>					
@@ -35,11 +35,11 @@
 				
 				<div style="width:100%">
 					<div style="width: 470px; display: inline-block;">
-						<input type="submit" value="찾기" class="main-button" 
+						<input type="button" id="searchBtn" value="찾기" class="main-button" 
 						style="border:0px; text-align:center; height:64px; background-color:#444; width:470px; line-height:64px; -webkit-appearance: none; border-radius:0;">
 					</div>
 				</div>
-				
+		
 				
 			</div>
 		</div>
@@ -63,12 +63,36 @@
 
 </div>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-function chkPwd(){
-	if($('#userName')!='aaa'){
-		alert("사용자정보가 존재하지 않습니다.");
-		return false;
-	}
+$(document).ready(function(){
 	
-}
+	$('#searchBtn').click(function(){
+		var userId = $('#userId').val();
+		var userName = $('#userName').val();
+		var userEmail = $('#userEmail').val();
+		
+		$.ajax({
+			type:'POST',
+			url:'/kokonutStationery/user/pwdSearch.do',
+			data:{'userId':userId,
+				'userName':userName,
+				'userEmail':userEmail },
+			success:function(data){	
+				if(data=='fail'){
+					alert("사용자정보가 존재하지 않습니다.");
+					return false;
+					
+				}else if(data=='ok'){
+					
+					location.href="../user/find_pwd_ok.do";
+				}else return false;
+			}
+			
+		});
+		
+	});
+	
+	
+});
 </script>

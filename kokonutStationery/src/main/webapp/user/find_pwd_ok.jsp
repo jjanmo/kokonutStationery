@@ -3,7 +3,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/join.css">    
 
-<div class="indiv" style="margin:80px 150px 150px 150px;"><!-- Start indiv -->
+<div class="indiv" style="margin:80px 150px 150px 150px; padding-top:150px;"><!-- Start indiv -->
 	<div class="mem_tit" style="margin-bottom:13px; font-size: 26px; font-weight: 700; text-align: center;">
 		비밀번호 찾기
 	</div>
@@ -27,8 +27,10 @@
 									<tbody>
 										<tr>
 											<td style="padding: 18px 20px; text-align:center;">
-												<div id="userEmail" name="userEmail">
-													앞에서 입력한 이메일값
+												<div >
+													<input type="hidden" id="userEmail" name="userEmail" value="${sessionScope.userEmail }">
+													${sessionScope.userEmail }
+													
 												</div>
 											</td>
 											<td style="padding: 0; width: 150px;">												
@@ -50,7 +52,7 @@
 </div>
 <!-- find_pwd_ok.jsp 끝  -->
 
-<!-- 인증번호창 -->
+<!-- 이메일 주소 인증번호창 -->
 <div id="modalLayer" class="password-auth-form-wrapper">
 	<div class="modalContent contents">
 	<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -72,7 +74,7 @@
 	
 	<tr>
 		<td>
-			<form name="authForm" method="post" action="../mail/confirmAuth">
+			<form name="confirmAuthForm" method="post" action="../mail/confirmAuth">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:30px;">
 				<tbody>
 					<tr>
@@ -119,8 +121,7 @@
 		
 
 			<form name="pwdForm" method="post" >
-				<input type="hidden" name="passwordSkin" value="Y"><!-- 비밀번호 작성 규칙 보완 스킨패치 여부 -->
-	
+				
 				<div class="form">
 					<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tbody>
@@ -226,19 +227,20 @@ $(document).ready(function(){
 	  var modalCont = $(".modalContent");
 	  var marginLeft = modalCont.outerWidth()/2;
 	  var marginTop = modalCont.outerHeight()/2; 
-		
+	  var userEmail = $('#userEmail').val();
+	  var userPwd = $('#userPwd').val();
 	  
 	  //인증번호 받기
 	  $("#acceptAuth").click(function(){
 		  $.ajax({
 				type:'POST',
-				url:'/finalproject/mail/auth',
-				data:{'userEmail':'sing2song@naver.com' },//'pg='+$('#pg').val() ==> board.js로 빼내어 hidden값으로 pg를 넘겨줬을때
-				dataType:'json',
+				url:'/kokonutStationery/mail/auth',
+				data:{'userEmail':userEmail},//'pg='+$('#pg').val() ==> board.js로 빼내어 hidden값으로 pg를 넘겨줬을때
 				success:function(data){	
-					alert(JSON.stringify(data));
+					alert(data);
 				}
 			}); 
+		  
 		alert("인증번호가 고객님의 이메일로 전송되었습니다.");
 	    modalLayer.fadeIn("slow");
 	    modalCont.css({"margin-top" : -marginTop, "margin-left" : -marginLeft});
@@ -254,11 +256,10 @@ $(document).ready(function(){
 				alert("인증번호가 재전송 되었습니다.");
 				 $.ajax({
 						type:'POST',
-						url:'/finalproject/mail/auth',
-						data:{'userEmail':'sing2song@naver.com' },//'pg='+$('#pg').val() ==> board.js로 빼내어 hidden값으로 pg를 넘겨줬을때
-						dataType:'json',
+						url:'/kokonutStationery/mail/auth',
+						data:{'userEmail':userEmail},
 						success:function(data){	
-							alert(JSON.stringify(data));
+							alert(data);
 						}
 				}); 
 			 }else{   
@@ -273,7 +274,7 @@ $(document).ready(function(){
 		  
 		  $.ajax({
 				type:'POST',
-				url:'/finalproject/mail/confirmAuth',
+				url:'/kokonutStationery/mail/confirmAuth',
 				data:{'authKey': authKey },
 				success:function(data){
 					
@@ -297,15 +298,13 @@ $(document).ready(function(){
 	  });
 	  
 	  
-		//비밀번호 유효성
+		//비밀번호 유효성체크
 		var oldVal='';
 		
 		$('#userPwd').on('propertychange change keyup paste input', function(){
 			var currentVal = $(this).val();
 			
 			if(currentVal.length == 0){
-				
-				//$('#pwdChk').hide();
 				$('#pwdChkWarn').css('visibility','hidden');
 				$('#pwdChkWarn2').css('visibility','hidden');	
 				$('#pwdChkOk').css('visibility','hidden');
@@ -370,6 +369,7 @@ $(document).ready(function(){
 	  //비밀번호재설정확인
 	  $('#okBtn2').click(function(){
 		  
+		  var pwdChkClass = $('#pwdChk').attr('class');			
 		  var userPwd = $('#userPwd').val();
 		  
 		  if(pwdChkClass!='pwdOk'){
@@ -384,12 +384,13 @@ $(document).ready(function(){
 		}else{
 			$.ajax({
 				type:'POST',
-				url:'/finalproject/mail/changePwd',
-				data:{'userPwd': userPwd },
+				url:'/kokonutStationery/mail/changePwd',
+				data:{'userEmail':userEmail,
+					'userPwd': userPwd },
 				success:function(){
 					
 						alert("비밀번호가 변경되었습니다.");
-						location.href="../member/loginForm";
+						location.href="../user/loginForm.do";
 					
 				}
 				

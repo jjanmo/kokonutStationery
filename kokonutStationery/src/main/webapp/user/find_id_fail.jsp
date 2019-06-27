@@ -14,7 +14,7 @@
 			<tbody>
 				<tr>
 					<td align="center">
-						" <span class="span_blue">회원이름</span> 님의  <span class="span_red">정보가 잘못되었습니다.</span><br>
+						" <span class="span_blue">${search_name}</span> 님의  <span class="span_red">정보가 잘못되었습니다.</span><br>
 						입력정보가  정확한지 확인 후 다시 한 번 시도해주세요. "
 					</td>
 				</tr>
@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="search_other_btn">
-		<a href="../member/find_id" class="member_btn_style03">재검색하기</a>		
+		<a href="/kokonutStationery/user/find_id.do" class="member_btn_style03">재검색하기</a>		
 	</div>
 
 </div>

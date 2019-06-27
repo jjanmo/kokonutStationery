@@ -1,5 +1,6 @@
 package user.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +15,10 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	//회원가입시 중복아이디체크
 	@Override
 	public UserDTO checkId(String userId) {
@@ -27,17 +32,44 @@ public class UserDAOImpl implements UserDAO {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkEmail", userEmail);
 		return userDTO;
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	//회원가입
 	@Override
 	public void join(UserDTO userDTO) {
 		sqlSession.insert("userSQL.join", userDTO);
 	}
 
+<<<<<<< HEAD
 	//로그인 아이디/비밀번호 체크
+=======
+	//로그인시 아이디/비밀번호 체크
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	@Override
 	public UserDTO login(Map<String, String> map) {
 		return sqlSession.selectOne("userSQL.login", map);
+	}
+
+	@Override
+	public UserDTO pwdSearch(Map<String, String> map) {
+		UserDTO userDTO = sqlSession.selectOne("userSQL.pwdSearch",map);
+		return userDTO;
+	}
+	
+	//비밀번호변경
+	@Override
+	public void changePwd(Map<String, String> map) {
+		sqlSession.update("userSQL.changePwd",map);
+	}
+	
+	//아이디 찾기
+	@Override
+	public UserDTO idSearch(Map<String, String> map) {
+		return sqlSession.selectOne("userSQL.idSearch", map);
+
 	}
 
 }
