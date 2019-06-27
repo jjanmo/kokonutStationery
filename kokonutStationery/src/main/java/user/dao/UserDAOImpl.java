@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	//아이디 찾기
 	@Override
 	public UserDTO idSearch(Map<String, String> map) {
-		return sqlSession.selectOne("userSQL.checkFindId", map);
+		return sqlSession.selectOne("userSQL.idSearch", map);
 
 	}
 
