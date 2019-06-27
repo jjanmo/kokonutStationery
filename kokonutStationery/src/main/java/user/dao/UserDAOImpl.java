@@ -14,11 +14,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
-<<<<<<< HEAD
-=======
 
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	//회원가입시 중복아이디체크
 	@Override
 	public UserDTO checkId(String userId) {
@@ -32,22 +28,14 @@ public class UserDAOImpl implements UserDAO {
 		UserDTO userDTO = sqlSession.selectOne("userSQL.checkEmail", userEmail);
 		return userDTO;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	//회원가입
 	@Override
 	public void join(UserDTO userDTO) {
 		sqlSession.insert("userSQL.join", userDTO);
 	}
 
-<<<<<<< HEAD
-	//로그인 아이디/비밀번호 체크
-=======
 	//로그인시 아이디/비밀번호 체크
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 	@Override
 	public UserDTO login(Map<String, String> map) {
 		return sqlSession.selectOne("userSQL.login", map);
