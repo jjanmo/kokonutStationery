@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
 
 <!-- 배너 -->
@@ -64,6 +66,24 @@
 				</div>
 			</div>
 		</div> -->
+		
+		<c:forEach var="list" items="${list}">
+			<div class="product">
+				<div class="product_img" 
+					 style="background-image: url('<c:out value="${list.thumbImg}"/>'); background-size: 100%;">
+				</div>
+				<div class="product_contents">
+					<div class="product_name_div">
+						<span class="product_name"><c:out value="${list.productName}"/></span>
+					</div>
+					<div class="product_price_div">
+						<div class="product_status status_new"></div>
+						<span class="original_price"><c:out value="${list.originalPrice}"/></span>
+				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
 	</div>
 </div>
 

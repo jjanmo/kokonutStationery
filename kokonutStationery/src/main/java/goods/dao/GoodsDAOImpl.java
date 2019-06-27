@@ -18,6 +18,7 @@ public class GoodsDAOImpl implements GoodsDAO {
 
 	@Override
 	public List<GoodsDTO> get_goods_list(Map<String, String> map) {
+		System.out.println(map.get("category"));
 		return sqlSession.selectList("goodsSQL.get_goods_list", map);
 	}
 }

@@ -1,5 +1,6 @@
 package goods.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +22,13 @@ public class GoodsController {
 	private GoodsDAO goodsDAO;
 	
 	//카테고리 문구류 페이지
-	@GetMapping("/category_stationery.do")
-	public ModelAndView stationery() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/goods/category_stationery.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
+//	@GetMapping("/category_stationery.do")
+//	public ModelAndView stationery() {
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("display", "/goods/category_stationery.jsp");
+//		mav.setViewName("/main/nosIndex");
+//		return mav;
+//	}
 	//카테고리 리빙 페이지
 	@GetMapping("/category_living.do")
 	public ModelAndView living() {
@@ -79,12 +80,28 @@ public class GoodsController {
 	}
 	
 	//상품리스트
-	@PostMapping("/get_goods_list.do")
-	public ModelAndView get_goods_list(@RequestParam Map<String, String> map) {
+//	@PostMapping("/get_goods_list.do")
+//	public ModelAndView get_goods_list(@RequestParam Map<String, String> map) {
+//		List<GoodsDTO> list = goodsDAO.get_goods_list(map);
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("list", list);
+//		mav.setViewName("jsonView");
+//		return mav;
+//	}
+	
+	//카테고리 문구류 페이지
+	@GetMapping("/category_stationery.do")
+	public ModelAndView stationery() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("category", "stationery");
 		List<GoodsDTO> list = goodsDAO.get_goods_list(map);
+		System.out.println(map.get("category"));
+		System.out.println(list);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
-		mav.setViewName("jsonView");
+		mav.addObject("display", "/goods/category_stationery.jsp");
+		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
 	
