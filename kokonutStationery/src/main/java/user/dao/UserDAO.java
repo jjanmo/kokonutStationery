@@ -14,4 +14,6 @@ public interface UserDAO {
 
 	public UserDTO login(Map<String, String> map);
 
+	public UserDTO checkFindId(Map<String, String> map);
+
 }

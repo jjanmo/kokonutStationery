@@ -13,7 +13,7 @@
 			<tbody>
 				<tr>
 					<td align="center">
-						" <span class="span_red">회원이름</span> 회원님의 아이디는 <span class="span_blue">아이디</span> 입니다. "
+						" <span class="span_red">${search_name}</span> 회원님의 아이디는 <span class="span_blue">${userId}</span> 입니다. "
 					</td>
 				</tr>
 			</tbody>
@@ -21,8 +21,8 @@
 	</div>
 
 	<div class="search_other_btn">
-		<a href="../member/loginForm" class="member_btn_style03">로그인하기</a>
-		<a href="../member/find_pwd" class="member_btn_style04">비밀번호찾기</a>
+		<a href="/kokonutStationery/user/loginForm.do" class="member_btn_style03">로그인하기</a>
+		<a href="/kokonutStationery/user/find_pwd.do" class="member_btn_style04">비밀번호찾기</a>
 	</div>
 
 </div>

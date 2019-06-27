@@ -49,4 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_USER where userId = #{userId} and userPwd = #{userPwd}
 	</select>
 	
+	<!-- 아이디 찾기 -->
+	<select id="checkFindId" parameterType="java.util.Map" resultType="user">
+		select * from TBL_USER where userName = #{search_name} and userEmail = #{search_email}
+	</select>
 </mapper>
