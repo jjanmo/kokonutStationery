@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="goodsSQL">
 	<!-- 상품리스트 -->
 	<select id="get_goods_list" parameterType="java.util.Map" resultType="goods">
-		select * from tbl_product where ${category} = 1
+		select * from tbl_product where stationery=1
 	</select>
 </mapper>

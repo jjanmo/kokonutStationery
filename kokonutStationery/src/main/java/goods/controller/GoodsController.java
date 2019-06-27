@@ -29,6 +29,7 @@ public class GoodsController {
 //		mav.setViewName("/main/nosIndex");
 //		return mav;
 //	}
+	
 	//카테고리 리빙 페이지
 	@GetMapping("/category_living.do")
 	public ModelAndView living() {
@@ -37,6 +38,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
 	//카테고리 여행 페이지
 	@GetMapping("/category_travel.do")
 	public ModelAndView travel() {
@@ -45,6 +47,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
 	//카테고리 콜라보레이션 페이지
 	@GetMapping("/category_collabo.do")
 	public ModelAndView collabo() {
@@ -53,6 +56,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
 	//깜짝세일 페이지
 	@GetMapping("/category_discount.do")
 	public ModelAndView discount() {
@@ -61,6 +65,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
 	//잘나가요 페이지
 	@GetMapping("/category_best.do")
 	public ModelAndView best() {
@@ -93,13 +98,15 @@ public class GoodsController {
 	@GetMapping("/category_stationery.do")
 	public ModelAndView stationery() {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("category", "stationery");
-		List<GoodsDTO> list = goodsDAO.get_goods_list(map);
-		System.out.println(map.get("category"));
-		System.out.println(list);
+		map.put("category", "STATIONERY");
+//		List<GoodsDTO> list = goodsDAO.get_goods_list(map);
+		GoodsDTO goodsDTO = goodsDAO.get_goods_list(map);
+//		System.out.println(list);
+		System.out.println(goodsDTO);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
+		mav.addObject("goodsDTO", goodsDTO);
+//		mav.addObject("list", list);
 		mav.addObject("display", "/goods/category_stationery.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;

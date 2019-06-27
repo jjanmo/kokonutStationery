@@ -67,19 +67,19 @@
 			</div>
 		</div> -->
 		
-		<c:forEach var="list" items="${list}">
+		<c:forEach var="goodsDTO" items="${goodsDTO}">
 			<div class="product">
 				<div class="product_img" 
-					 style="background-image: url('<c:out value="${list.thumbImg}"/>'); background-size: 100%;">
+					 style="background-image: url('<c:out value="${goodsDTO.thumbImg}"/>'); background-size: 100%;">
 				</div>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<span class="product_name"><c:out value="${list.productName}"/></span>
+						<span class="product_name"><c:out value="${goodsDTO.productName}"/></span>
 					</div>
 					<div class="product_price_div">
 						<div class="product_status status_new"></div>
-						<span class="original_price"><c:out value="${list.originalPrice}"/></span>
-				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
+						<span class="original_price"><c:out value="${goodsDTO.originalPrice}"/></span>
+				  		<span class="product_price"><c:out value="${goodsDTO.discountPrice}"/></span>
 					</div>
 				</div>
 			</div>
