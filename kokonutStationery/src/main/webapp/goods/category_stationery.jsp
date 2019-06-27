@@ -52,7 +52,7 @@
 		<!-- 상품 한개(반복) -->
 		<div class="product">
 			<div class="product_img">
-				<img class="product_img" src="../image/masking_tape.jpg">
+				<img class="product_img" src="http://store.baemin.com/shop/data/goods/1469007810568s0.jpg">
 			</div>
 			<div class="product_contents">
 				<div class="product_name_div">
