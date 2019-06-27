@@ -47,10 +47,11 @@ a{color:#1E1E1E; text-decoration:none;}
 
 
 #top_menu{
-	font-size:12px; width:350px; height:20px;
-	float:left; padding-left:10px;
+	font-size:12px; width:315px; height:20px;
+	float:right; padding-left:10px;
 	}
 #top_menu>li{float:left; padding:37px 0 0 27px; font-weight:bold;}
+#top_menu>li#logoutBtn{margin-left:64px;}
 #top_menu>li>a:hover{color:#000000;}
 
 .utilMenuText{color:#c1c1c1;}
@@ -108,7 +109,7 @@ a{color:#1E1E1E; text-decoration:none;}
 			<li><a href="/kokonutStationery/user/join.do" class="utilMenuText">회원가입</a></li>
 			</c:if>
 			<c:if test="${memId != null}">
-			<li><a href="/kokonutStationery/user/logout.do" class="utilMenuText">로그아웃</a></li>
+			<li id="logoutBtn"><a href="/kokonutStationery/user/logout.do" class="utilMenuText">로그아웃</a></li>
 			</c:if>
 			<li><a href="/kokonutStationery/goods/goods_cart.do" class="utilMenuText">장바구니</a></li>
 			
