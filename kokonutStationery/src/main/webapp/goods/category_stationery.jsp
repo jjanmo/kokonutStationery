@@ -60,7 +60,8 @@
 				</div>
 				<div class="product_price_div">
 					<div class="product_status status_new"></div>
-				 	<span class="product_price">6,000</span>
+				 	<del id="original">10000</del>
+				 	<span class="product_price"><a id="sale">6,000</a></span>
 				</div>
 			</div>
 		</div>
