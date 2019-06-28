@@ -35,7 +35,7 @@
 #main_slider{width:2500px; height:500px; overflow:visible; position:relative; left:-70%;}
 #main_slider img{left:-20%;}
 
-#content_wrap{padding-top:40px;}
+/* #content_wrap{padding-top:40px;} */
 
 a#topBtn{
 	position:fixed;
@@ -74,9 +74,12 @@ a#topBtn{
 				</div>
 			</div><!-- slider_wrap -->
 			
-			<div id="content_wrap">
+			
+			<!-- content_wrap -->
+			<jsp:include page="${display }" />
+	<!-- 	<div id="">
 				<jsp:include page="${display }" />
-			</div><!-- content_wrap -->
+			</div> -->
 			
 			<a href="#" id="topBtn">
 				<img src="../image/topBtn.png" />
