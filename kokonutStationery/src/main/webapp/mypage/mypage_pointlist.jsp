@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="../css/mypage.css">
 </head>
 <body>
-<div class="contents_wrap">
-  <!-- mypage left menu -->
+<!-- <div class="contents_wrap">
+  mypage left menu
   <div class="mypage_list">
     <div class="mypae_title">
       <span>마이페이지</span>
@@ -67,7 +67,7 @@
         </tr>
       </table>
     </div>
-  </div>
+  </div> -->
 
   <!-- mypage right contents -->
   <div class="content">
@@ -154,7 +154,7 @@
       1
     </div>
   </div>
-</div>
+<!-- </div> -->
 </body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/mypage.js"></script>

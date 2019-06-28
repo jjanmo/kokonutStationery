@@ -1,7 +1,5 @@
 package mypage.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +15,23 @@ public class MypageController {
 	@Autowired	
 	private UserDAO userDAO;
 	
+	//포인트
+	@GetMapping("/mypage_pointlist.do")
+	public ModelAndView pointlist() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/mypage/mypage_pointlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	
 	//주문내역/배송조회 페이지
 	@GetMapping("/mypage_orderlist.do")
 	public ModelAndView orderlist() {
-		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_orderlist.jsp");
+		mav.addObject("contents", "/mypage/mypage_orderlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
@@ -32,7 +41,8 @@ public class MypageController {
 	public ModelAndView review() {
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_review.jsp");
+		mav.addObject("contents", "/mypage/mypage_review.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
@@ -42,8 +52,13 @@ public class MypageController {
 	public ModelAndView qna() {
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_qna.jsp");
+		mav.addObject("contents", "/mypage/mypage_qna.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
+	
+	
+	
 }

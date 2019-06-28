@@ -17,34 +17,60 @@
 
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-*{
+* {
 	margin:0; padding:0;
 	list-style-type:none;
 }
 
-#wrap{width:100%;}
+#wrap {
+	width:100%;
+}
 
-#header_main{
-	width:100%; height:90px; position:fixed; top:0px; border-bottom:1px solid #f0f0f0;
-	z-index:10; background:#ffffff;
-	}
+#header_main {
+	width:100%;
+	height:90px; 
+	position:fixed; 
+	top:0px; 
+	border-bottom:1px solid #f0f0f0;
+	z-index:10; 
+	background:#ffffff;
+}
 
-#main_wrap{width:100%; margin-top:90px;z-index:11;}
+#main_wrap {
+	width:100%; 
+	margin-top:90px;
+	z-index:11;
+}
 
-#slider_wrap{width:1000px; height:500px; margin:auto;}
-#main_slider{width:2500px; height:500px; overflow:visible; position:relative; left:-70%;}
-#main_slider img{left:-20%;}
+#slider_wrap {
+	width:1000px;
+	height:500px; 
+	margin:auto;
+}
 
- #content_wrap{padding-top:40px;}
+<<<<<<< HEAD
+#content_wrap{padding-top:40px;}
+=======
+#main_slider {
+	width:2500px; 
+	height:500px; 
+	overflow:visible; 
+	position:relative; 
+	left:-70%;
+}
+>>>>>>> refs/heads/gihyeon
 
-a#topBtn{
+#main_slider img {
+	left:-20%;
+}
+
+a#topBtn {
 	position:fixed;
 	right:4%;
 	bottom:50px;
 	display:none;
 	z-index:999;
 }
-
 </style>
 </head>
 
@@ -59,10 +85,7 @@ a#topBtn{
 	
 		<!-- main container 시작 -->
 		<div id="main_wrap">
-			
-			
-			<div id="content_wrap">
-				<%-- <jsp:include page="main_content.jsp" /> --%>
+			<div id="">
 				<jsp:include page="${display }"/>
 			</div><!-- content_wrap -->
 			
@@ -77,25 +100,9 @@ a#topBtn{
 </body>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" ></script>
 <script type="text/javascript" src="../js/slick.min.js"></script>
-<script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
-
-<!-- 카운트다운 시간 조정! date만 바꾸면 됩니다 -->
-
 <script type="text/javascript">
 $(document).ready(function(){
-	
-	$('.main_slider').slick({
-		autoplay : true, // 자동슬라이드여부
-		autoplaySpeed : 3000,
-		slidesToShow : 1, // 한번에 몇개의 이미지를 보여줄 것인지
-		slidesToScroll : 1,
-		arrows : true,
-		fade : false,
-		infinite : true,
-		dots : true
-	});
 	
 	$(window).scroll(function(){
 		if($(this).scrollTop() > 400){
@@ -111,14 +118,6 @@ $(document).ready(function(){
 		}, 400);
 		return false;
 	});
-	
-	//카운트다운 영역
-	jQuery('#countDown').countdown({
-	    date: '06/20/2019 23:59:59',
-	    offset: 9,
-	    day: 'Day',
-	    days: 'Days'
-	  });
 	
 });
 </script>
