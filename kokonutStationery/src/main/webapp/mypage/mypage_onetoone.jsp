@@ -10,8 +10,8 @@
   <link href="../css/mypage_onetoone.css" rel="stylesheet">
 </head>
 <body>
-  <div class="contents_wrap">
-    <!-- mypage left menu -->
+  <!-- <div class="contents_wrap">
+    mypage left menu
     <div class="mypage_list">
       <div class="mypae_title">
         <span>마이페이지</span>
@@ -68,7 +68,7 @@
           </tr>
         </table>
       </div>
-    </div>
+    </div> -->
 
     <div class="content">
       <div class="content_title">
@@ -115,7 +115,7 @@
     href="mypage_onetoone_register.jsp">
       문의하기</div>
 
-  </div>
+ <!--  </div> -->
 </body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -139,7 +139,7 @@ $('#onetoone_content').click(function(){
   });
 
   $('#onetoone_modify').click(function(){
-  window.open('mypage_onetoone_reply.jsp',
+  window.open('../mypage/mypage_onetoone_reply.do',
               '일대일 문의 수정',
               'width=600, height=600');
 });
