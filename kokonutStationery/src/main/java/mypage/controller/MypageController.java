@@ -1,7 +1,5 @@
 package mypage.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +18,9 @@ public class MypageController {
 	//주문내역/배송조회 페이지
 	@GetMapping("/mypage_orderlist.do")
 	public ModelAndView orderlist() {
-		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_orderlist.jsp");
+		mav.addObject("contents", "/mypage/mypage_orderlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}

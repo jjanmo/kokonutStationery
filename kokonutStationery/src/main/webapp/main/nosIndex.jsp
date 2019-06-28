@@ -79,9 +79,6 @@ a#topBtn{
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" ></script>
 <script type="text/javascript" src="../js/slick.min.js"></script>
-<script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
-
-<!-- 카운트다운 시간 조정! date만 바꾸면 됩니다 -->
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -111,15 +108,7 @@ $(document).ready(function(){
 		}, 400);
 		return false;
 	});
-	
-	//카운트다운 영역
-	jQuery('#countDown').countdown({
-	    date: '06/20/2019 23:59:59',
-	    offset: 9,
-	    day: 'Day',
-	    days: 'Days'
-	  });
-	
+		
 });
 </script>
 </html>
