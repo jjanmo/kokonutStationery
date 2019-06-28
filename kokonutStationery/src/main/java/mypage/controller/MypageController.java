@@ -30,7 +30,8 @@ public class MypageController {
 	public ModelAndView review() {
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_review.jsp");
+		mav.addObject("contents", "/mypage/mypage_review.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
@@ -40,7 +41,8 @@ public class MypageController {
 	public ModelAndView qna() {
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/mypage/mypage_qna.jsp");
+		mav.addObject("contents", "/mypage/mypage_qna.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
