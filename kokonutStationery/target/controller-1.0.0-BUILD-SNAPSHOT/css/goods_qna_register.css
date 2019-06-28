@@ -1,0 +1,81 @@
+@charset "UTF-8";
+html, body{
+	height: 100%;
+}
+.main{
+	height: 90%;
+}
+.goods_qna_register_header{
+	border-bottom: 1px solid #dddddd;
+	width: 100%;
+	height: 43px;
+	line-height: 44px;
+	background-color: #777;
+	font-size: 15px;
+	font-weight: 600;
+	color: #fff;
+	padding-left: 15px;
+}
+.goods_qna_register_closeBtn{
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	right: 15px;
+	top : 12px;
+}
+.goods_qna_register_content{
+	width: 100%;
+	height: 985px;
+	margin-top: 20px;
+}
+.goods_qna_register_goodsName{
+	width: 430px;
+	height: 40px;
+	font-size: 13px;
+	padding: 10px 0 10px 20px;
+	float: left;
+}
+.goods_qna_register_img{
+	width: 50px;
+	height: 62px;
+	float: left;
+}
+.goods_qna_register_content_table{
+	width: 830px;
+	height: 535px;
+	font-size: 12px;
+	margin: 0 auto;
+}
+.goods_qna_register_category{
+	text-align: left;
+	color: #a4a4a4;
+	padding: 0 5px 0 5px;
+}
+.goods_qna_register_information{
+	border: 1px solid #dfdfdf;
+	width: 770px;
+	font-size: 12px;
+	margin: 10px auto 0 auto;
+	padding: 20px;
+}
+label{
+	font-size: 13px;
+}
+.goods_qna_register_submitDiv{
+	width: 150px;
+	height: 55px;
+	margin: 0 auto 20px auto;
+}
+.goods_qna_register_submitBtn{
+	border: none;
+	width: 150px;
+	height: 55px;
+	line-height: 55px;
+	background-color: #444444;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 700;
+	color: #fff;
+	cursor: pointer;
+	margin: auto;
+}

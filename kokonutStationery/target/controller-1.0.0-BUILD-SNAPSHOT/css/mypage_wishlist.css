@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+/* reset */
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+div, tr, td, th {
+  margin: 0px;
+  padding: 0px;
+}
+
+a:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+/* mypage_orderlist.jsp */
+.contents_wrap {
+  width: 1000px;
+  height: 100%;
+  margin: 90px auto 0;
+  padding: 50px 10px 0px;
+}
+
+.mypage_list {
+  width: 160px;
+  height: 100%;
+  float: left;
+}
+
+.mypae_title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+  text-align: left;
+  padding: 0 0 15px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.mem_box {
+  padding: 25px 0 25px;
+  font-size: 13px;
+  color: #888;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.mem_name {
+  font-weight: 700;
+  color: #222;
+  font-size: 14px;
+}
+
+.mem_box_table {
+  width: 100%;
+}
+
+.mem_menu {
+  color: #888;
+  font-size: 13px;
+  line-height: 30px;
+}
+
+.mem_val_td {
+  text-align: right;
+}
+
+.mam_val {
+  color: rgb(42, 193, 188);
+}
+
+.mypage_menu {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.mypage_menu th {
+  color: #222;
+  text-align: left;
+  padding: 18px 0 0 0;
+  font-weight: bolder;
+}
+
+.mypage_menu td {
+  padding: 10px 0 0;
+  color: #888;
+}
+
+#mem_order {
+  padding-bottom: 12px;
+}
+
+#mem_info, #menu_top {
+  padding-top: 30px;
+}
+
+.wishlist_content {
+  width: 750px;
+  height: 100%;
+  float: right;
+  margin: 0 10px 0 80px;
+}
+
+.wishlist_title{
+  font-size: 22px;
+  font-weight: 700;
+  text-align: left;
+  color: #222;
+}
+
+.wishlist_table{
+  width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid #999;
+  font-size: 12px;
+  color: #999;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+#wishlist_top th{
+  background-color: #F6F6F6;
+  height: 50px;
+}
+
+#wishlist_info{
+  text-align: left;
+}
+
+#wishlist_middle td{
+  vertical-align: top;
+  padding: 30px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+#wishilist_checkbox{
+  text-align: center;
+}
+
+#wishlist_middle a{
+  margin-bottom: 0;
+  vertical-align:top;
+  color:#333;
+  font-weight:700;
+  font-size: 14px;
+  margin-left:20px
+  text-decoration:none;
+}
+
+#wishlist_savepoint{
+  vertical-align:top;
+  padding: 30px 30px 30px 0;
+  text-align:center;
+}
+
+#wishlist_price{
+  vertical-align:top;
+  padding: 30px 30px 30px 0;
+  text-align:center;
+}
+
+#wishlist_storedate{
+  vertical-align:top;
+  padding: 30px 00 30px 0;
+  text-align:center;
+}
+
+.pageDiv{
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  padding: 15px 0 0 0 ;
+  padding-top: 27px;
+  text-align: center;
+}
+
+.wishlist_button{
+  width: 750px;
+  height: 65px;
+}
+
+.delete_button{
+text-align:center;
+height:60px;
+line-height:60px;
+font-size: 14px;
+font-weight:700;
+
+}
+
+.putcart_button{
+  text-align:center; height:60px; line-height:60px;-webkit-appearance: none; border-radius: 0; font-size: 14px; font-weight:700;
+}
+
+.white_btn{
+  width: 150px;
+  height: 60px;
+  line-height: 38px;
+  margin: 14px 218px 1px;
+  padding: 9px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  list-style: none;
+  box-sizing: border-box;
+  display: list-item;
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;
+  font-weight: 500;
+  color: #a4a4a4;
+  cursor: pointer;
+
+}
+
+.black_btn{
+  width: 150px;
+  height: 60px;
+  line-height: 38px;
+  font-weight: 500;
+  margin: -60px 378px 0;
+  padding: 9px;
+  background-color: #444;
+  list-style: none;
+  box-sizing: border-box;
+  display: list-item;
+  font-size: 13px;
+
+  color: #fff;
+  cursor: pointer;
+
+}

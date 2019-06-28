@@ -19,4 +19,7 @@ public interface UserDAO {
 
 	public UserDTO pwdSearch(Map<String, String> map);
 
+	public UserDTO idSearch(Map<String, String> map);
+
+
 }

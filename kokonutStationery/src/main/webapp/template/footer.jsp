@@ -88,7 +88,7 @@
 		
 		고객센터 : 1670-9902   |
 		팩스 : 050-6050-0400   |
-		이메일 : <a href="#" class="textLink" id="footer_email"> baemin_store@woowahan.com </a> <br>
+		이메일 : <a href="#" class="textLink" id="footer_email"> kokonutStationery@gmail.com </a> <br>
 		
 		호스팅제공 : 엔에이치엔고도(주)
 		</p>

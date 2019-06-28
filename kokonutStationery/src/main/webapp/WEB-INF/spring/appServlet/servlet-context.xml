@@ -23,6 +23,17 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- json -->
+	<!-- list를 json으로 변환, 한글처리-->
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<beans:property name="contentType" value="text/html;charset=UTF-8"/>
+	</beans:bean>
+	
+	<!-- 항목의 이름을 맵핑, 0번째부터 -->
+	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
 	<context:component-scan base-package="com.finalproject.controller" />
 	<context:component-scan base-package="main.controller"/>
 	<context:component-scan base-package="user.controller"/>	
@@ -30,4 +41,6 @@
 	<context:component-scan base-package="goods.controller"/>
 	<context:component-scan base-package="mypage.controller"/>
 	<context:component-scan base-package="mail.controller"/>
+	<context:component-scan base-package="order.controller"/>
+	
 </beans:beans>

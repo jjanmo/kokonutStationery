@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <link rel="stylesheet" type="text/css" href="../css/goods_list.css">
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/goods_list.js"></script>
 
 <!-- 배너 -->
 <div class="bnr_area">
@@ -15,31 +15,31 @@
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
 				<span class="category_name">문구</span>&ensp;
-				<span>50</span>
+				<span>${stationery}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
 				<span class="category_name selected">리빙</span>&ensp;
-				<span>39</span>
+				<span>${living}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
 				<span class="category_name">여행</span>&ensp;
-				<span>12</span>
+				<span>${travel}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
 				<span class="category_name">콜라보레이션</span>&ensp;
-				<span>29</span>
+				<span>${collabo}</span>
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="#">
+			<a id="sort_name" href="/kokonutStationery/goods/category_living.do?sort=name">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="#">
+			<a id="sort_desc" href="/kokonutStationery/goods/category_living.do?sort=price_desc">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_asc" href="#">
+			<a class="sort_asc" href="/kokonutStationery/goods/category_living.do?sort=price_asc">
 				<span class="sort_subject">낮은가격순</span>
 			</a>
 		</div>
@@ -50,20 +50,39 @@
 <div class="contents_area">
 	<div class="product_list">
 		<!-- 상품 한개(반복) -->
-		<div class="product">
-			<div class="product_img">
-				<img class="product_img" src="../image/masking_tape.jpg">
-			</div>
-			<div class="product_contents">
-				<div class="product_name_div">
-					<span class="product_name">서디페. 마스킹 테이프</span>
+		<c:forEach var="list" items="${list}">
+			<div class="product">
+				<a href="#"><div class="product_img" 
+								 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); 
+								 		background-size: 100%;">
+				</div></a>
+				<div class="product_contents">
+					<div class="product_name_div">
+						<a href="#"><span class="product_name"><c:out value="${list.productName}"/></span></a>
+					</div>
+					<div class="product_price_div">
+					
+						<c:if test="${list.discount==1}">
+							<div class="product_status status_sale"></div>
+							<span class="original_price"><c:out value="${list.originalPrice}"/></span>&nbsp;
+						</c:if>
+						
+						<c:if test="${list.best==1}">
+							<div class="product_status status_best"></div>
+						</c:if>
+						
+						<c:if test="${list.newP==1}">
+							<div class="product_status status_new"></div>
+						</c:if>
+
+				  		<a href="#"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
+					</div>
 				</div>
-				<div class="product_price_div">
-					<div class="product_status status_new"></div>
-				 	<span class="product_price">6,000</span>
-				</div>
 			</div>
-		</div>
+		</c:forEach>
 	</div>
 </div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript"></script>
 

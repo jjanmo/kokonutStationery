@@ -33,7 +33,7 @@ public class MailController {
 	    public ModelAndView auth(HttpSession session, @RequestParam String userEmail) {
 	    	System.out.println("find_pwd_ok의 userEmail="+userEmail);
 	    	   
-	        String setfrom = "sing2song523@gmail.com";         
+	        String setfrom = "kokonutStationery@gmail.com";         
 	         
 	        //인증번호랜덤생성
 	    	int ran = new Random().nextInt(100000) + 10000; // 10000 ~ 99999
