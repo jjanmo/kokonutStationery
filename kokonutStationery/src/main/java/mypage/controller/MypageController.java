@@ -15,6 +15,17 @@ public class MypageController {
 	@Autowired	
 	private UserDAO userDAO;
 	
+	//포인트
+	@GetMapping("/mypage_pointlist.do")
+	public ModelAndView pointlist() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/mypage/mypage_pointlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	
 	//주문내역/배송조회 페이지
 	@GetMapping("/mypage_orderlist.do")
 	public ModelAndView orderlist() {
@@ -46,4 +57,8 @@ public class MypageController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
+	
+	
+	
 }

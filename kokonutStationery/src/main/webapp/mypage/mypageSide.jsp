@@ -20,7 +20,7 @@
           <td class="mem_val_td"><span class="mam_val">0</span> 원</td>
         </tr>
         <tr>
-          <td class="mem_menu"><a>포인트</a></td>
+          <td class="mem_menu"><a href="../mypage/mypage_pointlist.do">포인트</a></td>
           <td class="mem_val_td"><span class="mam_val">0</span> 매</td>
         </tr>
         <tr>
