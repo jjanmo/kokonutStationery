@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +13,7 @@
 <title>장바구니</title>
 
 <!-- 부트스트랩 -->
-<link href="../css/bootstrap.min.css" rel="stylesheet">
+
 <link href="../css/goods_cart.css" rel="stylesheet">
 
 
@@ -33,7 +36,6 @@
 						<col width="5%">
 						<col width="10%">
 						<col width="">
-						<!--적립금 삭제 16.04.11 <col width="10%"> -->
 						<col width="12%">
 						<col width="10%">
 						<col width="12%">
@@ -43,21 +45,23 @@
 						<tr>
 							<th class="select"><input type="checkbox" id="all"
 								onclick="checkAll()" checked="checked"></th>
-							<th class="goodsInfo" colspan="2">상품정보</th>
+							<th class="goodsInfo" colspan="2" style="text-align: left;">상품정보</th>
 							<th class="sellPrice">판매가</th>
 							<th class="sellQty">수량</th>
 							<th class="sellDelivery">배송비</th>
 							<th class="Total">합계</th>
 						</tr>
 					</thead>
-
+					
+					<c:if test="${list != null }">
+					
 					<tbody>
 
 						<tr>
-							<td style="vertical-align: top; padding: 30px 0;"><input
+							<td style="vertical-align: top; padding: 30px 17px;"><input
 								type="checkbox" name="check" value="0" onclick="" checked="checked"></td>
 
-							<td style="vertical-align: top; padding: 30px 0;"><a href=""
+							<td style="vertical-align: top; padding: 30px 17px;"><a href=""
 								style="margin-bottom: 0;"><img
 									src="http://store.baemin.com/shop/data/goods/1476870027237s0.jpg"
 									width="70px"
@@ -65,7 +69,7 @@
 
 							<td class="orderOption"
 								style="text-align: left; vertical-align: top; padding: 30px 0;">
-								<div class="thumImg">서디페. 마스킹 테이프</div> <a
+								<div class="thumbImg">서디페. 마스킹 테이프</div> <a
 								href="goods_cart_edit.jsp" data-width="600" data-height="400"
 								class="popup" style="margin-bottom: 0px; margin-top: 13px;">
 									<li class="optionButton">선택옵션수정</li>
@@ -121,7 +125,10 @@
 						</tr>
 						
 					</tbody>
-
+					
+					
+					
+					<!-- 배송비 시작부분 -->
 					<tfoot>
 						<tr>
 							<td colspan="10" style="padding: 30px 0;">
@@ -141,6 +148,7 @@
 							</td>
 						</tr>
 					</tfoot>
+					<!-- 배송비 부분 -->
 				</table>
 			</form>
 			
@@ -153,26 +161,26 @@
 							<div style="margin: 0 auto;">
 								<div class="previous"
 									style="width: 140px; display: inline-block;">
-									<a href="javascript:history.back();" onfocus="blur()">
-									<li class="subButton">이전으로</li></a>
+									<a href="" onfocus="">
+									<li class="subButton subButton-xs">이전으로</li></a>
 								</div>
 								<div class="selectDelete"
 									style="width: 140px; display: inline-block; padding-left: 5px;">
-									<a href="javascript:void(0);"
-										onclick="nsGodo_CartAction.del();return false;"
-										onfocus="blur()"><li class="subButton">선택 삭제</li></a>
+									<a href=""
+										onclick=""
+										onfocus="blur()"><li class="subButton subButton-xs">선택 삭제</li></a>
 								</div>
 								<div class="allDelete"
 									style="width: 140px; display: inline-block; padding-left: 5px;">
-									<a href="#"><li class="subButton">비우기</li></a>
+									<a href="#"><li class="subButton subButton-xs">비우기</li></a>
 								</div>
 								<div class=""
 									style="width: 140px; display: inline-block; padding-left: 5px;">
-									<a href="#" ><li class="subButton">쇼핑 계속하기</li></a>
+									<a href="#" ><li class="subButton subButton-xs">쇼핑 계속하기</li></a>
 								</div>
 								<div class="selectLike"
 									style="width: 140px; display: inline-block; padding-left: 5px;">
-									<a href="#" ><li class="subButton">선택 찜하기</li></a>
+									<a href="#" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 								</div>
 								<div class="selectOrder"
 									style="width: 140px; display: inline-block; padding-left: 5px;">
@@ -182,9 +190,35 @@
 						</td>
 					</tr>
 				</tbody>
+			
+			
+			</c:if>
+			
+			<tr>
+				<td colspan="10" style="padding: 30px 0;">
+					<font style="color:#333;font-weight:700;">상품합계금액 (배송비 별도)</font>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">0</font>
+					<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>
+				</td>
+			</tr>
+			
 			</table>
-
-
+			
+			<div class="cart_button">
+		      <div class="none_previous subButton-xs" style="width: 140px; margin: 31px 0px -60px 260px;
+		      ">
+		                 이전으로
+		      </div>
+		      <div class="none_allDelete subButton-xs" style="width: 140px; margin: 0px 469px 0 412px;">
+		       	비우기
+		      </div>
+		      <div class="shopContinue main-button-s" style="width: 140px; margin: -59px 564px 0px;">
+		      	쇼핑계속하기
+		      </div>
+		    </div>
+			
+			
 		</div>
 		<!-- End indiv -->
 
