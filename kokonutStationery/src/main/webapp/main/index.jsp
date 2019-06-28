@@ -17,34 +17,56 @@
 
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
-*{
+* {
 	margin:0; padding:0;
 	list-style-type:none;
 }
 
-#wrap{width:100%;}
+#wrap {
+	width:100%;
+}
 
-#header_main{
-	width:100%; height:90px; position:fixed; top:0px; border-bottom:1px solid #f0f0f0;
-	z-index:10; background:#ffffff;
-	}
+#header_main {
+	width:100%;
+	height:90px;
+	position:fixed;
+	top:0px;
+	border-bottom:1px solid #f0f0f0;
+	z-index:10;
+	background:#ffffff;
+}
 
-#main_wrap{width:100%; margin-top:90px;z-index:11;}
+#main_wrap {
+	width:100%;
+	margin-top:90px;
+	z-index:11;
+}
 
-#slider_wrap{width:1000px; height:500px; margin:auto;}
-#main_slider{width:2500px; height:500px; overflow:visible; position:relative; left:-70%;}
-#main_slider img{left:-20%;}
+#slider_wrap {
+	width:1000px;
+	height:500px;
+	margin:auto;
+}
 
-#content_wrap{padding-top:40px;}
+#main_slider {
+	width:2500px;
+	height:500px;
+	overflow:visible;
+	position:relative;
+	left:-70%;
+}
 
-a#topBtn{
+#main_slider img {
+	left:-20%;
+}
+
+a#topBtn {
 	position:fixed;
 	right:4%;
 	bottom:50px;
 	display:none;
 	z-index:999;
 }
-
 </style>
 </head>
 
@@ -74,9 +96,10 @@ a#topBtn{
 				</div>
 			</div><!-- slider_wrap -->
 			
-			<div id="content_wrap">
+			<!-- content_wrap -->
+			<div id="">
 				<jsp:include page="${display }" />
-			</div><!-- content_wrap -->
+			</div>
 			
 			<a href="#" id="topBtn">
 				<img src="../image/topBtn.png" />

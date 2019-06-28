@@ -3,37 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <style>
-/* 
-<!-- 카운트다운 부분 -->
-#count{width:100%; background:#ffffff;}
- ul#countDown {
-     width:500px; height:125px;
-     list-style: none;
-     text-align: center;
-     margin:auto;
-   }
-   ul#countDown li { float:left;}
-
-  ul#countDown li span {
-     font-size: 65px;
-     font-weight: 300;
-     line-height: 80px;
-     color:#fbba13;
-     font-family:"맑은 고딕",arial, san-serif;
-   }
-   ul#countDown li.seperator {
-     font-size: 55px;
-     line-height: 70px;
-     vertical-align: top; margin:0 30px;
-     color:#fbba13;
-   }
-   ul#countDown li p {
-     color: #000000;
-     font-size: 11px;
-     font-family:"맑은 고딕",arial, san-serif;
-   }
-<!-- 카운트다운 끝 -->
- */
 #contents_area {
   width: 100%;
   height: 100%;
@@ -76,24 +45,7 @@
   text-align: right;
   text-decoration: underline;
 }
-
-
 </style>
-<!-- 
-깜짝세일 카운트다운 부분
-<div id="count">
-	<ul id="countDown">
-		<li><span class="days">00</span><p>DAY</p></li>
-		<li class="seperator">:</li>
-	  	<li><span class="hours">00</span><p>HOURS</p></li>
-		<li class="seperator">:</li>
-		<li><span class="minutes">00</span><p>MINS</p></li>
-		<li class="seperator">:</li>
-		<li><span class="seconds">00</span><p>SECONDS</p></li>
-	</ul>
-</div>
-카운트다운 끝!
- -->
 <div id="contents_area">
 	<div class="product_list">
       <!-- 상품 한개(반복) -->
