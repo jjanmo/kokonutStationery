@@ -72,4 +72,14 @@ jQuery('#countDown').countdown({
 	day: 'Day',
 	days: 'Days'
 });
+
+//카운트다운 fixed 
+$(window).scroll(function(){
+	if($(this).scrollTop() > 350){
+		$('#count').addClass('fixed');
+	} else{
+		$('#count').removeClass('fixed');
+	}
+});
+
 </script>

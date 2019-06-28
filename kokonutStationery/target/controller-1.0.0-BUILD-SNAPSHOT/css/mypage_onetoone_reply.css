@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/* reset */
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+div, tr, td, th {
+  margin: 0px;
+  padding: 0px;
+}
+
+a:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+.onetoone_reply_top{
+  background: #777;
+  width: 100%;
+  height: 43px;
+  line-height: 44px;
+  font-size: 15px;
+  font-weight: 700;
+  padding-left: 15px;
+  color: #fff;
+}
+
+.onetoone_reply_center{
+  width: 600px;
+  height: 425px;
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px;
+  float: center;
+}
+
+.id_text{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.mem_id{
+  font-size: 13px;
+  color: #222;
+  font-weight: 700;
+}
+
+.onetoone_reply_subject{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.reply_subject_input{
+  border: 1px solid #DDD;
+  width: 420px;
+  height: 38px;
+  padding-left: 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  border-radius: 0;
+}
+
+.onetoone_reply_content{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.reply_textarea{
+  border: 1px solid #DDD;
+  width: 420px;
+  height: 260px;
+  padding-left: 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  border-radius: 0;
+}
+
+.confirm_btn{
+  text-align: center;
+  height: 55px;
+  width: 150px;
+  line-height: 55px;
+  border-radius: 0;
+  border: none;
+  font-size: 14px;
+}
+
+.black_button{
+  font-weight: 700;
+  margin: auto;
+  padding: 0;
+  background-color: #444;
+  list-style: none;
+  box-sizing: border-box;
+  display: list-item;
+  color: #fff;
+  cursor: pointer;
+}
+
+#hide_btn_img{
+  width: 18px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;;
+}
