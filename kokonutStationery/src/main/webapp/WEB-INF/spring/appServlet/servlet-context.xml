@@ -41,4 +41,6 @@
 	<context:component-scan base-package="goods.controller"/>
 	<context:component-scan base-package="mypage.controller"/>
 	<context:component-scan base-package="mail.controller"/>
+	<context:component-scan base-package="order.controller"/>
+	
 </beans:beans>

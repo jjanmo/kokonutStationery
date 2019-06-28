@@ -15,29 +15,17 @@
 		<!-- 상품 한개(반복) -->
 		<c:forEach var="list" items="${list}">
 			<div class="product">
-				<div class="product_img" 
-					 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); background-size: 100%;">
-				</div>
+				<a href="#"><div class="product_img" 
+								 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); 
+								 		background-size: 100%;">
+				</div></a>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<span class="product_name"><c:out value="${list.productName}"/></span>
+						<a href="#"><span class="product_name"><c:out value="${list.productName}"/></span></a>
 					</div>
 					<div class="product_price_div">
-					
-						<c:if test="${list.discount==1}">
-							<div class="product_status status_sale"></div>
-							<span class="original_price"><c:out value="${list.originalPrice}"/></span>&nbsp;
-						</c:if>
-						
-						<c:if test="${list.best==1}">
-							<div class="product_status status_best"></div>
-						</c:if>
-						
-						<c:if test="${list.newP==1}">
-							<div class="product_status status_new"></div>
-						</c:if>
-
-				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
+						<div class="product_status status_best"></div>
+				  		<a href="#"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
 					</div>
 				</div>
 			</div>

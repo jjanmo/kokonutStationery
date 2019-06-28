@@ -43,7 +43,7 @@
           </colgroup>
           <tr>
             <td class="id_text">아이디</td>
-            <td class="mem_id">hjlee1811</td>
+            <td class="mem_id">${memId }</td>
           </tr>
           <tr>
             <td class="qNa_type">질문유형</td>

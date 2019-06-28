@@ -47,7 +47,7 @@ public class MypageController {
 		return mav;
 	}
 	
-	//1:1문의
+	//1:1문의페이지
 	@GetMapping("/mypage_onetoone.do")
 	public ModelAndView onetoone() {
 		ModelAndView mav = new ModelAndView();
@@ -57,7 +57,13 @@ public class MypageController {
 		return mav;
 	}
 	
-	//상품후기
+	//1:1문의하기
+	@GetMapping("/mypage_onetoone_register.do")
+	public String onetoone_register() {
+		return "/mypage/mypage_onetoone_register";
+	}
+	
+	//상품후기페이지
 	@GetMapping("/mypage_review.do")
 	public ModelAndView review() {
 		
