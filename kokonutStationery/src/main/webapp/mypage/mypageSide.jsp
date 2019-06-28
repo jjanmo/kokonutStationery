@@ -24,11 +24,11 @@
           <td class="mem_val_td"><span class="mam_val">0</span> 매</td>
         </tr>
         <tr>
-          <td class="mem_menu"><a>장바구니</a></td>
+          <td class="mem_menu"><a href="../goods/goods_cart.do">장바구니</a></td>
           <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
         </tr>
         <tr>
-          <td class="mem_menu"><a>찜목록</a></td>
+          <td class="mem_menu"><a href="../mypage/mypage_wishlist.do">찜목록</a></td>
           <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
         </tr>
       </table>
@@ -45,7 +45,7 @@
           </td>
         </tr>
         <tr>
-          <th><a>1:1 문의게시판</a></th>
+          <th><a href="../mypage/mypage_onetoone.do">1:1 문의게시판</a></th>
         </tr>
         <tr>
           <th><a href="../mypage/mypage_review.do">나의 상품후기<a></th>

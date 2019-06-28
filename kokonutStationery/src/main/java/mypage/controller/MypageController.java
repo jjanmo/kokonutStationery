@@ -25,12 +25,33 @@ public class MypageController {
 		return mav;
 	}
 	
+		
+	//찜목록
+	@GetMapping("../mypage/mypage_wishlist.do")
+	public ModelAndView wishlist() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/mypage/mypage_wishlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
 	
 	//주문내역/배송조회 페이지
 	@GetMapping("/mypage_orderlist.do")
 	public ModelAndView orderlist() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("contents", "/mypage/mypage_orderlist.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//1:1문의
+	@GetMapping("/mypage_onetoone.do")
+	public ModelAndView onetoone() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/mypage/mypage_onetoone.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
