@@ -5,11 +5,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="goodsSQL">
 	<!-- 상품리스트 -->
 	<select id="get_goods_list" parameterType="java.util.Map" resultType="goods">
-		select * from tbl_product where ${category}=1
+		select * from tbl_product where ${category}=1 order by productcode desc
+	</select>
+	
+	<!-- 이름순 -->
+	<select id="get_goods_list_name" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by productname
+	</select>
+	
+	<!-- 높은가격순 -->
+	<select id="get_goods_list_price_desc" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by discountprice desc
+	</select>
+	
+	<!-- 낮은가격순 -->
+	<select id="get_goods_list_price_asc" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by discountprice
 	</select>
 	
 	<!-- 신상품리스트; newP -->
 	<select id="get_goods_list_newP" resultType="goods">
-		select * from tbl_product where newP=1
+		select * from tbl_product where newP=1 order by productcode desc
+	</select>
+	
+	<!-- 문구 상품수 -->
+	<select id="get_count_stationery" resultType="String">
+		select count(*) from tbl_product where stationery=1
+	</select>
+	
+	<!-- 리빙 상품수 -->
+	<select id="get_count_living" resultType="String">
+		select count(*) from tbl_product where living=1
+	</select>
+	
+	<!-- 여행 상품수 -->
+	<select id="get_count_travel" resultType="String">
+		select count(*) from tbl_product where travel=1
+	</select>
+	
+	<!-- 콜라보 제품수 -->
+	<select id="get_count_collabo" resultType="String">
+		select count(*) from tbl_product where collabo=1
 	</select>
 </mapper>

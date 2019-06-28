@@ -15,31 +15,31 @@
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
 				<span class="category_name">문구</span>&ensp;
-				<span>50</span>
+				<span>${stationery}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
 				<span class="category_name selected">리빙</span>&ensp;
-				<span>39</span>
+				<span>${living}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
 				<span class="category_name">여행</span>&ensp;
-				<span>12</span>
+				<span>${travel}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
 				<span class="category_name">콜라보레이션</span>&ensp;
-				<span>29</span>
+				<span>${collabo}</span>
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="#">
+			<a id="sort_name" href="/kokonutStationery/goods/category_living.do?sort=name">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="#">
+			<a id="sort_desc" href="/kokonutStationery/goods/category_living.do?sort=price_desc">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_asc" href="#">
+			<a class="sort_asc" href="/kokonutStationery/goods/category_living.do?sort=price_asc">
 				<span class="sort_subject">낮은가격순</span>
 			</a>
 		</div>

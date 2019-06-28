@@ -15,32 +15,32 @@
 	<div id="container">
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
-				<span class="category_name">문구</span>&nbsp;
-				<span class="category_product_qty">50</span>
+				<span class="category_name">문구</span>&ensp;
+				<span>${stationery}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
-				<span class="category_name">리빙</span>&nbsp;
-				<span class="category_product_qty">39</span>
+				<span class="category_name">리빙</span>&ensp;
+				<span>${living}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
-				<span class="category_name">여행</span>&nbsp;
-				<span class="category_product_qty">12</span>
+				<span class="category_name">여행</span>&ensp;
+				<span>${travel}</span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
-				<span class="category_name selected">콜라보레이션</span>&nbsp;
-				<span class="category_product_qty">29</span>
+				<span class="category_name selected">콜라보레이션</span>&ensp;
+				<span>${collabo}</span>
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="#">
+			<a id="sort_name" href="/kokonutStationery/goods/category_collabo.do?sort=name">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="#">
+			<a id="sort_desc" href="/kokonutStationery/goods/category_collabo.do?sort=price_desc">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_asc" href="#">
+			<a class="sort_asc" href="/kokonutStationery/goods/category_collabo.do?sort=price_asc">
 				<span class="sort_subject">낮은가격순</span>
 			</a>
 		</div>

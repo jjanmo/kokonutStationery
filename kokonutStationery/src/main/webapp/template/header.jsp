@@ -149,7 +149,15 @@ $(document).ready(function(){
 		$('.subLayer').css('display','none');
 	});
 
+	//카테고리 상품수 세션에 넣기
+	$.ajax({
+		type: 'GET',
+		url: '/kokonutStationery/goods/get_count.do',
+	});	
+	
+	//최초 한번 새로고침
+	if (location.href.indexOf('#reload') == -1) location.href;
+	
 });
-
 </script>
 

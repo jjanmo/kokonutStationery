@@ -28,3 +28,6 @@
 	</div>
 </div>
 
+<script src="../js/jquery.countdown.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+</script>
