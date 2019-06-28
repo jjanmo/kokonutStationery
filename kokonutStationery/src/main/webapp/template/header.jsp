@@ -47,7 +47,7 @@ a{color:#1E1E1E; text-decoration:none;}
 
 
 #top_menu{
-	font-size:12px; width:315px; height:20px;
+	font-size:12px; width:320px; height:20px;
 	float:right; padding-left:10px;
 	}
 #top_menu>li{float:left; padding:37px 0 0 27px; font-weight:bold;}
