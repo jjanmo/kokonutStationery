@@ -112,7 +112,7 @@
    </div>
 
     <div class="question_btn" style="cursor: pointer;"
-    href="mypage_onetoone_register.jsp">
+    href="../mypage/mypage_onetoone_register.do">
       문의하기</div>
 
  <!--  </div> -->

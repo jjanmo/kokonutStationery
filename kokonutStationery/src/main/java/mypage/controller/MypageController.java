@@ -58,9 +58,9 @@ public class MypageController {
 	}
 	
 	//1:1문의하기
-	@GetMapping("/mypage_onetoone_reply.do")
-	public String onetoone_reply() {
-		return "/mypage/mypage_onetoone_reply.jsp";
+	@GetMapping("/mypage_onetoone_register.do")
+	public String onetoone_register() {
+		return "/mypage/mypage_onetoone_register";
 	}
 	
 	//상품후기페이지
