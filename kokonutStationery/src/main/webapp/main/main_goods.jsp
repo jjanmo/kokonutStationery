@@ -45,8 +45,6 @@
   text-align: right;
   text-decoration: underline;
 }
-
-
 </style>
 <div id="contents_area">
 	<div class="product_list">
