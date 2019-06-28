@@ -7,4 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="get_goods_list" parameterType="java.util.Map" resultType="goods">
 		select * from tbl_product where ${category}=1
 	</select>
+	
+	<!-- 신상품리스트; newP -->
+	<select id="get_goods_list_newP" resultType="goods">
+		select * from tbl_product where newP=1
+	</select>
 </mapper>

@@ -20,4 +20,9 @@ public class GoodsDAOImpl implements GoodsDAO {
 	public List<GoodsDTO> get_goods_list(Map<String, String> map) {
 		return sqlSession.selectList("goodsSQL.get_goods_list", map);
 	}
+
+	@Override
+	public List<GoodsDTO> get_goods_list_newP() {
+		return sqlSession.selectList("goodsSQL.get_goods_list_newP");
+	}
 }
