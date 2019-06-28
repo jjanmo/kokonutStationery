@@ -6,7 +6,7 @@
 
 <table cellpadding=0 cellspacing=0 border=0 class="outline_both">
 	<tr>
-		<td valign=top width=20% nowrap>
+		<td valign=top width=20% nowrap style="padding-left:50px;">
 			<!-- 마이페이지 -->
 			<jsp:include page="mypageSide.jsp" />
 		</td>

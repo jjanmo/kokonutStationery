@@ -3,9 +3,10 @@
 
 <link rel="stylesheet" type="text/css" href="../css/mypage.css">  
 
-<div class="contents_wrap">
-  <!-- mypage left menu -->
-  <div class="mypage_list">
+<!-- mypage left menu -->
+<div class="mypage_list">
+  
+  
     <div class="mypae_title">
       <span>마이페이지</span>
     </div>
@@ -63,5 +64,5 @@
         </tr>
       </table>
     </div>
-  </div>
+  
  </div>

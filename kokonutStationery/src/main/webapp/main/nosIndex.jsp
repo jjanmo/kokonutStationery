@@ -35,7 +35,7 @@
 #main_slider{width:2500px; height:500px; overflow:visible; position:relative; left:-70%;}
 #main_slider img{left:-20%;}
 
- #content_wrap{padding-top:40px;}
+#content_wrap{padding-top:40px;}
 
 a#topBtn{
 	position:fixed;
