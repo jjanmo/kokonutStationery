@@ -1,0 +1,79 @@
+@charset "UTF-8";
+*{
+	/* font-family: 'Noto Sans KR', sans-serif, Arial, dotum, 돋움; */
+}
+body{
+	margin: 0;
+}
+.main{
+	width:100%;
+	height:100%;
+}
+.goods_review_register_header{
+	border-bottom: 1px solid #dddddd;
+	width: 100%;
+	height: 43px;
+	line-height: 44px;
+	background-color: #777;
+	font-size: 15px;
+	font-weight: 600;
+	color: #fff;
+	padding-left: 15px;
+}
+.goods_review_register_closeBtn{
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	right: 15px;
+	top : 12px;
+}
+.goods_review_register_content{
+	width: 100%;
+	height: 427px;
+	margin-top: 20px;
+}
+.goods_review_register_goodsName{
+	width: 430px;
+	height: 40px;
+	font-size: 13px;
+	padding: 10px 0 10px 20px;
+	float: left;
+}
+.goods_review_register_img{
+	width: 50px;
+	height: 62px;
+	float: left;
+}
+.goods_review_register_content_table{
+	/* border: 1px solid; */
+	width: 500px;
+	height: 324px;
+	font-size: 12px;
+	margin: 0 auto;
+	
+}
+.goods_review_register_category{
+	width: 40px;
+	text-align: left;
+	color: #a4a4a4;
+	padding: 0 5px 0 5px;
+}
+.goods_review_register_submitDiv{
+	width: 150px;
+	height: 55px;
+	padding: 20px 0; 
+	margin: auto;
+}
+.goods_review_register_submitBtn{
+	border: none;
+	width: 150px;
+	height: 55px;
+	line-height: 55px;
+	background-color: #444444;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 700;
+	color: #fff;
+	cursor: pointer;
+	margin: auto;
+}

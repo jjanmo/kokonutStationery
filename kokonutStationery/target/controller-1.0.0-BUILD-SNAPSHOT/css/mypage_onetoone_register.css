@@ -1,0 +1,268 @@
+/* reset */
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+div, tr, td, th {
+  margin: 0px;
+  padding: 0px;
+}
+
+.onetoone_register_top{
+  width: 100%;
+  background: #777;
+  height: 43px;
+  line-height: 44px;
+  font-size: 15px;
+  font-weight: 700;
+  padding-left: 15px;
+  color: #fff;
+}
+
+.onetoone_register_center{
+  width: 540px;
+  height: 380px;
+  margin: auto;
+  margin-top: 30px;
+  padding: 10px;
+  float: center;
+  z-index: 1;
+}
+
+
+
+.id_text{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.mem_id{
+  font-size: 13px;
+  color: #222;
+  font-weight: 700;
+}
+
+.qNa_type{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.qNa_select{
+  width: 200px;
+  padding: 10px 8px 11px 10px;
+  font-size: 12px;
+  line-height: 15px;
+  vertical-align: middle;
+  border: 1px solid #dfdfdf;
+  color: #222;
+  background-color: #fff;
+  border-radius: 0;
+}
+
+.order_number{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.orderNumber_Input{
+  position: relative;
+  border: 1px solid #DDD;
+  width: 188px;
+  height: 38px;
+  padding-left: 10px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  border-radius: 0;
+}
+
+.order_Number_Btn{
+  position: absolute;
+  width: 75px;
+  height: 38px;
+  line-height: 38px;
+  margin: 0;
+  padding: 0;
+  margin-top: -38px;
+  margin-left: 207px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  list-style: none;
+  box-sizing: border-box;
+  display: list-item;
+  font-weight: 500;
+  color: #A4A4A4;
+  cursor: pointer;
+}
+
+.email_td{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.mem_email{
+  border: 1px solid #DDD;
+  width: 188px;
+  height: 38px;
+  padding-left: 10px;
+  font-size: 13px;
+  position: relative;
+  color: #333;
+  background: #fff;
+  border-radius: 0;
+}
+
+.mail_checkbox{
+  margin: -40px 0 0 210px;
+  position: absolute;
+  margin-top: -31px;
+}
+
+.mailing-div{
+  font: 8pt 돋움;
+  margin:-28px 0 0 20px;
+  color: #999;
+  margin-top: -18px;
+}
+
+.message_td{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+  width: 420px;
+  height: 48px;
+}
+
+.tel_input{
+  border: 1px solid #DDD;
+  width: 53px;
+  height: 38px;
+  text-align: center;
+  font-size: 13px;
+  color: #333;
+  margin: 0;
+  background: #fff;
+  border-radius: 0;
+}
+
+.message_checkbox{
+  margin: -40px 0 0 210px;
+  position: absolute;
+  margin-top: -30px;
+}
+
+.message_div{
+  font: 8pt 돋움;
+  margin: -28px 0 0 20px;
+  color: #999;
+  margin-top: -17px;
+}
+
+.onetoone_register_subject{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color:#A4A4A4;
+  vertical-align: middle;
+}
+
+.subject_input{
+  border: 1px solid #DDD;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  border-radius: 0;
+  width: 430px;
+  height: 38px;
+}
+
+.onetoone_register_content{
+  text-align: left;
+  font-weight: normal;
+  font-size: 12px;
+  color: #A4A4A4;
+  vertical-align: middle;
+}
+
+.content_textarea{
+  border: 1px solid #DDD;
+  width: 93%;
+  height: 110px;
+  padding-left: 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  border-radius: 0;
+}
+
+.confirm_btn:hover{
+  background-color: #222;
+  color: #fff;
+}
+
+.confirm_btn{
+  text-align: center;
+  height: 55px;
+  width: 150px;
+  line-height: 55px;
+  border-radius: 0;
+  border: none;
+  font-size: 14px;
+  font-size: 700;
+  background-color: rgb(68, 68, 68);
+  color: rgb(255, 255, 255);
+  box-sizing: border-box;
+  display: list-item;
+  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+}
+
+.order_Number_search {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  width: 530px;
+  height: 410px;
+  border: 6px solid black;
+  background-color: white;
+  margin: 90px 10px;
+}
+
+.show {
+  display: block;
+}
+
+#hide_btn_img {
+  width: 18px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+#table_top td{
+  text-align: center;
+  height: 35px;
+  background-color: rgb(168, 168, 168);
+  font-size: 12px;
+  color: #FFFFFF;
+}
