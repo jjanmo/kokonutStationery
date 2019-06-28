@@ -25,7 +25,7 @@ a:hover {
 	border-left-color:#FFFFFF;
 	border-right-color:#FFFFFF;
 	padding: 50px;
-	margin : 50px 80px 50px 180px;
+	margin : 50px 80px 50px 150px;
 }
 
 .outline_side{
@@ -118,7 +118,7 @@ a:hover {
   width: 95%;
   height: 100%;
   float: right;
-  margin: 0 10px 0 10px;
+  margin: 0 20px 0 20px;
 }
 
 .content_title {
