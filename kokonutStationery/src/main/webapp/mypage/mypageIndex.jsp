@@ -10,7 +10,7 @@
 			<!-- 마이페이지 -->
 			<jsp:include page="mypageSide.jsp" />
 		</td>
-		<td valign=top width=80% height=100% bgcolor="" class="outline_side">
+		<td valign=top  bgcolor="" class="outline_side">
 			<!-- 내용 -->
 			<jsp:include page="${contents}"/>
 		</td>
