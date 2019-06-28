@@ -32,7 +32,7 @@
 		<c:forEach var="list" items="${list}">
 			<div class="product">
 				<div class="product_img" 
-					 style="background-image: url(<c:out value="${list.thumbImg}"/>); background-size: 100%;">
+					 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); background-size: 100%;">
 				</div>
 				<div class="product_contents">
 					<div class="product_name_div">
