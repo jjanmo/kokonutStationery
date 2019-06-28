@@ -6,7 +6,6 @@
 <!-- mypage left menu -->
 <div class="mypage_list">
   
-  
     <div class="mypae_title">
       <span>마이페이지</span>
     </div>
@@ -21,7 +20,7 @@
         </tr>
         <tr>
           <td class="mem_menu"><a href="../mypage/mypage_pointlist.do">포인트</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 매</td>
+          <td class="mem_val_td"><span class="mam_val">0</span> 원</td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../goods/goods_cart.do">장바구니</a></td>
