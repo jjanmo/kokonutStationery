@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 
-#searchBtn{
+#product_searchBtn{
 	
 	color: #fff;
     border: 1px solid transparent;
@@ -77,7 +77,7 @@
 .product_search select{
 	height: 27px;
 }
-#productText{
+#productSearchWord{
 	height: 23px;
 	padding-left: 5px;
 }
@@ -88,26 +88,48 @@
 	padding-right: 5px;
 }
 
+#productPagingDiv{
+	width: 1000px;
+	float: left;
+	text-align: center;
+}
+
+#paging{
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#currentPaging{
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 </style>
 </head>
 <body>
 <!-- 메인컨텐츠 시작 -->
+<input type="hidden" id="pg" value="${pg }">
+<input type="hidden" name="pg" value="1">
 <div id="mainContent_wrap">
 	<div id="product_search_wrap" style="width: 1000px; margin: 0 auto;">
 		<div id="product_search_title" style="margin-bottom: 20px;">
 			<h1 style="font-weight:normal;">상품관리</h1>
+			<div id="product_searchDiv"></div>
 		</div>
+		<form name="product_searchForm" method="post">
 		<div class="product_search" align="left">
 			<table border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
 					<th>상 품 분 류</th>
 					<td>
-						<select>
+						<select id="kategorie">
 							<option>-카테고리 선택-</option>
-							<option value="#">문구</option>
-							<option value="#">리빙</option>
-							<option value="#">여행</option>
-							<option value="#">콜라보레이션</option>
+							<option value="stationery">문구</option>
+							<option value="living">리빙</option>
+							<option value="travel">여행</option>
+							<option value="collabo">콜라보레이션</option>
 						</select>
 					</td>
 				</tr>
@@ -115,48 +137,59 @@
 				<tr>
 					<th>상 품 검 색</th>
 					<td>
-						<select>
-							<option value="#">-상품명-</option>
-							<option value="#">-상품코드-</option>
-							<option value="#">-상품번호-</option>
+						<select id="productKeyword">
+							<option value="productName">상품명</option>
+							<option value="productCode">상품코드</option>
+							<option value="manufacturer">제조사</option>
 						</select>
-						<input type="text" id="productText">
+						<input type="text" id="productSearchWord">
 					</td>
 				</tr>
 				
 				<tr>
 					<th>판 매 가</th>
 					<td>
-						<input type="text" class="priceText"> KRW ~ 
-						<input type="text" class="priceText"> KRW
+						<input type="text" id="lowPrice" class="priceText" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> KRW ~ 
+						<input type="text" id="highPrice" class="priceText" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> KRW
 					</td>
 				</tr>
 			</table>
 			<div style="margin-top: 15px" align="center">
-				<input type="button" id="searchBtn" class="product_btn_group" value="검 색">
+				<input type="button" id="product_searchBtn" class="product_btn_group" value="검 색">
 				<input type="reset" id="product_resetBtn" class="product_btn_group" value="초기화">
 			</div>
 			<div>
             	<input type="button" id="productRegistBtn" value="상 품 등 록">
          	</div>
+         	<div style="float: left;">
+           		<input type="button" id="productDeleteBtn" value="선 택 삭 제">
+         	</div>
+
 		</div>
-		
-		
+	    </form>
+	    
+	    <form id="checkDeleteForm" method="post" 
+	    action="kokonutStaionery/admin/productDelete.do">   			
 		<div id="productSeach_list" align="left" style="margin-top: 50px;">
-			<table border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
+			<table id="productSearch_Table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
 					<th style="width: 44px;">
-						<input type="checkbox">
+						<input type="checkbox" id="check_all">
 					</th>
-					<th style="width: 200px;">상품코드</th>
+					<th style="width: 100px;">상품코드</th>
 					<th style="width: 336px;">상품명</th>
 					<th style="width: 134px;">상품원가</th>
 					<th style="width: 134px;">세일가격</th>
-					<th style="width: 88px;">재 고</th>
 					<th style="width: 100px;">등록일</th>
 				</tr>
 			</table>
+			<br>
+			<div id="productPagingDiv"></div>
+			<br><br><br><br>
+						
+			
 		</div>
+		</form>      
 	</div><!-- search_wrap -->
 	
 </div><!-- 메인컨텐츠 끝 -->
@@ -165,8 +198,167 @@
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+
+$('#productDeleteBtn').click(function(){
+	var count = $('.check:checked').length;
+	if(count==0)
+		alert('항목을 선택하세요');
+	else
+		$('#imageboardListForm').submit();
+});
+
+/* 체크박스 전체 선택/해제 */
+	$('#check_all').click(function(){
+		if($('#check_all').is(":checked"))
+			$('.check').prop('checked', true);
+		else
+			$('.check').prop('checked', false);
+	});
+
+
+/* 상품검색 인풋텍스트 정규식 */
+function isValidName(name){
+    let regx = /^[0-9]*$/;
+    return !regx.test(name); 
+}
+
+/* 페이징 함수 */
+function productPaging(pg){
+	location.href="/kokonutStationery/admin/productList.do?pg="+pg;
+}
+function productSearchPaging(pg){
+	$('input[name=pg]').val(pg);
+	$('#product_searchBtn').trigger('click', 'trigger');
+}
+
+/* 상품등록 버튼 */
 $('#productRegistBtn').click(function(){
    window.open('/kokonutStationery/admin/productRegistForm.do','','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+});
+
+/* 페이지 로딩 시 전체 상품목록 */
+$(document).ready(function(){
+	
+
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/admin/getProductList.do',
+		data : {'pg' : $('#pg').val()},
+		dataType : 'json',
+		success : function(data){
+			$.each(data.list, function(index,items){
+				$('<tr/>').append($('<td/>',{
+					align : 'center'
+				}).css('height', '31px'
+					).append($('<input/>',{
+						type : 'checkbox',
+						value : items.productCode,
+						class : 'check'
+				}))).append($('<td/>',{
+					align : 'center',
+					text : items.productCode
+				})).append($('<td/>').css('padding-left', '5px').append($('<a/>',{
+					href : 'javascript:void(0)',
+					id : 'productA',
+					text : items.productName,
+					class : items.productCode
+				}).css('text-decoration', 'underLine').css('color','red')
+				)).append($('<td/>',{
+					align : 'center',
+					text : items.originalPrice
+				})).append($('<td/>',{
+					align : 'center',
+					text : items.discountPrice
+				})).append($('<td/>',{
+					align : 'center',
+					text : items.regDate
+				})).appendTo($('#productSearch_Table'));
+			});
+			$('#productPagingDiv').html(data.productPaging.pagingHTML);
+		}
+	});//ajax
+
+});
+/* 상품 링크 클릭 시 */
+$('#productSearch_Table').on('click', '#productA',function(){
+	window.open('/kokonutStationery/admin/productModifyForm.do?productCode='+$(this).attr('class'),'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+});
+
+/* 상품 서치버튼 */
+$('#product_searchBtn').click(function(event,str){
+	$('#product_searchDiv').empty();
+	
+	/* 상품검색 키워드가 productCode일 시 숫자만 입력 가능 */
+	if($('#productKeyword').val()=='productCode'){
+		var regexp = /^[0-9]*$/
+			v = $('#productSearchWord').val();
+			if( !regexp.test(v) ) {
+				$('#product_searchDiv').text('상품코드는 숫자만 입력해주세요').css('color', 'red').css('font-weight', '10pt')
+				return;
+			}
+	}
+
+	if(( $('#lowPrice').val()!=''&& $('#highPrice').val()!='')
+		|| $('#kategorie').val()!='-카테고리 선택-'
+		|| $('#productSearchWord').val()!=''){
+		
+			$('#productSearch_Table tr:not(:first)').empty();
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/admin/productSearch.do',
+				data : {'pg' : $('input[name=pg]').val(),
+						'kategorie' : $('#kategorie').val(),
+						'productKeyword' : $('#productKeyword').val(),
+						'productSearchWord' : $('#productSearchWord').val(),
+						'lowPrice' : $('#lowPrice').val(),
+						'highPrice' : $('#highPrice').val()
+						},
+				dataType : 'json',
+				success : function(data){
+					if(data.list==''){
+						$('#product_searchDiv').text('일치하는 검색결과가 없습니다').css('color', 'red').css('font-weight', '10pt')
+						return;
+					}else{
+						$.each(data.list, function(index,items){
+							$('<tr/>').append($('<td/>',{
+								align : 'center',
+							}).css('height', '31px'
+									).append($('<input/>',{
+										type : 'checkbox',
+										value : items.productCode,
+										class : 'check'
+							}))).append($('<td/>',{
+								align : 'center',
+								text : items.productCode
+							})).append($('<td/>').css('padding-left', '5px').append($('<a/>',{
+								href : 'javascript:void(0)',
+								id : 'productA',
+								text : items.productName,
+								class : items.productCode
+							}).css('text-decoration', 'underLine').css('color','red')
+							)).append($('<td/>',{
+								align : 'center',
+								text : items.originalPrice
+							})).append($('<td/>',{
+								align : 'center',
+								text : items.discountPrice
+							})).append($('<td/>',{
+								align : 'center',
+								text : items.regDate
+							})).appendTo($('#productSearch_Table'));
+						});
+						$('#productPagingDiv').html(data.productPaging.pagingHTML);
+					}
+				}
+			});//ajax
+	}//if문
+	else{
+		$('#product_searchDiv').text('검색항목을 입력해주세요').css('color', 'red').css('font-weight', '10pt')
+	}
+	
+	if(str!='trigger') {
+		$('input[name=pg]').val(1);
+	}
 });
 </script>
 

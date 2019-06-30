@@ -50,16 +50,7 @@ public class AdminController {
 		//일종의 url 값을 요청하는 것으로, 바로 adminController로 돌아와 해당 작업 진행
 		return new ModelAndView("redirect:/admin/login.do");
 	}
-	
-	
-	//관리자 상품관리
-	@RequestMapping(value="/admin/productList.do",method=RequestMethod.GET)
-	public ModelAndView index() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display","/admin/product/productList.jsp");
-		mav.setViewName("/admin/index");
-		return mav;
-	}
+
 	
 	//관리자 주문관리
 	@RequestMapping(value="/admin/orderList.do",method=RequestMethod.GET)
@@ -70,12 +61,7 @@ public class AdminController {
 		return mav;
 	}
 	
-	//관리자 상품등록
-	@RequestMapping(value="/admin/productRegistForm.do",method=RequestMethod.GET)
-	public String productRegistForm() {
-		return "/admin/product/productRegistForm";
-	}
-	
+
 	//관리자 메인 - 통계 페이지 뜨도록
 	@RequestMapping(value="/admin/index.do", method=RequestMethod.GET)
 	public ModelAndView statisticsList() {
