@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productSQL">
+	<select id="productList" parameterType="java.util.Map" resultType="goods">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_PRODUCT order by productCode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<select id="productSearch" parameterType="java.util.Map" resultType="goods">
+	
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_PRODUCT where
+			<if test="!kategorie.equals('-카테고리 선택-')">
+			<choose>
+				<when test="kategorie.equals('stationery')">
+					stationery=1
+				</when>
+				<when test="kategorie.equals('living')">
+					living=1
+				</when>
+				<when test="kategorie.equals('travel')">
+					travel=1
+				</when>
+				<otherwise>
+					collabo=1
+			</otherwise>
+			</choose>
+		</if>
+		<if test="productSearchWord!=''">
+			<if test="!kategorie.equals('-카테고리 선택-')">
+				and 
+			</if>
+			<choose>
+				<when test="productKeyword.equals('productName')">
+					productName like '%'||#{productSearchWord}||'%'
+				</when>
+				<when test="productKeyword.equals('productCode')">
+					productCode like '%'||#{productSearchWord}||'%'
+				</when>
+				<otherwise>
+					manufacturer like '%'||#{productSearchWord}||'%'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test="lowPrice!='' and highPrice!=''">
+			<if test="productSearchWord!=''">
+				and
+			</if>
+			originalPrice between #{lowPrice} and #{highPrice}
+		</if>
+		
+		order by productCode desc) tt)
+		where rn between #{startNum} and #{endNum}
+		
+
+	</select>
+	
+	
+	
+	<select id="getTotalA" resultType="int">
+		select count(*) from TBL_PRODUCT
+	</select>
+	
+	
+	
+	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="int">
+		select count(*) from TBL_PRODUCT where
+		<if test="!kategorie.equals('-카테고리 선택-')">
+			<choose>
+				<when test="kategorie.equals('stationery')">
+					stationery=1
+				</when>
+				<when test="kategorie.equals('living')">
+					living=1
+				</when>
+				<when test="kategorie.equals('travel')">
+					travel=1
+				</when>
+				<otherwise>
+					collabo=1
+			</otherwise>
+			</choose>
+		</if>
+		<if test="productSearchWord!=''">
+			<if test="!kategorie.equals('-카테고리 선택-')">
+				and 
+			</if>
+			<choose>
+				<when test="productKeyword.equals('productName')">
+					productName like '%'||#{productSearchWord}||'%'
+				</when>
+				<when test="productKeyword.equals('productCode')">
+					productCode like '%'||#{productSearchWord}||'%'
+				</when>
+				<otherwise>
+					manufacturer like '%'||#{productSearchWord}||'%'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test="lowPrice!='' and highPrice!=''">
+			<if test="productSearchWord!=''">
+				and
+			</if>
+			originalPrice between #{lowPrice} and #{highPrice}
+		</if>
+	</select>
+	
+	<select id="getModifyForm" parameterType="String" resultType="goods">
+		select * from TBL_PRODUCT where productCode=#{productCode}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
