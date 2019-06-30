@@ -46,21 +46,24 @@
 						<div class="item_contents" name="manufacturer">${goodsDTO.manufacturer}</div>
 					</div>
 
-					<div id="optionDiv" style="margin-top: 3px;">
+					<div id="optionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">종류</div>
 						<select class="item_contents_select" name="option">
 							<option>옵션을 선택하세요</option>
 						</select>
 					</div>
+					
+					<!-- 옵션 div 추가-->
+					<div class="option_wrap"></div>
 
 					<!-- 수량 선택 div -->
-					<div id="noOptionDiv" style="margin-top: 3px;">
+					<div id="noOptionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">구매수량</div>
 						<div class="item_contents">
 							<div style="float: left;">
 								<input type="text" name="productQty" id="productQty" step="1"
 									min="1" max="0" size="2" value="1"
-									style="border: 1px solid #DDD; width: 52px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
+									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
 							</div>
 
 							<div style="float: left; padding-left: 3px;">
@@ -227,33 +230,89 @@ $(function() {
 	if(originalPrice == discountPrice){
 		$('#originalPrice').css('display','none');
 	}
-	
 
 	//옵션이 없을때
 	if (option == 0) {
-		$('#optionDiv').css('display', 'none');
+		$('#noOptionDiv').css('display', 'block');
 	}
 
 	//옵션이 있을때
 	else { //option == 1
-		$('#noOptionDiv').css('display', 'none');
+		$('#optionDiv').css('display', 'block');
 
 		//옵션 출력
 		$.ajax({
 			type : 'get',
 			url : '/kokonutStationery/goods/getOption.do',
-			data : {
-				'productCode' : productCode
-			},
+			data : {'productCode' : productCode},
 			dataType : 'json',
 			success : function(data) {
 				$.each(data.list, function(index, item) {
-					$('select')
-							.append(
-									$('<option>' + item.optionContent + '</option>'));
+					$('select').append($('<option>' + item.optionContent + '</option>'));
 				});
 			}
 		});
+
+		/* 옵션 script 추가중 2019-06-30 */
+		var selArray =  new Array();
+		var length = $('#optionBox option').length - 1 ;
+		var notOption = $('#optionBox option:eq(0)').val();
+	
+		$('#optionBox').change(function(){
+			var sel = $('#optionBox option:selected').val();
+
+			if(sel == notOption){
+				return;
+			} else {
+				for(var array of selArray) {
+					if(array==$('#optionBox option:selected').val()) {
+						alert("이미 추가된 옵션입니다.");
+						break;
+					} //if
+				} //for
+				
+				selArray.push(sel);
+				
+				/*		
+			 	<div id="option_selectedDiv">
+					<div id="option_contentDiv">
+						노트_아 저는 뭐
+					</div>
+						
+					<div style="float: left;">
+						<input type="text" name="productQty" id="option_productQty" step="1" min="1" max="0" size="2" value="1">
+					</div>
+					
+					<div style="float: left; padding-left: 3px;">
+						<div style="padding: 10px 0 3px 0;">
+							<img id="up" src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png"
+										 style="cursor: pointer; width: 14px; margin: 3px 2px;">
+						</div>
+						
+						<div>
+							<img id="down" src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png"
+										   style="cursor: pointer; width: 14px; margin: 3px 2px;">
+						</div>
+					</div>
+					
+					<div style="float: left; margin: 22px 0 22px 25px;">
+						<span style="font-size: 13px; color: #444; font-weight: 500;">
+							2,500원
+						</span>
+					</div>
+					
+					<img src="http://store.baemin.com/shop/data/exskin/btn_multioption_del.png"
+						 style="cursor: pointer; float: right; margin: 25px 20px 25px 15px; width: 15px; height: 14px;">
+						 
+				</div>
+				
+				<div id="option_totalPriceDiv">
+					총 금액&ensp;:&ensp;<span style="font-size: 22px; color: #333; font-weight: 600;">2,500원</span>
+				</div>
+				*/
+				
+			} //else
+		}); //function
 	
 	}//else
 });
@@ -266,11 +325,13 @@ $('#productQty').focusout(function() {
 	}
 	$('#productQty').val("1");
 });
+
 //수량 변경 : 증가
 $('#up').click(function() {
 	productQty++;
 	$('#productQty').val(productQty);
 });
+
 //수량 변경 : 감소   
 $('#down').click(function() {
 	if (productQty > 1) {
