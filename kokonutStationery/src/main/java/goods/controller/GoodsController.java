@@ -162,5 +162,38 @@ public class GoodsController {
 		return mav;
 	}
 	
+	//상품리뷰목록 페이지
+	@GetMapping("/goods_review.do")
+	public ModelAndView getGoodsReviewList() {
+		//리스트 정보를 가져오는 코드 필요 : from DB
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/goods/goods_review.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//상품qna목록페이지
+	@GetMapping("/goods_qna.do")
+	public ModelAndView getGoodsQnaList() {
+		//리스트 정보를 가져오는 코드 필요 : from DB
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/goods/goods_qna.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+
+	//상품리뷰등록페이지
+	@GetMapping("/goods_review_register.do")
+	public String goodsReviewRegister() {
+		return "goods_review_register";
+	}
+	
+	//상품qna등록페이지
+	@GetMapping("/goods_qna_register.do")
+	public String goodsQnaRegister() {
+		return "goods_qna_register";
+	}
 	
 }

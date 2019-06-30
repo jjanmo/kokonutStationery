@@ -82,9 +82,9 @@
 				</div>
 
 				<div id="goods_buttons">
-					<li class="main_button">구매하기</li>
-					<li class="sub_button" style="border-right: none; float: left;">장바구니</li>
-					<li class="sub_button" style="float: right;">찜하기</li>
+					<div class="main_button">구매하기</div>
+					<div id="cartBtn" class="sub_button" style="border-right: none; float: left;">장바구니</div>
+					<div id="wishlistBtn" class="sub_button" style="float: right;">찜하기</div>
 				</div>
 				<div style="width: 100%; height: 60px; display: inline-block;"></div>
 			</div>
@@ -160,7 +160,7 @@
 					</div>
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/baeminproject/goods/goods_review">
+						<a href="/kokonutStationery/goods/goods_review.do">
 							<li id="review_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 							<li id="review_regist_btn" class="userPage_main_button">작성</li>
@@ -200,7 +200,7 @@
 						id="qna_02_content">비밀글입니다.</div>
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/baeminproject/goods/goods_qna">
+						<a href="/kokonutStationery/goods/goods_qna.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
@@ -278,5 +278,11 @@ $('#down').click(function() {
 		$('#productQty').val(productQty);
 	}
 });
+
+//장바구니페이지
+$('#cartBtn').click(function(){
+	location.href = "/kokonutStationery/goods/goods_cart.do";
+});
+
 </script>
 </html>

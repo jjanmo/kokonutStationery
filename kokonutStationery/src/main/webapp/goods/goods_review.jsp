@@ -13,12 +13,6 @@
 </head>
 <body>
 <div class="main">
-	<!-- 상단 메뉴바 -->
-	<div class="header">
-		<div class="header_area">
-			<img class="banner_img" src="../image/banner.PNG">
-		</div>
-	</div>
 	<div class="goods_userPage_area">
 		<div class="goods_userPage_main">		
 			<div style="font-size:22px; font-weight:700;">이용후기</div>
@@ -104,12 +98,6 @@
 				<!-- 페이징 -->
 				<div class="goods_userPage_paging"><b>1</b></div>
 			</form>
-		</div>
-	</div>
-	<!-- 푸터이미지 -->
-	<div id="footer">
-		<div id="footer_img_area">
-			<img src="../image/footer.PNG" id="footer_img">
 		</div>
 	</div>
 </div>
