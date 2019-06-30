@@ -18,6 +18,12 @@
 	<context:component-scan base-package="cart.bean"/>
 	<context:component-scan base-package="cart.dao"/>
 	
+	<!-- 관리자 -->
+	<context:component-scan base-package="admin.dao"/>
+	<context:component-scan base-package="admin.bean"/>
+	<context:component-scan base-package="usermanager.dao"/>
+	<context:component-scan base-package="productmanager.dao"/>
+	
 	<!-- 이메일 관련 -->
 	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
       <property name="host" value="smtp.gmail.com" />

@@ -1,7 +1,11 @@
 package user.bean;
 
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -25,5 +29,6 @@ public class UserDTO {
 	private String receiverPhone1, receiverPhone2, receiverPhone3;
 	private String deliveryMsg;
 	private String deliveryOption;
-
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+	private Date joinDate;
 }
