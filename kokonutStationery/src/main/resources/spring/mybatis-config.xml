@@ -7,6 +7,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias type="user.bean.UserDTO" alias="user"/>
 		<typeAlias type="goods.bean.GoodsDTO" alias="goods"/>
+		<typeAlias type="goods.bean.ProductOptionDTO" alias="option"/>
+		<typeAlias type="cart.bean.CartDTO" alias="cart"/>
 	</typeAliases>
 
 </configuration>

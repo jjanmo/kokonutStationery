@@ -69,4 +69,6 @@ $(document).ready(function(){
 	$('#qna_regist_btn').click(function(){
 		window.open("/baeminproject/goods/goods_qna_register", "_blank", "left=320, width=890, height=750");
 	});
+	
+
 });
