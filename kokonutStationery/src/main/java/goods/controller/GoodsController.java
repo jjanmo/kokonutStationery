@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 import goods.dao.GoodsDAO;
 
 @Controller
@@ -131,6 +133,33 @@ public class GoodsController {
 			session.setAttribute("travel", count.get("travel"));
 			session.setAttribute("collabo", count.get("collabo"));
 		}
+	}
+	
+	//상품상세 페이지
+	@RequestMapping(value="/goods_view.do", method=RequestMethod.GET)
+	public ModelAndView goodView(@RequestParam String productCode) {
+		
+		//상품한개받아오기
+		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("goodsDTO", goodsDTO);
+		mav.addObject("display", "/goods/goods_view.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+		
+	}
+	
+	//상세페이지에서 option가져오기
+	@RequestMapping(value="/getOption.do", method=RequestMethod.GET)
+	public ModelAndView getOption(@RequestParam String productCode) {
+		
+		List<ProductOptionDTO> list = goodsDAO.getOption(Integer.parseInt(productCode));
+		//System.out.println(list.size());
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
 	}
 	
 	

@@ -15,17 +15,17 @@
 		<!-- 상품 한개(반복) -->
 		<c:forEach var="list" items="${list}">
 			<div class="product">
-				<a href="#"><div class="product_img" 
+				<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><div class="product_img" 
 								 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); 
 								 		background-size: 100%;">
 				</div></a>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<a href="#"><span class="product_name"><c:out value="${list.productName}"/></span></a>
+						<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_name"><c:out value="${list.productName}"/></span></a>
 					</div>
 					<div class="product_price_div">
 						<div class="product_status status_best"></div>
-				  		<a href="#"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
+				  		<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
 					</div>
 				</div>
 			</div>

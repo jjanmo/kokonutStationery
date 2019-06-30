@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 
 @Transactional
 @Repository
@@ -46,5 +47,17 @@ public class GoodsDAOImpl implements GoodsDAO {
 		map.put("travel", travel);
 		map.put("collabo", collabo);
 		return map;
+	}
+
+	//상품 상세페이지 정보 가져오기	
+	@Override
+	public GoodsDTO getGoodsView(int productCode) {
+		return sqlSession.selectOne("goodsSQL.getGoodsView", productCode);
+	}
+
+	//상품 상세페이지에서 옵션 정보 가져오기
+	@Override
+	public List<ProductOptionDTO> getOption(int productCode) {
+		return sqlSession.selectList("goodsSQL.getOption", productCode);
 	}
 }

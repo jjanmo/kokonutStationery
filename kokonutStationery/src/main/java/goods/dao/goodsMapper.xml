@@ -47,4 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="get_count_collabo" resultType="String">
 		select count(*) from tbl_product where collabo=1
 	</select>
+	
+	<!-- 상품상세페이지정보 가져오기 -->
+	<select id="getGoodsView" parameterType="Integer" resultType="goods">
+		select * from TBL_PRODUCT where productCode = #{productCode}
+	</select> 
+	
+	<select id="getOption" parameterType="Integer" resultType="option">
+		select * from TBL_PRODUCTOPTION where productCode = #{productCode}
+	</select>
 </mapper>
