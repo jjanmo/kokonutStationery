@@ -3,6 +3,49 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productSQL">
+	<!-- 상품등록 -->
+		<!-- 상품코드 증가 -->
+		<select id="productCodeIncrease" resultType="int">
+			select productCode_seq.nextval from dual
+		</select>
+		<!-- 상품옵션 등록 -->
+		<insert id="productOptionRegist" parameterType="option">
+			insert into tbl_productOption(optionCode, productCode, optionContent
+									, subTotalQty, subStockQty)
+									values(optionCode_seq.nextval
+										, productCode_seq.currval
+										, #{optionContent}
+										, #{subTotalQty}
+										, #{subTotalQty})
+		</insert>
+		<!-- 상품본체 등록 -->
+		<insert id="productRegist" parameterType="goods">
+			insert into TBL_PRODUCT(productCode, productName, originalPrice, discountPrice
+								, origin, manufacturer, thumbImg, detailedImg, totalQty
+								, stockQty, saleStatus, regDate, updateDate, productOption
+								, stationery, living, travel, collabo, best, newP) 
+								values(productCode_seq.currval
+										, #{productName}
+										, #{originalPrice}
+										, #{originalPrice}
+										, #{origin}
+										, #{manufacturer}
+										, #{thumbImg}
+										, #{detailedImg}
+										, #{totalQty}
+										, #{totalQty}
+										, 1
+										, sysdate
+										, sysdate
+										, #{productOption}
+										, #{stationery}
+										, #{living}
+										, #{travel}
+										, #{collabo}
+										, 0
+										, 1)
+		</insert>
+	<!-- 상품등록 끝 -->
 	<select id="productList" parameterType="java.util.Map" resultType="goods">
 		select * from 
 		(select rownum rn, tt.* from

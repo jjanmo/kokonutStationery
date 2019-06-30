@@ -73,9 +73,15 @@
 	padding-right: 5px;
 }
 
-#deliveryFee{
-	width: 85px;
-	height: 18px;
+#optionContent{
+	width: 200px;
+	height: 30px;
+	text-align: left;
+	padding-left: 5px;
+}
+#subTotalQty{
+	width: 80px;
+	height: 30px;
 	text-align: right;
 	padding-right: 5px;
 }
@@ -83,47 +89,49 @@
 </style>
 </head>
 <body>
+<form id="productRegistForm" method="post" enctype="multipart/form-data" 
+	action="/kokonutStationery/admin/productRegist.do">
 <div id="main_wrap" align="left" style="width: 1000px; margin: 0 auto;">
 
 	<div>
 		<h1 style="font-weight:normal;">상품등록</h1>
 	</div>
 	<div id="product_info">
-		<table border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 50px;">
+		<table id="product_info_table" border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 50px;">
 			<tr>
 				<th>상 품 명</th>
 				<td>
-					<input type="text" id="productName" class="inputText">
+					<input type="text" id="productName" class="inputText" name="productName" required>
 				</td>
 			</tr>
 			<tr>
 				<th>상 품 가 격</th>
 				<td>
-					<input type="text" id="originalPrice"> KRW
+					<input type="text" id="originalPrice" name="originalPrice" required> KRW
 				</td>
 			</tr>
 			<tr>
 				<th>원 산 지</th>
 				<td>
-					<input type="text" id="origin" class="inputText">
+					<input type="text" id="origin" class="inputText" name="origin" required>
 				</td>
 			</tr>
 			<tr>
 				<th>제 조 사</th>
 				<td>
-					<input type="text" id="manufacturer" class="inputText">
+					<input type="text" id="manufacturer" class="inputText" name="manufacturer" required>
 				</td>
 			</tr>
 			<tr>
 				<th>입 고 수 량</th>
 				<td>
-					<input type="text" id="totalQty" class="inputText"> 개
+					<input type="text" id="totalQty" class="inputText" name="totalQty" required> 개
 				</td>
 			</tr>
 			<tr>
 				<th>카 테 고 리 선 택</th>
 				<td>
-					<select style="height: 22px;">
+					<select style="height: 22px;" id="categories" name="categories">
 							<option>-카테고리 선택-</option>
 							<option value="stationery">문구</option>
 							<option value="living">리빙</option>
@@ -135,30 +143,25 @@
 			<tr>
 				<th>썸 네 일  이 미 지</th>
 				<td>
-					<input type="file" id="thumbImg"> 
+					<input type="file" id="thumbImg" name="thumbFile" required> 
 				</td>
 			</tr>
 			<tr>
 				<th>상 품 상 세 설 명</th>
 				<td>
-					<input type="file" id="detailedImg"> 
+					<input type="file" id="detailedImg" name="detailedFile" required> 
 				</td>
 			</tr>
 			
 			<tr>
 				<th>옵  션</th>
 				<td>
-					<input type="radio" name="option" value="1"> 있음
-					<input type="radio" name="option" value="0" checked> 없음
+					<input type="radio" name="productOption" id="check_option" value="1" > 있음
+					<input type="radio" name="productOption" id="none_option" value="0" checked> 없음   
+					<input type="button" id="add_optionBtn" value="옵션 추가"/>
 				</td>
 			</tr>		
-			
-			<tr>
-				<th>배 송 료</th>
-				<td>
-					<input type="text" id="deliveryFee"> KRW
-				</td>
-			</tr>	
+				
 		</table>
 		<div align="center" style="margin-top: 50px;">
 			<input type="button" class="regist_reset" id="registBtn" value="상품 등록">
@@ -166,13 +169,62 @@
 		</div>
 	</div>
 </div>
+</form>
 </body>
-
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $('#registResetBtn').click(function(){
    window.close();
 });
-</script>
+$('#add_optionBtn').hide();
+$('#check_option').click(function(){
+	$('#add_optionBtn').show();
+});
+$('#none_option').click(function(){
+	$('#add_optionBtn').hide();
+});
+$('#add_optionBtn').click(function(){
+	$('#product_info_table').append($('<tr/>'
+	).append($('<th/>', {
+		text : "추가 옵션"
+	})).append($('<td/>', {
+		text : "옵션 내용 ",
+		}).append($('<input/>', {
+			type : 'text',
+			id   : 'optionContent',
+			name : 'optionContent'
+		})).append($('<span/>', {
+			text : "  입고수량  "
+		})).append($('<input/>', {
+			type : 'text',
+			id   : 'subTotalQty',
+			name : 'subTotalQty'
+		})).append($('<span/>', {
+			text : " 개"
+		}))
+	));		
+});
 
+$('#registBtn').click(function(){
+	if($('#categories').val()=='-카테고리 선택-')
+		alert('카테고리를 선택해주세요!');
+	/* else if($('#productName').val()=='')
+		alert('상품명을 입력해주세요');
+	else if($('#originalPrice').val()=='')
+		alert('상품가격을 입력해주세요');
+	else if($('#origin').val()=='')
+		alert('원산지를 입력해주세요');
+	else if($('#thumbImg').val()=='')
+		alert('썸네일 이미지를 삽입해주세요');
+	else if($('#detailedImg').val()=='')
+		alert('상품상세이미지를 삽입해주세요'); */
+	else if($('#optionContent').val()=='')
+		alert("옵션 내용을 입력해주세요");
+	else if($('#subTotalQty').val()=='')
+		alert("옵션 수량을 입력해주세요");
+	else{
+		$('#productRegistForm').submit();
+	}
+});
+</script>
 </html>
