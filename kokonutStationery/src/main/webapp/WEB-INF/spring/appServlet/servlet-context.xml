@@ -40,6 +40,7 @@
 		<beans:property name="maxUploadSize" value="5000000"/>
 	</beans:bean>
 	
+	<!--고객:클라이언트 -->
 	<context:component-scan base-package="com.finalproject.controller" />
 	<context:component-scan base-package="main.controller"/>
 	<context:component-scan base-package="user.controller"/>	
@@ -49,6 +50,8 @@
 	<context:component-scan base-package="mail.controller"/>
 	<context:component-scan base-package="order.controller"/>
 	<context:component-scan base-package="cart.controller"/>
+	<context:component-scan base-package="review.controller"/>
+	
 	
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.controller" />

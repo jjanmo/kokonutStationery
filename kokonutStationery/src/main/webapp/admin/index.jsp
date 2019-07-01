@@ -11,7 +11,7 @@
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <!-- 파비콘 각 페이지마다 들어가야 함 -->
-<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="../image/favicon.ico" type="image/x-icon" />
 
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);

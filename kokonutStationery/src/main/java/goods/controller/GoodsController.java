@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import goods.bean.GoodsDTO;
@@ -125,6 +126,7 @@ public class GoodsController {
 	
 	//카테고리 상품수 받아오기
 	@GetMapping("/get_count.do")
+	@ResponseBody
 	public void get_count(HttpSession session) {
 		if(session.getAttribute("stationery")==null) {
 			Map<String, String> count = goodsDAO.get_count();

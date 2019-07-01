@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!--고객:클라이언트 -->
 	<context:component-scan base-package="user.bean"/>
 	<context:component-scan base-package="user.dao"/>	
 	<context:component-scan base-package="mybatis.config"/>
@@ -17,6 +18,8 @@
 	<context:component-scan base-package="goods.dao"/>
 	<context:component-scan base-package="cart.bean"/>
 	<context:component-scan base-package="cart.dao"/>
+	<context:component-scan base-package="reviewboard.bean"/>
+	<context:component-scan base-package="reviewboard.dao"/>
 	
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.dao"/>
