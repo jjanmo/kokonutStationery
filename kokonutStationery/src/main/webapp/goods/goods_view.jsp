@@ -48,7 +48,7 @@
 
 					<div id="optionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">종류</div>
-						<select id="optionBox" class="item_contents_select" name="option">
+						<select class="item_contents_select" name="option">
 							<option>옵션을 선택하세요</option>
 						</select>
 					</div>
@@ -219,6 +219,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 var option = ${goodsDTO.productOption};
+var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
@@ -255,26 +256,22 @@ $(function() {
 		/* 옵션 script 추가중 2019-06-30 */
 		var selArray =  new Array();
 		var length = $('#optionBox option').length - 1 ;
-		var notOption = $('#optionBox option:eq(0)').val(); //<option>옵션을 선택하세요</option> 이부분!
-			
+		var notOption = $('#optionBox option:eq(0)').val();
+	
 		$('#optionBox').change(function(){
 			var sel = $('#optionBox option:selected').val();
+
 			if(sel == notOption){
 				return;
-			} 
-			//수정중 jjanmo 0701
-			else { //!=notOption 인 경우
-				var selArrayLength = selArray.length;
-				alert(selArrayLength);
-				var cnt = 0;
-				for(var value of selArray) { //selArray의 안 값을 바로 비교
-					if(value == $('#optionBox option:selected').val()) {
+			} else {
+				for(var array of selArray) {
+					if(array==$('#optionBox option:selected').val()) {
 						alert("이미 추가된 옵션입니다.");
 						break;
-					}//if
-					cnt++;
-				}//for
-								
+					} //if
+				} //for
+				
+				selArray.push(sel);
 				
 				/*		
 			 	<div id="option_selectedDiv">
@@ -320,7 +317,6 @@ $(function() {
 	}//else
 });
 
-
 //숫자가 아닌경우  유효성검사 필요
 $('#productQty').focusout(function() {
 	var input = $('#productQty').val();
@@ -331,7 +327,6 @@ $('#productQty').focusout(function() {
 });
 
 //수량 변경 : 증가
-var productQty = $('#productQty').val();
 $('#up').click(function() {
 	productQty++;
 	$('#productQty').val(productQty);
@@ -347,7 +342,7 @@ $('#down').click(function() {
 
 //장바구니페이지
 $('#cartBtn').click(function(){
-	location.href = "/kokonutStationery/goods/goods_cart.do";  //무슨데이터를 들고갈것인가?? 
+	location.href = "/kokonutStationery/goods/goods_cart.do";
 });
 
 </script>
