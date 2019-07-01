@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import admin.dao.AdminDAO;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductPaging;
 import goods.bean.ProductOptionDTO;
@@ -50,8 +49,8 @@ public class ProductManagerController {
 		int seq = productManagerDAO.productCodeIncrease();		
 		System.out.println(seq);
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
-		String thumbImgPath = "C:\\Users\\Jun\\git\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
-		String detailedImgPath = "C:\\Users\\Jun\\git\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
+		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
 		
 		//파일 이름 지정
 		String thumbImgName = seq+".jpg";
@@ -70,17 +69,10 @@ public class ProductManagerController {
 		//파일이름부여
 		goodsDTO.setThumbImg(thumbImgName);
 		goodsDTO.setDetailedImg(detailedImgName);
-		 
 		
-		//카테고리 포함 설정
-		if(goodsDTO.getCategories().equals("stationery")) {
-			goodsDTO.setStationery(1);
-		}else if(goodsDTO.getCategories().equals("living")) {
-			goodsDTO.setLiving(1);
-		}else if(goodsDTO.getCategories().equals("travel")) {
-			goodsDTO.setTravel(1);
-		}else if(goodsDTO.getCategories().equals("collabo")) {
-			goodsDTO.setCollabo(1);
+		//깜짝세일이 아닐때 originPrice==discountPrice
+		if(goodsDTO.getDiscount()!=1||goodsDTO.getDiscountPrice()==0) {
+			goodsDTO.setDiscountPrice(goodsDTO.getOriginalPrice());
 		}
 		
 		//옵션이 있음일때
@@ -195,7 +187,7 @@ public class ProductManagerController {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
 		productManagerDAO.productDelete(map);
-		return "/admin/product/productDeleteSuccess";
+		return "redirect:/admin/productList.do";
 	}
 	
 	

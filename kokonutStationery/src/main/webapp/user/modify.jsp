@@ -2,26 +2,21 @@
     pageEncoding="UTF-8"%>
 
 
-<table width=1000 height=100% cellpadding=0 cellspacing=0 border=0 class="outline_both">
+<table width=1000px height=100% cellpadding=0 cellspacing=0 border=0 >
 <tr>
-<!-- 좌측 메뉴 부분 (첫번째 td태그) -->
-<td valign=top width=160 nowrap>
- <div id="left_mypage" style="width:140px; position:relative; margin-top:140px; margin-left:20px;">
- </div>
-</td> <!-- 첫번째td 태그 끝 -->
 
 <!-- 우측 실행 화면 (두번째 td태그) -->
-<td valign=top width=100% height=100% bgcolor="ffffff" class=outline_side>
+<td valign=top width=100% height=100% bgcolor="ffffff" >
 
 
 <!-- 비밀번호 재확인 영역 -->
-<div class="indiv" style="margin:135px 10px 0 80px;"><!-- Start indiv -->
+<div class="indiv" style="margin:20px 30px 50px 30px;"><!-- Start indiv -->
 
 <div class="mem_tit" style="font-size: 22px; font-weight: 700; text-align: left; color:#222;">
 	비밀번호 재확인
 </div>
 <div id="cp_body">
-	<form name="confirmForm" method="post" action="">
+	<form id="confirmForm" name="confirmForm" method="post" action="../user/modifyForm.do">
 		
 		<!-- 회색선 영역 / 비밀번호 입력란 -->
 		<div id="cp_form_border" style="width:738px; height:235px; background:#fff; border:6px solid #efefef; margin:15px 0 30px 0;">
@@ -30,7 +25,10 @@
 			<table cellpadding="4" cellspacing="0" border="0" align="center">
 				<tr align="left">
 					<td width="70" style="font-size:13px; font-family:Noto Sans KR; font-weight:400; color:#666;">아이디</td>
-					<td style="color:#333; font-weight:700;"></td>
+					<td style="color:#333; font-weight:700;" >
+						<input type="hidden" id="userId" name="userId" value="${sessionScope.memId }">
+						${sessionScope.memId }
+					</td>
 				</tr>
 				<tr align="left">
 					<td width="70"><label style="font-size:13px; font-family:Noto Sans KR; font-weight:400; color:#666;">비밀번호</label></td>
@@ -52,7 +50,7 @@
 			</a>
 		</div>
 		<div style="width: 150px; display: inline-block; padding-left: 5px;">
-			<input type="submit" id="confirmBtn" 
+			<input type="button" id="confirmBtn" 
 			style="display: inline-block; font-family:Noto Sans KR; text-align:center; cursor:pointer; color:#fff; height:60px; background-color:#444; width:150px; 
 			line-height:60px; border:none; border-radius:0; font-weight:700; font-size:13px;" value="확인">
 		</div>
@@ -64,11 +62,29 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 $('#confirmBtn').click(function(){
-	if($('#userPwd').val()==''){
-		alert('비밀번호를 정확하게 입력해주세요.');
-		return false;
-	}else
-		alert('준비중');
+	
+	var userId = $('#userId').val();
+	var userPwd = $('#userPwd').val();
+	alert("userId="+userId);
+	
+	$.ajax({
+		type:'post',
+		url:'../user/checkPwd.do',
+		data:{'userId':userId,
+			'userPwd':userPwd},
+		success:function(data){
+			if(data=='not_exist'){
+				alert('비밀번호를 정확하게 입력해주세요.');
+				
+			}else if(data=='exist'){
+				$('#confirmForm').submit();
+			}
+		}
+		
+	});
+	
+	
+		
 });
 </script>
 

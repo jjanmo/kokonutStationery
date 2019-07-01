@@ -30,7 +30,6 @@ public class GoodsDTO {
 	private int productOption;
 	private String[] optionContent;	//옵션 내용
 	private int[] subTotalQty;		//옵션 갯수
-	private String categories;		//카테고리 
 	private int stationery;
 	private int living;
 	private int travel;

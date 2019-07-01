@@ -101,4 +101,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!-- userModify : 회원정보수정 -->
+	<update id="userModify" parameterType="java.util.Map">
+		update TBL_user set 
+			userName=#{userName}, 
+			userBirthYear=#{userBirthYear},
+			userBirthMonth=#{userBirthMonth},
+			userBirthDay=#{userBirthDay},
+			userEmail=#{userEmail},
+			userPhone1=#{userPhone1},
+			userPhone2=#{userPhone2},
+			userPhone3=#{userPhone3},
+			userPoint=#{userPoint}
+		where userId=#{userId}			
+	</update>
+	
+	<!-- 선택 삭제  -->
+	<delete id="userDelete" parameterType="java.util.Map">
+		delete TBL_USER where USERID in 
+		<foreach collection="array" index="i" open="(" close=")"
+			separator=",">
+			'${array[i]}'
+		</foreach>
+	</delete>
 </mapper>

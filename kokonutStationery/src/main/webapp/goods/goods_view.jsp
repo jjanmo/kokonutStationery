@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,7 +181,34 @@
 				<div class="userPage_div">
 					<p>문의</p>
 				</div>
+				
 				<div>
+				<c:forEach var="list" items="${list}">
+				
+					<div class="userPage_area" id="qna_01">
+						<div class="userPage_subject">
+							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
+							${list.qnaboardSubject } 
+							<c:if test="${list.secret==1}">
+								<img src="../image/private_lock.gif">
+							</c:if>
+						</div>
+						<div class="userPage_name">${list.userId }</div>
+						<div class="userPage_date">${list.regDate }</div>
+					</div>
+					<br>
+					<c:if test="${list.secret==1}">
+						<div class="userPage_content userPage_private_lock"
+							id="qna_01_content">비밀글입니다.
+						</div>
+					</c:if>
+					<c:if test="${list.secret==0}">
+						<div class="userPage_content userPage_private_lock"
+							id="qna_01_content">${list.qnaboardSubject}
+						</div>
+					</c:if>
+					
+					<!-- 
 					<div class="userPage_area" id="qna_01">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>일등석
@@ -190,7 +219,9 @@
 					</div>
 					<br>
 					<div class="userPage_content userPage_private_lock"
-						id="qna_01_content">비밀글입니다.</div>
+						id="qna_01_content">비밀글입니다.
+					</div>
+					
 					<div class="userPage_area" id="qna_02">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
@@ -200,7 +231,11 @@
 						<div class="userPage_date">2017-08-30</div>
 					</div>
 					<div class="userPage_content userPage_private_lock"
-						id="qna_02_content">비밀글입니다.</div>
+						id="qna_02_content">비밀글입니다.
+					</div>
+					-->
+					</c:forEach>
+					
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
 						<a href="/kokonutStationery/goods/goods_qna.do">
@@ -210,8 +245,11 @@
 					</div>
 					<div class="userPage_paging_num">
 						<b>1</b>
-					</div>
+					</div> 
+				
 				</div>
+				
+				
 			</div>
 		</div>
 	</div>

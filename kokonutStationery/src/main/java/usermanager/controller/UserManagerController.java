@@ -114,7 +114,7 @@ public class UserManagerController {
 	}
 	
 	
-	
+	//아이디 클릭 시 회원정보수정 창
 	@RequestMapping(value="/admin/userModifyForm.do", method=RequestMethod.GET)
 	public String userModifyForm(@RequestParam String userId, Model model) {
 		UserDTO userDTO = userDAO.userModifyView(userId);
@@ -123,5 +123,20 @@ public class UserManagerController {
 		return "/admin/user/userModifyForm"; 
 	}
 	
+	//회원정보수정
+	@RequestMapping(value="/admin/userModify.do", method=RequestMethod.POST)
+	public void userModify(@RequestParam Map<String,Object> map) {
+		userDAO.userModify(map);
+	}
+	
+	//회원정보삭제
+	@RequestMapping(value="/admin/userDelete.do", method=RequestMethod.POST)
+	public ModelAndView userDelete(@RequestParam String[] check) {
+		Map<String,String[]> map = new HashMap<String,String[]>();
+		map.put("array",check);
+		userDAO.userDelete(map);
+		
+		return new ModelAndView("redirect:/admin/userList.do");
+	}
 	
 }

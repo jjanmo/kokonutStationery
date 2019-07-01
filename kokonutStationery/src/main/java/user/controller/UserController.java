@@ -205,9 +205,87 @@ public class UserController {
 	}
 
 	
+	//비밀번호 재확인 페이지
+	@GetMapping("/checkUser.do")
+	public ModelAndView checkUser() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/user/checkUser.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
+	
+	//회원정보수정시 비밀번호 확인
+	@RequestMapping(value="/checkPwd.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String checkPwd(@RequestParam Map<String,String> map) {
+		
+		//로그인과 동일 sql사용
+		UserDTO userDTO = userDAO.login(map);
+		
+		if (userDTO==null)
+			return "not_exist";
+		else return "exist";
+	}
+	
+	
+	//회원정보수정 페이지
+	@RequestMapping(value="/modifyForm.do",method=RequestMethod.POST)
+	public ModelAndView modifyForm(@RequestParam Map<String,String> map) {
+		
+		UserDTO userDTO = userDAO.login(map);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/user/modifyForm.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.addObject("userDTO", userDTO);
+		
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
+	
+	//회원정보수정
+	@RequestMapping(value="/modify.do",method=RequestMethod.POST)
+	public ModelAndView modify(@RequestParam Map<String,String> map) {
+		
+		System.out.println("수정할 id="+map.get("userId"));
+		UserDTO userDTO = userDAO.checkId(map.get("userId"));
+		
+		System.out.println("이전 pwd="+map.get("userPwd"));
+		System.out.println("수정할 pwd="+userDTO.getUserPwd());
+		
+		//비밀번호가 null때 이전 값 그대로
+		if(map.get("userPwd")=="")
+			map.put("userPwd",userDTO.getUserPwd());
+		else
+			map.put("userPwd",map.get("newPwd"));
+		
+		userDAO.modify(map);
+		
+		return new ModelAndView("redirect:/user/checkUser.do"); 
+	}
+	
+	//회원탈퇴페이지
+	@GetMapping("/memberOut.do")
+	public ModelAndView memberOut() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("contents", "/user/memberOut.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
 
-	
-	
-	
-
+	//회원탈퇴
+	@RequestMapping(value="/memberDelete.do",method=RequestMethod.POST)
+	public ModelAndView memberDelete(HttpSession session,@RequestParam Map<String,String> map) {
+		//id,pwd전달
+		userDAO.memberDelete(map);
+		
+		//세션 종료
+		session.invalidate();
+		return new ModelAndView("redirect:/main/index.do");
+	}
 }

@@ -17,4 +17,8 @@ public interface UserManagerDAO {
 
 	public UserDTO userModifyView(String userId);
 
+	public void userModify(Map<String, Object> map);
+
+	public void userDelete(Map<String, String[]> map);
+
 }

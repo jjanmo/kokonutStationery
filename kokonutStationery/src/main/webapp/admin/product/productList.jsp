@@ -58,7 +58,26 @@
     background-color: #fff;
    	float: right;
 }
-
+#productRegistBtn:hover{
+   background-color:#1b87d4;
+   color:#ffffff;
+}
+#productDeleteBtn{
+	width: 100px;
+	height: 35px;
+    padding: 0 20px;
+    font-size: 14px;
+	font-weight: normal;
+    cursor: pointer;
+	color: #1b87d4;
+    border: 1px solid #1b87d4;
+    background-color: #fff;
+   	float: right;
+}
+#productDeleteBtn:hover{
+   background-color:#1b87d4;
+   color:#ffffff;
+}
 #productText{
 	width: 300px;
 }
@@ -69,10 +88,7 @@
 	height: 53px;
 }
 
-#productRegistBtn:hover{
-   background-color:#1b87d4;
-   color:#ffffff;
-}
+
 
 .product_search select{
 	height: 27px;
@@ -105,11 +121,52 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+#productA:link{
+	color: black;
+} 
+#productA:hover{
+	color: #1b87d4;
+	text-decoration: underline;
+}
 
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    
+	/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 100%; /* Could be more or less, depending on screen size */     
+     width: auto; display: table;                   
+}
+
+.modalDiv{
+	width:185px;
+	cursor:pointer;
+	background-color:#DDDDDD;
+	text-align: center;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin: 0 15px 0 15px;
+}
 </style>
 </head>
 <body>
 <!-- 메인컨텐츠 시작 -->
+<input type="hidden" id="deleteCheck" value="${deleteCheck }">
+<input type="hidden" class="deleteCheck" value="0">
 <input type="hidden" id="pg" value="${pg }">
 <input type="hidden" name="pg" value="1">
 <div id="mainContent_wrap">
@@ -118,6 +175,7 @@
 			<h1 style="font-weight:normal;">상품관리</h1>
 			<div id="product_searchDiv"></div>
 		</div>
+		
 		<form name="product_searchForm" method="post">
 		<div class="product_search" align="left">
 			<table border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
@@ -164,12 +222,13 @@
          	<div style="float: left;">
            		<input type="button" id="productDeleteBtn" value="선 택 삭 제">
          	</div>
-
+         	
+         	
 		</div>
 	    </form>
 	    
 	    <form id="checkDeleteForm" method="post" 
-	    action="kokonutStaionery/admin/productDelete.do">   			
+	    action="productDelete.do">   			
 		<div id="productSeach_list" align="left" style="margin-top: 50px;">
 			<table id="productSearch_Table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
@@ -190,21 +249,113 @@
 			
 		</div>
 		</form>      
+		
+		
+		
+		
+		
+		
+		
+		
+		 <!-- 선택 삭제 시 확인&취소 / Modal -->
+		    <div id="open_confirmModal" class="modal">
+		 
+		      <!-- Modal content -->
+		      <div class="modal-content">
+		                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+		                <p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
+		                <p><br /></p>
+		
+		            <div class="modalDiv" id="confirmOK_Modal" style="display: inline-block;">
+		                <span class="pop_bt" style="font-size: 13pt; " >
+		                   	  확인
+		                </span>
+		
+		            </div>
+		            <div  class="modalDiv" id="confirmClose_Modal" style="float:right;">
+		                <span class="pop_bt" style="font-size: 13pt;" >
+		                   	  취소
+		                </span>
+		            </div>
+		      </div>
+		 
+		    </div>
+        	<!--End Modal-->
+        	
+        	
+		<!-- 체크박스 선택 X / Modal -->
+    <div id="open_nonCheckModal" class="modal">
+ 
+      <!-- Modal content -->
+      <div class="modal-content">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+                <p style="text-align: center; line-height: 1.5; color: red;"><br />항목을 선택해 주세요</p>
+                <p><br /></p>
+            <div class="close_Modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                   	  닫기
+                </span>
+            </div>
+      </div>
+ 
+    </div>
+        <!--End Modal-->
+        
+        
+        	<!-- 체크박스 선택 X / Modal -->
+    <div id="open_deleteSuccessModal" class="modal">
+ 
+      <!-- Modal content -->
+      <div class="modal-content">
+                <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상 품 삭 제</span></b></span></p>
+                <p style="text-align: center; line-height: 1.5; color: red;"><br />선택항목이 삭제되었습니다</p>
+                <p><br /></p>
+            <div class="close_Modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                   	  닫기
+                </span>
+            </div>
+      </div>
+ 
+    </div>
+        <!--End Modal-->
+        
+        
+		
 	</div><!-- search_wrap -->
 	
 </div><!-- 메인컨텐츠 끝 -->
 
 </body>
-
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 
+/* 모달 창 닫기 */
+
+
+
+$('#confirmClose_Modal').click(function(){
+	$('#open_confirmModal').hide();
+});
+
+$('.close_Modal').click(function(){
+	$('#open_nonCheckModal').hide();
+	$('#open_deleteSuccessModal').hide();
+});
+
+/* 상품 선택 삭제 */
 $('#productDeleteBtn').click(function(){
 	var count = $('.check:checked').length;
-	if(count==0)
-		alert('항목을 선택하세요');
-	else
-		$('#imageboardListForm').submit();
+	if(count==0){
+		$('#open_nonCheckModal').show();
+	}else{
+		$('#open_confirmModal').show();
+		$("#confirmOK_Modal").off().on('click', function(){
+			$('#checkDeleteForm').submit();
+		});
+	}
+
 });
 
 /* 체크박스 전체 선택/해제 */
@@ -236,10 +387,11 @@ $('#productRegistBtn').click(function(){
    window.open('/kokonutStationery/admin/productRegistForm.do','','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
 });
 
-/* 페이지 로딩 시 전체 상품목록 */
-$(document).ready(function(){
-	
 
+$(document).ready(function(){
+
+	
+ 	/* 페이지 로딩 시 전체 상품목록 */
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/admin/getProductList.do',
@@ -253,6 +405,7 @@ $(document).ready(function(){
 					).append($('<input/>',{
 						type : 'checkbox',
 						value : items.productCode,
+						name : 'check',
 						class : 'check'
 				}))).append($('<td/>',{
 					align : 'center',
@@ -262,8 +415,7 @@ $(document).ready(function(){
 					id : 'productA',
 					text : items.productName,
 					class : items.productCode
-				}).css('text-decoration', 'underLine').css('color','red')
-				)).append($('<td/>',{
+				}))).append($('<td/>',{
 					align : 'center',
 					text : items.originalPrice
 				})).append($('<td/>',{
@@ -326,6 +478,7 @@ $('#product_searchBtn').click(function(event,str){
 									).append($('<input/>',{
 										type : 'checkbox',
 										value : items.productCode,
+										name : 'check',
 										class : 'check'
 							}))).append($('<td/>',{
 								align : 'center',
@@ -335,8 +488,7 @@ $('#product_searchBtn').click(function(event,str){
 								id : 'productA',
 								text : items.productName,
 								class : items.productCode
-							}).css('text-decoration', 'underLine').css('color','red')
-							)).append($('<td/>',{
+							}))).append($('<td/>',{
 								align : 'center',
 								text : items.originalPrice
 							})).append($('<td/>',{

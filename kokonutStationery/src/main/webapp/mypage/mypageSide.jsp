@@ -56,10 +56,10 @@
           <th id="mem_info">개인정보</th>
         </tr>
         <tr>
-          <td><a>회원정보수정</a><br>
+          <td><a href="../user/checkUser.do">회원정보수정</a><br>
         </tr>
         <tr>
-          <td><a>회원탈퇴</a></td>
+          <td><a href="../user/memberOut.do">회원탈퇴</a></td>
         </tr>
       </table>
     </div>

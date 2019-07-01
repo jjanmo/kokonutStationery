@@ -101,55 +101,80 @@
 			<tr>
 				<th>상 품 명</th>
 				<td>
-					<input type="text" id="productName" class="inputText" name="productName" required>
+					<input type="text" id="productName" class="inputText" name="productName" >
 				</td>
 			</tr>
 			<tr>
 				<th>상 품 가 격</th>
 				<td>
-					<input type="text" id="originalPrice" name="originalPrice" required> KRW
+					<input type="text" id="originalPrice" name="originalPrice" > KRW
 				</td>
 			</tr>
 			<tr>
 				<th>원 산 지</th>
 				<td>
-					<input type="text" id="origin" class="inputText" name="origin" required>
+					<input type="text" id="origin" class="inputText" name="origin" >
 				</td>
 			</tr>
 			<tr>
 				<th>제 조 사</th>
 				<td>
-					<input type="text" id="manufacturer" class="inputText" name="manufacturer" required>
+					<input type="text" id="manufacturer" class="inputText" name="manufacturer" >
 				</td>
 			</tr>
 			<tr>
 				<th>입 고 수 량</th>
 				<td>
-					<input type="text" id="totalQty" class="inputText" name="totalQty" required> 개
+					<input type="text" id="totalQty" class="inputText" name="totalQty" value="0"> 개
+					&nbsp;&nbsp;
+					<span style="color: #aaaaaa; font-size: 12px; display:inline-block; vertical-align: middle;">
+						- 옵션을 추가하실 경우 옵션 수량의 합이 자동으로 입고수량으로 측정됩니다.<br>
+						- 미입력시 기본값 0이 입력됩니다.
+					</span>				
 				</td>
 			</tr>
 			<tr>
 				<th>카 테 고 리 선 택</th>
+				<td id="categories_td">
+					<input type="checkbox" name="stationery" value="1">문구
+					&nbsp; &nbsp;
+					<input type="checkbox" name="living" value="1">리빙
+					&nbsp; &nbsp;
+					<input type="checkbox" name="travel" value="1">여행
+					&nbsp; &nbsp;
+					<input type="checkbox" name="collabo" value="1">콜라보레이션
+				</td>
+			</tr>
+			<tr>
+				<th>프 로 모 션</th>
 				<td>
-					<select style="height: 22px;" id="categories" name="categories">
-							<option>-카테고리 선택-</option>
-							<option value="stationery">문구</option>
-							<option value="living">리빙</option>
-							<option value="travel">여행</option>
-							<option value="collabo">콜라보레이션</option>
-					</select>
+					<input type="checkbox" name="best" value="1">잘나가요
+					&nbsp; &nbsp;
+					<input type="checkbox" id="discount" name="discount" value="1">깜짝세일
+					&nbsp; &nbsp;
+					<div id="discountDiv" style="display: inline-block;">
+						<span style="border:1px solid #d9dadc; width: 154px; height: 35px; text-align: center; 
+						font-weight: 500; background-color: #f5f4f4; padding: 9px 9px 7px;">
+							할인가격 
+						</span>
+						&nbsp;
+						<input type="text" class="inputText" name="discountPrice" value="0"> KRW
+						<span style="color: #aaaaaa; font-size: 12px;">
+							- 미입력시 기본 상품가격으로 입력됩니다.
+						</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>썸 네 일  이 미 지</th>
 				<td>
-					<input type="file" id="thumbImg" name="thumbFile" required> 
+					<input type="file" id="thumbImg" name="thumbFile"> 
 				</td>
 			</tr>
 			<tr>
 				<th>상 품 상 세 설 명</th>
 				<td>
-					<input type="file" id="detailedImg" name="detailedFile" required> 
+					<input type="file" id="detailedImg" name="detailedFile"> 
 				</td>
 			</tr>
 			
@@ -176,6 +201,12 @@
 $('#registResetBtn').click(function(){
    window.close();
 });
+
+$('#discountDiv').hide();
+$('#discount').click(function(){
+	$('#discountDiv').toggle();
+});
+
 $('#add_optionBtn').hide();
 $('#check_option').click(function(){
 	$('#add_optionBtn').show();
@@ -206,18 +237,22 @@ $('#add_optionBtn').click(function(){
 });
 
 $('#registBtn').click(function(){
-	if($('#categories').val()=='-카테고리 선택-')
-		alert('카테고리를 선택해주세요!');
-	/* else if($('#productName').val()=='')
+	if($('#productName').val()=='')
 		alert('상품명을 입력해주세요');
 	else if($('#originalPrice').val()=='')
 		alert('상품가격을 입력해주세요');
 	else if($('#origin').val()=='')
 		alert('원산지를 입력해주세요');
+	else if($('#manufaturer').val()=='')
+		alert('제조사를 입력해주세요');
+	else if($('#totalQty').val()=='')
+		alert('입고수량을 입력해주세요');
+	else if($('#discountPrice').val()=='')
+		alert('할인가격을 입력해주세요')
 	else if($('#thumbImg').val()=='')
 		alert('썸네일 이미지를 삽입해주세요');
 	else if($('#detailedImg').val()=='')
-		alert('상품상세이미지를 삽입해주세요'); */
+		alert('상품상세이미지를 삽입해주세요');
 	else if($('#optionContent').val()=='')
 		alert("옵션 내용을 입력해주세요");
 	else if($('#subTotalQty').val()=='')
