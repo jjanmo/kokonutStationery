@@ -64,4 +64,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_USER where userName = #{search_name} and userEmail = #{search_email}
 	</select>
 
+	<!-- 회원정보수정 -->
+	<update id="modify" parameterType="java.util.Map">
+		update TBL_USER set USERPWD=#{userPwd}
+							 ,USERNAME=#{userName}
+							 ,USERBIRTHYEAR=#{userBirthYear}
+							 ,USERBIRTHMONTH=#{userBirthMonth}
+							 ,USERBIRTHDAY=#{userBirthDay}
+							 ,USERCAL=#{userCal}
+							 ,USEREMAIL=#{userEmail}
+							 ,USERPHONE1=#{userPhone1}
+							 ,USERPHONE2=#{userPhone2}
+							 ,USERPHONE3=#{userPhone3}
+							 ,USERMSG=#{userMsg}
+							where userId=#{userId}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="memberDelete" parameterType="java.util.Map">
+		delete from TBL_USER where userId=#{userId}
+	</delete>
 </mapper>

@@ -45,46 +45,33 @@ padding-left:10px;
 
 
 
-<table width=1000 height=100% cellpadding=0 cellspacing=0 border=0>
+<table width=1000px height=100% cellpadding=0 cellspacing=0 border=0>
 <tr>
-<!-- 좌측 메뉴 부분 (첫번째 td태그) -->
-<td valign=top width=160 nowrap>
- <div id="left_mypage" style="width:140px; position:relative; margin-top:140px; margin-left:20px;">
- </div>
-</td> <!-- 첫번째td 태그 끝 -->
-
 
 <!-- 우측 실행 화면 (두번째 td태그) -->
 <td valign=top width=100% height=100% bgcolor="ffffff">
 
-<form id=modifyForm method=post action="" >
+<form id=modifyForm method=post action="../user/modify.do" >
 
-<div class="indiv" style="margin: 135px 10px 0 80px;"> <!-- start indiv -->
+<div class="indiv" style="margin:0 10px 0 30px;"> <!-- start indiv -->
 
 <!-- 제목 부분 -->
-<div class="join_tit in_stt" style="font-size: 18px; font-weight: 700; color:#222222; height:26.4px; text-align: left; margin: 35px 0 13px 0;">
+<div class="join_tit in_stt" style="font-size: 18px; font-weight: 700; color:#222222; height:26.4px; text-align: left; margin:0 0 13px 0;">
   개인회원정보<div style="margin:12px 0 0 0;border-bottom: 2px solid #2ac1bc;float:right;font-size:12px;font-weight:700;color:#333;">필수입력사항</div>
 </div>
 
 <!-- 정보 입력 부분 -->
 <div class="hundred">
  <table width=100% cellpading=0 cellspacing=0 border=0>
-  <tr>
-   <td colspan="2" height="1" bgcolor="#e1e1e1" style="padding:0px;">
-   </td>
-  </tr>
-  <tr>
-   <td colspan="2" height="10" style="padding:0px;">
-   </td>
-  </tr>
-  
+
   <!-- 아이디 -->
   <tr>
    <td class="memberCols1" style="height:68px;">
     <font style="border-bottom: 2px solid #2ac1bc; font-size:12px;">아이디</font>
    </td>
    <td class="memberCols2">
-    <span style="font-size: 13px; font-weight:700;"></span> <!-- 아이디 출력 -->
+   <input type="hidden" id="userId" name="userId" value="${sessionScope.memId }">
+    <span style="font-size: 13px; font-weight:700;">${sessionScope.memId }</span> <!-- 아이디 출력 -->
    </td>
   </tr>
   
@@ -153,8 +140,9 @@ padding-left:10px;
        <label>현재 비밀번호</label>
       </td>
       <td style="border:0px; padding:20px 15px 5px 15px;">
-       <input type="password" name="userPwd" id="originalPwd" class="line" required
+       <input type="password" name="userPwd" id="originalPwd" class="line" onchange="changePwd()" required
        style="border:1px solid #DDD; width:200px; height:38px; padding-left:10px; font-size:13px; color:#333; border-radius:0;"/>
+       <input type="hidden" id="chkPwd" value="">
        <span style="font-size:11px; color:#999; padding-left:10px;">현재 비밀번호 입력</span>
       </td>
      </tr>
@@ -167,6 +155,10 @@ padding-left:10px;
        <input type="password" name="newPwd" id="newPwd" class="line" required
        style="border:1px solid #DDD; width:200px; height:38px; padding-left:10px; font-size:13px; color: #333; border-radius:0;"
        maxlength="20" />
+       
+       
+						  	
+       <!-- 
        <div class="passwordStrenth" id="pwdAlert0" style="display:none;">
         <dl>
          <dt>비밀번호 안전도</dt>
@@ -174,6 +166,7 @@ padding-left:10px;
         </dl>
         <p id="pwdAlert-sub" >비밀번호는 10자 이상 입력해주세요.</p>
        </div>
+       
        <div class="passwordStrenth" id="pwdAlert1" style="display:none;">
         <dl>
          <dt>비밀번호 안전도</dt>
@@ -181,6 +174,7 @@ padding-left:10px;
         </dl>
         <p id="pwdAlert-sub" >비밀번호는 영어, 숫자, 특수기호 중 <br>2가지 이상을 조합하여 10자리 이상 사용해주세요.</p>
        </div>
+       
        <div class="passwordStrenth" id="pwdAlert2" style="display:none;">
         <dl>
          <dt>비밀번호 안전도</dt>
@@ -188,15 +182,39 @@ padding-left:10px;
         </dl>
         <p id="pwdAlert-sub" >예상하기 쉬운 비밀번호입니다.</p>
        </div>
+       
        <div class="passwordStrenth" id="pwdAlert3" style="display:none;">
         <dl>
          <dt>비밀번호 안전도</dt>
          <dd id="pwdAlert-main" class="lv3">높음</dd> 
         </dl>
         <p id="pwdAlert-sub" >예측하기 힘든 비밀번호로 더욱 안전합니다.</p> 
-       </div>
+       </div> -->
        
        <span style="font-size:11px; color:#999; padding-left:10px;">새 비밀번호를 입력</span>
+       <div id="pwdChk" class="pwdWarn">
+		  	<!-- 비밀번호 안전단계 -->
+		  	<div id="pwdChkWarn" style="visibility:hidden;
+		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
+		  		<strong>비밀번호 안전도 <font style="color:red">사용불가</font></strong><br>
+		  		비밀번호는 10자리 이상 사용해주세요.
+		  	</div>
+		  	<div id="pwdChkWarn2" style="visibility:hidden;
+		  	width:300px; height:40px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
+		  		<strong>비밀번호 안전도 <font style="color:red">사용불가</font></strong><br>
+		  		비밀번호는 영어, 숫자, 특수기호 중 <br>2가지 이상을 조합하여 10자리 이상 사용해주세요.
+		  	</div>
+		  	<div id="pwdChkOk" style="visibility:hidden;
+		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
+		  		<strong>비밀번호 안전도 <font style="color:#2ac1bc">낮음</font></strong><br>
+		  		예상하기 쉬운 비밀번호 입니다.
+		  	</div>
+		  	<div id="pwdChkGood" style="visibility:hidden;
+		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
+		  		<strong>비밀번호 안전도 <font style="color:blue">높음</font></strong><br>
+		  		예측하기 힘든 비밀번호로 더욱 안전합니다.
+		  	</div>
+	  	</div>
       </td> 
      </tr>
      <tr style="border:0px; padding:5px 0 5px 0; font-size:12px; color:#333;">
@@ -223,7 +241,7 @@ padding-left:10px;
     <label style="border-bottom:2px solid #2ac1bc; font-size:12px;">이름</label>
    </td>
    <td class="memberCols2">
-    <input type="text" name="userName" value="" class="line" style="border:1px solid #DDD; width:200px; height:38px; padding-left:10px; 
+    <input type="text" name="userName" value="${sessionScope.memName }" class="line" style="border:1px solid #DDD; width:200px; height:38px; padding-left:10px; 
     font-size:13px; color:#333; border-radius:0;"  id="userName" required>
    </td>
   </tr> 
@@ -234,13 +252,13 @@ padding-left:10px;
     <font style="border-bottom:2px solid #2ac1bc; font-size:12px;">생년월일</font>
    </td>
    <td class="memberCols2" >
-    <input type="text" name="userBirthYear" value="" maxlength="4" class="line" 
+    <input type="text" name="userBirthYear" value="${userDTO.userBirthYear }" maxlength="4" class="line" 
     style="border:1px solid #DDD; width:60px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 5px 0 0; 
     border-radius:0;" id="userBirthYear" required>년
-    <input type="text" name="userBirthMonth" value="" maxlength="2" class="line"
+    <input type="text" name="userBirthMonth" value="${userDTO.userBirthMonth }" maxlength="2" class="line"
     style="border:1px solid #DDD; width:40px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 5px 0 10px; 
     border-radius:0;" id="userBirthMonth" required>월
-    <input type="text" name="userBirthDay" value="" maxlength="2" class="line"
+    <input type="text" name="userBirthDay" value="${userDTO.userBirthDay }" maxlength="2" class="line"
     style="border:1px solid #DDD; width:40px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 5px 0 10px; 
     border-radius:0;" id="userBirthDay" required>일
     
@@ -281,7 +299,7 @@ padding-left:10px;
     <label style="border-bottom:2px solid #2ac1bc; font-size:12px;">이메일</label>
    </td>
    <td class="memberCols2" style="padding-bottom:10px; ">
-    <input type="text" name=userEmail" value="" id="userEmail" class="line"
+    <input type="text" name="userEmail" value="${sessionScope.memEmail }" id="userEmail" class="line"
     style="border:1px solid #DDD; width:200px; height:38px; padding-left:10px; font-size:13px; color:#333; position:relative; 
     border-radius:0; margin:5px 0 8px 0;" required>
     <a href="javascript:void(0)" onclick="" style="text-decoration:none;">
@@ -289,7 +307,7 @@ padding-left:10px;
       padding:1px 0; color:#a4a4a4; line-height:40px; font-weight:700; font-size:12px;" align="absmiddle">메일 중복확인</span>
     </a>
     <div class="noline" style="margin:0 0 7px 0; position:relative;">
-     <input type="checkbox" name="userMsg" id="userMsg" style="margin-top:0; margin-bottom:0; height:13px; vertical-align:middle;">
+     <input type="checkbox" name="mailling" id="mailling" style="margin-top:0; margin-bottom:0; height:13px; vertical-align:middle;">
      <span class="join_blue01" style="color:#333; ">
       <label style="font-weight:700; font-size:11px; ">정보,이벤트메일수신</label>
       <font color="#bbb" style="font-size:11px;">주문 관련 정보,주요 공지사항 및 이벤트 당첨 안내 등은 수신 동의 여부에 관계없이 자동 발송됩니다.</font>
@@ -305,18 +323,18 @@ padding-left:10px;
     <font style="border-bottom:2px solid #2ac1bc; font-size:12px;">휴대폰</font>
    </td>
    <td class="membercols2" style="padding-bottom:15px; padding-left:10px; height:74px;">
-    <input type="text" name="userPhone1" value="" size="4" maxlength="3" id="userPhone1"
+    <input type="text" name="userPhone1" value="${userDTO.userPhone1 }" size="4" maxlength="3" id="userPhone1"
     class="line" style="border:1px solid #DDD; width:50px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 0 8px 0;
     border-radius:0;" required>-
-     <input type="text" name="userPhone2" value="" size="4" maxlength="4" id="userPhone2"
+     <input type="text" name="userPhone2" value="${userDTO.userPhone2 }" size="4" maxlength="4" id="userPhone2"
     class="line" style="border:1px solid #DDD; width:50px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 0 8px 0;
     border-radius:0;" required>-
-     <input type="text" name="userPhone3" value="" size="4" maxlength="4" id="userPhone3"
+     <input type="text" name="userPhone3" value="${userDTO.userPhone3 }" size="4" maxlength="4" id="userPhone3"
     class="line" style="border:1px solid #DDD; width:50px; height:38px; text-align:center; font-size:13px; color:#333; margin:0 0 8px 0;
     border-radius:0;" required>
     <br>
     <div class="noline" style="margin:0 0 1px 0; position:relative; height:16px;">
-     <input type="checkbox" name="userMsg" id="userMsg" style="margin-top:0; margin-bottom:0; height:13px; vertical-align:middle;">
+     <input type="checkbox" name="sms" id="sms" style="margin-top:0; margin-bottom:0; height:13px; vertical-align:middle;">
      <span class="join_blue01" style="color:#333;">
       <label style="font-weight:700; font-size:11px;">정보,이벤트SMS수신</label>
       <font color="#bbb" style="font-size:11px;">주문 관련 정보 등 주요 안내 사항은 수신 동의 여부에 관계없이 자동 발송됩니다</font>
@@ -331,7 +349,7 @@ padding-left:10px;
    	 남기는 말씀
    </td>
    <td class="memberCols2">
-    <textarea name="memo" class="line" style="border:1px solid #ddd; padding:10px; width:610px; height:60px;
+    <textarea name="userMsg" class="line" style="border:1px solid #ddd; padding:10px; width:610px; height:60px;
     font-size:13px; color:#333; border-radius:0; line-height:1.5; resize:none;">
     </textarea>
    </td>
@@ -405,10 +423,10 @@ $(document).ready(function(){
 		
 		if(currentVal.length == 0){
 
-			$('#pwdAlert0').css('display','none');
-			$('#pwdAlert1').css('display','none');	
-			$('#pwdAlert2').css('display','none');
-			$('#pwdAlert3').css('display','none');
+			$('#pwdChkWarn').css('visibility','hidden');
+			$('#pwdChkWarn2').css('visibility','hidden');	
+			$('#pwdChkOk').css('visibility','hidden');
+			$('#pwdChkGood').css('visibility','hidden');
 		}
 		
 	    if(currentVal == oldVal) {
@@ -419,20 +437,35 @@ $(document).ready(function(){
 	    
 	    if(currentVal.length<10){
 	    	//10자리미만일 때 
-	    	$('#pwdAlert0').css('display','block');	 	
+	    	$('#pwdChkWarn').css('visibility','visible');	
+	    	$('#pwdChk').addClass('pwdWarn');
+	    	$('#pwdChk').removeClass('pwdOk');
+	    	
+	    	
 		}else if(currentVal.length>=10){
 			//10자리이상일 때	
 			if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{10,20}$/.test(currentVal) ){
 				//영어대소문자 숫자 특수기호로 10자리 이상으로 만들었을 때 
-				$('#pwdAlert3').css('display','block');		
+				$('#pwdChkGood').css('visibility','visible');
+				$('#pwdChk').addClass('pwdOk');
+				$('#pwdChk').removeClass('pwdWarn');
+				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
 				//영어대소문자  특수기호로 10자리 이상으로 만들었을 때 
-				$('#pwdAlert2').css('display','block');
+				$('#pwdChkOk').css('visibility','visible');
+				$('#pwdChk').addClass('pwdOk');
+				$('#pwdChk').removeClass('pwdWarn');
+				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,20}$/.test(currentVal) ){
 				//영어대소문자 숫자 10자리 이상으로 만들었을 때 
-				$('#pwdAlert2').css('display','block');		
+				$('#pwdChkOk').css('visibility','visible');
+				$('#pwdChk').addClass('pwdOk');
+				$('#pwdChk').removeClass('pwdWarn');
+				
 			}else{
-				$('#pwdAlert1').css('display','block');
+				$('#pwdChkWarn2').css('visibility','visible');
+				$('#pwdChk').addClass('pwdWarn');
+				$('#pwdChk').removeClass('pwdOk');
 			}
 		}
 	    
@@ -440,10 +473,10 @@ $(document).ready(function(){
 	
 	$('#newPwd').on('focusout', function() {
 		
-		$('#pwdAlert0').css('display','none');
-		$('#pwdAlert1').css('display','none');	
-		$('#pwdAlert2').css('display','none');
-		$('#pwdAlert3').css('display','none');
+		$('#pwdChkWarn').css('visibility','hidden');
+		$('#pwdChkWarn2').css('visibility','hidden');	
+		$('#pwdChkOk').css('visibility','hidden');
+		$('#pwdChkGood').css('visibility','hidden');
 	 });
 	
 });
@@ -467,19 +500,50 @@ $('#checkEmailBtn').click(function(){
 	}); 
 });
 
+function changePwd(){
+	var userId=$('#userId').val();
+	var originalPwd=$('#originalPwd').val();			
+	
+	$.ajax({
+		type:'post',
+		url:'../user/checkPwd.do',
+		data:{'userId':userId,
+			'userPwd':originalPwd},
+		success:function(data){
+			
+			if(data=='exist'){
+				$('#chkPwd').val($('#originalPwd').val());	
+			}
+			
+		}				
+	});
+}
+
 //유효성검사
 $('#modifyBtn').click(function(){
+	
 	var userName = $('#userName').val();
 	var userBirthYear = $('#userBirthYear').val();
 	var userBirthMonth = $('#userBirthMonth').val();
 	var userBirthDay = $('#userBirthDay').val();
+	
+	//나이계산 변수
+	var nowDate = new Date();
+	var youDate = new Date(parseInt(userBirthYear),parseInt(userBirthMonth),parseInt(userBirthDay));
+	var dif = nowDate - youDate;
+    var cDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+    var cMonth = cDay * 30;// 월 만듬
+    var cYear = cMonth * 12; // 년 만듬
+	
 	var userEmail =$('#userEmail').val();
 	var userPhone1 = $('#userPhone1').val();
 	var userPhone2 = $('#userPhone2').val();
 	var userPhone3 = $('#userPhone3').val();
 	var newPwd = $('#newPwd').val();
+	var pwdChkClass = $('#pwdChk').attr('class');
 	
-	if(!/^(?=.*[가-하]).{2,20}$/.test(userName)){
+	
+	if(!/^(?=.*[가-힣]).{2,20}$/.test(userName)){
 		alert('올바른 이름 형식이 아닙니다.');
 		$('#userName').focus();
 		return false;
@@ -487,7 +551,7 @@ $('#modifyBtn').click(function(){
 		alert('올바른 생일 년 형식이 아닙니다.');
 		$('#userBirthYear').focus();
 		return false;
-	}else if(!/^(?=.*[0-9]).{2,3}$/.test(userBirthMonth)){
+	}else if(!/^(?=.*[0-9]).{1,3}$/.test(userBirthMonth)){
 		alert('올바른 생일 월 형식이 아닙니다.');
 		$('#userBirthMonth').focus();
 		return false;
@@ -495,6 +559,12 @@ $('#modifyBtn').click(function(){
 		alert('올바른 생일 일 형식이 아닙니다.');
 		$('#userBirthDay').focus();
 		return false;
+	}else if(parseInt(dif/cYear)<14){
+		//14세 이상만 가입가능
+		alert("[오류] 14세 이상만 가입가능");
+		$('#userBirthYear').focus();
+		return false;
+		
 	}else if(!/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i.test(userEmail)){
 		alert('올바른 이메일 형식이 아닙니다.');
 		$('#userEmail').focus();
@@ -527,13 +597,15 @@ $('#modifyBtn').click(function(){
 		}else if(newPwd.length <10){
 			alert('새 비밀번호는 10자리 이상 작성해주세요.');
 			return false;
-		}else if(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{10,20}$/.test(newPwd) ||
-				/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-]).{10,20}$/.test(newPwd) ||
-				/^(?=.*[a-zA-Z])(?=.*[0-9]).{10,20}$/.test(newPwd))	{
-			alert('완료');	
+		}else if(pwdChkClass!='pwdOk')	{
+			alert("[새 비밀번호] 입력형식오류");
+			return false;
+		}else if($('#originalPwd').val()!=$('#chkPwd').val()){
+			alert('현재 비밀번호를 정확하게 입력하여 주세요.');						
+			return false;
 		}
 	}else
-		alert('완료');
+		$('#modifyForm').submit();
 		
 });  
 

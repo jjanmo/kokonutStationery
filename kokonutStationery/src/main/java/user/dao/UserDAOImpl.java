@@ -60,4 +60,15 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	@Override
+	public void modify(Map<String,String> map) {
+		sqlSession.update("userSQL.modify",map);
+	}
+
+	@Override
+	public void memberDelete(Map<String, String> map) {
+		sqlSession.delete("userSQL.memberDelete",map);
+	}
+	
+	
 }

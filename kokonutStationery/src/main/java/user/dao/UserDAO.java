@@ -21,5 +21,10 @@ public interface UserDAO {
 
 	public UserDTO idSearch(Map<String, String> map);
 
+	public void modify(Map<String,String> map);
+
+	public void memberDelete(Map<String, String> map);
+
+	
 
 }
