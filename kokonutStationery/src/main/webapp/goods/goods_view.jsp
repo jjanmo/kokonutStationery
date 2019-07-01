@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,28 +181,24 @@
 				<div class="userPage_div">
 					<p>문의</p>
 				</div>
+				
+				<c:forEach var="list" items="${list}">
 				<div>
 					<div class="userPage_area" id="qna_01">
 						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>일등석
-							스티커 <img src="../image/private_lock.gif">
+							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
+							${list.qnaboardSubject } 
+							<c:if test="${list.secret==1}">
+								<img src="../image/private_lock.gif">
+							</c:if>
 						</div>
 						<div class="userPage_name">ㄱㅈㅇ</div>
-						<div class="userPage_date">2017-08-30</div>
+						<div class="userPage_date">${list.regDate }</div>
 					</div>
 					<br>
 					<div class="userPage_content userPage_private_lock"
-						id="qna_01_content">비밀글입니다.</div>
-					<div class="userPage_area" id="qna_02">
-						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
-							문의 답변드립니다. <img src="../image/private_lock.gif">
-						</div>
-						<div class="userPage_name">admin</div>
-						<div class="userPage_date">2017-08-30</div>
+						id="qna_01_content">비밀글입니다.
 					</div>
-					<div class="userPage_content userPage_private_lock"
-						id="qna_02_content">비밀글입니다.</div>
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
 						<a href="/kokonutStationery/goods/goods_qna.do">
@@ -211,7 +209,45 @@
 					<div class="userPage_paging_num">
 						<b>1</b>
 					</div>
+					<!-- 
+					<div class="userPage_area" id="qna_01">
+						<div class="userPage_subject">
+							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>일등석
+							스티커 <img src="../image/private_lock.gif">
+						</div>
+						<div class="userPage_name">ㄱㅈㅇ</div>
+						<div class="userPage_date">2017-08-30</div>
+					</div>
+					<br>
+					<div class="userPage_content userPage_private_lock"
+						id="qna_01_content">비밀글입니다.
+					</div>
+					
+					<div class="userPage_area" id="qna_02">
+						<div class="userPage_subject">
+							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
+							문의 답변드립니다. <img src="../image/private_lock.gif">
+						</div>
+						<div class="userPage_name">admin</div>
+						<div class="userPage_date">2017-08-30</div>
+					</div>
+					<div class="userPage_content userPage_private_lock"
+						id="qna_02_content">비밀글입니다.
+					</div>
+					<div class="userPage_paging"></div>
+					<div class="userPage_buttons">
+						<a href="/kokonutStationery/goods/goods_qna.do">
+							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
+						</a>
+						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
+					</div>
+					<div class="userPage_paging_num">
+						<b>1</b>
+					</div> -->
+					
 				</div>
+				</c:forEach>
+				
 			</div>
 		</div>
 	</div>

@@ -17,8 +17,8 @@
 	<context:component-scan base-package="goods.dao"/>
 	<context:component-scan base-package="cart.bean"/>
 	<context:component-scan base-package="cart.dao"/>
-	<context:component-scan base-package="qna.bean"/>
-	<context:component-scan base-package="qna.dao"/>
+	<context:component-scan base-package="qnaboard.bean"/>
+	<context:component-scan base-package="qnaboard.dao"/>
 	
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.dao"/>
