@@ -9,12 +9,28 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 
 @Transactional
 @Repository
 public class ProductManagerDAOImpl implements ProductManagerDAO{
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Override
+	public int productCodeIncrease() {
+		return sqlSession.selectOne("productSQL.productCodeIncrease");
+	}
+
+	@Override
+	public void productOptionRegist(ProductOptionDTO productOptionDTO) {
+		sqlSession.insert("productSQL.productOptionRegist", productOptionDTO);
+	}
+
+	@Override
+	public int productRegist(GoodsDTO goodsDTO) {
+		return sqlSession.insert("productSQL.productRegist", goodsDTO);
+	}
 	
 	@Override
 	public List<GoodsDTO> productList(Map<String, String> map) {
@@ -44,9 +60,5 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	@Override
 	public void productDelete(Map<String, String[]> map) {
 		sqlSession.delete("productSQL.productDelete", map);
-	}
-
-
-	
-	
+	}		
 }
