@@ -1,5 +1,6 @@
 package productmanager.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import admin.dao.AdminDAO;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductPaging;
 import productmanager.dao.ProductManagerDAO;
@@ -111,12 +111,13 @@ public class ProductManagerController {
 		return "/admin/product/productModifyForm";
 	}
 	
+	//상품 삭제
 	@RequestMapping(value="/admin/productDelete.do",method= RequestMethod.POST)
-	public String productDelete(@RequestParam String[] check, Model model) {
+	public String productDelete(@RequestParam String[] check) {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
 		productManagerDAO.productDelete(map);
-		return "/admin/product/productDeleteSuccess";
+		return "redirect:/admin/productList.do";
 	}
 	
 	
