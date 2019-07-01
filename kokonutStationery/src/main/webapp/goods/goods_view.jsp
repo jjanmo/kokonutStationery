@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 <!DOCTYPE html>
 <html>
@@ -262,6 +262,17 @@ var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
 
+$(document).ready(function(){
+	var memId = ${sessionScope.memId};
+	
+	//문의 작성 페이지 띄우기
+	$('#qna_regist_btn').click(function(){
+		
+		alert(memId);
+		window.open("/kokonutStationery/goods/goods_qna_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
+		
+	});
+});
 
 $(function() {
 	//세일상품과 세일아닌상품 가격표시
@@ -382,6 +393,7 @@ $('#down').click(function() {
 $('#cartBtn').click(function(){
 	location.href = "/kokonutStationery/goods/goods_cart.do";
 });
+
 
 </script>
 </html>

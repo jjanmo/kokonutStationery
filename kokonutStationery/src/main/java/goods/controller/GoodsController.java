@@ -200,8 +200,14 @@ public class GoodsController {
 	
 	//상품qna등록페이지
 	@GetMapping("/goods_qna_register.do")
-	public String goodsQnaRegister() {
-		return "goods_qna_register";
+	public ModelAndView goodsQnaRegister(@RequestParam String productCode) {
+		//상품한개받아오기
+		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
+				
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("goodsDTO", goodsDTO);
+		mav.setViewName("/goods/goods_qna_register");
+		return mav;
 	}
 	
 }

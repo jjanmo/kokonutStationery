@@ -12,7 +12,7 @@
 <script src="../js/goods_review_register.js?alert"></script>
 </head>
 <body>
-<form id="goods_review_registerForm">
+<form id="goods_review_registerForm" method="post" action="">
 <div class="main">
 	<!-- 헤더부분 + close창 -->
 	<div class="goods_review_register_header">상품후기작성
@@ -24,11 +24,11 @@
 	<div class="goods_review_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 500px; margin: 0 auto 20px auto;">
-				<img src="http://store.baemin.com/shop/data/goods/1479885082318m0.jpg" 
+				<img src="${goodsDTO.thumbImg }" 
 					 class="goods_review_register_img" name="thumbImg">
 				<div class="goods_review_register_goodsName">
-					<b name="productName">스티커. 취급주의 외 7종</b><br>
-					<span name="discountPrice">1,500원</span>
+					<b name="productName">${goodsDTO.productName }</b><br>
+					<span name="discountPrice">${goodsDTO.discountPrice }</span>
 				</div>
 			</div>
 		</div>

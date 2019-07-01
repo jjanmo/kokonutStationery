@@ -22,11 +22,11 @@
 	<div class="goods_qna_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="http://store.baemin.com/shop/data/goods/1479885082318m0.jpg" 
+				<img src="${goodsDTO.thumbImg }" 
 					 class="goods_qna_register_img" name="thumbImg">
 				<div class="goods_qna_register_goodsName">
-					<b name="productName">스티커. 취급주의 외 7종</b><br>
-					<span name="discountPrice">1,500원</span>
+					<b name="productName">${goodsDTO.productName }</b><br>
+					<span name="discountPrice">${goodsDTO.discountPrice }</span>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 				<tr>
 					<td class="goods_qna_register_category" >작성자</td>
 					<td>
-						<input type="text" name="userName" required
+						<input type="text" name="userName" value="${sessionScope.memName}" required
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px;">
 					</td>
 				</tr>
