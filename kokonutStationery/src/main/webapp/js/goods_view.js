@@ -59,7 +59,7 @@ $(document).ready(function(){
 	});
 	//후기 작성 페이지 띄우기
 	$('#review_regist_btn').click(function(){
-		window.open("/baeminproject/goods/goods_review_register", "_blank", "width=605, height=600");
+		window.open("/kokonutStationery/goods/goods_review_register.do", "_blank", "width=605, height=600");
 	});
 	//후기 내에 답변버튼 페이지
 	$('.review_reply_btn').click(function(){
@@ -67,7 +67,7 @@ $(document).ready(function(){
 	});
 	//문의 작성 페이지 띄우기
 	$('#qna_regist_btn').click(function(){
-		window.open("/baeminproject/goods/goods_qna_register", "_blank", "left=320, width=890, height=750");
+		window.open("/kokonutStationery/goods/goods_qna_register.do", "_blank", "left=320, width=890, height=750");
 	});
 	
 

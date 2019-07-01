@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userSQL">
+	
+	<!-- 회원관리 전체 리스트 -->
+	<select id="userList" parameterType="java.util.Map" resultType="user" >
+		select * from  
+					(select rownum rn, tt.* from 
+				    	(select userName,userId,userPhone1,userPhone2,
+				    	userPhone3, userEmail, joinDate  
+				      	from TBL_USER)tt 
+				 ) where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 회원관리 검색 리스트 -->
+	<select id="userSearch" parameterType="java.util.Map" resultType="user" >
+		select * from  
+					(select rownum rn, tt.* from 
+				    	(select userName,userId,userPhone1,userPhone2,
+				    	userPhone3, userEmail, joinDate  
+				      	from TBL_USER 
+				       	where   		
+				   		<choose>
+				   			<when test="userId!='' and userName=='' and userPhone1==''">
+				   				userId like '%'||#{userId}||'%' 
+				   			</when>
+				   			<when test="userId!='' and userName!='' and userPhone1==''">
+				   				userId like '%'||#{userId}||'%' and userName like '%'||#{userName}||'%'
+				   			</when>	
+				   			<when test="userId!='' and userName=='' and userPhone1!=''">
+				   				userId like '%'||#{userId}||'%' and userPhone1=#{userPhone1} 
+				   				and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+				   			</when>
+				   			<when test="userId!='' and userName!='' and userPhone1!=''">
+				   				userId like '%'||#{userId}||'%' and userName like '%'||#{userName}||'%' 
+				   				and userPhone1=#{userPhone1} and userPhone2=#{userPhone2} 
+				   				and userPhone3=#{userPhone3}
+				   			</when>	
+				   			<when test="userId=='' and userName!='' and userPhone1!=''">
+				   				 userName like '%'||#{userName}||'%' and userPhone1=#{userPhone1} 
+				   				 and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+				   			</when>	
+				   			<when test="userId=='' and userName!='' and userPhone1==''">
+				   				userName like '%'||#{userName}||'%'
+				   			</when>	
+				   			<when test="userId=='' and userName=='' and userPhone1!=''">
+				   				userPhone1=#{userPhone1} and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+				   			</when>	
+				   			
+
+				   		</choose>
+				   		
+						)tt 
+				 ) where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 회원관리 총 글 수 가져오기 -->
+	<select id="getTotalA" resultType="int">
+		select count(*) from TBL_user
+	</select>
+	
+	<!-- 회원관리 검색 총 글 수 가져오기 -->
+ 	<select id="getTotalAS" resultType="int" parameterType="java.util.Map">
+		 select count(*) from TBL_USER 
+			where 
+			<choose>
+	   			<when test="userId!='' and userName=='' and userPhone1==''">
+	   				userId like '%'||#{userId}||'%' 
+	   			</when>
+	   			<when test="userId!='' and userName!='' and userPhone1==''">
+	   				userId like '%'||#{userId}||'%' and userName like '%'||#{userName}||'%'
+	   			</when>	
+	   			<when test="userId!='' and userName=='' and userPhone1!=''">
+	   				userId like '%'||#{userId}||'%' and userPhone1=#{userPhone1} 
+	   				and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+	   			</when>
+	   			<when test="userId!='' and userName!='' and userPhone1!=''">
+	   				userId like '%'||#{userId}||'%' and userName like '%'||#{userName}||'%' 
+	   				and userPhone1=#{userPhone1} and userPhone2=#{userPhone2} 
+	   				and userPhone3=#{userPhone3}
+	   			</when>	
+	   			<when test="userId=='' and userName!='' and userPhone1!=''">
+	   				 userName like '%'||#{userName}||'%' and userPhone1=#{userPhone1} 
+	   				 and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+	   			</when>	
+	   			<when test="userId=='' and userName!='' and userPhone1==''">
+	   				userName like '%'||#{userName}||'%'
+	   			</when>	
+	   			<when test="userId=='' and userName=='' and userPhone1!=''">
+	   				userPhone1=#{userPhone1} and userPhone2=#{userPhone2} and userPhone3=#{userPhone3}
+	   			</when>
+			</choose>
+	</select>
+	
+	<!-- userModifyView : 회원 정보 내용 가져오기 -->
+	<select id="userModifyView" parameterType="String" resultType="user">
+		select * from TBL_user where userId=#{userId}
+	</select>
+	
+	
+</mapper>
