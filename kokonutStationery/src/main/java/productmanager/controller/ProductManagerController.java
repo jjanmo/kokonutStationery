@@ -1,6 +1,5 @@
 package productmanager.controller;
 
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import admin.dao.AdminDAO;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductPaging;
 import goods.bean.ProductOptionDTO;
@@ -189,7 +187,7 @@ public class ProductManagerController {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
 		productManagerDAO.productDelete(map);
-		return "/admin/product/productDeleteSuccess";
+		return "redirect:/admin/productList.do";
 	}
 	
 	

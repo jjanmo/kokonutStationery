@@ -1,10 +1,15 @@
 Manifest-Version: 1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
 Built-By: user
 Build-Jdk: 1.8.0_181
 =======
 Built-By: Jun
 Build-Jdk: 1.8.0_211
 >>>>>>> refs/heads/jun
+=======
+Built-By: yeoul
+Build-Jdk: 1.8.0_201
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 Created-By: Maven Integration for Eclipse
 
