@@ -111,7 +111,7 @@ a{color:#1E1E1E; text-decoration:none;}
 			<c:if test="${memId != null}">
 			<li id="logoutBtn"><a href="/kokonutStationery/user/logout.do" class="utilMenuText">로그아웃</a></li>
 			</c:if>
-			<li><a href="/kokonutStationery/goods/goods_cart.do" class="utilMenuText">장바구니</a></li>
+			<li><a href="/kokonutStationery/cart/goods_cart.do" class="utilMenuText">장바구니</a></li>
 			
 			<c:if test="${memId == null}">
 			<li><a href="/kokonutStationery/user/loginForm.do" class="utilMenuText">마이페이지</a></li>
