@@ -17,13 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
 import goods.dao.GoodsDAO;
+import qnaboard.bean.QnaboardDTO;
+import qnaboard.dao.QnaboardDAO;
 
 @Controller
 @RequestMapping("/goods/*")
 public class GoodsController {
 	@Autowired
 	private GoodsDAO goodsDAO;
-		
+	@Autowired
+	private QnaboardDAO qnaDAO;
+	
 	//카테고리 문구류 페이지
 	@GetMapping("/category_stationery.do")
 	public ModelAndView stationery(@RequestParam(required=false, defaultValue="productCode") String sort) {	
@@ -142,8 +146,12 @@ public class GoodsController {
 		//상품한개받아오기
 		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
 		
+		//상품문의리스트가져오기
+		List<QnaboardDTO> list = qnaDAO.getQnaList(Integer.parseInt(productCode));
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("goodsDTO", goodsDTO);
+		mav.addObject("list", list);
 		mav.addObject("display", "/goods/goods_view.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
