@@ -46,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 										, 1)
 		</insert>
 	<!-- 상품등록 끝 -->
+	<!-- 페이지 로딩시 전체 상품 목록 -->
 	<select id="productList" parameterType="java.util.Map" resultType="goods">
 		select * from 
 		(select rownum rn, tt.* from
@@ -53,8 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where rn between #{startNum} and #{endNum}
 	</select>
 	
-	<select id="productSearch" parameterType="java.util.Map" resultType="goods">
 	
+	<!-- 상품검색 시 상품 목록 -->
+	<select id="productSearch" parameterType="java.util.Map" resultType="goods">
 		select * from 
 		(select rownum rn, tt.* from
 		(select * from TBL_PRODUCT where
@@ -100,18 +102,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		order by productCode desc) tt)
 		where rn between #{startNum} and #{endNum}
-		
-
 	</select>
 	
 	
-	
+	<!-- 전체목록 글 수 -->
 	<select id="getTotalA" resultType="int">
 		select count(*) from TBL_PRODUCT
 	</select>
 	
 	
-	
+	<!-- 검색목록 글 수 -->
 	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="int">
 		select count(*) from TBL_PRODUCT where
 		<if test="!kategorie.equals('-카테고리 선택-')">
@@ -155,9 +155,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 	</select>
 	
+	
+	<!-- 상품수정폼 선택 값 불러오기 -->
 	<select id="getModifyForm" parameterType="String" resultType="goods">
 		select * from TBL_PRODUCT where productCode=#{productCode}
 	</select>
+	
+	
+	<!-- 상품삭제 -->
+	<delete id="productDelete" parameterType="java.util.Map">
+		delete TBL_PRODUCT where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</delete>
 </mapper>
 
 
