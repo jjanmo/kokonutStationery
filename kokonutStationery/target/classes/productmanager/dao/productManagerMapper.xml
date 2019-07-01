@@ -23,11 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			insert into TBL_PRODUCT(productCode, productName, originalPrice, discountPrice
 								, origin, manufacturer, thumbImg, detailedImg, totalQty
 								, stockQty, saleStatus, regDate, updateDate, productOption
-								, stationery, living, travel, collabo, best, newP) 
+								, stationery, living, travel, collabo, discount, best, newP) 
 								values(productCode_seq.currval
 										, #{productName}
 										, #{originalPrice}
-										, #{originalPrice}
+										, #{discountPrice}
 										, #{origin}
 										, #{manufacturer}
 										, #{thumbImg}
@@ -42,7 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 										, #{living}
 										, #{travel}
 										, #{collabo}
-										, 0
+										, #{discount}
+										, #{best}
 										, 1)
 		</insert>
 	<!-- 상품등록 끝 -->

@@ -71,17 +71,10 @@ public class ProductManagerController {
 		//파일이름부여
 		goodsDTO.setThumbImg(thumbImgName);
 		goodsDTO.setDetailedImg(detailedImgName);
-		 
 		
-		//카테고리 포함 설정
-		if(goodsDTO.getCategories().equals("stationery")) {
-			goodsDTO.setStationery(1);
-		}else if(goodsDTO.getCategories().equals("living")) {
-			goodsDTO.setLiving(1);
-		}else if(goodsDTO.getCategories().equals("travel")) {
-			goodsDTO.setTravel(1);
-		}else if(goodsDTO.getCategories().equals("collabo")) {
-			goodsDTO.setCollabo(1);
+		//깜짝세일이 아닐때 originPrice==discountPrice
+		if(goodsDTO.getDiscount()!=1||goodsDTO.getDiscountPrice()==0) {
+			goodsDTO.setDiscountPrice(goodsDTO.getOriginalPrice());
 		}
 		
 		//옵션이 있음일때
