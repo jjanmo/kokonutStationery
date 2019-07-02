@@ -29,7 +29,16 @@ public interface ProductManagerDAO {
 
 	public GoodsDTO getModifyForm(String productCode);
 
+	public List<GoodsDTO> getProductList(Map<String, String[]> map);
+	
+	public void updateTotalProductOnSale(Map<String, Integer> qtyMap);
+
 	public void productDelete(Map<String, String[]> map);
+
+	public void productOptionDelete(Map<String, String[]> map);
+
+
+
 
 	
 

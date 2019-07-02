@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</update>
 	<!-- 상품등록 끝 -->
 	
-	<!-- 페이지 로딩시 전체 상품 목록 -->
+	<!-- 페이지 로딩시 10개의 상품 목록 -->
 	<select id="productList" parameterType="java.util.Map" resultType="goods">
 		select * from 
 		(select rownum rn, tt.* from
@@ -173,10 +173,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_PRODUCT where productCode=#{productCode}
 	</select>
 	
+	<!-- 선택 삭제 시 필요한 상품의 정보 -->
+	<select id="getProductlist" parameterType="java.util.Map" resultType="goods">
+		select * from TBL_PRODUCT where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</select>
+	
+	<update id="updateTotalProductOnSale" parameterType="java.util.Map">
+		update TBL_TOTALPRODUCTONSALE set stationery=(stationery-${stationery}),
+                                 		  living=(living-${living}),
+										  travel=(travel-${travel}),
+										  collabo=(collabo-${collabo}),
+									 	  discount=(discount-${discount}),
+									   	  best=(best-${best}),
+										  newP=(newP-${newP})
+	</update>
+	
 	
 	<!-- 상품삭제 -->
 	<delete id="productDelete" parameterType="java.util.Map">
 		delete TBL_PRODUCT where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</delete>
+	
+	<!-- 상품삭제 시 옵션코드 삭제 -->
+	<delete id="productOptionDelete">
+		delete TBL_PRODUCTOPTION where productCode in 
 		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
 	</delete>
 </mapper>
