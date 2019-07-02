@@ -22,8 +22,6 @@ $(document).ready(function(){
 	//후기 문의 게시물 클릭시 글 내용 출력
 	$('#review_01_content').hide();
 	$('#review_02_content').hide();
-	$('#qna_01_content').hide();
-	$('#qna_02_content').hide();
 	
 	$('#review_01').on('click', function(){
 		$('#review_02_content').hide();
@@ -34,16 +32,6 @@ $(document).ready(function(){
 		$('#review_01_content').hide();
 		
 		$('#review_02_content').toggle();
-	});
-	$('#qna_01').on('click', function(){
-		$('#qna_02_content').hide();
-		
-		$('#qna_01_content').toggle();
-	});
-	$('#qna_02').on('click', function(){
-		$('#qna_01_content').hide();
-		
-		$('#qna_02_content').toggle();
 	});
 	
 	

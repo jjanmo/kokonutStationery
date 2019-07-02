@@ -65,7 +65,7 @@
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">비밀글</td>
-					<td><input type="checkbox" name="scret" > 비밀글</td>
+					<td><input type="checkbox" name="secret" value="1"> 비밀글</td>
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">제목</td>
