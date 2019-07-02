@@ -152,7 +152,12 @@ $(document).ready(function(){
 	//카테고리 상품수 세션에 넣기
 	$.ajax({
 		type: 'GET',
-		url: '/kokonutStationery/goods/get_count.do'
+		url: '/kokonutStationery/goods/get_count.do',
+		dataType: 'json',
+		success: function(data) {
+			alert(JSON.stringify(data));
+			alert('category product cnt values');
+		}
 	});	
 	
 	//최초 한번 새로고침

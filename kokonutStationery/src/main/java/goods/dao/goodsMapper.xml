@@ -28,24 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from tbl_product where newP=1 order by productcode desc
 	</select>
 	
-	<!-- 문구 상품수 -->
-	<select id="get_count_stationery" resultType="String">
-		select count(*) from tbl_product where stationery=1
-	</select>
-	
-	<!-- 리빙 상품수 -->
-	<select id="get_count_living" resultType="String">
-		select count(*) from tbl_product where living=1
-	</select>
-	
-	<!-- 여행 상품수 -->
-	<select id="get_count_travel" resultType="String">
-		select count(*) from tbl_product where travel=1
-	</select>
-	
-	<!-- 콜라보 제품수 -->
-	<select id="get_count_collabo" resultType="String">
-		select count(*) from tbl_product where collabo=1
+	<!-- 상품수 -->
+	<select id="get_count_stationery" resultType="onSale">
+		select count(*) from tbl_totalproductonsale
 	</select>
 	
 	<!-- 상품상세페이지정보 가져오기 -->
