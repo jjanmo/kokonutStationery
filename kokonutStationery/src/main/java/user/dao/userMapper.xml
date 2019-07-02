@@ -63,6 +63,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="idSearch" parameterType="java.util.Map" resultType="user">
 		select * from TBL_USER where userName = #{search_name} and userEmail = #{search_email}
 	</select>
+	
+	<!-- 마이페이지 회원정보 조회 -->
+	<select id="getUserInfo" parameterType="String" resultType="user">
+		select * from TBL_USER where userId = #{userId}
+	</select>
 
 	<!-- 회원정보수정 -->
 	<update id="modify" parameterType="java.util.Map">
