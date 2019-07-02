@@ -25,6 +25,7 @@ public interface UserDAO {
 
 	public void memberDelete(Map<String, String> map);
 
-	
+	public UserDTO getUserInfo(String userId);
+
 
 }

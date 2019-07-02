@@ -61,7 +61,7 @@ a:hover {
 .mem_box {
   padding: 25px 0 25px;
   font-size: 13px;
-  color: #888;
+  /* color: #888; */
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -76,7 +76,7 @@ a:hover {
 }
 
 .mem_menu {
-  color: #888;
+  /* color: #888; */
   font-size: 13px;
   line-height: 30px;
 }

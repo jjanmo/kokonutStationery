@@ -70,5 +70,9 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.delete("userSQL.memberDelete",map);
 	}
 	
-	
+	@Override
+	public UserDTO getUserInfo(String userId) {
+		return sqlSession.selectOne("userSQL.getUserInfo", userId);
+	}
+
 }
