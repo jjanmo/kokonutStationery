@@ -146,12 +146,9 @@ public class GoodsController {
 		//상품한개받아오기
 		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
 		
-		//상품문의리스트가져오기
-		List<QnaboardDTO> list = qnaDAO.getQnaList(Integer.parseInt(productCode));
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("goodsDTO", goodsDTO);
-		mav.addObject("list", list);
 		mav.addObject("display", "/goods/goods_view.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;

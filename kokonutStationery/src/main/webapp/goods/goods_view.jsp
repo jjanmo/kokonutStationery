@@ -187,9 +187,8 @@
 					<p>문의</p>
 				</div>
 				
-				<div>
-				<c:forEach var="list" items="${list}">
-				
+				<div id="qnaList">
+					<%-- 
 					<div class="userPage_area" id="qna_01">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
@@ -211,7 +210,7 @@
 						<div class="userPage_content userPage_private_lock"
 							id="qna_01_content">${list.qnaboardSubject}
 						</div>
-					</c:if>
+					</c:if> --%>
 					
 					<!-- 
 					<div class="userPage_area" id="qna_01">
@@ -239,7 +238,6 @@
 						id="qna_02_content">비밀글입니다.
 					</div>
 					-->
-					</c:forEach>
 					
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
@@ -266,6 +264,11 @@ var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
+
+//문의 작성 페이지 띄우기
+$('#qna_regist_btn').click(function(){
+	window.open("/kokonutStationery/qna/goods_qna_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
+});
 
 $(function() {
 	//세일상품과 세일아닌상품 가격표시
@@ -432,4 +435,48 @@ $('#cartBtn').click(function(){
 
 
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$.ajax({
+		typd:'post',
+		url:'../qna/goods_qna.do',
+		data:{'productCode':productCode},
+		dataType:'json',
+		success:function(data){
+			if(data!=null){
+				$('#qnaList').append($('<div/>',{
+					class: 'userPage_area',
+					id : 'qna_01',
+					}).append($('<div/>',{
+						class:'userPage_subject'
+						}).append($('<span/>',{
+							style:'color: #2AC1BC; font-weight: 700;',
+							text:data.list.qnaboardSubject
+						}))));
+				//비밀글일때 이미지 추가
+				if(data.list.secret==1){
+					$('#userPage_subject').append($('<img>',{
+						src:'../image/private_lock.gif'
+					}));
+				}
+				
+				$('#qna_01').append($('<div/>',{
+					class:'userPage_name',
+					text:data.list.userId
+					
+				}));
+				
+				$('#qna_01').append($('<div/>',{
+					class:'userPage_date',
+					text:data.list.regDate
+					
+				}));
+			}//if문
+		}//success
+	});
+	
+});
+</script>
+
 </html>

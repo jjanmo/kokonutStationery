@@ -63,9 +63,6 @@ $(document).ready(function(){
 		window.open("/kokonutStationery/review/goods_review_register.do", "_blank", "width=605, height=600");
 	});
 	
-	//문의 작성 페이지 띄우기
-	$('#qna_regist_btn').click(function(){
-		window.open("/kokonutStationery/qna/goods_qna_register.do", "_blank", "left=320, width=890, height=750");
-	});
+	
 
 });

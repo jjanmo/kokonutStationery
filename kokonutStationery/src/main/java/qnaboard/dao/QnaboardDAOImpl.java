@@ -20,4 +20,9 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 		return sqlSession.selectList("qnaSQL.getQnaList",productCode);
 	}
 
+	@Override
+	public void qnaboardWrite(QnaboardDTO qnaboardDTO) {
+		sqlSession.insert("qnaSQL.qnaboardWrite",qnaboardDTO);
+	}
+
 }
