@@ -17,13 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
 import goods.dao.GoodsDAO;
+import qnaboard.bean.QnaboardDTO;
+import qnaboard.dao.QnaboardDAO;
 
 @Controller
 @RequestMapping("/goods/*")
 public class GoodsController {
 	@Autowired
 	private GoodsDAO goodsDAO;
-		
+	@Autowired
+	private QnaboardDAO qnaDAO;
+	
 	//카테고리 문구류 페이지
 	@GetMapping("/category_stationery.do")
 	public ModelAndView stationery(@RequestParam(required=false, defaultValue="productCode") String sort) {	
@@ -142,8 +146,12 @@ public class GoodsController {
 		//상품한개받아오기
 		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
 		
+		//상품문의리스트가져오기
+		List<QnaboardDTO> list = qnaDAO.getQnaList(Integer.parseInt(productCode));
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("goodsDTO", goodsDTO);
+		mav.addObject("list", list);
 		mav.addObject("display", "/goods/goods_view.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -162,38 +170,7 @@ public class GoodsController {
 		return mav;
 	}
 	
-	//상품리뷰목록 페이지
-	@GetMapping("/goods_review.do")
-	public ModelAndView getGoodsReviewList() {
-		//리스트 정보를 가져오는 코드 필요 : from DB
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/goods/goods_review.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
-	
-	//상품qna목록페이지
-	@GetMapping("/goods_qna.do")
-	public ModelAndView getGoodsQnaList() {
-		//리스트 정보를 가져오는 코드 필요 : from DB
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/goods/goods_qna.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
 
-	//상품리뷰등록페이지
-	@GetMapping("/goods_review_register.do")
-	public String goodsReviewRegister() {
-		return "goods_review_register";
-	}
-	
-	//상품qna등록페이지
-	@GetMapping("/goods_qna_register.do")
-	public String goodsQnaRegister() {
-		return "goods_qna_register";
-	}
+
 	
 }

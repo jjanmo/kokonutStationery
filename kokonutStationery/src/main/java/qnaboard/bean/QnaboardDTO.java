@@ -1,4 +1,4 @@
-package qna.bean;
+package qnaboard.bean;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class QnaDTO {
+public class QnaboardDTO {
 	private String userId;
 	private String userEmail;
 	private String userPhone;

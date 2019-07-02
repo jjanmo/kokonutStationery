@@ -49,6 +49,7 @@ public class ProductManagerController {
 		int seq = productManagerDAO.productCodeIncrease();		
 		System.out.println(seq);
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
+
 		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
 		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
 		
