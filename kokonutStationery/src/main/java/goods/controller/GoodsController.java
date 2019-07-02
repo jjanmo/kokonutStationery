@@ -129,18 +129,6 @@ public class GoodsController {
 	}
 	
 	//카테고리 상품수 받아오기
-//	@GetMapping("/get_count.do")
-//	public void get_count(HttpSession session) {
-//		if(session.getAttribute("stationery")==null) {
-//			Map<String, String> count = goodsDAO.get_count();
-//			session.setAttribute("stationery", count.get("stationery"));
-//			session.setAttribute("living", count.get("living"));
-//			session.setAttribute("travel", count.get("travel"));
-//			session.setAttribute("collabo", count.get("collabo"));
-//		}
-//	}
-	
-	//카테고리 상품수 받아오기
 	@GetMapping("/get_count.do")
 	public ModelAndView get_count() {
 		List<TotalProductOnSaleDTO> count = goodsDAO.get_count();

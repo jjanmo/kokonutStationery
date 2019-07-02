@@ -149,19 +149,29 @@ $(document).ready(function(){
 		$('.subLayer').css('display','none');
 	});
 
-	//카테고리 상품수 세션에 넣기
+/* 	//카테고리 상품수 세션에 넣기
+	$.ajax({
+		type: 'GET',
+		url: '/kokonutStationery/goods/get_count.do',
+	});
+	
+	//최초 한번 새로고침
+	if (location.href.indexOf('#reload') == -1) location.href; */
+	
+	//카테고리 상품수
 	$.ajax({
 		type: 'GET',
 		url: '/kokonutStationery/goods/get_count.do',
 		dataType: 'json',
 		success: function(data) {
-			alert(JSON.stringify(data));
-			alert('category product cnt values');
+ 			$.each(data.count, function(index, items) {
+ 				$('#stationery_cnt').text(items.stationery);
+ 				$('#living_cnt').text(items.living);
+ 				$('#travel_cnt').text(items.travel);
+ 				$('#collabo_cnt').text(items.collabo);
+			});
 		}
 	});	
-	
-	//최초 한번 새로고침
-	if (location.href.indexOf('#reload') == -1) location.href;
 	
 });
 </script>

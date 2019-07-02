@@ -15,19 +15,19 @@
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
 				<span class="category_name">문구</span>&ensp;
-				<span>${stationery}</span>
+				<span id="stationery_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
 				<span class="category_name">리빙</span>&ensp;
-				<span>${living}</span>
+				<span id="living_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
 				<span class="category_name selected">여행</span>&ensp;
-				<span>${travel}</span>
+				<span id="travel_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
 				<span class="category_name">콜라보레이션</span>&ensp;
-				<span>${collabo}</span>
+				<span id="collabo_cnt"></span>
 			</a>
 		</div>
 		<div id="sort_area">
