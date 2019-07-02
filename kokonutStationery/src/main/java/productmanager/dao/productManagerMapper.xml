@@ -46,7 +46,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 										, #{best}
 										, 1)
 		</insert>
+		<!-- 전체상품갯수파악용 테이블에 추가 -->
+		<update id="totalProductOnSale" parameterType="goods">
+			update TBL_TOTALPRODUCTONSALE set stationery = stationery + #{stationery}
+											, living = living + #{living}
+											, travel = travel + #{travel}
+											, collabo = collabo + #{collabo}
+                           					, discount = discount + #{discount}
+                           					, best = best + #{best}
+                           					, newp = newp + #{newP}
+		</update>
 	<!-- 상품등록 끝 -->
+	
 	<!-- 페이지 로딩시 전체 상품 목록 -->
 	<select id="productList" parameterType="java.util.Map" resultType="goods">
 		select * from 
