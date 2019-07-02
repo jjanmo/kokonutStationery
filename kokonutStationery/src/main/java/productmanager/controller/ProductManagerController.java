@@ -50,8 +50,8 @@ public class ProductManagerController {
 		System.out.println(seq);
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
 
-		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
-		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+		String thumbImgPath = "C:\\Users\\SEENEW\\Desktop\\최종프로젝트\\source\\배민문방구\\thumb"; 
+		String detailedImgPath = "C:\\Users\\SEENEW\\Desktop\\최종프로젝트\\source\\배민문방구\\detail";
 		
 		//파일 이름 지정
 		String thumbImgName = seq+".jpg";

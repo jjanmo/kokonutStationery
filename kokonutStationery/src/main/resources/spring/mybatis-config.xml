@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="admin.bean.AdminDTO" alias="admin" />
 		<typeAlias type="qnaboard.bean.QnaboardDTO" alias="qnaboard" />
 		<typeAlias type="reviewboard.bean.ReviewboardDTO" alias="reviewboard" />
+		<typeAlias type="noticeboard.bean.NoticeboardDTO" alias="notice" />
 	</typeAliases>
 
 </configuration>

@@ -51,6 +51,7 @@
 	<context:component-scan base-package="cart.controller"/>
 	<context:component-scan base-package="qnaboard.controller"/>
 	<context:component-scan base-package="reviewboard.controller"/>
+	<context:component-scan base-package="noticeboard.controller"/>
 	
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.controller" />
