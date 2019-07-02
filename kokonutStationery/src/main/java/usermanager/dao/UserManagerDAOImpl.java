@@ -39,5 +39,16 @@ public class UserManagerDAOImpl implements UserManagerDAO {
 		return sqlSession.selectOne("userSQL.userModifyView", userId);
 	}
 
+	@Override
+	public void userModify(Map<String, Object> map) {
+		sqlSession.update("userSQL.userModify", map); 
+	}
+
+	@Override
+	public void userDelete(Map<String, String[]> map) {
+		sqlSession.delete("userSQL.userDelete", map);
+		
+	}
+
 	
 }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,21 +48,29 @@
 						<div class="item_contents" name="manufacturer">${goodsDTO.manufacturer}</div>
 					</div>
 
-					<div id="optionDiv" style="margin-top: 3px;">
+					<div id="optionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">종류</div>
-						<select class="item_contents_select" name="option">
+						<select id="optionBox" class="item_contents_select" name="option">
 							<option>옵션을 선택하세요</option>
 						</select>
 					</div>
-
+					
+					<!-- 옵션 div 추가-->
+					<div class="option_wrap"></div>
+					
+					<!-- 총 합계금액 div -->
+					<div id="option_totalPriceDiv">
+					총 금액&ensp;:&ensp;<span style="font-size: 22px; color: #333; font-weight: 600;">2500원</span>
+					</div>
+					
 					<!-- 수량 선택 div -->
-					<div id="noOptionDiv" style="margin-top: 3px;">
+					<div id="noOptionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">구매수량</div>
 						<div class="item_contents">
 							<div style="float: left;">
 								<input type="text" name="productQty" id="productQty" step="1"
 									min="1" max="0" size="2" value="1"
-									style="border: 1px solid #DDD; width: 52px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
+									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
 							</div>
 
 							<div style="float: left; padding-left: 3px;">
@@ -160,7 +170,7 @@
 					</div>
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/kokonutStationery/goods/goods_review.do">
+						<a href="/kokonutStationery/review/goods_review.do">
 							<li id="review_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 							<li id="review_regist_btn" class="userPage_main_button">작성</li>
@@ -176,7 +186,34 @@
 				<div class="userPage_div">
 					<p>문의</p>
 				</div>
+				
 				<div>
+				<c:forEach var="list" items="${list}">
+				
+					<div class="userPage_area" id="qna_01">
+						<div class="userPage_subject">
+							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
+							${list.qnaboardSubject } 
+							<c:if test="${list.secret==1}">
+								<img src="../image/private_lock.gif">
+							</c:if>
+						</div>
+						<div class="userPage_name">${list.userId }</div>
+						<div class="userPage_date">${list.regDate }</div>
+					</div>
+					<br>
+					<c:if test="${list.secret==1}">
+						<div class="userPage_content userPage_private_lock"
+							id="qna_01_content">비밀글입니다.
+						</div>
+					</c:if>
+					<c:if test="${list.secret==0}">
+						<div class="userPage_content userPage_private_lock"
+							id="qna_01_content">${list.qnaboardSubject}
+						</div>
+					</c:if>
+					
+					<!-- 
 					<div class="userPage_area" id="qna_01">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>일등석
@@ -187,7 +224,9 @@
 					</div>
 					<br>
 					<div class="userPage_content userPage_private_lock"
-						id="qna_01_content">비밀글입니다.</div>
+						id="qna_01_content">비밀글입니다.
+					</div>
+					
 					<div class="userPage_area" id="qna_02">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
@@ -197,18 +236,25 @@
 						<div class="userPage_date">2017-08-30</div>
 					</div>
 					<div class="userPage_content userPage_private_lock"
-						id="qna_02_content">비밀글입니다.</div>
+						id="qna_02_content">비밀글입니다.
+					</div>
+					-->
+					</c:forEach>
+					
 					<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/kokonutStationery/goods/goods_qna.do">
+						<a href="/kokonutStationery/qna/goods_qna.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
 					</div>
 					<div class="userPage_paging_num">
 						<b>1</b>
-					</div>
+					</div> 
+				
 				</div>
+				
+				
 			</div>
 		</div>
 	</div>
@@ -221,58 +267,158 @@ var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
 
-
 $(function() {
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
 		$('#originalPrice').css('display','none');
 	}
-	
 
 	//옵션이 없을때
 	if (option == 0) {
-		$('#optionDiv').css('display', 'none');
+		$('#noOptionDiv').css('display', 'block');
 	}
 
 	//옵션이 있을때
 	else { //option == 1
-		$('#noOptionDiv').css('display', 'none');
+		$('#optionDiv').css('display', 'block');
 
 		//옵션 출력
 		$.ajax({
 			type : 'get',
 			url : '/kokonutStationery/goods/getOption.do',
-			data : {
-				'productCode' : productCode
-			},
+			data : {'productCode' : productCode},
 			dataType : 'json',
 			success : function(data) {
 				$.each(data.list, function(index, item) {
-					$('select')
-							.append(
-									$('<option>' + item.optionContent + '</option>'));
+					$('select').append($('<option>' + item.optionContent + '</option>'));
 				});
 			}
 		});
-	
+		
 	}//else
 });
 
+var selArray =  new Array();
+var notOption = $('#optionBox option:eq(0)').val();
+var sel = $('#optionBox option:selected').val();
+
+$('#optionBox').change(function(){
+	var length = $('#optionBox option').length - 1 ; //option의 개수
+	var sel = $('#optionBox option:selected').val();
+	
+	if(sel == notOption){ //"옵션을 선택하세요" 를 선택
+		return;
+	} 
+	
+	else {//'제대로된' 옵션을 선택한 경우
+		if(selArray.length == length ){//옵션을 모두 한번씩 다 선택한 경우
+		   alert(1);
+		   alert("이미 추가된 옵션입니다.");
+		}
+		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
+		    selArray.push(sel);
+		    createDiv(sel);
+		    return;
+		}
+		var cnt = 0;
+	    for(i=0;i<selArray.length; i++){
+	      if(selArray[i] == sel){
+	    	alert(2);
+            alert("이미 추가된 옵션입니다.");
+            break;
+          }
+	      cnt++;
+	    }
+		if(cnt == selArray.length){
+	        selArray.push(sel);
+	        createDiv(sel);
+	    }
+	} //else
+}); //function
+
+function createDiv(sel){
+	alert("click");
+	$('.option_wrap').append($('<div/>',{
+	  id : 'option_selectedDiv'
+	}));
+	
+	$('#option_selectedDiv').append($('<div/>',{
+	  text : sel,
+	  id : 'option_contentDiv'
+	}));
+	$('#option_selectedDiv').append($('<div/>',{
+	  id : 'inputDiv'
+	}).css('float','left'));
+	
+	$('#inputDiv').append($('<input>',{
+	  type : 'text',
+	  name : 'productQty',
+	  id : 'option_productQty',
+	  step : '1',
+	  min : '1',
+	  max : '0',
+	  size :'2',
+	  value : '1'}));
+	
+	$('#option_selectedDiv').append($('<div/>',{
+	  id : 'updownDiv',
+	  style : "float: left; padding-left: 3px;"
+	}).append($('<div/>',{
+	  style : "padding: 10px 0 3px 0;"
+	}).append($('<img>',{
+	  id : 'up',
+	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png',
+	  style : "cursor: pointer; width: 14px; margin: 3px 2px;"
+	}))));
+	
+	$('#updownDiv').append($('<div>').append($('<img>',{
+	  id :'down',
+	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png',
+	  style : 'cursor: pointer; width: 14px; margin: 3px 2px;'
+	})));
+	
+	$('#option_selectedDiv').append($('<div/>',{
+	  style : 'float: left; margin: 22px 0 22px 25px;'
+	}).append($('<span/>',{
+	  style: 'font-size: 13px; color: #444; font-weight: 500;',
+	  text : discountPrice
+	})));
+	
+	$('#option_selectedDiv').append($('<img>',{
+	  id : 'close',
+	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_del.png',
+	  style : 'cursor: pointer; float: right; margin: 25px 20px 25px 15px; width: 15px; height: 14px;'
+	}));
+}
+
+//option div 지우기
+$(document).on('click','#close', function(){
+	var text = $('#option_selectedDiv').children().first().text();
+	alert("aa");
+	$('#option_selectedDiv').remove();
+	//배열안에서 그에 맞는 옵션을 지워줘야함
+	selArray.splice(selArray.indexOf(text),1);
+
+});
+
+
 //숫자가 아닌경우  유효성검사 필요
-$('#productQty').focusout(function() {
+$(document).on('focusout','#productQty',function() {
 	var input = $('#productQty').val();
 	if (isNaN(input)) {
 		alert("구매수량은 숫자만 가능합니다");
 	}
 	$('#productQty').val("1");
 });
+
 //수량 변경 : 증가
-$('#up').click(function() {
+$(document).on('click','#up', function() {
 	productQty++;
 	$('#productQty').val(productQty);
 });
+
 //수량 변경 : 감소   
-$('#down').click(function() {
+$(document).on('click','#down', function() {
 	if (productQty > 1) {
 		productQty--;
 		$('#productQty').val(productQty);
@@ -281,7 +427,7 @@ $('#down').click(function() {
 
 //장바구니페이지
 $('#cartBtn').click(function(){
-	location.href = "/kokonutStationery/goods/goods_cart.do";
+	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
 
 </script>

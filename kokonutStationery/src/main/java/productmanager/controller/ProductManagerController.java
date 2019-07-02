@@ -1,5 +1,8 @@
 package productmanager.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,15 +12,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import admin.dao.AdminDAO;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductPaging;
+import goods.bean.ProductOptionDTO;
 import productmanager.dao.ProductManagerDAO;
 
 
@@ -28,12 +34,78 @@ public class ProductManagerController {
 	
 	@Autowired
 	private ProductPaging productPaging;
-	
+	//상품등록폼
 	@RequestMapping(value="/admin/productRegistForm.do",method=RequestMethod.GET)
 	public String productRegist() {
 		return "/admin/product/productRegistForm";
 	}
+	
+	@RequestMapping(value="/admin/productRegist.do", method=RequestMethod.POST)
+	public String productRegist(@ModelAttribute GoodsDTO goodsDTO
+			, @RequestParam MultipartFile thumbFile, @RequestParam MultipartFile detailedFile) {
+		
+		System.out.println("상품등록프로세스실행");		
+		//상품코드 1증가
+		int seq = productManagerDAO.productCodeIncrease();		
+		System.out.println(seq);
+		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
 
+		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
+		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+		
+		//파일 이름 지정
+		String thumbImgName = seq+".jpg";
+		String detailedImgName = seq+"d.jpg";
+		
+		//파일 생성 
+		File thumbImgFile = new	File(thumbImgPath, thumbImgName); 
+		File detailedImgFile = new File(detailedImgPath, detailedImgName);
+		 
+		try { 
+			FileCopyUtils.copy(thumbFile.getInputStream(), new FileOutputStream(thumbImgFile));
+			FileCopyUtils.copy(detailedFile.getInputStream(), new FileOutputStream(detailedImgFile));
+		} catch (IOException e)	{ 
+			// TODO Auto-generated catch block e.printStackTrace(); }
+		}
+		//파일이름부여
+		goodsDTO.setThumbImg(thumbImgName);
+		goodsDTO.setDetailedImg(detailedImgName);
+		
+		//깜짝세일이 아닐때 originPrice==discountPrice
+		if(goodsDTO.getDiscount()!=1||goodsDTO.getDiscountPrice()==0) {
+			goodsDTO.setDiscountPrice(goodsDTO.getOriginalPrice());
+		}
+		
+		//옵션이 있음일때
+		if(goodsDTO.getProductOption()==1) {
+			int totalQty = 0; // 옵션 갯수 총합용
+			
+			//옵션 설정
+			for(int i=0; i<goodsDTO.getOptionContent().length; i++) {
+				ProductOptionDTO productOptionDTO = new ProductOptionDTO();
+				productOptionDTO.setOptionContent(goodsDTO.getOptionContent()[i]);
+				productOptionDTO.setSubTotalQty(goodsDTO.getSubTotalQty()[i]);
+				System.out.println(productOptionDTO.getOptionContent()+"///"+productOptionDTO.getSubTotalQty());
+			
+				//옵션 DB
+				productManagerDAO.productOptionRegist(productOptionDTO);
+				
+				totalQty += goodsDTO.getSubTotalQty()[i];
+				
+			}
+			System.out.println(totalQty);
+			goodsDTO.setTotalQty(totalQty);
+		}
+		//상품등록 본체 db
+		int su = productManagerDAO.productRegist(goodsDTO);
+		
+		if(su==1) 			
+			return "/admin/product/productRegistOk";
+		else
+			return "/admin//product/productRegistFail";
+	}
+	
+	//상품관리 리스트 페이지
 	@RequestMapping(value="/admin/productList.do",method= RequestMethod.GET)
 	public String productList(@RequestParam(required=false, defaultValue="1") String pg,
 									Model model) {
@@ -42,7 +114,7 @@ public class ProductManagerController {
 		return "/admin/index";
 	}
 	
-	
+	//상품관리 - 리스트불러오기
 	@RequestMapping(value="/admin/getProductList.do",method= RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView getProductList(@RequestParam(required=false, defaultValue="1") String pg,
@@ -75,7 +147,7 @@ public class ProductManagerController {
 		return mav;
 	}
 	
-	
+	//상품관리 - 검색
 	@RequestMapping(value="/admin/productSearch.do",method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView productSearch(@RequestParam(required=false) Map<String, String> map) {
@@ -116,7 +188,7 @@ public class ProductManagerController {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
 		productManagerDAO.productDelete(map);
-		return "/admin/product/productDeleteSuccess";
+		return "redirect:/admin/productList.do";
 	}
 	
 	

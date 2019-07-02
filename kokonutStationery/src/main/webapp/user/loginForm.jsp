@@ -5,7 +5,9 @@
     
 <div class="indiv" style="padding-top: 100px; margin:90px 150px 50px 150px;">
 <!-- Start indiv -->
-
+	<div class="loginMsg_bg">
+		<img src="../image/loginMsg.jpg" alt="로그인 이미지" />
+	</div>
 	<div class="login_bg">
 		<form method="post" id="userLoginForm" name="userLoginForm" >
 			<div class="form_box">

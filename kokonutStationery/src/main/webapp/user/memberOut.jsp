@@ -2,22 +2,16 @@
     pageEncoding="UTF-8"%>
 
 <table width=1000 height=100% cellpadding=0 cellspacing=0 border=0>
- <tr>
-  <!-- 좌측 메뉴 부분 (첫번째 td태그) -->
-  <td valign=top width=160 nowrap>
-   <div id="left_mypage" style="width:140px; position:relative; margin-top:140px; margin-left:20px;">
-   </div>
-  </td> <!-- 첫번째td 태그 끝 -->
 
   <!-- 우측 실행 화면 (두번째 td태그) -->
   <td valign=top width=100% height=100% class=outline_side>
-   <div class="indiv" style="margin:135px 10px 0 80px;"> <!-- start indiv -->
+   <div class="indiv" style="margin:0 10px 0 30px;"> <!-- start indiv -->
     <div class="mem_tit" style="font-size:22px; font-weight:700; text-align:left; color:#222;">
     	회원탈퇴
     </div>
     
-    <form method="post" action="" id="form">
-     <input type="hidden" name="act" value="Y">
+    <form method="post" action="../user/memberDelete.do" name="memberOutForm" id="memberOutForm">
+     <input type="hidden" id="userId" name="userId" value="${sessionScope.memId}">
      <!-- 탈퇴안내 -->
      <div style="margin:30px 0 0 0">
       <h5 class="join_tit in_stt" style="font-size:16px; font-weight:700; border-bottom:0px solid #dfdfdf; text-align:left;
@@ -46,8 +40,10 @@
       <label for="userPwd">비밀번호가 어떻게 되세요?</label>
      </div>
      <div>
-      <input type="password" name="userPwd" id="userPwd" class="line" style="border:1px solid #DDD; width:200px; height:38px;
+      <input type="password" name="userPwd" id="userPwd" class="line" onchange="changePwd()"
+      style="border:1px solid #DDD; width:200px; height:38px;
       padding-left:10px; font-size:13px; color:#333; border-radius:0;">
+      <input type="hidden" id="chkPwd" value="">
      </div>
      
      <!-- 무엇이 불편하셨나요? (불만사항 체크) -->
@@ -123,6 +119,24 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+function changePwd(){
+	var userId=$('#userId').val();
+	var userPwd=$('#userPwd').val();			
+	
+	$.ajax({
+		type:'post',
+		url:'../user/checkPwd.do',
+		data:{'userId':userId,
+			'userPwd':userPwd},
+		success:function(data){
+			if(data=='exist'){
+				$('#chkPwd').val($('#userPwd').val());	
+			}
+			
+		}				
+	});
+}
+
 $('#memberOutBtn').click(function(){
 	
 	if($('#userPwd').val()=='')
@@ -132,6 +146,15 @@ $('#memberOutBtn').click(function(){
 	else 
 		var result = confirm("회원 탈퇴를 하시면 회원님의 모든 테이터(개인정보 등)가 삭제 되어집니다. \n 그래도 회원을 탈퇴하시겠습니까?");
 		if(!result){return false;}
+		
+	
+	if($('#userPwd').val()!=$('#chkPwd').val()){
+		alert("비밀번호가 일치하지 않습니다.");
+		return false;
+	}else {
+		alert("회원탈퇴");
+		$('#memberOutForm').submit();
+	}
 });
 </script>
 

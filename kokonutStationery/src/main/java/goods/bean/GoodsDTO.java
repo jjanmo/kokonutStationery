@@ -28,6 +28,8 @@ public class GoodsDTO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date updateDate;
 	private int productOption;
+	private String[] optionContent;	//옵션 내용
+	private int[] subTotalQty;		//옵션 갯수
 	private int stationery;
 	private int living;
 	private int travel;

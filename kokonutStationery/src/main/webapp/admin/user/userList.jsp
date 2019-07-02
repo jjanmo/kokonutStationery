@@ -36,6 +36,24 @@
 	font-weight: 500;
 }
 
+#userDeleteBtn{
+	width: 100px;
+	height: 35px;
+    padding: 0 20px;
+    font-size: 14px;
+	font-weight: normal;
+    cursor: pointer;
+	color: #1b87d4;
+    border: 1px solid #1b87d4;
+    background-color: #fff;
+   	float: left;
+}
+
+#userDeleteBtn:hover{
+   background-color:#1b87d4;
+   color:#ffffff;
+}
+
 .user_btn_group{
 	min-width: 140px;
     padding: 0 30px;
@@ -80,6 +98,8 @@
 
 #check_userSearchDiv{position:relative; left:216px;}
 
+#userId:hover{color:#1b87d4; text-decoration:underline;}
+
 #paging{
 	color: black;
 	text-decoration: none;
@@ -90,9 +110,66 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   left: 0;
+   top: 0;
+   width: 100%; /* Full width */
+   height: 100%; /* Full height */
+   overflow: auto; /* Enable scroll if needed */
+   background-color: rgb(0,0,0); /* Fallback color */
+   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    
+   /* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */                          
+}
+
+.modalDiv{
+   width:130px;
+   cursor:pointer;
+   background-color:#DDDDDD;
+   text-align: center;
+   padding-bottom: 10px;
+   padding-top: 10px;
+}
 </style>
 </head>
 <body>
+<!-- modal window div 부분 -->
+ <!-- The Modal -->
+ <div id="open_confirmModal" class="modal">
+
+   <!-- Modal content -->
+   <div class="modal-content">
+             <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상 품 삭 제</span></b></span></p>
+             <p style="text-align: center; line-height: 1.5;"><br />정말 삭제하시겠습니까?</p>
+             <p><br /></p>
+
+         <div class="modalDiv" id="confirmOK_Modal" style="display: inline-block;">
+             <span class="pop_bt" style="font-size: 13pt; " >
+             	확인
+             </span>
+
+         </div>
+         <div class="modalDiv" id="close_Modal" style="float:right;">
+             <span class="pop_bt" style="font-size: 13pt;" >
+				취소
+             </span>
+         </div>
+   </div>
+
+ </div>
+ <!--End Modal-->
+ 
 <!-- 메인컨텐츠 시작 -->
 <div id="mainContent_wrap">
 	<div id="user_search_wrap" style="width: 1000px; margin: 0 auto;">
@@ -134,23 +211,28 @@
 					<input type="button" id="user_searchBtn" class="user_btn_group" value="검 색">
 					<input type="reset" id="user_resetBtn" class="user_btn_group" value="초기화">
 				</div>
+				<div style="float: left;">
+           			<input type="button" id="userDeleteBtn" value="선 택 삭 제">
+         		</div>
 			</div>
 		</form>
 		
 		<div id="userSeach_list" align="left" style="margin-top: 50px;">
-			<table id="userSearchTable" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
-				<tr>
-					<th style="width: 44px;">
-						<input type="checkbox">
-					</th>
-					<th style="width: 150px;">이&emsp;&nbsp;름</th>
-					<th style="width: 150px;">아 이 디</th>
-					<th style="width: 280px;">휴 대 전 화</th>
-					<th style="width: 360px;">이 메 일</th>
-					<th style="width: 200px;">가 입 일</th>
-
-				</tr>
-			</table>
+			<form id="userListForm" action="/kokonutStationery/admin/userDelete.do" method="post">
+				<table id="userSearchTable" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
+					<tr>
+						<th style="width: 44px;">
+							<input type="checkbox" id='check_all'>
+						</th>
+						<th style="width: 150px;">이&emsp;&nbsp;름</th>
+						<th style="width: 150px;">아 이 디</th>
+						<th style="width: 280px;">휴 대 전 화</th>
+						<th style="width: 360px;">이 메 일</th>
+						<th style="width: 200px;">가 입 일</th>
+	
+					</tr>
+				</table>
+			</form>
 			<br><br>
 			<!-- 페이징 처리 -->
 			<div id="boardPagingDiv" style="width: 1000px; height:30px; float: left; text-align: center;"></div>
@@ -160,6 +242,7 @@
 </div><!-- 메인컨텐츠 끝 -->
 
 </body>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -177,8 +260,37 @@ function boardSearchPaging(pg){
 }
 
 
-$().ready(function(){
 
+
+$().ready(function(){
+	
+	/*삭제 버튼 클릭 시*/
+	$('#userDeleteBtn').click(function(){
+		var count = $('.check:checked').length;
+		if(count==0)
+			alert('항목을 선택하세요');
+		else
+			$('#open_confirmModal').show();
+	});
+	
+	//모달 창에서 확인버튼 클릭 시 삭제 진행
+	$('#confirmOK_Modal').click(function(){
+		$('#userListForm').submit();
+	});
+	
+	/* 모달 창 닫기 */
+	$('#close_Modal').click(function(){
+	   $('#open_confirmModal').hide();
+	});
+	
+
+	/* 체크박스 전체 선택/해제 */
+	$('#check_all').click(function(){
+		if($('#check_all').is(":checked"))
+			$('.check').prop('checked', true);
+		else
+			$('.check').prop('checked', false);
+	});
 	
 	//전체 뿌려주기
 	$.ajax({
@@ -195,7 +307,9 @@ $().ready(function(){
 					align : 'center'
 				}).append($('<input/>',{ //체크박스
 					type : 'checkbox',
-					class : items.userId+""
+					value : items.userId+"",
+					name : 'check',
+					class : 'check'
 					
 				}))).append($('<td/>',{ // 이름
 					align : 'center',
@@ -230,7 +344,7 @@ $().ready(function(){
 				window.open(
 						"/kokonutStationery/admin/userModifyForm.do?userId="
 						+$(this).attr('class')
-						,'','width=1100, height=750, left=200, resizable=no, toolbar=no'
+						,'','width=900, height=750, left=200, resizable=no, toolbar=no'
 						,'true'
 				);
 			});
