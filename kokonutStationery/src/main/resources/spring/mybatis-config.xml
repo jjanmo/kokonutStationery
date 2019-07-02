@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="goods.bean.ProductOptionDTO" alias="option"/>
 		<typeAlias type="cart.bean.CartDTO" alias="cart"/>
 		<typeAlias type="admin.bean.AdminDTO" alias="admin" />
+		<typeAlias type="point.bean.PointDTO" alias="point" />
 	</typeAliases>
 
 </configuration>

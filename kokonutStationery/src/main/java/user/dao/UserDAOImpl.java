@@ -60,4 +60,9 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	@Override
+	public UserDTO getUserInfo(String userId) {
+		return sqlSession.selectOne("userSQL.getUserInfo", userId);
+	}
+
 }

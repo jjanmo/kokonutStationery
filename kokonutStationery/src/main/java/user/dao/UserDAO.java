@@ -21,5 +21,7 @@ public interface UserDAO {
 
 	public UserDTO idSearch(Map<String, String> map);
 
+	public UserDTO getUserInfo(String userId);
+
 
 }
