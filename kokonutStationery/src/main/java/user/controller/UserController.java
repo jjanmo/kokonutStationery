@@ -25,6 +25,21 @@ public class UserController {
 	@Autowired
 	UserDAO userDAO;
 	
+	//로그인후작성권한체크
+	@GetMapping("/checkAuth")
+	@ResponseBody
+	public String checkAuth(HttpSession session) {
+		
+		String memId = (String)session.getAttribute("memId");
+		System.out.println("권한이 있나요? memId = "+memId);
+		
+		if(memId==null)
+			return "fail";
+		else
+			return "ok";
+		
+	}
+	
 	//헤더의 회원가입 버튼을 눌렀을때 회원가입 입구페이지
 	@RequestMapping(value="/join.do", method=RequestMethod.GET)
 	public ModelAndView join() {

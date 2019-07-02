@@ -8,4 +8,6 @@ public interface QnaboardDAO {
 
 	public List<QnaboardDTO> getQnaList(int parseInt);
 
+	public void qnaboardWrite(QnaboardDTO qnaboardDTO);
+
 }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +12,8 @@
 
 </head>
 <body>
-<form onsubmit="return private_agree();">
+
+<form id="qnaboardForm" name="qnaboardForm" method="post" action="" >
 <div class="main">
 	<!-- 헤더부분 + close창 -->
 	<div class="goods_qna_register_header">상품문의
@@ -22,11 +25,15 @@
 	<div class="goods_qna_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="http://store.baemin.com/shop/data/goods/1479885082318m0.jpg" 
-					 class="goods_qna_register_img" name="thumbImg">
+				<img src="${goodsDTO.thumbImg }" 
+					 class="goods_qna_register_img" name="thumbImg" >
+				<input type="hidden" name="thumbImg" value="${goodsDTO.thumbImg }">
 				<div class="goods_qna_register_goodsName">
-					<b name="productName">스티커. 취급주의 외 7종</b><br>
-					<span name="discountPrice">1,500원</span>
+					<input type="hidden" name="productCode" value="${goodsDTO.productCode }">
+					<input type="hidden" name="productName" value="${goodsDTO.productName }">
+					<input type="hidden" name="discountPrice" value="${goodsDTO.discountPrice }">
+					<b name="productName">${goodsDTO.productName }</b><br>
+					<span name="discountPrice">${goodsDTO.discountPrice }</span>
 				</div>
 			</div>
 		</div>
@@ -35,7 +42,8 @@
 				<tr>
 					<td class="goods_qna_register_category" >작성자</td>
 					<td>
-						<input type="text" name="userName" required
+						<input type="hidden" name="userId" value="${sessionScope.memId }">
+						<input type="text"  value="${sessionScope.memName }" required
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px;">
 					</td>
 				</tr>
@@ -57,19 +65,19 @@
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">비밀글</td>
-					<td><input type="checkbox" name="qna_private" > 비밀글</td>
+					<td><input type="checkbox" name="scret" > 비밀글</td>
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">제목</td>
 					<td>
-						<input type="text" name="qnaSubject" required
+						<input type="text" id="qnaboardSubject" name="qnaboardSubject" required
 						style="border: 1px solid #ddd; width: 700px; height: 36px; padding: 10px; ">
 					</td>
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">내용</td>
 					<td>
-						<textarea name="qnaContent" required
+						<textarea id="qnaboardContent" name="qnaboardContent" required
 						style="border: 1px solid #ddd; width: 700px; height:250px; padding: 10px 0 1px 10px; "></textarea>					    
 					</td>
 				</tr>
@@ -81,38 +89,83 @@
 				<img src="../image/private.gif" class="goods_qna_register_privateImg" style="width: 100%;">
 			
 				<p style="text-align:center; margin-top:20px;">
-					<input type="radio" name="goods_qna_register_privateRadio">&nbsp;
+					<input type="radio" name="goods_qna_register_privateRadio" value="yes" >&nbsp;
 					<label style="color: #222; font-weight:700;">동의합니다</label>
 					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-					<input type="radio" name="goods_qna_register_privateRadio" id="privateRadio_agree">&nbsp;
+					<input type="radio" name="goods_qna_register_privateRadio" value="no" id="privateRadio_agree">&nbsp;
 					<label style="color: #666; font-weight:500;">동의하지 않습니다</label>
 				</p>
 			</div>
 		</div>
 	</div>
 	<div class="goods_qna_register_submitDiv">
-		<input type="submit" class="goods_qna_register_submitBtn" value="확인">
+		<input type="button" class="goods_qna_register_submitBtn" value="확인">
 	</div>
 </div>
 </form>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
+<script type="text/javascript">
 //개인정보 동의 
 function private_agree(){
-	if($('#privateRadio_agree').is(':checked')){
+	var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
+	
+	if(privateRadio!='yes'){
 		alert('개인정보 수집 및 이용에 대한 안내에 동의해주셔야합니다.');
 		return false;
 	}
-	
-	return true;
 }
-
-//서브밋버튼 hover
-$('.goods_qna_register_submitBtn').hover(function(){
-	$(this).css("background-color", '#2b2b2b');
-}, function(){
-	$(this).css("background-color", '#444444');
+</script>
+<script>
+$(document).ready(function(){
+	$.ajax({
+		type:'get',
+		url:'../user/checkAuth',
+		success:function(data){
+			if(data=='fail'){
+				alert("상품문의 작성 권한이 없습니다");
+				window.close();
+			}
+		}
+	});	
+	
+	//서브밋버튼
+	$('.goods_qna_register_submitBtn').click(function(){
+		var param =$('#qnaboardForm').serialize();
+		var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
+		
+		
+		if($('#qnaboardSubject').val()=='')
+			alert("제목을 입력해주세요.");
+		else if($('#qnaboardContent').val()=='')
+			alert("내용을 입력해주세요.");
+		else if(privateRadio!='yes'){
+			alert('개인정보 수집 및 이용에 대한 안내에 동의해주셔야합니다.');
+		}else{
+			$.ajax({
+				type:'post',
+				url:'../qna/qnaboardWrite.do',
+				data:param,
+				success:function(){
+					alert("문의 작성을 완료했습니다.");
+					window.close();
+				}
+				
+			});
+		}
+	});
+	
+	//서브밋버튼 hover
+	$('.goods_qna_register_submitBtn').hover(function(){
+		$(this).css("background-color", '#2b2b2b');
+	}, function(){
+		$(this).css("background-color", '#444444');
+	});
 });
+
+
+
+
+
 </script>
 </body>
 </html>
