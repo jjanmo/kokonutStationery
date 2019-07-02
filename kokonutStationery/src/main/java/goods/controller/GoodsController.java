@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
+import goods.bean.TotalProductOnSaleDTO;
 import goods.dao.GoodsDAO;
 import qnaboard.bean.QnaboardDTO;
 import qnaboard.dao.QnaboardDAO;
@@ -129,14 +130,12 @@ public class GoodsController {
 	
 	//카테고리 상품수 받아오기
 	@GetMapping("/get_count.do")
-	public void get_count(HttpSession session) {
-		if(session.getAttribute("stationery")==null) {
-			Map<String, String> count = goodsDAO.get_count();
-			session.setAttribute("stationery", count.get("stationery"));
-			session.setAttribute("living", count.get("living"));
-			session.setAttribute("travel", count.get("travel"));
-			session.setAttribute("collabo", count.get("collabo"));
-		}
+	public ModelAndView get_count() {
+		List<TotalProductOnSaleDTO> count = goodsDAO.get_count();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("count", count);
+		mav.setViewName("jsonView");
+		return mav;
 	}
 	
 	//상품상세 페이지
