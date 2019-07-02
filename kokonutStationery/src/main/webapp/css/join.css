@@ -19,6 +19,11 @@
 
 
 /*loginForm*/
+.loginMsg_bg{
+	width:500px; height:200px;
+	margin:auto; padding-bottom:40px;
+}
+
 .login_bg {
 	text-align: center;
 }
