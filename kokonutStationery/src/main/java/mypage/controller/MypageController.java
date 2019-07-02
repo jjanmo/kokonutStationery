@@ -27,7 +27,7 @@ public class MypageController {
 	
 		
 	//찜목록
-	@GetMapping("../mypage/mypage_wishlist.do")
+	@GetMapping("/mypage/mypage_wishlist.do")
 	public ModelAndView wishlist() {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("contents", "/mypage/mypage_wishlist.jsp");
