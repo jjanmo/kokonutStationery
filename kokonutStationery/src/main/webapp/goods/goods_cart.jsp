@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
     
 <!DOCTYPE html>
@@ -53,7 +54,8 @@
 						</tr>
 					</thead>
 					
-					<c:if test="${list != null }">
+					<c:if test="${cartDTO != null }" >
+						<c:forEach var="cartDTO" items="${cartDTO }">
 					
 					<tbody>
 
@@ -63,20 +65,22 @@
 
 							<td style="vertical-align: top; padding: 30px 17px;"><a href=""
 								style="margin-bottom: 0;"><img
-									src="http://store.baemin.com/shop/data/goods/1476870027237s0.jpg"
+									src="../image/thumb/${cartDTO.thumbImg }"
 									width="70px"
 									onerror=""></a></td>
 
 							<td class="orderOption"
 								style="text-align: left; vertical-align: top; padding: 30px 0;">
-								<div class="thumbImg">서디페. 마스킹 테이프</div> <a
+								<div class="thumbImg">${cartDTO.productName }</div> <a
 								href="goods_cart_edit.jsp" data-width="600" data-height="400"
 								class="popup" style="margin-bottom: 0px; margin-top: 13px;">
 									<li class="optionButton">선택옵션수정</li>
 							</a>
 							</td>
 
-							<td class="price">6,000원</td>
+							<td class="price">
+							<f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice }"/>
+							</td>
 							<td style="vertical-align: top; padding: 22px 0 30px 0;">
 								<table cellpadding="0" cellspacing="0" border="0"
 									style="margin: 0 auto;">
@@ -192,6 +196,7 @@
 				</tbody>
 			
 			
+				</c:forEach>
 			</c:if>
 			
 			<tr>
