@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	//메인버튼 hover 이벤트
 	$('.main_button').hover(function(){
 		$(this).css("background-color", "#2b2b2b");
@@ -61,11 +62,10 @@ $(document).ready(function(){
 	$('#review_regist_btn').click(function(){
 		window.open("/kokonutStationery/review/goods_review_register.do", "_blank", "width=605, height=600");
 	});
-
+	
 	//문의 작성 페이지 띄우기
 	$('#qna_regist_btn').click(function(){
 		window.open("/kokonutStationery/qna/goods_qna_register.do", "_blank", "left=320, width=890, height=750");
 	});
-	
 
 });
