@@ -98,6 +98,9 @@ public class ProductManagerController {
 		//상품등록 본체 db
 		int su = productManagerDAO.productRegist(goodsDTO);
 		
+		//카테고리별 상품갯수 파악용 테이블에 등록
+		productManagerDAO.totalProductOnSale(goodsDTO);
+		
 		if(su==1) 			
 			return "/admin/product/productRegistOk";
 		else

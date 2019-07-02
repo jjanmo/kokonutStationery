@@ -33,6 +33,11 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	}
 	
 	@Override
+	public void totalProductOnSale(GoodsDTO goodsDTO) {
+		sqlSession.update("productSQL.totalProductOnSale", goodsDTO);
+	}	
+	
+	@Override
 	public List<GoodsDTO> productList(Map<String, String> map) {
 		return sqlSession.selectList("productSQL.productList", map);
 	}
@@ -60,5 +65,7 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	@Override
 	public void productDelete(Map<String, String[]> map) {
 		sqlSession.delete("productSQL.productDelete", map);
-	}		
+	}
+
+		
 }
