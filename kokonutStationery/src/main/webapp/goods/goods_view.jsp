@@ -443,7 +443,7 @@ $(document).ready(function(){
 		data:{'productCode':productCode},
 		dataType:'json',
 		success:function(data){
-			alert("성공!!");
+			alert(JSON.stringify(data));
 			
 			if(data!=null){
 				$.each(data.list, function(index, item) {
