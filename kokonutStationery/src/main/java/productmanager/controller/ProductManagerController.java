@@ -190,7 +190,37 @@ public class ProductManagerController {
 	public String productDelete(@RequestParam String[] check, Model model) {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
+		
+		//TBL_TOTALPRODUCTONSALE값 줄여주기 위한 for문
+		List<GoodsDTO> list = productManagerDAO.getProductList(map);
+		int stationery=0;
+		int living=0;
+		int travel=0;
+		int collabo=0;
+		int discount=0;
+		int best=0;
+		int newP=0;
+		for(int i=0; i<map.get("array").length; i++) {
+			if(list.get(i).getStationery()!=0) stationery++;
+			if(list.get(i).getLiving()!=0) living++;
+			if(list.get(i).getTravel()!=0) travel++;
+			if(list.get(i).getCollabo()!=0) collabo++;
+			if(list.get(i).getDiscount()!=0) discount++;
+			if(list.get(i).getBest()!=0) best++;
+			if(list.get(i).getNewP()!=0) newP++;
+		}
+		
+		Map<String, Integer> qtyMap = new HashMap<String, Integer>();
+		qtyMap.put("stationery", stationery);
+		qtyMap.put("living", living);
+		qtyMap.put("travel", travel);
+		qtyMap.put("collabo", collabo);
+		qtyMap.put("discount", discount);
+		qtyMap.put("best", best);
+		qtyMap.put("newP", newP);
+		productManagerDAO.updateTotalProductOnSale(qtyMap);
 		productManagerDAO.productDelete(map);
+		productManagerDAO.productOptionDelete(map);
 		return "redirect:/admin/productList.do";
 	}
 	
