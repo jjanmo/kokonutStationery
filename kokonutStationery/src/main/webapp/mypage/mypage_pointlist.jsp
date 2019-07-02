@@ -62,43 +62,6 @@
 		</tr>
 		</c:forEach>
 	</table>
-<!--       <tr class="mypage_table_content point_table_contents">
-        <td>2019.06.24</td>
-        <td>주문에 의한 포인트 적립</td>
-        <td><a id="order_code">1562276387542</a></td>
-        <td>1,000 원</td>
-      </tr>
-
-      <tr class="mypage_table_content point_table_contents">
-        <td>2019.06.24</td>
-        <td>주문에 의한 포인트 사용</td>
-        <td><a id="order_code">1566336521477</a></td>
-        <td style="color: #2ac1bc;">-2,000 원</td>
-      </tr>
-
-      <tr class="mypage_table_content point_table_contents">
-        <td>2019.06.24</td>
-        <td>주문에 의한 포인트 적립</td>
-        <td><a id="order_code">1561775748931</a></td>
-        <td>1,000 원</td>
-      </tr>
-
-      <tr class="mypage_table_content point_table_contents">
-        <td>2019.06.24</td>
-        <td>주문에 의한 포인트 적립</td>
-        <td><a id="order_code">1565272856874</a></td>
-        <td>1,000 원</td>
-      </tr>
-
-      <tr class="mypage_table_content point_table_contents">
-        <td>2019.06.23</td>
-        <td>회원가입 포인트 적립</td>
-        <td><a id="order_code"></a></td>
-        <td>5,000 원</td>
-      </tr> -->
-
-
-
     <div class="pageDiv">
       1
     </div>
