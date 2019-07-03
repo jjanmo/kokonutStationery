@@ -328,6 +328,9 @@ $('#optionBox').change(function(){
 		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
 		    selArray.push(sel);
 		    createDiv(sel);
+		    
+		  	//옵션div가 생성될때 총합변화	
+			changeTotalPrice();		
 		    return;
 		}
 		var cnt = 0;
@@ -343,7 +346,12 @@ $('#optionBox').change(function(){
 	        createDiv(sel);
 	    }
 	} //else
+	
+	//옵션div가 생성될때 총합변화	
+	changeTotalPrice();	
+	
 }); //function
+
 var optionCnt = 0;
 function createDiv(sel){
 	$('.option_wrap').append($('<div/>',{
@@ -392,6 +400,7 @@ function createDiv(sel){
 	  id : 'priceDiv' +optionCnt,
 	  style : 'float: left; margin: 22px 0 22px 25px;'
 	}).append($('<span/>',{
+		id : 'priceSpan'+optionCnt,
 	  style: 'font-size: 13px; color: #444; font-weight: 500;',
 	  text : discountPrice
 	})));
@@ -409,21 +418,43 @@ function createDiv(sel){
 	optionCnt++;
 }
 
+//옵션div가 생성될때 총합변화	
+function changeTotalPrice(){
+	var total1 = 0;
+	alert('optionCnt : ' + optionCnt);
+	for(i=0; i<optionCnt; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total1 += num;
+	}
+	$('#priceSpan').text(total1);
+}
+
+
 //option div 지우기
 $(document).on('click','.close', function(){
 	var number = $(this).attr('id');
 	var text = $('#'+number).children().first().text();
+	
+	//옵션div가 지워질때 총합변화
+	var total2 = $('#priceSpan').text();
+	var pp = $('#priceSpan'+number).text()*1;
+	total2 -= pp;
+	$('#priceSpan').text(total2);
+	
+	//div삭제
 	$('#'+ number).remove();
+	
 	//배열안에서 그에 맞는 옵션을 지워줘야함
 	selArray.splice(selArray.indexOf(text),1);
-	if(selArray.length == 0){
+	
+	
+/* 	if(selArray.length == 0){
 		$('#totalPriceDiv').css('display','none');
+		$('#priceSpan').text(0);
 		showDiv = 0;
-	}
+	} */
+
 });
-
-
-
 
 //옵션있을때 
 ////숫자가 아닌경우  유효성검사 필요
@@ -441,30 +472,35 @@ $(document).on('focusout','.option_productQty',function() {
 
 //수량 변경 : 증가
 $(document).on('click','.up', function() {
-	alert('aa');
 	var idText = $(this).attr('id');
 	var optionNum = idText.charAt(idText.length-1); 
 	var option_productQty = $('#option_productQty'+ optionNum).val();
 	option_productQty++;
 	$('#option_productQty'+ optionNum).val(option_productQty);
-	$('#priceSpan').text(discountPrice * option_productQty);
+	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+	var total = 0;
+	for(i=0; i<selArray.length; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total += num;
+	}
+	$('#priceSpan').text(total);
 }); 
 
 //수량 변경 : 감소   
 $(document).on('click','.down', function() {
-	alert('bb');
 	var idText = $(this).attr('id');
 	var optionNum = idText.charAt(idText.length-1); 
-	if (productQty > 1) {
-		productQty--;
-		$('#productQty').val(productQty);
-		alert(discountPrice * productQty);
-		$('#optionPriceSpan').text(discountPrice * productQty);
+	var option_productQty = $('#option_productQty'+ optionNum).val();
+	if (option_productQty > 1) {
+		option_productQty--;
+		$('#option_productQty'+ optionNum).val(option_productQty);
+		$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+		var total = $('#priceSpan').text()*1;
+		alert(total);
+		total -= discountPrice;
+		$('#priceSpan').text(total);
 	}
 });
-
-
-
 
 //---------------------
 //옵션없을때
