@@ -14,12 +14,12 @@
 .notice_list td{
 
 	text-align: center;
-	height: 51px;
+	height: 71px;
 	width: 64px;
 }
 .notice_list{
 	padding-left: 20px;
-	font-size: 12px;
+	font-size: 13px;
 	margin-bottom: 150px;
 	
 }
@@ -37,20 +37,19 @@
 	background: #f6f6f6;
 	color: #999;
 }
-.list_content td{
-	height: 71px;
-	font-size: 13px;
+
+.subjectTr:hover{
+	background:#f6f6f6;
 }
 
-.notice_view_link{
-	font-weight: bold;
-	color: #000;
+#notice_table .subjectA{
+	text-align:left;
 }
 
-.list_menu a{
-	text-decoration: underline;
-	font-weight: bold;
+#notice_table .contentA{
+	text-align:left;
 }
+
 
 #noticeboard_searchForm{
 	width:1000px;
