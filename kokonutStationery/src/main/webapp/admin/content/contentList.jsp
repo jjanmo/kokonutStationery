@@ -61,20 +61,48 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 
-$('#notice_board').click(function(){
+//공지사항 전체 리스트
+$('#notice_board').click(function(){ //공지사항 탭 누를 경우
 	$('#boardOption').val('tbl_admin');
+	$('#reviewImg').remove();
+	$('#writer').remove();
+	$('#ajaxCheck').val(0);
+	
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/admin/noticeboardList.do',
+		dataType : 'json',
+		success : function(data){		
+			//공지 전체 리스트
+			$.each(data.list, function(index,items){
+				$('<tr/>').append($('<td/>',{
+					align: 'center'
+				}).append($('<input/>',{
+					type : 'checkbox'
+				}))).append($('<td/>',{
+					align : 'center',
+					text : items.reviewboardCode
+				})).append($('<td/>',{
+						align : 'center',
+					}).append($('<img/>',{
+						src : '../image/thumb/'+items.reviewboardImg
+					}).css('width','65px'))).append($('<td/>',{
+						text : items.reviewboardSubject
+					}).css('padding-left', '5px')).append($('<td/>',{
+						align : 'center',
+						text : items.userId
+					})).append($('<td/>',{
+						align : 'center',
+						text : items.regDate
+					})).appendTo($('#contentTable'));
+			});
+		}//success
+	});//ajax
 });
 
-$('#product_qna').click(function(){
+//상품 문의 전체 리스트
+$('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 	$('#boardOption').val('tbl_qnaboard');
-});
-
-$('#product_review').click(function(){
-	$('#boardOption').val('tbl_reviewboard');
-});
-
-//상품 후기 리스트
-$('#product_review').click(function(){
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/admin/reviewboardList.do',
@@ -82,11 +110,11 @@ $('#product_review').click(function(){
 		success : function(data){
 			if($('#ajaxCheck').val()==0){
 				//테이블 이미지th 추가
-				$('#reviewTh').before($('<th/>',{text: '상품 이미지'}).css('width', '70px'));	
-				$('#writerTh').before($('<th/>',{text: '작성자'}).css('width', '70px'));
+				$('#reviewTh').before($('<th/>',{text: '상품 이미지', id:'reviewImg'}).css('width', '70px'));	
+				$('#writerTh').before($('<th/>',{text: '작성자', id:'writer'}).css('width', '70px'));
 				$('#ajaxCheck').val(1);
 				
-				//후기 리스트
+				//문의 전체 리스트
 				$.each(data.list, function(index,items){
 					$('<tr/>').append($('<td/>',{
 						align: 'center'
@@ -110,7 +138,50 @@ $('#product_review').click(function(){
 						})).appendTo($('#contentTable'));
 				});
 			}//if
-		}
-	});
+		}//success
+	});//ajax	
+});
+
+
+//상품 후기 전체 리스트
+$('#product_review').click(function(){ // 상품 후기 탭 누를 경우
+	$('#boardOption').val('tbl_reviewboard');
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/admin/reviewboardList.do',
+		dataType : 'json',
+		success : function(data){
+			if($('#ajaxCheck').val()==0){
+				//테이블 이미지th 추가
+				$('#reviewTh').before($('<th/>',{text: '상품 이미지', id:'reviewImg'}).css('width', '70px'));	
+				$('#writerTh').before($('<th/>',{text: '작성자', id:'writer'}).css('width', '70px'));
+				$('#ajaxCheck').val(1);
+				
+				//후기 전체 리스트
+				$.each(data.list, function(index,items){
+					$('<tr/>').append($('<td/>',{
+						align: 'center'
+					}).append($('<input/>',{
+						type : 'checkbox'
+					}))).append($('<td/>',{
+						align : 'center',
+						text : items.reviewboardCode
+					})).append($('<td/>',{
+							align : 'center',
+						}).append($('<img/>',{
+							src : '../image/thumb/'+items.reviewboardImg
+						}).css('width','65px'))).append($('<td/>',{
+							text : items.reviewboardSubject
+						}).css('padding-left', '5px')).append($('<td/>',{
+							align : 'center',
+							text : items.userId
+						})).append($('<td/>',{
+							align : 'center',
+							text : items.regDate
+						})).appendTo($('#contentTable'));
+				});
+			}//if
+		}//success
+	});//ajax
 });
 </script>
