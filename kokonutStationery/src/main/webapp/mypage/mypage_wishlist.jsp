@@ -26,40 +26,45 @@
 		</tr>
 		
 		<c:forEach var="list" items="${list}">
-		<tr id="wishlist_middle">
-			<td id="wishilist_checkbox">
-				<input type="checkbox" name="wishCheckbox" class="checkbox">
-			</td>
+			<c:set var="cnt" value="${cnt+1}" />
+			<input type="hidden" id="productCode${cnt}" value="${list.productCode }">
+			<input type="hidden" id="productOption${cnt}" value="${list.productOption }">
+			<input type="hidden" id="optionContent${cnt}" value="${list.optionContent }">
 			
-			<td id="wishlist_img">
-				<a href="">
-					<img src="../image/thumb/${list.thumbImg }" style="width: 70px; height: 86px; float: left;">
-				</a>
-				<a href="">
-					<div style="float: left;">
-						&emsp;${list.productName }<br>
-						<c:if test="${list.productOption==1 }">
-							<font style="font-weight:normal; font-size:12px; color:#666; line-height:23px;">
-								&emsp;[&nbsp;${list.optionContent }&nbsp;]
-							</font>
-						</c:if>
-					</div>
-				</a>
-
-			</td>
-			
-			<td id="wishlist_savepoint">
-				<fmt:formatNumber value="${list.discountPrice/10 }" pattern="###"/>원
-			</td>
-			
-			<td id="wishlist_price">
-				<fmt:formatNumber value="${list.discountPrice }" pattern="##,###"/>원
-			</td>
-			
-			<td id="wishlist_storedate">
-				<fmt:formatDate value="${list.logdate }" pattern="yyyy.MM.dd"/>
-			</td>
-		</tr>
+			<tr id="wishlist_middle">
+				<td id="wishilist_checkbox">
+					<input type="checkbox" name="wishCheckbox" class="checkbox${cnt}">
+				</td>
+				
+				<td id="wishlist_img">
+					<a href="">
+						<img src="../image/thumb/${list.thumbImg }" style="width: 70px; height: 86px; float: left;">
+					</a>
+					<a href="">
+						<div style="float: left;">
+							&emsp;${list.productName }<br>
+							<c:if test="${list.productOption==1 }">
+								<font style="font-weight:normal; font-size:12px; color:#666; line-height:23px;">
+									&emsp;[&nbsp;${list.optionContent }&nbsp;]
+								</font>
+							</c:if>
+						</div>
+					</a>
+	
+				</td>
+				
+				<td id="wishlist_savepoint">
+					<fmt:formatNumber value="${list.discountPrice/10 }" pattern="###"/>원
+				</td>
+				
+				<td id="wishlist_price">
+					<fmt:formatNumber value="${list.discountPrice }" pattern="##,###"/>원
+				</td>
+				
+				<td id="wishlist_storedate">
+					<fmt:formatDate value="${list.logdate }" pattern="yyyy.MM.dd"/>
+				</td>
+			</tr>
 		</c:forEach>
 	</table>
 
@@ -73,20 +78,44 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-//전체 선택 해제
+//전체 선택/해제
 $('#wishlist_select').click(function(){
 	if($('#wishlist_select').hasClass('checkedAll')) {
-		$('.checkbox').prop('checked', false);
+		$('input[name=wishCheckbox]').prop('checked', false);
 		$('#wishlist_select').removeClass('checkedAll');
+		
 	} else {
-		$('.checkbox').prop('checked', true);
+		$('input[name=wishCheckbox]').prop('checked', true);
 		$('#wishlist_select').addClass('checkedAll');
 	}
+	
 });
 
 //선택 삭제
 $('#wishlistDeleteBtn').click(function(){
+	var productCode = '';
+	var optionContent = '';
 	
+	for(var i=1; i<=$('input[name=wishCheckbox]').length; i++) {
+		if($('.checkbox'+i).is(':checked')) {
+			productCode = $('#productCode'+i).val();
+			
+			if($('#productOption'+i).val()==1) {
+				optionContent = $('#optionContent'+i).val();
+			}
+		}
+		
+		$.ajax({
+			type: 'post',
+			url: '/kokonutStationery/mypage/deleteWishList.do',
+			data: {'userId': '${memId}', 
+				   'productCode' : productCode,
+				   'optionContent' : optionContent}
+		});
+	} //for
+	
+	//새로고침
+	location.href='/kokonutStationery/mypage/mypage_wishlist.do';
 });
 </script>
 

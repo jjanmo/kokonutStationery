@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 찜목록 삭제 -->
-	<delete id="">
-	
+	<delete id="deleteWishList" parameterType="java.util.Map">
+		delete from tbl_wishlist where userId = #{userId} and productCode = #{productCode}
 	</delete>
 </mapper>
