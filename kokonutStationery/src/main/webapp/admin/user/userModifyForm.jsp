@@ -58,6 +58,7 @@
 .birthInput{width:50px;}
 .phoneInput{width:50px;}
 #userPoint{width:80px; text-align:right;}
+#totalPayment{width:120px; text-align:right;}
 
 .modal {
    display: none; /* Hidden by default */
@@ -171,6 +172,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th>총 구매금액</th>
+				<td>
+					<input type="text" id="totalPayment" value="${userDTO.totalPayment }"/>
+				</td>
+			</tr>
+			<tr>
 				<th>가 입 일</th>
 				<td>
 					<div id="joinDate"><fmt:formatDate pattern="yyyy-MM-dd" value="${userDTO.joinDate }"/></div>
@@ -232,7 +239,8 @@ $().ready(function(){
 					'userPhone1' : $('#userPhone1').val(),
 					'userPhone2' : $('#userPhone2').val(),
 					'userPhone3' : $('#userPhone3').val(),
-					'userPoint' : $('#userPoint').val()
+					'userPoint' : $('#userPoint').val(),
+					'totalPayment' : $('#totalPayment').val()
 					}				
 		});
 		alert('수정 성공');
