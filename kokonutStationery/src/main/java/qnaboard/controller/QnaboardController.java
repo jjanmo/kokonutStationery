@@ -32,7 +32,7 @@ public class QnaboardController {
 	public ModelAndView getGoodsQna(@RequestParam String productCode) {
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(Integer.parseInt(productCode));
-		System.out.println("상품코드="+productCode);
+		System.out.println("개별상품코드="+productCode);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
