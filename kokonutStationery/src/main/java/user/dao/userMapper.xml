@@ -84,4 +84,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="memberDelete" parameterType="java.util.Map">
 		delete from TBL_USER where userId=#{userId}
 	</delete>
+	
+	<!-- 마이페이지 회원정보 조회 -->
+	<select id="getUserInfo" parameterType="String" resultType="user">
+		select * from TBL_USER where userId = #{userId}
+	</select>
+	
+	<!-- 찜목록수 + 1 -->
+	<update id="addWishListCount" parameterType="String">
+		update tbl_user set productInWishList = productInWishList+1
+	</update>
+	
+	<!-- 찜목록수 - 1 -->
+	<update id="subWishListCount" parameterType="String">
+		update tbl_user set productInWishList = productInWishList-1
+	</update>
+	
+	
 </mapper>

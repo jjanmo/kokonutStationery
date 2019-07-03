@@ -33,6 +33,11 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	}
 	
 	@Override
+	public void totalProductOnSale(GoodsDTO goodsDTO) {
+		sqlSession.update("productSQL.totalProductOnSale", goodsDTO);
+	}	
+	
+	@Override
 	public List<GoodsDTO> productList(Map<String, String> map) {
 		return sqlSession.selectList("productSQL.productList", map);
 	}
@@ -56,9 +61,29 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	public GoodsDTO getModifyForm(String productCode) {
 		return sqlSession.selectOne("productSQL.getModifyForm", productCode);
 	}
+	
+
+	@Override
+	public List<GoodsDTO> getProductList(Map<String, String[]> map) {
+		return sqlSession.selectList("productSQL.getProductlist", map);
+	}
+	
+	@Override
+	public void updateTotalProductOnSale(Map<String, Integer> qtyMap) {
+		sqlSession.delete("productSQL.updateTotalProductOnSale", qtyMap);
+	}
 
 	@Override
 	public void productDelete(Map<String, String[]> map) {
 		sqlSession.delete("productSQL.productDelete", map);
-	}		
+	}
+
+	@Override
+	public void productOptionDelete(Map<String, String[]> map) {
+		sqlSession.delete("productSQL.productOptionDelete", map);
+	}
+
+
+
+		
 }

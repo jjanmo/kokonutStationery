@@ -21,12 +21,20 @@
 	<context:component-scan base-package="qnaboard.dao"/>
 	<context:component-scan base-package="reviewboard.bean"/>
 	<context:component-scan base-package="reviewboard.dao"/>
-	
+	<context:component-scan base-package="noticeboard.bean"/>
+	<context:component-scan base-package="noticeboard.dao"/>
+	<context:component-scan base-package="point.bean"/>
+	<context:component-scan base-package="point.dao"/>
+	<context:component-scan base-package="wishlist.bean"/>
+	<context:component-scan base-package="wishlist.dao"/>
+		
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.dao"/>
 	<context:component-scan base-package="admin.bean"/>
 	<context:component-scan base-package="usermanager.dao"/>
 	<context:component-scan base-package="productmanager.dao"/>
+	<context:component-scan base-package="contentmanager.dao"/>
+	<context:component-scan base-package="contentmanager.bean"/>
 	
 	<!-- 이메일 관련 -->
 	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">

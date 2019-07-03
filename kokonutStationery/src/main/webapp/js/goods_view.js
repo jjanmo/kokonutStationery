@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	//메인버튼 hover 이벤트
 	$('.main_button').hover(function(){
 		$(this).css("background-color", "#2b2b2b");
@@ -21,8 +22,6 @@ $(document).ready(function(){
 	//후기 문의 게시물 클릭시 글 내용 출력
 	$('#review_01_content').hide();
 	$('#review_02_content').hide();
-	$('#qna_01_content').hide();
-	$('#qna_02_content').hide();
 	
 	$('#review_01').on('click', function(){
 		$('#review_02_content').hide();
@@ -33,16 +32,6 @@ $(document).ready(function(){
 		$('#review_01_content').hide();
 		
 		$('#review_02_content').toggle();
-	});
-	$('#qna_01').on('click', function(){
-		$('#qna_02_content').hide();
-		
-		$('#qna_01_content').toggle();
-	});
-	$('#qna_02').on('click', function(){
-		$('#qna_01_content').hide();
-		
-		$('#qna_02_content').toggle();
 	});
 	
 	
@@ -61,11 +50,7 @@ $(document).ready(function(){
 	$('#review_regist_btn').click(function(){
 		window.open("/kokonutStationery/review/goods_review_register.do", "_blank", "width=605, height=600");
 	});
-
-	//문의 작성 페이지 띄우기
-	$('#qna_regist_btn').click(function(){
-		window.open("/kokonutStationery/qna/goods_qna_register.do", "_blank", "left=320, width=890, height=750");
-	});
+	
 	
 
 });

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <link rel="stylesheet" type="text/css" href="../css/mypage.css">  
 
@@ -16,19 +17,19 @@
         </tr>
         <tr>
           <td class="mem_menu">총구매액</td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 원</td>
+          <td class="mem_val_td"><span class="mam_val" id="totalPayment"></span> 원</td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../mypage/mypage_pointlist.do">포인트</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 원</td>
+          <td class="mem_val_td"><span class="mam_val" id="userPoint"></span> 원</td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../goods/goods_cart.do">장바구니</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
+          <td class="mem_val_td"><span class="mam_val" id="productInCart"></span> 개</td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../mypage/mypage_wishlist.do">찜목록</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
+          <td class="mem_val_td"><span class="mam_val" id="productInWishList"></span> 개</td>
         </tr>
       </table>
     </div>
@@ -65,3 +66,27 @@
     </div>
   
  </div>
+ 
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+$(function(){
+	$.ajax({	
+		type: 'post',
+		url: '/kokonutStationery/mypage/getUserInfo.do',
+		data: {'userId' : '${memId}'},
+		dataType: 'json',
+		success: function(data){
+			$('#totalPayment').text(Number(data.userDTO.totalPayment).toLocaleString('en').split(".")[0]);
+			$('#userPoint').text(Number(data.userDTO.userPoint).toLocaleString('en').split(".")[0]);
+			$('#productInCart').text(data.userDTO.productInCart);
+			$('#productInWishList').text(data.userDTO.productInWishList);
+		}
+	});
+});
+</script>
+ 
+ 
+ 
+ 
+ 
+ 

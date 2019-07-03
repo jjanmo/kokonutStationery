@@ -1,6 +1,5 @@
 package user.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -70,5 +69,19 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.delete("userSQL.memberDelete",map);
 	}
 	
-	
+	@Override
+	public UserDTO getUserInfo(String userId) {
+		return sqlSession.selectOne("userSQL.getUserInfo", userId);
+	}
+
+	@Override
+	public void addWishListCount(String userId) {
+		sqlSession.update("userSQL.addWishListCount", userId);	
+	}
+
+	@Override
+	public void subWishListCount(String userId) {
+		sqlSession.update("userSQL.subWishListCount", userId);	
+	}
+
 }

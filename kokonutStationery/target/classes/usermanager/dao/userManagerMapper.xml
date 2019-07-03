@@ -112,7 +112,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			userPhone1=#{userPhone1},
 			userPhone2=#{userPhone2},
 			userPhone3=#{userPhone3},
-			userPoint=#{userPoint}
+			userPoint=#{userPoint},
+			totalPayment=#{totalPayment}
 		where userId=#{userId}			
 	</update>
 	

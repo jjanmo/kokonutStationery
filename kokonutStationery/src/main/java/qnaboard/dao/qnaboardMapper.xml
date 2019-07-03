@@ -4,9 +4,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="qnaSQL">
-	<!-- 상품후기리스트 가져오기 -->
-	<select id="getQnaList" parameterType="Integer" resultType="qnaboard">
-		select * from TBL_QNABOARD where productCode = #{productCode}
+
+	<!-- 특정상품후기갯수 -->
+	<select id="getTotalQ" parameterType="Integer" resultType="Integer">
+		select count(*) from TBL_qnaboard where productcode=#{productCode}
+	</select>
+	
+	<!-- 모든상품후기리스트 가져오기 -->
+	<select id="getAllQnaList" resultType="qnaboard">
+		select * from TBL_qnaboard
+		order by ref desc, admin asc, qnaboardcode desc
+		
+	</select>
+	
+	<!-- 특정상품후기리스트 가져오기 -->
+	<select id="getQnaList" parameterType="java.util.Map" resultType="qnaboard">
+		<!-- select * from TBL_qnaboard where productcode=#{productCode} 
+		order by ref desc, admin asc, qnaboardcode desc -->
+		
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_qnaboard where productcode=#{productCode} order by ref desc, admin asc, qnaboardcode desc) tt)
+		where rn >= #{startNum} and rn <![CDATA[<=]]> #{endNum}
 	</select>
 
+	<!-- 상품후기 작성 -->
+	<insert id="qnaboardWrite" parameterType="qnaboard">
+		insert into TBL_QNABOARD (USERID,
+							 USEREMAIL,
+							 USERPHONE,
+							 QNABOARDCODE,
+							 QNABOARDSUBJECT,
+							 QNABOARDCONTENT,
+							 THUMBIMG,
+							 SECRET,
+							 PRODUCTCODE,
+							 PRODUCTNAME,
+							 DISCOUNTPRICE,
+							 REF) 
+					values (#{userId} 
+							,#{userEmail} 
+							,#{userPhone}
+							,qnaboardcode_seq.nextval
+							,#{qnaboardSubject}
+							,#{qnaboardContent}
+							,#{thumbImg}
+							,#{secret}
+							,#{productCode}
+							,#{productName}
+							,#{discountPrice}
+							,qnaboardcode_seq.currval)
+	</insert>
 </mapper>

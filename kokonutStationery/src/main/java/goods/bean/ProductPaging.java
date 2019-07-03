@@ -22,7 +22,7 @@ public class ProductPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='productPaging("+(startPage-1)+")'>����</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='productPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
@@ -34,7 +34,7 @@ public class ProductPaging {
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='productPaging("+(endPage+1)+")'>����</span>]");
+			pagingHTML.append("[<span id='paging' onclick='productPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}
@@ -49,7 +49,7 @@ public class ProductPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(startPage-1)+")'>����</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
@@ -61,7 +61,7 @@ public class ProductPaging {
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(endPage+1)+")'>����</span>]");
+			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}

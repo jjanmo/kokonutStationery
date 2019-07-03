@@ -239,6 +239,8 @@
 					<th style="width: 336px;">상품명</th>
 					<th style="width: 134px;">상품원가</th>
 					<th style="width: 134px;">세일가격</th>
+					<th style="width: 134px;">총 수량</th>
+					<th style="width: 134px;">잔여 수량</th>
 					<th style="width: 100px;">등록일</th>
 				</tr>
 			</table>
@@ -330,11 +332,13 @@
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+/* 숫자탭 컴마 추가 */
+ function addComma(num) {
+  var regexp = /\B(?=(\d{3})+(?!\d))/g;
+  return num.toString().replace(regexp, ',');
+}
 
 /* 모달 창 닫기 */
-
-
-
 $('#confirmClose_Modal').click(function(){
 	$('#open_confirmModal').hide();
 });
@@ -417,10 +421,16 @@ $(document).ready(function(){
 					class : items.productCode
 				}))).append($('<td/>',{
 					align : 'center',
-					text : items.originalPrice
+					text : addComma(items.originalPrice)
 				})).append($('<td/>',{
 					align : 'center',
-					text : items.discountPrice
+					text : addComma(items.discountPrice)
+				})).append($('<td/>',{
+					align : 'center',
+					text : addComma(items.totalQty)
+				})).append($('<td/>',{
+					align : 'center',
+					text : addComma(items.stockQty)
 				})).append($('<td/>',{
 					align : 'center',
 					text : items.regDate
@@ -431,7 +441,7 @@ $(document).ready(function(){
 	});//ajax
 
 });
-/* 상품 링크 클릭 시 */
+/* 상품 링크 클릭 시 수정 폼 */
 $('#productSearch_Table').on('click', '#productA',function(){
 	window.open('/kokonutStationery/admin/productModifyForm.do?productCode='+$(this).attr('class'),'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
 });
@@ -490,10 +500,16 @@ $('#product_searchBtn').click(function(event,str){
 								class : items.productCode
 							}))).append($('<td/>',{
 								align : 'center',
-								text : items.originalPrice
+								text : addComma(items.originalPrice)
 							})).append($('<td/>',{
 								align : 'center',
-								text : items.discountPrice
+								text : addComma(items.discountPrice)
+							})).append($('<td/>',{
+								align : 'center',
+								text : addComma(items.totalQty)
+							})).append($('<td/>',{
+								align : 'center',
+								text : addComma(items.stockQty)
 							})).append($('<td/>',{
 								align : 'center',
 								text : items.regDate
