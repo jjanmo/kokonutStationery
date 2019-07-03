@@ -1,6 +1,7 @@
 package contentmanager.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,14 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 	private SqlSession sqlSession;
 
 	@Override
-	public List<GoodsDTO> reviewboardList() {
-		return sqlSession.selectList("contentSQL.reviewboardList");
+	public int reviewboardTotalA() {
+		return sqlSession.selectOne("contentSQL.reviewboardTotalA");
 	}
+
+	@Override
+	public List<GoodsDTO> reviewboardList(Map<String, String> map) {
+		return sqlSession.selectList("contentSQL.reviewboardList", map);
+	}
+
 
 }

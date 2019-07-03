@@ -1,4 +1,4 @@
-package goods.bean;
+package contentmanager.bean;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class ProductPaging {
+public class ReviewboardPaging {
 	private int currentPage;
 	private int pageBlock;
 	private int pageSize;
@@ -22,24 +22,24 @@ public class ProductPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='productPaging("+(startPage-1)+")'>이전</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='productPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='currentPaging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='productPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
 			}//if~else
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='productPaging("+(endPage+1)+")'>다음</span>]");
+			pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}
 	
-	
+	/*
 	public void makeSearchPagingHTML() {
 		pagingHTML = new StringBuffer();
 		
@@ -65,5 +65,6 @@ public class ProductPaging {
 		}//if
 		
 	}
+	*/
 }
 
