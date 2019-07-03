@@ -241,9 +241,10 @@
 					
 					
 				</div>
+				
 				<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/kokonutStationery/qna/goods_qnaList.do">
+						<a href="/kokonutStationery/qna/goods_qnaAllList.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
@@ -251,9 +252,8 @@
 					<div class="userPage_paging_num">
 						<b>1</b>
 					</div> 
-				
-				
 			</div>
+			
 		</div>
 	</div>
 </body>
@@ -435,24 +435,26 @@ $('#cartBtn').click(function(){
 
 
 </script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajax({
 		typd:'post',
-		url:'../qna/goods_qna.do',
+		url:'../qna/goods_qnaList.do',
 		data:{'productCode':productCode},
 		dataType:'json',
 		success:function(data){
-			alert("성공!!");
+			//alert(JSON.stringify(data));
 			
 			if(data!=null){
 				$.each(data.list, function(index, item) {
+					//////////////////질문///////////////////					
 					if(item.admin==0){
-						//////////////////질문///////////////////
+						
 						//제목틀생성
 						$('#qnaList').append($('<div/>',{
 							class: 'userPage_area',
-							id : 'qna_'+index,
+							id : 'qna_'+index
 							
 							}).append($('<div/>',{
 								id:'qnaSubject_'+index,
@@ -464,9 +466,9 @@ $(document).ready(function(){
 									text:'질문 : '
 									
 								}))));
+						 
 						//제목이름
-						$('#qnaSubject_'+index).append(item.qnaboardSubject);
-						
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
 						
 						//작성자
 						$('#qna_'+index).append($('<div/>',{
@@ -474,6 +476,7 @@ $(document).ready(function(){
 							text:item.userId
 							
 						}));
+						
 						//날짜
 						$('#qna_'+index).append($('<div/>',{
 							class:'userPage_date',
@@ -511,40 +514,36 @@ $(document).ready(function(){
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
 							$('#qna_'+index+'_content').text("비밀글입니다.");
 						}
-					}
-					
-					/*
-					//////////////////답변///////////////////
-					else if(item.admin==1){					
-						//제목
+						
+					}else if(item.admin==1){						
+						//////////////////답변///////////////////
+						
+						//제목틀
 						$('#qnaList').append($('<div/>',{
 							class: 'userPage_area',
-							id : id:'qna_'+index
+							id : 'qna_'+index
 							
 							}).append($('<div/>',{
 								id:'qnaSubject_'+index,
 								class:'userPage_subject'
+								
 								}).append($('<span/>',{
 									
 									style:'color: #2AC1BC; font-weight: 700;',
 									text:'답변 : '
 									
 								}))));
-						//제목이름
-						$('#qnaSubject_'+index).append(item.qnaboardSubject);
 						
-						//비밀글일때 이미지 추가
-						if(item.secret==1){
-							$('#qnaSubject_'+index).append($('<img>',{
-								src:'../image/private_lock.gif'
-							}));
-						}
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
+						
 						//작성자
 						$('#qna_'+index).append($('<div/>',{
 							class:'userPage_name',
 							text:item.userId
 							
 						}));
+						
 						//날짜
 						$('#qna_'+index).append($('<div/>',{
 							class:'userPage_date',
@@ -552,16 +551,30 @@ $(document).ready(function(){
 							
 						}));
 						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//비밀글일때 
 						if(item.secret==1){
-							//비밀글일때
-							$('#qna'+index+'_content').append(
-								class:	'userPage_private_lock'	
-							);
-							$('#qna'+index+'_content').text("비밀글입니다.");
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
 						}
+						
+						
 					}//관리자답변if
-					*/
-
+					
+					
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
 					//답변내용클릭시 보이게
@@ -576,10 +589,10 @@ $(document).ready(function(){
 						$(this).css("background-color", "#ffffff");
 					});	
 				});//for문
-			}//if문
+			}//if - data문
 			
 		}//success
-	});
+	});//ajax
 	
 });
 </script>

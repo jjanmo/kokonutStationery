@@ -16,6 +16,10 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	private SqlSession sqlSession;
 
 	@Override
+	public List<QnaboardDTO> getAllQnaList() {		
+		return sqlSession.selectList("qnaSQL.getAllQnaList");
+	}
+	@Override
 	public List<QnaboardDTO> getQnaList(int productCode) {
 		return sqlSession.selectList("qnaSQL.getQnaList",productCode);
 	}
@@ -24,5 +28,7 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	public void qnaboardWrite(QnaboardDTO qnaboardDTO) {
 		sqlSession.insert("qnaSQL.qnaboardWrite",qnaboardDTO);
 	}
+
+	
 
 }
