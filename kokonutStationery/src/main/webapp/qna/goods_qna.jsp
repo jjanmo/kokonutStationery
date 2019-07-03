@@ -100,7 +100,7 @@ $(document).ready(function(){
 								style:'text-align:left;'
 								
 								}).append($('<span/>',{
-									style:'font-weight:700; color:#a0a0a0;',
+									style:'font-weight:700; color:#a0a0a0; padding:10px;',
 									text: '질문 : '
 								
 								})).append($('<sapn/>',{
@@ -181,7 +181,7 @@ $(document).ready(function(){
 								style:'text-align:left;'
 								
 								}).append($('<span/>',{
-									style:'font-weight:700; color:#2AC1BC;',
+									style:'font-weight:700; color:#2AC1BC; padding:10px;',
 									text: '답변 : '
 								
 								})).append($('<sapn/>',{

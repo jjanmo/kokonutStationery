@@ -1,6 +1,8 @@
 package qnaboard.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import goods.bean.GoodsDTO;
 import goods.dao.GoodsDAO;
 import qnaboard.bean.QnaboardDTO;
+import qnaboard.bean.QnaboardPaging;
 import qnaboard.dao.QnaboardDAO;
 
 @Controller
@@ -26,16 +29,37 @@ public class QnaboardController {
 	private GoodsDAO goodsDAO;
 	@Autowired
 	private QnaboardDAO qnaboardDAO;
+	@Autowired
+	private QnaboardPaging qnaboardPaging;
 	
 	//상품페이지의 qna리스트
 	@GetMapping("/goods_qnaList.do")
-	public ModelAndView getQnaList(@RequestParam String productCode) {
+	public ModelAndView getQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String productCode) {
+		
+		int endNum = Integer.parseInt(pg)*5;
+		int startNum = endNum-4;
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		
+		map.put("startNum",	startNum);
+		map.put("endNum",	endNum);
+		map.put("productCode",	Integer.parseInt(productCode));
+		
 		//상품문의리스트가져오기
-		List<QnaboardDTO> list = qnaboardDAO.getQnaList(Integer.parseInt(productCode));
+		List<QnaboardDTO> list = qnaboardDAO.getQnaList(map);
 		System.out.println("개별상품코드="+productCode);
 		
+		//페이징처리
+		int totalA = qnaboardDAO.getTotalQ(Integer.parseInt(productCode));
+		qnaboardPaging.setCurrentPage(Integer.parseInt(pg));
+		qnaboardPaging.setPageBlock(5);
+		qnaboardPaging.setPageSize(5);
+		qnaboardPaging.setTotalA(totalA);
+		
+		qnaboardPaging.makePagingHTML();
+				
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
+		mav.addObject("qnaboardPaging", qnaboardPaging);
 		mav.setViewName("jsonView");
 		return mav;
 	}
