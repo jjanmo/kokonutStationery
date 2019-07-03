@@ -57,12 +57,7 @@
 					
 					<!-- 옵션 div 추가-->
 					<div class="option_wrap"></div>
-					
-					<!-- 총 합계금액 div -->
-					<div id="option_totalPriceDiv">
-					총 금액&ensp;:&ensp;<span style="font-size: 22px; color: #333; font-weight: 600;">2500원</span>
-					</div>
-					
+										
 					<!-- 수량 선택 div -->
 					<div id="noOptionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">구매수량</div>
@@ -89,6 +84,13 @@
 								style="padding-left: 5px; line-height: 38px; margin: 10px 0;">개</div>
 						</div>
 					</div>
+									
+					<!-- 총 합계금액 div -->
+					<div id="totalPriceDiv">
+					총 금액&ensp;:&ensp;<span id="priceSpan" style="font-size: 22px; color: #333; font-weight: 600;">${goodsDTO.discountPrice}</span>
+					<span>&ensp;원</span>
+					</div>
+					
 				</div>
 
 				<div id="goods_buttons">
@@ -264,6 +266,7 @@ var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
+var showDiv = 0;
 
 //문의 작성 페이지 띄우기
 $('#qna_regist_btn').click(function(){
@@ -271,6 +274,7 @@ $('#qna_regist_btn').click(function(){
 });
 
 $(function() {
+	alert(option);
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
 		$('#originalPrice').css('display','none');
@@ -279,6 +283,7 @@ $(function() {
 	//옵션이 없을때
 	if (option == 0) {
 		$('#noOptionDiv').css('display', 'block');
+		$('#totalPriceDiv').css('display','block');
 	}
 
 	//옵션이 있을때
@@ -309,24 +314,31 @@ $('#optionBox').change(function(){
 	var length = $('#optionBox option').length - 1 ; //option의 개수
 	var sel = $('#optionBox option:selected').val();
 	
+	if(showDiv == 0){ //옵션이 있을때 합계금액이 떠오르게 하는것
+		$('#totalPriceDiv').css('display','block');
+		showDiv++;
+	}
+	
 	if(sel == notOption){ //"옵션을 선택하세요" 를 선택
 		return;
 	} 
 	
 	else {//'제대로된' 옵션을 선택한 경우
 		if(selArray.length == length ){//옵션을 모두 한번씩 다 선택한 경우
-		   alert(1);
 		   alert("이미 추가된 옵션입니다.");
+		   return;
 		}
 		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
 		    selArray.push(sel);
 		    createDiv(sel);
+		    
+		  	//옵션div가 생성될때 총합변화	
+			changeTotalPrice();		
 		    return;
 		}
 		var cnt = 0;
 	    for(i=0;i<selArray.length; i++){
 	      if(selArray[i] == sel){
-	    	alert(2);
             alert("이미 추가된 옵션입니다.");
             break;
           }
@@ -337,76 +349,166 @@ $('#optionBox').change(function(){
 	        createDiv(sel);
 	    }
 	} //else
+	
+	//옵션div가 생성될때 총합변화	
+	changeTotalPrice();	
+	
 }); //function
 
+var optionCnt = 0;
 function createDiv(sel){
-	alert("click");
 	$('.option_wrap').append($('<div/>',{
-	  id : 'option_selectedDiv'
+	  class : 'option_selectedDiv',
+	  id : optionCnt
 	}));
 	
-	$('#option_selectedDiv').append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{
 	  text : sel,
 	  id : 'option_contentDiv'
 	}));
-	$('#option_selectedDiv').append($('<div/>',{
-	  id : 'inputDiv'
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'inputDiv' + optionCnt
 	}).css('float','left'));
 	
-	$('#inputDiv').append($('<input>',{
+	$('#inputDiv'+ optionCnt).append($('<input>',{
 	  type : 'text',
-	  name : 'productQty',
-	  id : 'option_productQty',
+	  class : 'option_productQty',
+	  id : 'option_productQty'+ optionCnt,
 	  step : '1',
 	  min : '1',
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
 	
-	$('#option_selectedDiv').append($('<div/>',{
-	  id : 'updownDiv',
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'updownDiv'+ optionCnt,
 	  style : "float: left; padding-left: 3px;"
 	}).append($('<div/>',{
 	  style : "padding: 10px 0 3px 0;"
 	}).append($('<img>',{
-	  id : 'up',
+	  id : 'up'+optionCnt,
+	  class : 'up',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png',
 	  style : "cursor: pointer; width: 14px; margin: 3px 2px;"
 	}))));
 	
-	$('#updownDiv').append($('<div>').append($('<img>',{
-	  id :'down',
+	$('#updownDiv'+optionCnt).append($('<div>').append($('<img>',{
+	  id :'down'+optionCnt,
+	  class : 'down',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png',
 	  style : 'cursor: pointer; width: 14px; margin: 3px 2px;'
 	})));
 	
-	$('#option_selectedDiv').append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'priceDiv' +optionCnt,
 	  style : 'float: left; margin: 22px 0 22px 25px;'
 	}).append($('<span/>',{
+		id : 'priceSpan'+optionCnt,
 	  style: 'font-size: 13px; color: #444; font-weight: 500;',
 	  text : discountPrice
 	})));
 	
-	$('#option_selectedDiv').append($('<img>',{
-	  id : 'close',
+	$('#priceDiv'+optionCnt).append($('<span/>',{
+		text : '원'
+	}));
+	
+	$('#'+optionCnt).append($('<img>',{
+	  class : 'close',
+	  id : optionCnt,
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_del.png',
 	  style : 'cursor: pointer; float: right; margin: 25px 20px 25px 15px; width: 15px; height: 14px;'
 	}));
+	optionCnt++;
 }
 
+//옵션div가 생성될때 총합변화	
+function changeTotalPrice(){
+	var total1 = 0;
+	alert('optionCnt : ' + optionCnt);
+	for(i=0; i<optionCnt; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total1 += num;
+	}
+	$('#priceSpan').text(total1);
+}
+
+
 //option div 지우기
-$(document).on('click','#close', function(){
-	var text = $('#option_selectedDiv').children().first().text();
-	alert("aa");
-	$('#option_selectedDiv').remove();
+$(document).on('click','.close', function(){
+	var number = $(this).attr('id');
+	var text = $('#'+number).children().first().text();
+	
+	//옵션div가 지워질때 총합변화
+	var total2 = $('#priceSpan').text();
+	var pp = $('#priceSpan'+number).text()*1;
+	total2 -= pp;
+	$('#priceSpan').text(total2);
+	
+	//div삭제
+	$('#'+ number).remove();
+	
 	//배열안에서 그에 맞는 옵션을 지워줘야함
 	selArray.splice(selArray.indexOf(text),1);
+	
+	
+/* 	if(selArray.length == 0){
+		$('#totalPriceDiv').css('display','none');
+		$('#priceSpan').text(0);
+		showDiv = 0;
+	} */
 
 });
 
+//옵션있을때 
+////숫자가 아닌경우  유효성검사 필요
+$(document).on('focusout','.option_productQty',function() {
+	
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	//alert(optionNum);
+	var input = $('#option_productQty'+optionNum).val();
+	if (isNaN(input)) {
+		alert("구매수량은 숫자만 가능합니다");
+	}
+	$('#option_productQty'+optionNum).val("1");
+});
 
+//수량 변경 : 증가
+$(document).on('click','.up', function() {
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	var option_productQty = $('#option_productQty'+ optionNum).val();
+	option_productQty++;
+	$('#option_productQty'+ optionNum).val(option_productQty);
+	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+	var total = 0;
+	for(i=0; i<selArray.length; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total += num;
+	}
+	$('#priceSpan').text(total);
+}); 
+
+//수량 변경 : 감소   
+$(document).on('click','.down', function() {
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	var option_productQty = $('#option_productQty'+ optionNum).val();
+	if (option_productQty > 1) {
+		option_productQty--;
+		$('#option_productQty'+ optionNum).val(option_productQty);
+		$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+		var total = $('#priceSpan').text()*1;
+		alert(total);
+		total -= discountPrice;
+		$('#priceSpan').text(total);
+	}
+});
+
+//---------------------
+//옵션없을때
 //숫자가 아닌경우  유효성검사 필요
-$(document).on('focusout','#productQty',function() {
+$('#productQty').focusout(function() {
 	var input = $('#productQty').val();
 	if (isNaN(input)) {
 		alert("구매수량은 숫자만 가능합니다");
@@ -415,16 +517,18 @@ $(document).on('focusout','#productQty',function() {
 });
 
 //수량 변경 : 증가
-$(document).on('click','#up', function() {
+$('#up').click(function() {
 	productQty++;
 	$('#productQty').val(productQty);
-});
+	$('#priceSpan').text(discountPrice*productQty);
+}); 
 
 //수량 변경 : 감소   
-$(document).on('click','#down', function() {
+$('#down').click(function() {
 	if (productQty > 1) {
 		productQty--;
 		$('#productQty').val(productQty);
+		$('#priceSpan').text(discountPrice * productQty);
 	}
 });
 
