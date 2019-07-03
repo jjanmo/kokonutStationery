@@ -21,3 +21,4 @@ public class PointDTO {
 	private int totalPoint;
 	private int pointType;
 }
+

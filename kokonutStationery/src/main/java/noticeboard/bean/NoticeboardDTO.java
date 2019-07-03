@@ -17,3 +17,4 @@ public class NoticeboardDTO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date regDate;
 }
+
