@@ -1,10 +1,15 @@
 package contentmanager.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import goods.bean.GoodsDTO;
 
 public interface ContentManagerDAO {
-	public List<GoodsDTO> reviewboardList();
+	public int reviewboardTotalA();
+	
+	public List<GoodsDTO> reviewboardList(Map<String, String> map);
+
+	
 
 }

@@ -3,9 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="contentSQL">
-		<select id="reviewboardList" resultType="reviewboard">
-			select * from TBL_REVIEWBOARD
-		</select>
+	<!-- review 테이블의 총 글 수-->
+	<select id="reviewboardTotalA" resultType="int">
+		select count(*) from TBL_REVIEWBOARD
+	</select>
+	
+	<select id="reviewboardList" parameterType="java.util.Map" resultType="reviewboard">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_REVIEWBOARD order by reviewboardcode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
 </mapper>
 
 
