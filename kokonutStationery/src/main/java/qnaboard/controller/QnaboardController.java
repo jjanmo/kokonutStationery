@@ -40,6 +40,16 @@ public class QnaboardController {
 		return mav;
 	}
 	
+	//모든 상품qna목록페이지이동
+	@GetMapping("/goods_qna.do")
+	public ModelAndView getQna() {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/qna/goods_qna.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
 	//모든 상품qna목록페이지
 	@GetMapping("/goods_qnaAllList.do")
 	public ModelAndView getAllQnaList() {
@@ -47,9 +57,8 @@ public class QnaboardController {
 		List<QnaboardDTO> list = qnaboardDAO.getAllQnaList();
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/qna/goods_qna.jsp");
 		mav.addObject("list", list);
-		mav.setViewName("/main/nosIndex");
+		mav.setViewName("jsonView");
 		return mav;
 	}
 	
