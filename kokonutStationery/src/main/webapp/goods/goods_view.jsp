@@ -402,7 +402,9 @@ $(document).on('click','.close', function(){
 		$('#priceSpan').text(0);
 		showDiv = 0;
 	} */
-
+	if(selArray.length == 0){
+		optionCnt = 0;
+	}
 });
 
 //옵션있을때 
@@ -501,9 +503,12 @@ $('#wishlistBtn').click(function(){
 				   /* 'optionContent': selArray */
 				   },
 			success: function(){
-				location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
+				alert('찜목록에 담기 성공');
 			}
 		}); //ajax
+		
+		//페이지 이동
+		location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
 	}
 });
 </script>
