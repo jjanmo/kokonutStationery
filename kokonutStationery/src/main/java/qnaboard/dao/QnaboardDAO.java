@@ -10,4 +10,6 @@ public interface QnaboardDAO {
 
 	public void qnaboardWrite(QnaboardDTO qnaboardDTO);
 
+	public List<QnaboardDTO> getAllQnaList();
+
 }

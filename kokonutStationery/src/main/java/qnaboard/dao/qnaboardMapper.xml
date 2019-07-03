@@ -4,6 +4,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="qnaSQL">
+	<!-- 모든상품후기리스트 가져오기 -->
+	<select id="getAllQnaList" resultType="qnaboard">
+		select * from TBL_qnaboard
+		order by ref desc, admin asc, qnaboardcode desc
+		
+	</select>
+	
 	<!-- 상품후기리스트 가져오기 -->
 	<select id="getQnaList" parameterType="Integer" resultType="qnaboard">
 		select * from TBL_qnaboard where productcode=#{productCode} 

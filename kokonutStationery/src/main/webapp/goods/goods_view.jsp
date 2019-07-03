@@ -244,7 +244,7 @@
 				
 				<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/kokonutStationery/qna/goods_qnaList.do">
+						<a href="/kokonutStationery/qna/goods_qnaAllList.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
@@ -440,11 +440,11 @@ $('#cartBtn').click(function(){
 $(document).ready(function(){
 	$.ajax({
 		typd:'post',
-		url:'../qna/goods_qna.do',
+		url:'../qna/goods_qnaList.do',
 		data:{'productCode':productCode},
 		dataType:'json',
 		success:function(data){
-			alert(JSON.stringify(data));
+			//alert(JSON.stringify(data));
 			
 			if(data!=null){
 				$.each(data.list, function(index, item) {
