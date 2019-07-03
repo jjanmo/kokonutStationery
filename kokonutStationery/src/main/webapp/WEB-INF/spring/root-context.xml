@@ -25,6 +25,8 @@
 	<context:component-scan base-package="noticeboard.dao"/>
 	<context:component-scan base-package="point.bean"/>
 	<context:component-scan base-package="point.dao"/>
+	<context:component-scan base-package="wishlist.bean"/>
+	<context:component-scan base-package="wishlist.dao"/>
 		
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.dao"/>

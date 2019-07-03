@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wishlistSQL">
+	<!-- 찜목록 출력 -->
+	<select id="getWishList" parameterType="String" resultType="wishlist">
+		select * from TBL_WISHLIST where userId = #{userId} order by logdate desc
+	</select>
+	
+	<!-- 찜목록에 추가 -->
+	<insert id="setWishList" parameterType="wishlist">
+		insert into tbl_wishlist(userId
+							   , productCode
+							   , productName
+							   , productOption
+							   , thumbImg
+							   , discountPrice
+							   , logdate)
+						  values(#{userId}
+						  	   , #{productCode}
+						  	   , #{productName}
+						  	   , #{productOption}
+						  	   , #{thumbImg}
+						  	   , #{discountPrice}
+						  	   , sysdate)
+	</insert>
+	
+<!-- 	<insert id="setWishList" parameterType="wishlist">
+		insert into tbl_wishlist(userId
+							   , productCode
+							   , productName
+							   , productOption
+							   , thumbImg
+							   , discountPrice
+							   , optionCode
+							   , optionContent
+							   , logdate)
+						  values(#{userId}
+						  	   , #{productCode}
+						  	   , #{productName}
+						  	   , #{productOption}
+						  	   , #{thumbImg}
+						  	   , #{discountPrice}
+						  	   , #{optionCode}
+						  	   , #{optionContent}
+						  	   , sysdate)
+	</insert> -->
+	
+	<!-- 찜목록 중복차단 -->
+	<select id="checkWishList" parameterType="int" resultType="int">
+		select count(*) from tbl_wishlist where productCode = #{productCode}
+	</select>
+	
+	<!-- 찜목록 삭제 -->
+	<delete id="">
+	
+	</delete>
+</mapper>

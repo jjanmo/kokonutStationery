@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>KOKONUT STATIONERY</title>
+
 <link rel="stylesheet" href="../css/goods_view.css?alert">
 <link
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
@@ -15,8 +10,8 @@
 <script type="text/javascript"
 	src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="../js/goods_view.js?alert"></script>
-</head>
-<body>
+
+<input type="hidden" id="goodsDTO" value="${goodsDTO}">
 	<div id="main">
 
 		<!-- 전체 div -->
@@ -208,7 +203,7 @@
 			
 		</div>
 	</div>
-</body>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 var option = ${goodsDTO.productOption};
@@ -254,6 +249,7 @@ $(function() {
 		});
 		
 	}//else
+
 });
 
 var selArray =  new Array();
@@ -487,7 +483,29 @@ $('#cartBtn').click(function(){
 	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
 
-
+//찜목록
+$('#wishlistBtn').click(function(){
+	if('${memId}'=='') {
+		alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
+		location.href='/kokonutStationery/user/loginForm.do';
+	} else {
+		$.ajax({	
+			type: 'post',
+			url: '/kokonutStationery/mypage/setWishList.do',
+			data: {'userId': '${memId}',
+				   'productCode': '${goodsDTO.productCode}',
+				   'productName': '${goodsDTO.productName}',
+				   'productOption': '${goodsDTO.productOption}',
+				   'thumbImg': '${goodsDTO.thumbImg}',
+				   'discountPrice': '${goodsDTO.discountPrice}',
+				   /* 'optionContent': selArray */
+				   },
+			success: function(){
+				location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
+			}
+		}); //ajax
+	}
+});
 </script>
 
 <script type="text/javascript">
@@ -650,5 +668,3 @@ $(document).ready(function(){
 	
 });
 </script>
-
-</html>

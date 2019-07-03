@@ -89,4 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUserInfo" parameterType="String" resultType="user">
 		select * from TBL_USER where userId = #{userId}
 	</select>
+	
+	<!-- 찜목록수 + 1 -->
+	<update id="addWishListCount" parameterType="String">
+		update tbl_user set productInWishList = productInWishList+1
+	</update>
 </mapper>
