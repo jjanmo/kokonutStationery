@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="reviewboard.bean.ReviewboardDTO" alias="reviewboard" />
 		<typeAlias type="point.bean.PointDTO" alias="point" />
 		<typeAlias type="goods.bean.TotalProductOnSaleDTO" alias="onSale" />
+		<typeAlias type="wishlist.bean.WishListDTO" alias="wishlist" />
 	</typeAliases>
 
 </configuration>

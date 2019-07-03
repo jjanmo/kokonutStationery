@@ -75,4 +75,9 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("userSQL.getUserInfo", userId);
 	}
 
+	@Override
+	public void addWishListCount(String userId) {
+		sqlSession.update("userSQL.addWishListCount", userId);	
+	}
+
 }

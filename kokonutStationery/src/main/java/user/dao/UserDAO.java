@@ -27,5 +27,7 @@ public interface UserDAO {
 
 	public UserDTO getUserInfo(String userId);
 
+	public void addWishListCount(String userId);
+
 
 }
