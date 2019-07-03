@@ -427,8 +427,27 @@ $(document).on('click','#down', function() {
 
 //장바구니페이지
 $('#cartBtn').click(function(){
-	location.href = "/kokonutStationery/cart/goods_cart.do";
+
+	alert(productCode)
+	location.href = "/kokonutStationery/cart/goods_cart.do?productCode="+productCode;
 });
 
+//장바구니 추가
+$('#cartBtn').click(function(){
+	$.ajax({
+		type : 'post',
+		url : '/kokonutStationery/cart/goods_cart_insert.do',
+		data : { 'userId' : '${memId}',
+				'userEmail' : '${memEmail}',
+				'productName' : '${goodsDTO.productName}',
+				'productCode': '${goodsDTO.productCode}',
+				'thumbImg' : '${goodsDTO.thumbImg}',
+				'dicountPrice' : '${goodsDTO.discountPrice}',
+				'productQty' : productQty },
+		success : function () {
+			
+			}
+	});
+});
 </script>
 </html>
