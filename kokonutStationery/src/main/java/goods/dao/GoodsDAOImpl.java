@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
+import goods.bean.TotalProductOnSaleDTO;
 
 @Transactional
 @Repository
@@ -32,19 +33,11 @@ public class GoodsDAOImpl implements GoodsDAO {
 	public List<GoodsDTO> get_goods_list_newP() {
 		return sqlSession.selectList("goodsSQL.get_goods_list_newP");
 	}
-
+	
+	//상품 개수 가져오기
 	@Override
-	public Map<String, String> get_count() {
-		String stationery = sqlSession.selectOne("goodsSQL.get_count_stationery");
-		String living = sqlSession.selectOne("goodsSQL.get_count_living");
-		String travel = sqlSession.selectOne("goodsSQL.get_count_travel");
-		String collabo = sqlSession.selectOne("goodsSQL.get_count_collabo");
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("stationery", stationery);
-		map.put("living", living);
-		map.put("travel", travel);
-		map.put("collabo", collabo);
-		return map;
+	public List<TotalProductOnSaleDTO> get_count() {
+		return sqlSession.selectList("goodsSQL.get_count");
 	}
 
 	//상품 상세페이지 정보 가져오기	

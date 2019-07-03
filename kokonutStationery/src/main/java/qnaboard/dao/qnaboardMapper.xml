@@ -6,7 +6,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="qnaSQL">
 	<!-- 상품후기리스트 가져오기 -->
 	<select id="getQnaList" parameterType="Integer" resultType="qnaboard">
-		select * from TBL_QNABOARD where productCode = #{productCode}
+		select * from TBL_QNABOARD where productCode = #{productCode} order by qnaboardcode desc
 	</select>
 
+	<!-- 상품후기 작성 -->
+	<insert id="qnaboardWrite" parameterType="qnaboard">
+		insert into TBL_QNABOARD (USERID,
+							 USEREMAIL,
+							 USERPHONE,
+							 QNABOARDCODE,
+							 QNABOARDSUBJECT,
+							 QNABOARDCONTENT,
+							 THUMBIMG,
+							 SECRET,
+							 PRODUCTCODE,
+							 PRODUCTNAME,
+							 DISCOUNTPRICE) 
+					values (#{userId} 
+							,#{userEmail} 
+							,#{userPhone}
+							,qnaboardcode_seq.nextval
+							,#{qnaboardSubject}
+							,#{qnaboardContent}
+							,#{thumbImg}
+							,#{secret}
+							,#{productCode}
+							,#{productName}
+							,#{discountPrice})
+	</insert>
 </mapper>

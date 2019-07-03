@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	
 <!DOCTYPE html>
 <html>
@@ -189,9 +189,8 @@
 					<p>문의</p>
 				</div>
 				
-				<div>
-				<c:forEach var="list" items="${list}">
-				
+				<div id="qnaList">
+					<%-- 
 					<div class="userPage_area" id="qna_01">
 						<div class="userPage_subject">
 							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
@@ -213,7 +212,7 @@
 						<div class="userPage_content userPage_private_lock"
 							id="qna_01_content">${list.qnaboardSubject}
 						</div>
-					</c:if>
+					</c:if> --%>
 					
 					<!-- 
 					<div class="userPage_area" id="qna_01">
@@ -241,11 +240,12 @@
 						id="qna_02_content">비밀글입니다.
 					</div>
 					-->
-					</c:forEach>
 					
-					<div class="userPage_paging"></div>
+					
+				</div>
+				<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
-						<a href="/kokonutStationery/qna/goods_qna.do">
+						<a href="/kokonutStationery/qna/goods_qnaList.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
@@ -253,8 +253,6 @@
 					<div class="userPage_paging_num">
 						<b>1</b>
 					</div> 
-				
-				</div>
 				
 				
 			</div>
@@ -269,6 +267,11 @@ var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
 var showDiv = 0;
+
+//문의 작성 페이지 띄우기
+$('#qna_regist_btn').click(function(){
+	window.open("/kokonutStationery/qna/goods_qna_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
+});
 
 $(function() {
 	alert(option);
@@ -534,5 +537,155 @@ $('#cartBtn').click(function(){
 	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
 
+
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.ajax({
+		typd:'post',
+		url:'../qna/goods_qna.do',
+		data:{'productCode':productCode},
+		dataType:'json',
+		success:function(data){
+			alert("성공!!");
+			
+			if(data!=null){
+				$.each(data.list, function(index, item) {
+					if(item.admin==0){
+						//////////////////질문///////////////////
+						//제목틀생성
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : 'qna_'+index,
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								
+								}).append($('<span/>',{
+									
+									style:'color: #2AC1BC; font-weight: 700;',
+									text:'질문 : '
+									
+								}))));
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);
+						
+						
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//수정버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'수정'
+						}));
+						//삭제버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'삭제'
+						}));
+						
+						//비밀글일때 
+						if(item.secret==1){
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
+						}
+					}
+					
+					/*
+					//////////////////답변///////////////////
+					else if(item.admin==1){					
+						//제목
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : id:'qna_'+index
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								}).append($('<span/>',{
+									
+									style:'color: #2AC1BC; font-weight: 700;',
+									text:'답변 : '
+									
+								}))));
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);
+						
+						//비밀글일때 이미지 추가
+						if(item.secret==1){
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+						}
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						if(item.secret==1){
+							//비밀글일때
+							$('#qna'+index+'_content').append(
+								class:	'userPage_private_lock'	
+							);
+							$('#qna'+index+'_content').text("비밀글입니다.");
+						}
+					}//관리자답변if
+					*/
+
+					//답변내용숨기기
+					$('#qna_'+index+'_content').hide();
+					//답변내용클릭시 보이게
+					$('#qna_'+index).on('click', function(){
+						$('#qna_'+index+'_content').toggle();
+					});
+					
+					//후기 문의 게시물 hover 이벤트
+					$('.userPage_area').hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
+				});//for문
+			}//if문
+			
+		}//success
+	});
+	
+});
+</script>
+
 </html>

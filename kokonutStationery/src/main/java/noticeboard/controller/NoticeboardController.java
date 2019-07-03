@@ -27,3 +27,4 @@ public class NoticeboardController {
 		return mav;
 	}
 }
+

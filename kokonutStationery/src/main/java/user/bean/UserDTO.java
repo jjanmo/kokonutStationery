@@ -32,4 +32,5 @@ public class UserDTO {
 	private String deliveryOption;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date joinDate;
+	private int totalPayment; //총구매액
 }

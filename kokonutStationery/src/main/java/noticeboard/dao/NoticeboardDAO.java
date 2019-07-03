@@ -9,3 +9,4 @@ public interface NoticeboardDAO {
 	public List<NoticeboardDTO> getNoticeboardList();
 
 }
+

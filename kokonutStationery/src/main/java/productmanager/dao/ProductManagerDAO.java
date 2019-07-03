@@ -17,6 +17,8 @@ public interface ProductManagerDAO {
 
 	public int productRegist(GoodsDTO goodsDTO);
 	
+	public void totalProductOnSale(GoodsDTO goodsDTO);
+	
 	public List<GoodsDTO> productList(Map<String, String> map);
 	
 	public List<GoodsDTO> productSearch(Map<String, String> map);
@@ -27,7 +29,18 @@ public interface ProductManagerDAO {
 
 	public GoodsDTO getModifyForm(String productCode);
 
+	public List<GoodsDTO> getProductList(Map<String, String[]> map);
+	
+	public void updateTotalProductOnSale(Map<String, Integer> qtyMap);
+
 	public void productDelete(Map<String, String[]> map);
+
+	public void productOptionDelete(Map<String, String[]> map);
+
+
+
+
+	
 
 	
 
