@@ -23,6 +23,8 @@ public class QnaboardDTO {
 	private int productCode ;
 	private String productName;
 	private int discountPrice;
+	private int ref ;
+	private int admin ;	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date regDate;
 }

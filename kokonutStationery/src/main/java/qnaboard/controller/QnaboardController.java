@@ -27,16 +27,38 @@ public class QnaboardController {
 	@Autowired
 	private QnaboardDAO qnaboardDAO;
 	
-	//상품qna목록페이지
-	@GetMapping("/goods_qna.do")
-	public ModelAndView getGoodsQnaList(@RequestParam String productCode) {
+	//상품페이지의 qna리스트
+	@GetMapping("/goods_qnaList.do")
+	public ModelAndView getQnaList(@RequestParam String productCode) {
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(Integer.parseInt(productCode));
+		System.out.println("개별상품코드="+productCode);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//모든 상품qna목록페이지이동
+	@GetMapping("/goods_qna.do")
+	public ModelAndView getQna() {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("display", "/qna/goods_qna.jsp");
-		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//모든 상품qna목록페이지
+	@GetMapping("/goods_qnaAllList.do")
+	public ModelAndView getAllQnaList() {
+		//상품문의리스트가져오기
+		List<QnaboardDTO> list = qnaboardDAO.getAllQnaList();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
 		return mav;
 	}
 	

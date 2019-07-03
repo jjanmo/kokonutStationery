@@ -57,12 +57,7 @@
 					
 					<!-- 옵션 div 추가-->
 					<div class="option_wrap"></div>
-					
-					<!-- 총 합계금액 div -->
-					<div id="option_totalPriceDiv">
-					총 금액&ensp;:&ensp;<span style="font-size: 22px; color: #333; font-weight: 600;">2500원</span>
-					</div>
-					
+										
 					<!-- 수량 선택 div -->
 					<div id="noOptionDiv" style="margin-top: 3px; display: none;">
 						<div class="items" style="padding: 5px 0;">구매수량</div>
@@ -89,6 +84,13 @@
 								style="padding-left: 5px; line-height: 38px; margin: 10px 0;">개</div>
 						</div>
 					</div>
+									
+					<!-- 총 합계금액 div -->
+					<div id="totalPriceDiv">
+					총 금액&ensp;:&ensp;<span id="priceSpan" style="font-size: 22px; color: #333; font-weight: 600;">${goodsDTO.discountPrice}</span>
+					<span>&ensp;원</span>
+					</div>
+					
 				</div>
 
 				<div id="goods_buttons">
@@ -188,58 +190,11 @@
 				</div>
 				
 				<div id="qnaList">
-					<%-- 
-					<div class="userPage_area" id="qna_01">
-						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>
-							${list.qnaboardSubject } 
-							<c:if test="${list.secret==1}">
-								<img src="../image/private_lock.gif">
-							</c:if>
-						</div>
-						<div class="userPage_name">${list.userId }</div>
-						<div class="userPage_date">${list.regDate }</div>
-					</div>
-					<br>
-					<c:if test="${list.secret==1}">
-						<div class="userPage_content userPage_private_lock"
-							id="qna_01_content">비밀글입니다.
-						</div>
-					</c:if>
-					<c:if test="${list.secret==0}">
-						<div class="userPage_content userPage_private_lock"
-							id="qna_01_content">${list.qnaboardSubject}
-						</div>
-					</c:if> --%>
 					
-					<!-- 
-					<div class="userPage_area" id="qna_01">
-						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">질문 : </span>일등석
-							스티커 <img src="../image/private_lock.gif">
-						</div>
-						<div class="userPage_name">ㄱㅈㅇ</div>
-						<div class="userPage_date">2017-08-30</div>
-					</div>
-					<br>
-					<div class="userPage_content userPage_private_lock"
-						id="qna_01_content">비밀글입니다.
-					</div>
 					
-					<div class="userPage_area" id="qna_02">
-						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
-							문의 답변드립니다. <img src="../image/private_lock.gif">
-						</div>
-						<div class="userPage_name">admin</div>
-						<div class="userPage_date">2017-08-30</div>
-					</div>
-					<div class="userPage_content userPage_private_lock"
-						id="qna_02_content">비밀글입니다.
-					</div>
-					-->
-					
-					<div class="userPage_paging"></div>
+				</div>
+				
+				<div class="userPage_paging"></div>
 					<div class="userPage_buttons">
 						<a href="/kokonutStationery/qna/goods_qna.do">
 							<li id="qna_list_btn" class="userPage_sub_button">목록</li>
@@ -249,11 +204,8 @@
 					<div class="userPage_paging_num">
 						<b>1</b>
 					</div> 
-				
-				</div>
-				
-				
 			</div>
+			
 		</div>
 	</div>
 </body>
@@ -264,6 +216,7 @@ var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
+var showDiv = 0;
 
 //문의 작성 페이지 띄우기
 $('#qna_regist_btn').click(function(){
@@ -271,6 +224,7 @@ $('#qna_regist_btn').click(function(){
 });
 
 $(function() {
+	alert(option);
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
 		$('#originalPrice').css('display','none');
@@ -279,6 +233,7 @@ $(function() {
 	//옵션이 없을때
 	if (option == 0) {
 		$('#noOptionDiv').css('display', 'block');
+		$('#totalPriceDiv').css('display','block');
 	}
 
 	//옵션이 있을때
@@ -309,24 +264,31 @@ $('#optionBox').change(function(){
 	var length = $('#optionBox option').length - 1 ; //option의 개수
 	var sel = $('#optionBox option:selected').val();
 	
+	if(showDiv == 0){ //옵션이 있을때 합계금액이 떠오르게 하는것
+		$('#totalPriceDiv').css('display','block');
+		showDiv++;
+	}
+	
 	if(sel == notOption){ //"옵션을 선택하세요" 를 선택
 		return;
 	} 
 	
 	else {//'제대로된' 옵션을 선택한 경우
 		if(selArray.length == length ){//옵션을 모두 한번씩 다 선택한 경우
-		   alert(1);
 		   alert("이미 추가된 옵션입니다.");
+		   return;
 		}
 		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
 		    selArray.push(sel);
 		    createDiv(sel);
+		    
+		  	//옵션div가 생성될때 총합변화	
+			changeTotalPrice();		
 		    return;
 		}
 		var cnt = 0;
 	    for(i=0;i<selArray.length; i++){
 	      if(selArray[i] == sel){
-	    	alert(2);
             alert("이미 추가된 옵션입니다.");
             break;
           }
@@ -337,76 +299,166 @@ $('#optionBox').change(function(){
 	        createDiv(sel);
 	    }
 	} //else
+	
+	//옵션div가 생성될때 총합변화	
+	changeTotalPrice();	
+	
 }); //function
 
+var optionCnt = 0;
 function createDiv(sel){
-	alert("click");
 	$('.option_wrap').append($('<div/>',{
-	  id : 'option_selectedDiv'
+	  class : 'option_selectedDiv',
+	  id : optionCnt
 	}));
 	
-	$('#option_selectedDiv').append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{
 	  text : sel,
 	  id : 'option_contentDiv'
 	}));
-	$('#option_selectedDiv').append($('<div/>',{
-	  id : 'inputDiv'
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'inputDiv' + optionCnt
 	}).css('float','left'));
 	
-	$('#inputDiv').append($('<input>',{
+	$('#inputDiv'+ optionCnt).append($('<input>',{
 	  type : 'text',
-	  name : 'productQty',
-	  id : 'option_productQty',
+	  class : 'option_productQty',
+	  id : 'option_productQty'+ optionCnt,
 	  step : '1',
 	  min : '1',
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
 	
-	$('#option_selectedDiv').append($('<div/>',{
-	  id : 'updownDiv',
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'updownDiv'+ optionCnt,
 	  style : "float: left; padding-left: 3px;"
 	}).append($('<div/>',{
 	  style : "padding: 10px 0 3px 0;"
 	}).append($('<img>',{
-	  id : 'up',
+	  id : 'up'+optionCnt,
+	  class : 'up',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png',
 	  style : "cursor: pointer; width: 14px; margin: 3px 2px;"
 	}))));
 	
-	$('#updownDiv').append($('<div>').append($('<img>',{
-	  id :'down',
+	$('#updownDiv'+optionCnt).append($('<div>').append($('<img>',{
+	  id :'down'+optionCnt,
+	  class : 'down',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png',
 	  style : 'cursor: pointer; width: 14px; margin: 3px 2px;'
 	})));
 	
-	$('#option_selectedDiv').append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{
+	  id : 'priceDiv' +optionCnt,
 	  style : 'float: left; margin: 22px 0 22px 25px;'
 	}).append($('<span/>',{
+		id : 'priceSpan'+optionCnt,
 	  style: 'font-size: 13px; color: #444; font-weight: 500;',
 	  text : discountPrice
 	})));
 	
-	$('#option_selectedDiv').append($('<img>',{
-	  id : 'close',
+	$('#priceDiv'+optionCnt).append($('<span/>',{
+		text : '원'
+	}));
+	
+	$('#'+optionCnt).append($('<img>',{
+	  class : 'close',
+	  id : optionCnt,
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_del.png',
 	  style : 'cursor: pointer; float: right; margin: 25px 20px 25px 15px; width: 15px; height: 14px;'
 	}));
+	optionCnt++;
 }
 
+//옵션div가 생성될때 총합변화	
+function changeTotalPrice(){
+	var total1 = 0;
+	alert('optionCnt : ' + optionCnt);
+	for(i=0; i<optionCnt; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total1 += num;
+	}
+	$('#priceSpan').text(total1);
+}
+
+
 //option div 지우기
-$(document).on('click','#close', function(){
-	var text = $('#option_selectedDiv').children().first().text();
-	alert("aa");
-	$('#option_selectedDiv').remove();
+$(document).on('click','.close', function(){
+	var number = $(this).attr('id');
+	var text = $('#'+number).children().first().text();
+	
+	//옵션div가 지워질때 총합변화
+	var total2 = $('#priceSpan').text();
+	var pp = $('#priceSpan'+number).text()*1;
+	total2 -= pp;
+	$('#priceSpan').text(total2);
+	
+	//div삭제
+	$('#'+ number).remove();
+	
 	//배열안에서 그에 맞는 옵션을 지워줘야함
 	selArray.splice(selArray.indexOf(text),1);
+	
+	
+/* 	if(selArray.length == 0){
+		$('#totalPriceDiv').css('display','none');
+		$('#priceSpan').text(0);
+		showDiv = 0;
+	} */
 
 });
 
+//옵션있을때 
+////숫자가 아닌경우  유효성검사 필요
+$(document).on('focusout','.option_productQty',function() {
+	
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	//alert(optionNum);
+	var input = $('#option_productQty'+optionNum).val();
+	if (isNaN(input)) {
+		alert("구매수량은 숫자만 가능합니다");
+	}
+	$('#option_productQty'+optionNum).val("1");
+});
 
+//수량 변경 : 증가
+$(document).on('click','.up', function() {
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	var option_productQty = $('#option_productQty'+ optionNum).val();
+	option_productQty++;
+	$('#option_productQty'+ optionNum).val(option_productQty);
+	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+	var total = 0;
+	for(i=0; i<selArray.length; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total += num;
+	}
+	$('#priceSpan').text(total);
+}); 
+
+//수량 변경 : 감소   
+$(document).on('click','.down', function() {
+	var idText = $(this).attr('id');
+	var optionNum = idText.charAt(idText.length-1); 
+	var option_productQty = $('#option_productQty'+ optionNum).val();
+	if (option_productQty > 1) {
+		option_productQty--;
+		$('#option_productQty'+ optionNum).val(option_productQty);
+		$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+		var total = $('#priceSpan').text()*1;
+		alert(total);
+		total -= discountPrice;
+		$('#priceSpan').text(total);
+	}
+});
+
+//---------------------
+//옵션없을때
 //숫자가 아닌경우  유효성검사 필요
-$(document).on('focusout','#productQty',function() {
+$('#productQty').focusout(function() {
 	var input = $('#productQty').val();
 	if (isNaN(input)) {
 		alert("구매수량은 숫자만 가능합니다");
@@ -415,16 +467,18 @@ $(document).on('focusout','#productQty',function() {
 });
 
 //수량 변경 : 증가
-$(document).on('click','#up', function() {
+$('#up').click(function() {
 	productQty++;
 	$('#productQty').val(productQty);
-});
+	$('#priceSpan').text(discountPrice*productQty);
+}); 
 
 //수량 변경 : 감소   
-$(document).on('click','#down', function() {
+$('#down').click(function() {
 	if (productQty > 1) {
 		productQty--;
 		$('#productQty').val(productQty);
+		$('#priceSpan').text(discountPrice * productQty);
 	}
 });
 
@@ -435,46 +489,164 @@ $('#cartBtn').click(function(){
 
 
 </script>
+
 <script type="text/javascript">
 $(document).ready(function(){
-	
 	$.ajax({
 		typd:'post',
-		url:'../qna/goods_qna.do',
+		url:'../qna/goods_qnaList.do',
 		data:{'productCode':productCode},
 		dataType:'json',
 		success:function(data){
+			//alert(JSON.stringify(data));
+			
 			if(data!=null){
-				$('#qnaList').append($('<div/>',{
-					class: 'userPage_area',
-					id : 'qna_01',
-					}).append($('<div/>',{
-						class:'userPage_subject'
-						}).append($('<span/>',{
-							style:'color: #2AC1BC; font-weight: 700;',
-							text:data.list.qnaboardSubject
-						}))));
-				//비밀글일때 이미지 추가
-				if(data.list.secret==1){
-					$('#userPage_subject').append($('<img>',{
-						src:'../image/private_lock.gif'
-					}));
-				}
-				
-				$('#qna_01').append($('<div/>',{
-					class:'userPage_name',
-					text:data.list.userId
+				$.each(data.list, function(index, item) {
+					//////////////////질문///////////////////					
+					if(item.admin==0){
+						
+						//제목틀생성
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : 'qna_'+index
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								
+								}).append($('<span/>',{
+									
+									style:'color: #2AC1BC; font-weight: 700;',
+									text:'질문 : '
+									
+								}))));
+						 
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
+						
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//수정버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'수정'
+						}));
+						//삭제버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'삭제'
+						}));
+						
+						//비밀글일때 
+						if(item.secret==1){
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
+						}
+						
+					}else if(item.admin==1){						
+						//////////////////답변///////////////////
+						
+						//제목틀
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : 'qna_'+index
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								
+								}).append($('<span/>',{
+									
+									style:'color: #2AC1BC; font-weight: 700;',
+									text:'답변 : '
+									
+								}))));
+						
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
+						
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//비밀글일때 
+						if(item.secret==1){
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
+						}
+						
+						
+					}//관리자답변if
 					
-				}));
-				
-				$('#qna_01').append($('<div/>',{
-					class:'userPage_date',
-					text:data.list.regDate
 					
-				}));
-			}//if문
+					//답변내용숨기기
+					$('#qna_'+index+'_content').hide();
+					//답변내용클릭시 보이게
+					$('#qna_'+index).on('click', function(){
+						$('#qna_'+index+'_content').toggle();
+					});
+					
+					//후기 문의 게시물 hover 이벤트
+					$('.userPage_area').hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
+				});//for문
+			}//if - data문
+			
 		}//success
-	});
+	});//ajax
 	
 });
 </script>

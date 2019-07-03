@@ -15,3 +15,4 @@ public class TotalProductOnSaleDTO {
 	private int best;
 	private int newP;
 }
+
