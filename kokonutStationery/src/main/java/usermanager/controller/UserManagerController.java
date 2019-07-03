@@ -118,6 +118,7 @@ public class UserManagerController {
 	@RequestMapping(value="/admin/userModifyForm.do", method=RequestMethod.GET)
 	public String userModifyForm(@RequestParam String userId, Model model) {
 		UserDTO userDTO = userDAO.userModifyView(userId);
+		
 		model.addAttribute("userId", userId);
 		model.addAttribute("userDTO", userDTO);
 		return "/admin/user/userModifyForm"; 
