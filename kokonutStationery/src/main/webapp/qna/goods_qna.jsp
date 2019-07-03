@@ -27,7 +27,7 @@
 						<option value="productName">상품명</option>
 					</select>
 					<input type="text"  id="searchContent" name="searchContent" class="goods_userPage_searchValue" placeholder="검색어를 입력하세요">
-					<input type="submit" id="goods_userPage_searchBtn" class="goods_userPage_searchBtn" value="검색">
+					<input type="button" id="goods_userPage_searchBtn" class="goods_userPage_searchBtn" value="검색">
 				</div>
 				<div>
 					<select class="goods_userPage_sortOption">
@@ -261,6 +261,34 @@ $(document).ready(function(){
 			
 		}//success
 	});//ajax
+	
+	$('#goods_userPage_searchBtn').on('click',function(){
+		var searchOption = $('#searchOption').val();
+		var searchContent = $('#searchContent').val();
+		
+		if(searchContent==''){
+			alert("글써!");
+		}else{
+			$.ajax({
+				type:'POST',
+				url:'../qna/qnaboardSearch.do',
+				data:{
+					'searchOption':searchOption,
+					'searchContent':searchContent},
+				dataType:'json',
+				success:function(data){
+					alert(JSON.stringify(data));
+					$('.goods_userPage_board tr').children().remove();//0보다 큰 tr은 제거
+					
+					
+					$.each(data.list, function(index, items){
+						
+					});
+					
+				}
+			});
+		}
+	});
 	
 	/*
 	//검색버튼

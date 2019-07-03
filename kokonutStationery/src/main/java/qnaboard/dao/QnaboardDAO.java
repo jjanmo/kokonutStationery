@@ -15,4 +15,6 @@ public interface QnaboardDAO {
 
 	public int getTotalQ(int productCode);
 
+	public List<QnaboardDTO> qnaboardSearch(Map<String, String> map);
+
 }
