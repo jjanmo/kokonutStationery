@@ -1,6 +1,7 @@
 package wishlist.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,16 @@ public class WishListDAOImpl implements WishListDAO {
 		if(wishlistDTO.getOptionContent()==null) {
 			sqlSession.insert("wishlistSQL.setWishList", wishlistDTO);
 		}
-		
 	}
 
 	@Override
 	public int checkWishList(int productCode) {
 		return sqlSession.selectOne("wishlistSQL.checkWishList", productCode);
+	}
+
+	@Override
+	public void deleteWishList(Map<String, String> map) {
+		sqlSession.delete("wishlistSQL.deleteWishList", map);
 	}
 
 }

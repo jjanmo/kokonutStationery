@@ -1,6 +1,5 @@
 package user.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import user.bean.UserDTO;
@@ -28,6 +27,8 @@ public interface UserDAO {
 	public UserDTO getUserInfo(String userId);
 
 	public void addWishListCount(String userId);
+
+	public void subWishListCount(String userId);
 
 
 }

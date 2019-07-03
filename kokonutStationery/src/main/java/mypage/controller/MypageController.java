@@ -1,15 +1,13 @@
 package mypage.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import goods.bean.GoodsDTO;
 import point.bean.PointDTO;
 import point.dao.PointDAO;
 import user.bean.UserDTO;
@@ -151,6 +148,27 @@ public class MypageController {
 		mav.addObject("userDTO", userDTO);
 		mav.setViewName("jsonView");
 		return mav;
+	}
+	
+	//찜목록 삭제
+	@PostMapping("/deleteWishList.do")
+	@ResponseBody
+	public void deleteWishList(@RequestParam String userId, @RequestParam String productCode, @RequestParam String optionContent) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("productCode", productCode);
+		
+		if(optionContent.equals("")) {
+			//optionCode 가져오기
+			
+			//map.put("optionCode", optionCode);
+		}
+		
+		//찜목록 삭제
+		wishlistDAO.deleteWishList(map);
+		
+		//유저 찜목록수 -1
+		userDAO.subWishListCount(userId);
 	}
 
 	
