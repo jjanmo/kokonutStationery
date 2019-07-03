@@ -201,8 +201,8 @@
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
 					</div>
-					<div class="userPage_paging_num">
-						<b>1</b>
+					<div class="qnaPage_paging_num">
+						<!-- <b></b> -->
 					</div> 
 			</div>
 			
@@ -516,7 +516,7 @@ $(document).ready(function(){
 								
 								}).append($('<span/>',{
 									
-									style:'color: #2AC1BC; font-weight: 700;',
+									style:'color: #a0a0a0; font-weight: 700;',
 									text:'질문 : '
 									
 								}))));
@@ -583,7 +583,7 @@ $(document).ready(function(){
 								
 								}).append($('<span/>',{
 									
-									style:'color: #2AC1BC; font-weight: 700;',
+									style:'color: #2AC1BC; font-weight: 700; padding-left:15px;',
 									text:'답변 : '
 									
 								}))));
@@ -643,12 +643,186 @@ $(document).ready(function(){
 						$(this).css("background-color", "#ffffff");
 					});	
 				});//for문
+				
+				//페이징
+				$('.qnaPage_paging_num').append($('<div/>',{
+					html : data.qnaboardPaging.pagingHTML
+				}));
 			}//if - data문
 			
 		}//success
 	});//ajax
 	
 });
+
+function boardPaging(pg){
+	
+	$.ajax({
+		type:'get',
+		url:'../qna/goods_qnaList.do',
+		data:{'pg':pg,
+			'productCode':productCode},
+		dataType:'json',
+		success:function(data){
+			//alert(JSON.stringify(data));
+			$('#qnaList').children().remove();//제거
+			$('.qnaPage_paging_num').children().remove();
+			
+			if(data!=null){
+				$.each(data.list, function(index, item) {
+					//////////////////질문///////////////////					
+					if(item.admin==0){
+						
+						//제목틀생성
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : 'qna_'+index
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								
+								}).append($('<span/>',{
+									
+									style:'color: #a0a0a0; font-weight: 700;',
+									text:'질문 : '
+									
+								}))));
+						 
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
+						
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//수정버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'수정'
+						}));
+						//삭제버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'review_reply_btn',
+							text:'삭제'
+						}));
+						
+						//비밀글일때 
+						if(item.secret==1){
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
+						}
+						
+					}else if(item.admin==1){						
+						//////////////////답변///////////////////
+						
+						//제목틀
+						$('#qnaList').append($('<div/>',{
+							class: 'userPage_area',
+							id : 'qna_'+index
+							
+							}).append($('<div/>',{
+								id:'qnaSubject_'+index,
+								class:'userPage_subject'
+								
+								}).append($('<span/>',{
+									
+									style:'color: #2AC1BC; font-weight: 700; padding-left:15px;',
+									text:'답변 : '
+									
+								}))));
+						
+						//제목이름
+						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
+						
+						//작성자
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_name',
+							text:item.userId
+							
+						}));
+						
+						//날짜
+						$('#qna_'+index).append($('<div/>',{
+							class:'userPage_date',
+							text:item.regDate
+							
+						}));
+						
+						//내용
+						$('#qnaList').append($('<div/>',{
+							class:'userPage_content',
+							id:'qna_'+index+'_content',
+							text:item.qnaboardContent
+						}));
+						
+						
+						//비밀글일때 
+						if(item.secret==1){
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//비밀글일때 내용안보이게
+							$('#qna_'+index+'_content').addClass('userPage_private_lock');
+							$('#qna_'+index+'_content').text("비밀글입니다.");
+						}
+						
+						
+					}//관리자답변if
+					
+					
+					//답변내용숨기기
+					$('#qna_'+index+'_content').hide();
+					//답변내용클릭시 보이게
+					$('#qna_'+index).on('click', function(){
+						$('#qna_'+index+'_content').toggle();
+					});
+					
+					//후기 문의 게시물 hover 이벤트
+					$('.userPage_area').hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
+				});//for문
+				
+				//페이징
+				$('.qnaPage_paging_num').append($('<div/>',{
+					
+					html : data.qnaboardPaging.pagingHTML
+				}));
+			}//if - data문
+				
+		}
+	});
+	
+}
 </script>
 
 </html>

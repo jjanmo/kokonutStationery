@@ -231,7 +231,22 @@ body{
 	text-align: center;
 	font-size: 13px;
 }
+.qnaPage_paging_num{
+	padding: 25px 0 30px 90px;
+	text-align: center;
+	font-size: 13px;
+}
+#currentPaging {
+	color: #2AC1BC; 
+	font-weight: 700;
+	cursor:pointer;
+}
 
+#paging {
+	color : black; 
+	text-decoration: none; 
+	cursor:pointer;
+}
 /* 수량 input */
 
 
