@@ -1,6 +1,7 @@
 package noticeboard.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,11 @@ public class NoticeboardDAOImpl implements NoticeboardDAO {
 	@Override
 	public List<NoticeboardDTO> getNoticeboardList() {
 		return sqlSession.selectList("noticeboardSQL.getNoticeboardList");
+	}
+
+	@Override
+	public List<NoticeboardDTO> noticeboardSearch(Map<String, String> map) {
+		return sqlSession.selectList("noticeboardSQL.noticeboardSearch",map);
 	}
 
 }
