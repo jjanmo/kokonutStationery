@@ -137,6 +137,13 @@ $('.noticeboard_searchBtn').click(function(){
 					
 				});//each
 				
+				$('.subjectA').click(function(){
+					var code = $(this).attr('name');
+					$('[id^='+code+']').each(function(){
+						$(this).toggle();
+					});
+				});
+				
 				
 			}//success
 		});//ajax
