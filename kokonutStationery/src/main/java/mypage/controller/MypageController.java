@@ -25,8 +25,7 @@ import wishlist.dao.WishListDAO;
 
 @Controller
 @RequestMapping("/mypage/*")
-public class MypageController {
-	
+public class MypageController {	
 	@Autowired	
 	private UserDAO userDAO;
 	@Autowired
@@ -39,9 +38,11 @@ public class MypageController {
 	public ModelAndView pointlist(HttpSession session) {
 		//포인트 리스트 가져오기
 		String userId = (String) session.getAttribute("memId");
+		UserDTO userInfo = userDAO.getUserInfo(userId);
 		List<PointDTO> list = pointDAO.getPointList(userId);
 		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("userInfo", userInfo);
 		mav.addObject("list", list);
 		mav.addObject("contents", "/mypage/mypage_pointlist.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
