@@ -27,7 +27,7 @@ public interface ProductManagerDAO {
 
 	public int getSearchTotalA(Map<String, String> map);
 
-	public GoodsDTO getModifyForm(String productCode);
+	public GoodsDTO getModifyForm(int productCode);
 
 	public List<GoodsDTO> getProductList(Map<String, String[]> map);
 	

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import contentmanager.bean.QnaboardManagerPaging;
 import contentmanager.bean.ReviewboardPaging;
 import contentmanager.dao.ContentManagerDAO;
 import goods.bean.GoodsDTO;
