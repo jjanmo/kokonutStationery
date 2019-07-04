@@ -32,7 +32,7 @@ public class QnaboardController {
 	@Autowired
 	private QnaboardPaging qnaboardPaging;
 	
-	//상품페이지의 qna리스트
+	//개별상품페이지의 qna리스트
 	@GetMapping("/goods_qnaList.do")
 	public ModelAndView getQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String productCode) {
 		
@@ -83,6 +83,26 @@ public class QnaboardController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//문의검색
+	@RequestMapping(value="/qnaboardSearch.do",method=RequestMethod.POST)
+	public ModelAndView qnaboardSearch(@RequestParam(required=false) Map<String,String> map) {		
+		
+		
+		//목록처리
+		List<QnaboardDTO> list = qnaboardDAO.qnaboardSearch(map);		
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("list", list);
+		mav.addObject("searchOption", map.get("searchOption"));
+		mav.addObject("searchContent", map.get("searchContent"));
+		mav.addObject("display", "/qna/goods_qna.jsp");
+		mav.setViewName("/main/nosIndex");
+		mav.setViewName("jsonView");
+		
 		return mav;
 	}
 	

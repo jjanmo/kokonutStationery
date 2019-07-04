@@ -33,6 +33,10 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	public int getTotalQ(int productCode) {
 		return sqlSession.selectOne("qnaSQL.getTotalQ",productCode);
 	}
+	@Override
+	public List<QnaboardDTO> qnaboardSearch(Map<String, String> map) {
+		return sqlSession.selectList("qnaSQL.qnaboardSearch",map);
+	}
 
 	
 

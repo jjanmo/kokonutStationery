@@ -17,6 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
+	<!-- 검색문의리스트 가져오기 -->
+	<select id="qnaboardSearch" parameterType="java.util.Map" resultType="qnaboard">
+		select * from TBL_qnaboard where ${searchOption} like '%'||#{searchContent}||'%'
+		order by ref desc, admin asc, qnaboardcode desc
+	</select>
+		
 	<!-- 특정상품후기리스트 가져오기 -->
 	<select id="getQnaList" parameterType="java.util.Map" resultType="qnaboard">
 		<!-- select * from TBL_qnaboard where productcode=#{productCode} 

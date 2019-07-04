@@ -28,9 +28,9 @@ public class QnaboardPaging {
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage)
-				pagingHTML.append("[ <span id='currentPaging'	onclick='boardPaging("+i+")'>"+i+"</span> ]");
+				pagingHTML.append(" <span id='currentPaging'	onclick='boardPaging("+i+")'>"+i+"</span> ");
 			else 
-				pagingHTML.append("[ <span id='paging'			onclick='boardPaging("+i+")'>"+i+"</span> ]");
+				pagingHTML.append(" <span id='paging'			onclick='boardPaging("+i+")'>"+i+"</span> ");
 		}
 		
 		if(endPage<totalP)
