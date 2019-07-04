@@ -99,6 +99,8 @@ public class QnaboardController {
 		mav.addObject("list", list);
 		mav.addObject("searchOption", map.get("searchOption"));
 		mav.addObject("searchContent", map.get("searchContent"));
+		mav.addObject("display", "/qna/goods_qna.jsp");
+		mav.setViewName("/main/nosIndex");
 		mav.setViewName("jsonView");
 		
 		return mav;

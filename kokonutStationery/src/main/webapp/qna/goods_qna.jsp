@@ -18,7 +18,8 @@
 	<div class="goods_userPage_area">
 		<div class="goods_userPage_main">		
 			<div style="font-size:22px; font-weight:700;">상품문의</div>
-			<form id="userPage_searchForm">
+			
+			<form id="userPage_searchForm" method="post" action="../qna/qnaboardSearch.do">
 				<div class="goods_userPage_search">
 					<select id="searchOption" name="searchOption" class="goods_userPage_searchOption">
 						<option value="">통합검색</option>
