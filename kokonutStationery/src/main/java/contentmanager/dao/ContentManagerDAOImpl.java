@@ -26,5 +26,10 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 		return sqlSession.selectList("contentSQL.reviewboardList", map);
 	}
 
+	@Override
+	public void reviewDelete(Map<String, String[]> map) {
+		sqlSession.delete("contentSQL.reviewDelete", map);
+	}
+
 
 }

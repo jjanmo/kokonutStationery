@@ -10,6 +10,8 @@ public interface ContentManagerDAO {
 	
 	public List<GoodsDTO> reviewboardList(Map<String, String> map);
 
+	public void reviewDelete(Map<String, String[]> map);
+
 	
 
 }
