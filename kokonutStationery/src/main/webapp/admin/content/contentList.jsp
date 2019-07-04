@@ -39,11 +39,63 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+#select_deleteBtn{
+	width: 100px;
+    height: 35px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+    color: #1b87d4;
+    border: 1px solid #1b87d4;
+    background-color: #fff;
+    float: right;
+}
+
+#select_deleteBtn:hover {
+    background-color: #1b87d4;
+    color: #ffffff;
+}
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    
+	/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 100%; /* Could be more or less, depending on screen size */     
+     width: auto; display: table;                   
+}
+
+.modalDiv{
+	width:185px;
+	cursor:pointer;
+	background-color:#DDDDDD;
+	text-align: center;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin: 0 15px 0 15px;
+}
 </style>
 </head>
+<form id="check_delete_form" method="post"
+action="contentDelete.do">
 <input type="hidden" id="pagingCheck" value="${pagingCheck }">
 <input type="hidden" id="pg" value="${pg }">
-<input type="hidden" id="boardOption" value="tbl_admin">
+<input type="hidden" id="boardOption" name="boardOption" value="tbl_admin">
 <input type="hidden" id="ajaxCheck" value=0><!-- 상품 후기 클릭 시 ajax 반복 막기 -->
 <!-- 메인컨텐츠 시작 -->
 <div id="mainContent_wrap" style="width:1100px; margin:auto; padding-bottom:100px;">
@@ -62,24 +114,72 @@
 		<div class="board_menuBar">
 			<a href="#" id="product_review" class="content_menuBar">상 품 후 기</a>
 		</div>
+		<div class="select_delete">
+			<input type="button" id="select_deleteBtn" value="선택 삭제">
+		</div>
 
 		<div id="userSeach_list" align="left" style="margin-top: 50px;">
 			<table id="contentTable" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
 					<th style="width: 20px;">
-						<input type="checkbox">
+						<input id="check_all" type="checkbox">
 					</th>
 					<th style="width: 60px;">번&emsp;&nbsp;호</th>
 					<th  id="reviewTh" style="width: 300px;">제&emsp;&nbsp;목</th>
 					<th id="writerTh" style="width: 80px;">날&emsp;&nbsp;짜</th>
 				</tr>
 			</table>
+
 			<br>
 			<div id="pagingDiv"></div>
 			<br><br><br><br>
 		</div>
+		
+		
+		 <!-- 선택 삭제 시 확인&취소 / Modal -->
+		 <div id="open_confirmModal" class="modal">
+
+			<!-- Modal content -->
+			<div class="modal-content">
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
+    			<p><br /></p>
+
+				<div class="modalDiv" id="confirmOK_Modal" style="display: inline-block;">
+					<span class="pop_bt" style="font-size: 13pt; " >
+       	  				확인
+    				</span>
+
+				</div>
+				<div  class="modalDiv" id="confirmClose_Modal" style="float:right;">
+					<span class="pop_bt" style="font-size: 13pt;" >
+	               	 	 취소
+	            	</span>
+	       		</div>
+ 		 	</div>
+		</div>
+  		<!--End Modal-->	
+        	
+		<!-- 체크박스 선택 X / Modal -->
+		<div id="open_nonCheckModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+         		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+				<p style="text-align: center; line-height: 1.5; color: red;"><br />항목을 선택해 주세요</p>
+    			<p><br /></p>
+    			
+				<div class="close_Modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+					<span class="pop_bt" style="font-size: 13pt;" >
+               	  		닫기
+            		</span>
+        		</div>
+  			</div>
+
+		</div>
+ 		<!--End Modal-->
 	</div><!-- search_wrap -->
 </div><!-- 메인컨텐츠 끝 -->
+</form>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -87,6 +187,39 @@ $(document).ready(function(){
 		$('#product_review').get(0).click();
 		$('#pagingCheck').val(0);
 	}
+});
+
+/* 체크박스 전체 선택/해제 */
+$('#check_all').click(function(){
+	if($('#check_all').is(":checked"))
+		$('.check').prop('checked', true);
+	else
+		$('.check').prop('checked', false);
+});
+
+/* 모달 창 닫기 */
+$('#confirmClose_Modal').click(function(){
+	$('#open_confirmModal').hide();
+});
+
+$('.close_Modal').click(function(){
+	$('#open_nonCheckModal').hide();
+	$('#open_deleteSuccessModal').hide();
+});
+
+
+/* 상품 선택 삭제 */
+$('#select_deleteBtn').click(function(){
+	var count = $('.check:checked').length;
+	if(count==0){
+		$('#open_nonCheckModal').show();
+	}else{
+		$('#open_confirmModal').show();
+		$("#confirmOK_Modal").off().on('click', function(){
+			$('#check_delete_form').submit();
+		});
+	}
+
 });
 //공지사항 전체 리스트
 $('#notice_board').click(function(){ //공지사항 탭 누를 경우
@@ -200,7 +333,10 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 					$('<tr/>').append($('<td/>',{
 						align: 'center'
 					}).append($('<input/>',{
-						type : 'checkbox'
+						type : 'checkbox',
+						name : 'check',
+						class : 'check',
+						value : items.reviewboardCode
 					}))).append($('<td/>',{
 						align : 'center',
 						text : items.reviewboardCode
@@ -208,7 +344,8 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 							align : 'center',
 						}).append($('<img/>',{
 							src : '../image/thumb/'+ items.thumbImg
-						}).css('width','65px'))).append($('<td/>').append($('<a/>',{
+						}).css('width','65px').css('padding-top','5px')
+						)).append($('<td/>').append($('<a/>',{
 							href : 'javascript:void(0)',
 							name : items.reviewboardCode,
 							class : 'subjectA',
@@ -271,7 +408,7 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 	});//ajax
 });
 
-/* 페이징 함수 */
+/* 후기 페이징 함수 */
 function reviewboardPaging(pg){
 	location.href="/kokonutStationery/admin/contentList.do?pg="+pg+"&pagingCheck=review";
 }
