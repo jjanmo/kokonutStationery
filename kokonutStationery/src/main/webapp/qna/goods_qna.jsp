@@ -28,7 +28,7 @@
 						<option value="productName">상품명</option>
 					</select>
 					<input type="hidden" name="pg" value="1">
-					<input type="text"  id="searchContent" name="searchContent" class="goods_userPage_searchValue" placeholder="검색어를 입력하세요">
+					<input type="text"  id="searchContent" name="searchContent" value="" class="goods_userPage_searchValue" placeholder="검색어를 입력하세요">
 					<input type="button" id="goods_userPage_searchBtn" class="goods_userPage_searchBtn" value="검색">
 				</div>
 				<div>
@@ -65,6 +65,15 @@
 
 
 <script type="text/javascript">
+
+//검색했을때 작성자 제목 유지하도록
+window.onload=function(){
+	if('${searchOption}'=='all'||'${searchOption}'=='qnaboardSubject'
+		||'${searchOption}'=='userId'||'${searchOption}'=='productName'){
+		document.getElementById('searchOption').value='${searchOption}';
+	}
+}
+
 $(document).ready(function(){
 	$.ajax({
 		type:'post',
@@ -273,7 +282,7 @@ $(document).ready(function(){
 	$('#goods_userPage_searchBtn').on('click',function(event,str){
 		if(str!='trigger') $('input[name=pg]').val(1);
 		var pg = $('input[name=pg]').val();
-		//var pageNum=$('select[name=pageNum]').val();
+		var pageNum=$('select[name=pageNum]').val();
 		var searchOption = $('#searchOption').val();
 		var searchContent = $('#searchContent').val();
 		
@@ -282,6 +291,7 @@ $(document).ready(function(){
 				type:'POST',
 				url:'../qna/qnaboardSearch.do',
 				data:{'pg':pg,
+					'pageNum':pageNum,
 					'searchOption':searchOption,
 					'searchContent':searchContent},
 				dataType:'json',

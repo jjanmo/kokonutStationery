@@ -110,8 +110,8 @@ public class QnaboardController {
 	@RequestMapping(value="/qnaboardSearch.do",method=RequestMethod.POST)
 	public ModelAndView qnaboardSearch(@RequestParam(required=false) Map<String,String> map) {		
 		
-		int endNum = Integer.parseInt(map.get("pg"))*10;
-		int startNum = endNum-9;
+		int endNum = Integer.parseInt(map.get("pg"))*Integer.parseInt(map.get("pageNum"));
+		int startNum = endNum-(Integer.parseInt(map.get("pageNum"))-1);
 		
 		map.put("startNum",	startNum+"");
 		map.put("endNum",	endNum+"");
@@ -134,7 +134,7 @@ public class QnaboardController {
 		
 		qnaboardPaging.setCurrentPage(Integer.parseInt(map.get("pg")));
 		qnaboardPaging.setPageBlock(5);
-		qnaboardPaging.setPageSize(10);
+		qnaboardPaging.setPageSize(Integer.parseInt(map.get("pageNum")));
 		qnaboardPaging.setTotalA(totalA);
 		
 		qnaboardPaging.makeSearchPagingHTML();
