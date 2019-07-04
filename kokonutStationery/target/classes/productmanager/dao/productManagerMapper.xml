@@ -178,6 +178,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_PRODUCT where productCode in 
 		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
 	</select>
+	
+	<update id="updateTotalProductOnSale" parameterType="java.util.Map">
+		update TBL_TOTALPRODUCTONSALE set stationery=(stationery-${stationery}),
+                                 		  living=(living-${living}),
+										  travel=(travel-${travel}),
+										  collabo=(collabo-${collabo}),
+									 	  discount=(discount-${discount}),
+									   	  best=(best-${best}),
+										  newP=(newP-${newP})
+	</update>
+	
 	<!-- 상품수정폼 옵션 리스트 불러오기 -->
 	<select id="getProductOption" parameterType="int" resultType="option">
 		select * from TBL_PRODUCTOPTION where productCode=#{productCode}
@@ -246,17 +257,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								, newP = #{newP}
 			where productCode = #{productCode}
 		</update>	
-	<update id="updateTotalProductOnSale" parameterType="java.util.Map">
-		update TBL_TOTALPRODUCTONSALE set stationery=(stationery-${stationery}),
-                                 		  living=(living-${living}),
-										  travel=(travel-${travel}),
-										  collabo=(collabo-${collabo}),
-									 	  discount=(discount-${discount}),
-									   	  best=(best-${best}),
-										  newP=(newP-${newP})
-	</update>
-	
-	
 	<!-- 상품삭제 -->
 	<delete id="productDelete" parameterType="java.util.Map">
 		delete TBL_PRODUCT where productCode in 
