@@ -9,24 +9,31 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cart.bean.CartDTO;
+import goods.bean.GoodsDTO;
 
 @Transactional
 @Repository
 public class CartDAOImpl implements CartDAO {
 	
 	@Autowired
-	private SqlSession sqlsession;
+	private SqlSession sqlSession;
 
 	@Override
-	public CartDTO getCart(int productCode) {
-		
-		return sqlsession.selectOne("cartSQL.getCart", productCode);
+	public void cartInsert(CartDTO cartDTO) {
+		sqlSession.insert("cartSQL.cartInsert", cartDTO);
 	}
+
+	@Override
+	public List<CartDTO> getCart(String userId) {
+		return sqlSession.selectList("cartSQL.getCart", userId);
+	}
+
 	
-	/*
-	 * @Override public List<CartDTO> getCart(Map<String, String> map) {
-	 * 
-	 * return sqlsession.selectList("cartSQL.getCart"); }
-	 */
+	
+	
+
+	
+	
+	
 
 }
