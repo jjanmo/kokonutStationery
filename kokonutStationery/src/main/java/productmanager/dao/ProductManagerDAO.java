@@ -27,9 +27,44 @@ public interface ProductManagerDAO {
 
 	public int getSearchTotalA(Map<String, String> map);
 
-	public GoodsDTO getModifyForm(String productCode);
+	public GoodsDTO getModifyForm(int productCode);
 
+	public List<ProductOptionDTO> getProductOption(int productCode);
+	
+	public ProductOptionDTO getOptionCode(int optionCode);
+	
+	public void productOptionModify(ProductOptionDTO productOptionDTO);
+	
+	public GoodsDTO getCategories(int seq);
+	
+	public void reduceCategories(GoodsDTO categoriesDTO);
+	
+	public void addProductOption(ProductOptionDTO productOptionDTO);
+	
+	public int selectedOptionDelete(int optionCode);
+	
+	public void productModify(GoodsDTO goodsDTO);
+	
 	public void productDelete(Map<String, String[]> map);
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+
+	
+
+	
 
 	
 
