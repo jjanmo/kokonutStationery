@@ -26,11 +26,7 @@ public class WishListDAOImpl implements WishListDAO {
 
 	@Override
 	public int checkWishList(WishListDTO wishlistDTO) {
-		if(wishlistDTO.getProductOption()==0) {
-			return sqlSession.selectOne("wishlistSQL.checkWishListNoOption", wishlistDTO);
-		} else {
-			return sqlSession.selectOne("wishlistSQL.checkWishListOption", wishlistDTO);	
-		}
+		return sqlSession.selectOne("wishlistSQL.checkWishList", wishlistDTO);	
 	}
 
 	@Override
