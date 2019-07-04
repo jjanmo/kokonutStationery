@@ -383,7 +383,7 @@ function changeTotalPrice(){
 $(document).on('click','.close', function(){
 	var number = $(this).attr('id');
 	var text = $('#'+number).children().first().text();
-	
+	alert(text);
 	//옵션div가 지워질때 총합변화
 	var total2 = $('#priceSpan').text();
 	var pp = $('#priceSpan'+number).text()*1;
@@ -491,22 +491,36 @@ $('#wishlistBtn').click(function(){
 		alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
 		location.href='/kokonutStationery/user/loginForm.do';
 	} else {
-		$.ajax({	
-			type: 'post',
-			url: '/kokonutStationery/mypage/setWishList.do',
-			data: {'userId': '${memId}',
-				   'productCode': '${goodsDTO.productCode}',
-				   'productName': '${goodsDTO.productName}',
-				   'productOption': '${goodsDTO.productOption}',
-				   'thumbImg': '${goodsDTO.thumbImg}',
-				   'discountPrice': '${goodsDTO.discountPrice}',
-				   /* 'optionContent': selArray */
-				   },
-			success: function(){
-				alert('찜목록에 담기 성공');
-			}
-		}); //ajax
-		
+		if(option==0) { //옵션이 없을 때
+			$.ajax({	
+				type: 'post',
+				url: '/kokonutStationery/mypage/setWishList.do',
+				data: {'userId': '${memId}',
+					   'productCode': '${goodsDTO.productCode}',
+					   'productName': '${goodsDTO.productName}',
+					   'productOption': '${goodsDTO.productOption}',
+					   'thumbImg': '${goodsDTO.thumbImg}',
+					   'discountPrice': '${goodsDTO.discountPrice}',
+					   'optionContent': 'none'
+					   }
+			}); //ajax
+		} else { //옵션이 있을 때
+			for(var i=0; i<selArray.length; i++) {
+				$.ajax({	
+					type: 'post',
+					url: '/kokonutStationery/mypage/setWishList.do',
+					data: {'userId': '${memId}',
+						   'productCode': '${goodsDTO.productCode}',
+						   'productName': '${goodsDTO.productName}',
+						   'productOption': '${goodsDTO.productOption}',
+						   'thumbImg': '${goodsDTO.thumbImg}',
+						   'discountPrice': '${goodsDTO.discountPrice}',
+						   'optionContent': selArray[i]
+						   }
+				}); //ajax
+			} //for
+		} //if~else
+
 		//페이지 이동
 		location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
 	}

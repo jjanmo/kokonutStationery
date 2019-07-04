@@ -21,14 +21,16 @@ public class WishListDAOImpl implements WishListDAO {
 
 	@Override
 	public void setWishList(WishListDTO wishlistDTO) {
-		if(wishlistDTO.getOptionContent()==null) {
-			sqlSession.insert("wishlistSQL.setWishList", wishlistDTO);
-		}
+		sqlSession.insert("wishlistSQL.setWishList", wishlistDTO);
 	}
 
 	@Override
-	public int checkWishList(int productCode) {
-		return sqlSession.selectOne("wishlistSQL.checkWishList", productCode);
+	public int checkWishList(WishListDTO wishlistDTO) {
+		if(wishlistDTO.getProductOption()==0) {
+			return sqlSession.selectOne("wishlistSQL.checkWishListNoOption", wishlistDTO);
+		} else {
+			return sqlSession.selectOne("wishlistSQL.checkWishListOption", wishlistDTO);	
+		}
 	}
 
 	@Override

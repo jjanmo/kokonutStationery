@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							   , productOption
 							   , thumbImg
 							   , discountPrice
+							   , optionContent
 							   , logdate)
 						  values(#{userId}
 						  	   , #{productCode}
@@ -23,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						  	   , #{productOption}
 						  	   , #{thumbImg}
 						  	   , #{discountPrice}
+						  	   , #{optionContent}
 						  	   , sysdate)
 	</insert>
 	
@@ -47,13 +49,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						  	   , sysdate)
 	</insert> -->
 	
-	<!-- 찜목록 중복차단 -->
-	<select id="checkWishList" parameterType="int" resultType="int">
+	<!-- 찜목록 중복확인 옵션 없을 때 -->
+	<select id="checkWishListNoOption" parameterType="wishlist" resultType="int">
 		select count(*) from tbl_wishlist where productCode = #{productCode}
+	</select>
+	
+	<!-- 찜목록 중복확인 옵션 있을 때 -->
+	<select id="checkWishListOption" parameterType="wishlist" resultType="int">
+		select count(*) from tbl_wishlist where productCode = #{productCode} and optionContent = #{optionContent}
 	</select>
 	
 	<!-- 찜목록 삭제 -->
 	<delete id="deleteWishList" parameterType="java.util.Map">
-		delete from tbl_wishlist where userId = #{userId} and productCode = #{productCode}
+		delete from tbl_wishlist where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
 	</delete>
 </mapper>
