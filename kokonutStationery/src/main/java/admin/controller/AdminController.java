@@ -83,8 +83,12 @@ public class AdminController {
 	
 	//관리자 게시물 관리
 	@RequestMapping(value="/admin/contentList.do",method=RequestMethod.GET)
-	public ModelAndView contentList() {
+	public ModelAndView contentList(@RequestParam(required=false, defaultValue="0") String pagingCheck,
+									@RequestParam(required=false, defaultValue="1") String pg) {
 		ModelAndView mav = new ModelAndView();
+		if(pagingCheck.equals("review")) mav.addObject("pagingCheck", "review");
+		
+		mav.addObject("pg", pg);
 		mav.addObject("display","/admin/content/contentList.jsp");
 		mav.setViewName("/admin/index");
 		return mav;

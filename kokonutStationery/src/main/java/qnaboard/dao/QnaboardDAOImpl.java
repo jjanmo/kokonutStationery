@@ -1,6 +1,7 @@
 package qnaboard.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,21 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 		return sqlSession.selectList("qnaSQL.getAllQnaList");
 	}
 	@Override
-	public List<QnaboardDTO> getQnaList(int productCode) {
-		return sqlSession.selectList("qnaSQL.getQnaList",productCode);
+	public List<QnaboardDTO> getQnaList(Map<String,Integer> map) {
+		return sqlSession.selectList("qnaSQL.getQnaList",map);
 	}
 
 	@Override
 	public void qnaboardWrite(QnaboardDTO qnaboardDTO) {
 		sqlSession.insert("qnaSQL.qnaboardWrite",qnaboardDTO);
+	}
+	@Override
+	public int getTotalQ(int productCode) {
+		return sqlSession.selectOne("qnaSQL.getTotalQ",productCode);
+	}
+	@Override
+	public List<QnaboardDTO> qnaboardSearch(Map<String, String> map) {
+		return sqlSession.selectList("qnaSQL.qnaboardSearch",map);
 	}
 
 	

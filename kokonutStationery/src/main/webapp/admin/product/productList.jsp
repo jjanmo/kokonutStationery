@@ -337,10 +337,8 @@
   var regexp = /\B(?=(\d{3})+(?!\d))/g;
   return num.toString().replace(regexp, ',');
 }
+
 /* 모달 창 닫기 */
-
-
-
 $('#confirmClose_Modal').click(function(){
 	$('#open_confirmModal').hide();
 });

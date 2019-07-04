@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
     
 <!DOCTYPE html>
@@ -53,8 +54,10 @@
 						</tr>
 					</thead>
 					
-					<c:if test="${list != null }">
-					
+		
+					<c:if test="${list != null }"> 
+						<c:forEach var="cartDTO" items="${list }">
+						
 					<tbody>
 
 						<tr>
@@ -68,15 +71,15 @@
 									onerror=""></a></td>
 
 							<td class="orderOption"
-								style="text-align: left; vertical-align: top; padding: 30px 0;">
-								<div class="thumbImg">서디페. 마스킹 테이프</div> <a
+								style="text-align: left; vertical-align: top; padding: 30px 0;" >
+								<div class="thumbImg">${cartDTO.productName} </div> <a
 								href="goods_cart_edit.jsp" data-width="600" data-height="400"
 								class="popup" style="margin-bottom: 0px; margin-top: 13px;">
 									<li class="optionButton">선택옵션수정</li>
 							</a>
 							</td>
 
-							<td class="price">6,000원</td>
+							<td class="price">${cartDTO.discountPrice } </td>
 							<td style="vertical-align: top; padding: 22px 0 30px 0;">
 								<table cellpadding="0" cellspacing="0" border="0"
 									style="margin: 0 auto;">
@@ -123,7 +126,8 @@
 							<td
 								style="vertical-align: top; color: #333; text-align: right; padding: 30px 0; font-weight: 700; padding-right: 20px;">6,000원</td>
 						</tr>
-						
+					
+					</c:forEach>	
 					</tbody>
 					
 					
@@ -152,13 +156,15 @@
 				</table>
 			</form>
 			
+			
+			
 			<!-- 버튼 부분 수정 필요 -->
 			<table width="100%" cellpadding="0" cellspacing="0" border="0"
 				class="order_btn" style="padding: 30px 0 0 0;">
 				<tbody>
 					<tr>
 						<td>
-							<div style="margin: 0 auto;">
+							<div style="margin: -330px 0 0 ;">
 								<div class="previous"
 									style="width: 140px; display: inline-block;">
 									<a href="" onfocus="">
@@ -190,10 +196,11 @@
 						</td>
 					</tr>
 				</tbody>
-			
-			
+					
 			</c:if>
-			
+				
+			<c:if test="${list == null }">
+								
 			<tr>
 				<td colspan="10" style="padding: 30px 0;">
 					<font style="color:#333;font-weight:700;">상품합계금액 (배송비 별도)</font>
@@ -218,7 +225,7 @@
 		      </div>
 		    </div>
 			
-			
+			</c:if>
 		</div>
 		<!-- End indiv -->
 
@@ -276,5 +283,9 @@
 		$('#productQty').val(qty);
 		}
   });
+   
+   
+   
+   
    </script>
 </html>

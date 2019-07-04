@@ -33,4 +33,5 @@ public class UserDTO {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date joinDate;
 	private int totalPayment; //총구매액
+	private int productInWishList; //찜목록에 담긴 수
 }

@@ -231,7 +231,25 @@ body{
 	text-align: center;
 	font-size: 13px;
 }
+.qnaPage_paging_num{
+	padding: 25px 0 30px 90px;
+	text-align: center;
+	font-size: 13px;
+}
+/*후기 페이징*/
+#currentPaging {
+	padding-right:5px;
+	color: #2AC1BC; 
+	font-weight: 700;
+	cursor:pointer;
+}
 
+#paging {
+	padding-right:5px;
+	color : black; 
+	text-decoration: none; 
+	cursor:pointer;
+}
 /* 수량 input */
 
 
@@ -255,7 +273,7 @@ body{
 }
 
 #option_contentDiv{
-  width: 230px;
+  width: 220px;
   height: 28px;
   float: left;
   font-size: 13px;
