@@ -58,11 +58,10 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	}
 
 	@Override
-	public GoodsDTO getModifyForm(String productCode) {
+	public GoodsDTO getModifyForm(int productCode) {
 		return sqlSession.selectOne("productSQL.getModifyForm", productCode);
 	}
 	
-
 	@Override
 	public List<GoodsDTO> getProductList(Map<String, String[]> map) {
 		return sqlSession.selectList("productSQL.getProductlist", map);
@@ -72,7 +71,47 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 	public void updateTotalProductOnSale(Map<String, Integer> qtyMap) {
 		sqlSession.delete("productSQL.updateTotalProductOnSale", qtyMap);
 	}
-
+	
+	@Override
+	public List<ProductOptionDTO> getProductOption(int productCode) {
+		return sqlSession.selectList("productSQL.getProductOption", productCode);
+	}
+	
+	@Override
+	public int selectedOptionDelete(int optionCode) {
+		return sqlSession.delete("productSQL.selectedOptionDelete", optionCode);
+	}
+	
+	@Override
+	public ProductOptionDTO getOptionCode(int optionCode) {
+		return sqlSession.selectOne("productSQL.getOptionCode", optionCode);
+	}
+	
+	@Override
+	public void productOptionModify(ProductOptionDTO productOptionDTO) {
+		sqlSession.update("productSQL.productOptionModify", productOptionDTO);	
+	}
+	
+	@Override
+	public void addProductOption(ProductOptionDTO productOptionDTO) {
+		sqlSession.insert("productSQL.addProductOption", productOptionDTO);
+	}
+	
+	@Override
+	public GoodsDTO getCategories(int seq) {
+		return sqlSession.selectOne("productSQL.getCategories", seq);
+	}
+	
+	@Override
+	public void reduceCategories(GoodsDTO categoriesDTO) {
+		sqlSession.update("productSQL.reduceCategories", categoriesDTO);
+	}
+	
+	@Override
+	public void productModify(GoodsDTO goodsDTO) {
+		sqlSession.update("productSQL.productModify", goodsDTO);
+	}
+	
 	@Override
 	public void productDelete(Map<String, String[]> map) {
 		sqlSession.delete("productSQL.productDelete", map);
