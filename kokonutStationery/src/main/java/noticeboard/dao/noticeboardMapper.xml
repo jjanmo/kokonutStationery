@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from  
 			(select rownum rn, tt.* from 
 		    	(select * from TBL_NOTICEBOARD 
-		    		order by noticeboardCode) tt )
+		    		order by noticeboardCode desc) tt )
 	</select>
 	
 	<!-- 공지사항 검색 리스트 -->
@@ -23,14 +23,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    	(select * from TBL_NOTICEBOARD 
 			    		where noticeboardSubject like '%'||#{keyword}||'%' or
 			    		 	  noticeboardContent like '%'||#{keyword}||'%'
-			    		order by noticeboardCode) tt )
+			    		order by noticeboardCode desc) tt )
 			</when>
 			<otherwise>
 				select * from
 					(select rownum rn, tt.* from 
 				    	(select * from TBL_NOTICEBOARD 
 				    		where ${option} like '%'||#{keyword}||'%' 
-				    		order by noticeboardCode) tt )
+				    		order by noticeboardCode desc) tt )
 			</otherwise>
 		</choose>
 		

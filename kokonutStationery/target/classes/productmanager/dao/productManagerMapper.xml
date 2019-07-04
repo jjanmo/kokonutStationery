@@ -169,7 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- 상품수정폼 선택 값 불러오기 -->
-	<select id="getModifyForm" parameterType="String" resultType="goods">
+	<select id="getModifyForm" parameterType="int" resultType="goods">
 		select * from TBL_PRODUCT where productCode=#{productCode}
 	</select>
 	
@@ -189,7 +189,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 										  newP=(newP-${newP})
 	</update>
 	
-	
+	<!-- 상품수정폼 옵션 리스트 불러오기 -->
+	<select id="getProductOption" parameterType="int" resultType="option">
+		select * from TBL_PRODUCTOPTION where productCode=#{productCode}
+	</select>
+	<!-- 상품수정 -->
+		<!-- 상품 수정시 옵션내용 불러오기 -->
+		<select id="getOptionCode" parameterType="int" resultType="option">
+			select * from TBL_PRODUCTOPTION where optionCode=#{optionCode}
+		</select>
+		<!-- 옵션 수정 -->
+		<update id="productOptionModify" parameterType="option">
+			update TBL_PRODUCTOPTION set optionContent = #{optionContent}
+										, subTotalQty = #{subTotalQty}
+										, subStockQty = #{subStockQty}
+			where optionCode = #{optionCode}
+		</update>
+		<!-- 새 옵션 추가 -->
+		<insert id="addProductOption" parameterType="option">
+			insert into tbl_productOption(optionCode, productCode, optionContent
+									, subTotalQty, subStockQty)
+									values(optionCode_seq.nextval
+										, #{productCode}
+										, #{optionContent}
+										, #{subTotalQty}
+										, #{subTotalQty}) 
+		</insert>
+		<!-- 옵션 개별 삭제 -->
+		<delete id="selectedOptionDelete" parameterType="int">
+			delete TBL_PRODUCTOPTION where optionCode = #{optionCode}
+		</delete>
+		<!-- 카테고리값 불러오기 -->
+		<select id="getCategories" parameterType="int" resultType="goods">
+			select stationery, living, travel, collabo, discount, best, newp 
+			from tbl_product where productCode = #{seq}	
+		</select>
+		<!-- 카테고리 기존값 빼기 -->
+		<update id="reduceCategories" parameterType="goods">
+			update TBL_TOTALPRODUCTONSALE set stationery = stationery - #{stationery}
+											, living = living - #{living}
+											, travel = travel - #{travel}
+											, collabo = collabo - #{collabo}
+                           					, discount = discount - #{discount}
+                           					, best = best - #{best}
+                           					, newp = newp - #{newP}
+		</update>
+		<!-- 상품 전체 수정 -->
+		<update id="productModify" parameterType="goods">
+			update TBL_PRODUCT set productName = #{productName}
+								, originalPrice = #{originalPrice}
+								, discountPrice = #{discountPrice}
+								, origin = #{origin}
+								, manufacturer = #{manufacturer}
+								, thumbImg = #{thumbImg}
+								, detailedImg = #{detailedImg}
+								, totalQty = #{totalQty}
+								, stockQty = #{stockQty}
+								, saleStatus = #{saleStatus}
+								, updateDate = sysdate
+								, productOption = #{productOption}
+								, stationery = #{stationery}
+								, living = #{living}
+								, travel = #{travel}
+								, collabo = #{collabo}
+								, discount = #{discount}
+								, best = #{best}
+								, newP = #{newP}
+			where productCode = #{productCode}
+		</update>	
 	<!-- 상품삭제 -->
 	<delete id="productDelete" parameterType="java.util.Map">
 		delete TBL_PRODUCT where productCode in 

@@ -78,6 +78,11 @@ $.ajax({
 		
 		$('.subjectA').click(function(){
 			var code = $(this).attr('name');
+			
+			$('.contentA').not('[id^='+code+']').each(function(){
+				$(this).hide();
+			});
+
 			$('[id^='+code+']').each(function(){
 				$(this).toggle();
 			});
@@ -139,6 +144,11 @@ $('.noticeboard_searchBtn').click(function(){
 				
 				$('.subjectA').click(function(){
 					var code = $(this).attr('name');
+					
+					$('.contentA').not('[id^='+code+']').each(function(){
+						$(this).hide();
+					});
+
 					$('[id^='+code+']').each(function(){
 						$(this).toggle();
 					});

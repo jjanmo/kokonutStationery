@@ -89,6 +89,45 @@
 	padding-top: 10px;
 	margin: 0 15px 0 15px;
 }
+
+#contentTable{
+	border-collapse:collapse;
+}
+
+#contentTable tr{
+	border-bottom:1px solid #cccccc;
+}
+
+.subjectTr:hover{
+	background:#f6f6f6;
+}
+
+.contentA{
+	width:1000px; max-width:1000px;
+}
+
+#editA{
+	margin-top:50px;
+}
+
+#editA:hover{
+	background:#808080;
+	color:#ffffff;
+}
+
+/* 공지사항 글쓰기 버튼 */
+#noticeWriteBtn{
+	width:55px; height:25px;
+	padding-top:7px;
+	display:none; border:1px solid #808080;
+	cursor:pointer; float:right;
+	text-align:center;
+}
+
+#noticeWriteBtn:hover{
+	background:#808080;
+	color:#ffffff;
+}
 </style>
 </head>
 <form id="check_delete_form" method="post"
@@ -116,6 +155,8 @@ action="contentDelete.do">
 		</div>
 		<div class="select_delete">
 			<input type="button" id="select_deleteBtn" value="선택 삭제">
+		</div>
+		<div id="noticeWriteBtn"><!-- 공지사항 글쓰기 버튼 -->
 		</div>
 
 		<div id="userSeach_list" align="left" style="margin-top: 50px;">
@@ -183,10 +224,13 @@ action="contentDelete.do">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function(){
-	if($('#pagingCheck').val()=='review'){
+	if($('#pagingCheck').val()=='qna'){
+		$('#product_qna').get(0).click();
+	}else if($('#pagingCheck').val()=='review'){
 		$('#product_review').get(0).click();
-		$('#pagingCheck').val(0);
 	}
+	
+	$('#pagingCheck').val(0);
 });
 
 /* 체크박스 전체 선택/해제 */
@@ -221,10 +265,36 @@ $('#select_deleteBtn').click(function(){
 	}
 
 });
+
+/* 페이징 함수 */
+
+//상품문의 페이징
+function qnaboardPaging(pg){
+	location.href="/kokonutStationery/admin/contentList.do?pg="+pg+"&pagingCheck=qna";
+}
+
+//상품후기 페이징
+function reviewboardPaging(pg){
+	location.href="/kokonutStationery/admin/contentList.do?pg="+pg+"&pagingCheck=review";
+}
+
+
+//공지사항 글쓰기버튼 클릭 시 새 창으로 입력 화면 만들기
+($('#noticeWriteBtn')).on("click",function(){			
+	window.open(
+			"/kokonutStationery/admin/noticeboardWriteForm.do"
+			,'','width=900, height=750, left=200, resizable=no, toolbar=no'
+			,'true'
+	);
+});//공지사항 글쓰기 �
 //공지사항 전체 리스트
 $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
 	   $(this).css('color','#000000').css('font-weight','bold');
+	   	
+	/*공지사항 글쓰기 버튼 활성화*/
+	$('#noticeWriteBtn').text("글쓰기").css('display','block');
+	
 	$('#boardOption').val('tbl_admin');
 	$('#reviewImg').remove();
 	$('#writer').remove();
@@ -234,31 +304,81 @@ $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 		type : 'POST',
 		url : '/kokonutStationery/admin/noticeboardList.do',
 		dataType : 'json',
-		success : function(data){
+		success : function(data){		
+			
 			$('#contentTable tr:gt(0)').remove();
+			
 			//공지 전체 리스트
 			$.each(data.list, function(index,items){
-				$('<tr/>').append($('<td/>',{
-					align: 'center'
+				$('<tr/>',{
+					class : 'subjectTr',
+					style : 'height:50px;'
+				}).append($('<td/>',{ // 체크박스
+					align : 'center'
 				}).append($('<input/>',{
 					type : 'checkbox'
-				}))).append($('<td/>',{
+					
+				}))).append($('<td/>',{ // 번호
 					align : 'center',
-					text : items.reviewboardCode
-				})).append($('<td/>',{
-						align : 'center',
-					}).append($('<img/>',{
-						src : '../image/thumb/'+items.reviewboardImg
-					}).css('width','65px'))).append($('<td/>',{
-						text : items.reviewboardSubject
-					}).css('padding-left', '5px')).append($('<td/>',{
-						align : 'center',
-						text : items.userId
-					})).append($('<td/>',{
-						align : 'center',
-						text : items.regDate
-					})).appendTo($('#contentTable'));
+					text : items.noticeboardCode
+					
+				})).append($('<td/>',{ // 제목
+					align:'center'
+				}).append($('<a/>',{
+					text : items.noticeboardSubject,
+					href : 'javascript:void(0)',
+					name : items.noticeboardCode,
+					class : 'subjectA'
+					
+				}))).append($('<td/>',{ // 날짜
+					align : 'center',
+					text : items.regDate
+				})).appendTo($('#contentTable'));
+				
+				//내용들어갈 tr
+				$('<tr/>').append($('<td/>',{
+					style : "white-space:pre; padding:80px 60px;",
+					text : items.noticeboardContent,
+					colspan : 4,
+					class : 'contentA',
+					id : items.noticeboardCode
+					
+				}).append($('<div/>',{ //수정 버튼
+					style : 'width:50px; height:25px; float:right; border:2px solid #808080; text-align:center; cursor:pointer;',
+					text : '수정',
+					id : 'editA',
+					class : items.noticeboardCode
+					
+				}))).appendTo($('#contentTable'));
+				
+				$('.contentA').hide();
+	
+			});//each
+			
+			//드롭다운
+			$('.subjectA').click(function(){
+				var code = $(this).attr('name');
+				
+				$('.contentA').not('[id^='+code+']').each(function(){
+					$(this).hide();
+				});
+
+				$('[id^='+code+']').each(function(){
+					$(this).toggle();
+				});
 			});
+			
+			//수정버튼 클릭 시
+			($('#contentTable')).on("click",'#editA',function(){			
+				window.open(
+						"/kokonutStationery/admin/noticeboardModifyForm.do?noticeboardCode="
+						+$(this).attr('class')
+						,'','width=900, height=750, left=200, resizable=no, toolbar=no'
+						,'true'
+				);
+			});
+			
+			
 		}//success
 	});//ajax
 });
@@ -267,45 +387,103 @@ $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
 	   $(this).css('color','#000000').css('font-weight','bold');
+	if($('#boardOption').val()!='tbl_qnaboard')$('#ajaxCheck').val(0);   
+	$('#noticeWriteBtn').css('display','none');
 	$('#boardOption').val('tbl_qnaboard');
 	$.ajax({
 		type : 'POST',
-		url : '/kokonutStationery/admin/reviewboardList.do',
+		url : '/kokonutStationery/admin/qnaboardList.do',
+		data : {'pg' : $('#pg').val()},
 		dataType : 'json',
 		success : function(data){
 			if($('#ajaxCheck').val()==0){
 				//테이블 이미지th 추가
+				$('#reviewImg').remove();
+				$('#writer').remove();
 				$('#reviewTh').before($('<th/>',{text: '상품 이미지', id:'reviewImg'}).css('width', '70px'));	
 				$('#writerTh').before($('<th/>',{text: '작성자', id:'writer'}).css('width', '70px'));
 				$('#ajaxCheck').val(1);
-				
 				$('#contentTable tr:gt(0)').remove();
 				//문의 전체 리스트
 				$.each(data.list, function(index,items){
 					$('<tr/>').append($('<td/>',{
 						align: 'center'
 					}).append($('<input/>',{
-						type : 'checkbox'
+						type : 'checkbox',
+						name : 'check',
+						class : 'check',
+						value : items.qnaboardCode
 					}))).append($('<td/>',{
 						align : 'center',
-						text : items.reviewboardCode
+						text : items.qnaboardCode
 					})).append($('<td/>',{
 							align : 'center',
 						}).append($('<img/>',{
-							src : '../image/thumb/'+items.reviewboardImg
-						}).css('width','65px'))).append($('<td/>',{
-							text : items.reviewboardSubject
-						}).css('padding-left', '5px')).append($('<td/>',{
+							src : '../image/thumb/'+ items.thumbImg
+						}).css('width','65px').css('padding-top','5px')
+						)).append($('<td/>').append($('<a/>',{
+							href : 'javascript:void(0)',
+							name : items.qnaboardCode,
+							class : 'subjectA',
+							text : items.qnaboardSubject
+						})).css('padding-left', '5px')).append($('<td/>',{
 							align : 'center',
 							text : items.userId
 						})).append($('<td/>',{
 							align : 'center',
 							text : items.regDate
 						})).appendTo($('#contentTable'));
-				});
+						
+					//문의 선택 내용 생성
+					if(items.qnaboardImg!=0){//문의 이미지 첨부 있을 시
+						$('<tr/>').append($('<td/>',{
+							colspan : 6,
+							style : 'padding: 30px 0 10px 130px; border-bottom:none;',
+							class : 'contentA',
+							id : items.qnaboardCode
+						}).append($('<img/>',{
+								src:'../image/thumb/'+items.qnaboardImg,
+								style : 'width: 300px; height: 300px;'
+							}))).appendTo($('#contentTable'));
+						
+						$('<tr/>').append($('<td/>',{
+							text : items.qnaboardContent,
+							style : 'padding: 10px 0 100px 130px; border-top:none;',
+							colspan : 6,
+							class : 'contentA',
+							id : items.qnaboardCode
+						})).appendTo($('#contentTable'));
+					}//if
+					else{//문의 이미지 첨부 없을 시
+						$('<tr/>').append($('<td/>',{
+								text : items.qnaboardContent,
+								style : 'padding: 35px 0 100px 130px; border-top:none;',
+								colspan : 6,
+								class : 'contentA',
+								id : items.qnaboardCode
+							})).appendTo($('#contentTable'));		
+					}//else
+					$('.contentA').hide();
+				});//each
+				
+				$('.subjectA').click(function(){
+		            var code = $(this).attr('name');
+		            
+		            $('.contentA').not('[id^='+code+']').each(function(){
+		               $(this).hide();
+		            });
+
+		            $('[id^='+code+']').each(function(){
+		               $(this).toggle();
+		            });
+		         });
+				$('#pagingDiv').html(data.qnaboardManagerPaging.pagingHTML);
 			}//if
+			$('#pg').val(1);
 		}//success
-	});//ajax	
+	});//ajax				$('#reviewImg').remove();
+				$('#writer').remove();
+
 });
 
 
@@ -313,6 +491,8 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
 	   $(this).css('color','#000000').css('font-weight','bold');
+	if($('#boardOption').val()!='tbl_reviewboard') $('#ajaxCheck').val(0);   
+	$('#noticeWriteBtn').css('display','none');
 	$('#boardOption').val('tbl_reviewboard');
 	$('.contentA').hide();
 	$.ajax({
@@ -323,6 +503,8 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 		success : function(data){
 			if($('#ajaxCheck').val()==0){//상품 후기 탭 누를 시 중복 생성 방지
 				//테이블 이미지th 추가
+				$('#reviewImg').remove();
+				$('#writer').remove();
 				$('#reviewTh').before($('<th/>',{text: '상품 이미지', id:'reviewImg'}).css('width', '70px'));	
 				$('#writerTh').before($('<th/>',{text: '작성자', id:'writer'}).css('width', '70px'));
 				$('#ajaxCheck').val(1);
@@ -404,12 +586,8 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 		         });
 				$('#pagingDiv').html(data.reviewboardPaging.pagingHTML);
 			}//if
+			$('#pg').val(1);
 		}//success
 	});//ajax
 });
-
-/* 후기 페이징 함수 */
-function reviewboardPaging(pg){
-	location.href="/kokonutStationery/admin/contentList.do?pg="+pg+"&pagingCheck=review";
-}
 </script>
