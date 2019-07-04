@@ -308,15 +308,15 @@ $(function() {
 
 var selArray =  new Array();
 var notOption = $('#optionBox option:eq(0)').val();
-var sel = $('#optionBox option:selected').val();
-
+var optionsCol = document.getElementById("optionBox").options; //옵션 태그 리스트 
 $('#optionBox').change(function(){
+	var index = document.getElementById("optionBox").selectedIndex; //선택한 옵션의 인덱스 값
+	var sel = optionsCol[index].value; // 선택한 옵션의 내용
 	var length = $('#optionBox option').length - 1 ; //option의 개수
-	var sel = $('#optionBox option:selected').val();
 	
 	if(showDiv == 0){ //옵션이 있을때 합계금액이 떠오르게 하는것
 		$('#totalPriceDiv').css('display','block');
-		showDiv++;
+		showDiv=1;
 	}
 	
 	if(sel == notOption){ //"옵션을 선택하세요" 를 선택
@@ -330,7 +330,7 @@ $('#optionBox').change(function(){
 		}
 		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
 		    selArray.push(sel);
-		    createDiv(sel);
+		    createDiv(sel, index);
 		    
 		  	//옵션div가 생성될때 총합변화	
 			changeTotalPrice();		
@@ -346,7 +346,7 @@ $('#optionBox').change(function(){
 	    }
 		if(cnt == selArray.length){
 	        selArray.push(sel);
-	        createDiv(sel);
+	        createDiv(sel, index);
 	    }
 	} //else
 	
@@ -355,77 +355,76 @@ $('#optionBox').change(function(){
 	
 }); //function
 
-var optionCnt = 0;
-function createDiv(sel){
+
+function createDiv(sel, index){
 	$('.option_wrap').append($('<div/>',{
 	  class : 'option_selectedDiv',
-	  id : optionCnt
+	  id : index
 	}));
 	
-	$('#'+optionCnt).append($('<div/>',{
+	$('#'+index).append($('<div/>',{
 	  text : sel,
 	  id : 'option_contentDiv'
 	}));
-	$('#'+optionCnt).append($('<div/>',{
-	  id : 'inputDiv' + optionCnt
+	$('#'+index).append($('<div/>',{
+	  id : 'inputDiv' + index
 	}).css('float','left'));
 	
-	$('#inputDiv'+ optionCnt).append($('<input>',{
+	$('#inputDiv'+ index).append($('<input>',{
 	  type : 'text',
 	  class : 'option_productQty',
-	  id : 'option_productQty'+ optionCnt,
+	  id : 'option_productQty'+ index,
 	  step : '1',
 	  min : '1',
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
 	
-	$('#'+optionCnt).append($('<div/>',{
-	  id : 'updownDiv'+ optionCnt,
+	$('#'+index).append($('<div/>',{
+	  id : 'updownDiv'+ index,
 	  style : "float: left; padding-left: 3px;"
 	}).append($('<div/>',{
 	  style : "padding: 10px 0 3px 0;"
 	}).append($('<img>',{
-	  id : 'up'+optionCnt,
+	  id : 'up'+index,
 	  class : 'up',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png',
 	  style : "cursor: pointer; width: 14px; margin: 3px 2px;"
 	}))));
 	
-	$('#updownDiv'+optionCnt).append($('<div>').append($('<img>',{
-	  id :'down'+optionCnt,
+	$('#updownDiv'+index).append($('<div>').append($('<img>',{
+	  id :'down'+index,
 	  class : 'down',
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png',
 	  style : 'cursor: pointer; width: 14px; margin: 3px 2px;'
 	})));
 	
-	$('#'+optionCnt).append($('<div/>',{
-	  id : 'priceDiv' +optionCnt,
+	$('#'+index).append($('<div/>',{
+	  id : 'priceDiv' +index,
 	  style : 'float: left; margin: 22px 0 22px 25px;'
 	}).append($('<span/>',{
-		id : 'priceSpan'+optionCnt,
+		id : 'priceSpan'+index,
 	  style: 'font-size: 13px; color: #444; font-weight: 500;',
 	  text : discountPrice
 	})));
 	
-	$('#priceDiv'+optionCnt).append($('<span/>',{
+	$('#priceDiv'+index).append($('<span/>',{
 		text : '원'
 	}));
 	
-	$('#'+optionCnt).append($('<img>',{
+	$('#'+index).append($('<img>',{
 	  class : 'close',
-	  id : optionCnt,
+	  id : index,
 	  src : 'http://store.baemin.com/shop/data/exskin/btn_multioption_del.png',
 	  style : 'cursor: pointer; float: right; margin: 25px 20px 25px 15px; width: 15px; height: 14px;'
 	}));
-	optionCnt++;
+
 }
 
 //옵션div가 생성될때 총합변화	
 function changeTotalPrice(){
 	var total1 = 0;
-	alert('optionCnt : ' + optionCnt);
-	for(i=0; i<optionCnt; i++){
+	for(i=0; i<selArray.length; i++){
 		var num = $('#priceSpan'+i).text()*1
 		total1 += num;
 	}
@@ -481,6 +480,7 @@ $(document).on('click','.up', function() {
 	option_productQty++;
 	$('#option_productQty'+ optionNum).val(option_productQty);
 	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+	
 	var total = 0;
 	for(i=0; i<selArray.length; i++){
 		var num = $('#priceSpan'+i).text()*1
@@ -498,6 +498,7 @@ $(document).on('click','.down', function() {
 		option_productQty--;
 		$('#option_productQty'+ optionNum).val(option_productQty);
 		$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+		
 		var total = $('#priceSpan').text()*1;
 		alert(total);
 		total -= discountPrice;
