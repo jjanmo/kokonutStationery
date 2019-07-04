@@ -434,6 +434,7 @@ $('#cartBtn').click(function(){
 
 //장바구니 추가
 $('#cartBtn').click(function(){
+	alert(discountPrice);
 	$.ajax({
 		type : 'post',
 		url : '/kokonutStationery/cart/goods_cart_insert.do',
@@ -442,7 +443,7 @@ $('#cartBtn').click(function(){
 				'productName' : '${goodsDTO.productName}',
 				'productCode': '${goodsDTO.productCode}',
 				'thumbImg' : '${goodsDTO.thumbImg}',
-				'dicountPrice' : '${goodsDTO.discountPrice}',
+				'discountPrice' : discountPrice,
 				'productQty' : productQty },
 		success : function () {
 			

@@ -41,6 +41,7 @@ public class CartController {
 		
 		List<CartDTO> list = cartDAO.getCart(userId);
 		
+		System.out.println(list);
 		System.out.println(userId);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
