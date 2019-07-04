@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="contentSQL">
+		<!-- 후기 리스트 전체 뿌리기 -->
 	<!-- review 테이블의 총 글 수-->
 	<select id="reviewboardTotalA" resultType="int">
 		select count(*) from TBL_REVIEWBOARD
@@ -19,6 +20,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete TBL_REVIEWBOARD where reviewboardCode in 
 		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
 	</delete>
+		
+		<!-- 공지사항 리스트 전체 뿌리기 -->
+		<select id="noticeboardList" resultType="notice">
+			select * from TBL_NOTICEBOARD order by noticeboardcode desc
+		</select>
+		
+		<!-- 공지사항 수정창 띄우기 -->
+		<select id="noticeboardModifyForm" resultType="notice" parameterType="int">
+			select * from TBL_NOTICEBOARD
+				where noticeboardCode=#{noticeboardCode}
+		</select>
+		
+		<!-- 공지사항 수정 -->
+		<update id="noticeboardModify" parameterType="java.util.Map">
+			update TBL_NOTICEBOARD
+				set noticeboardSubject=#{noticeboardSubject},
+					noticeboardContent=#{noticeboardContent} 
+				where noticeboardCode=#{noticeboardCode}
+		</update>
+		
+		<!-- 공지사항 등록 -->
+		<insert id="noticeboardWrite" parameterType="java.util.Map">
+			insert into TBL_NOTICEBOARD
+				values(NOTICEBOARDCODE_SEQ.nextval,
+						#{noticeboardSubject},
+						#{noticeboardContent},
+						sysdate)
+		</insert>
+		
 </mapper>
 
 

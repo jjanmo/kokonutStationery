@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: Gihyeon
 Build-Jdk: 1.8.0_201
+=======
+Built-By: SEENEW
+Build-Jdk: 1.8.0_191
+>>>>>>> refs/heads/seenew
 Created-By: Maven Integration for Eclipse
 

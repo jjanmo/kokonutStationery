@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import contentmanager.bean.ReviewboardPaging;
 import contentmanager.dao.ContentManagerDAO;
 import goods.bean.GoodsDTO;
+import noticeboard.bean.NoticeboardDTO;
 
 @Controller
 public class ContentManagerController {
@@ -73,7 +74,44 @@ public class ContentManagerController {
 		return "redirect: contentList.do?pagingCheck="+pagingCheck+"";
 	}
 	
-
+	
+	// 공지사항 - 리스트 전체 불러오기
+	@RequestMapping(value="/admin/noticeboardList.do",method=RequestMethod.POST)
+	public ModelAndView noticeboardList() {
+		List<NoticeboardDTO> list = contentManagerDAO.noticeboardList();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	// 공지사항 수정 창 띄우기
+	@RequestMapping(value="/admin/noticeboardModifyForm.do",method=RequestMethod.GET)
+	public String noticeboardModifyForm(@RequestParam String noticeboardCode, Model model ) {
+		NoticeboardDTO noticeboardDTO = contentManagerDAO.noticeboardModifyForm(Integer.parseInt(noticeboardCode));
+		
+		model.addAttribute("noticeboardCode", noticeboardCode);
+		model.addAttribute("noticeboardDTO", noticeboardDTO);
+		return "/notice/noticeboardModifyForm";
+	}
+	
+	// 공지사항 수정
+	@RequestMapping(value="/admin/noticeboardModify.do",method=RequestMethod.POST)
+	public void noticeboardModify(@RequestParam Map<String,String> map) {
+		contentManagerDAO.noticeboardModify(map);
+	}
+	
+	// 공지사항 글쓰기 창 띄우기
+	@RequestMapping(value="/admin/noticeboardWriteForm.do",method=RequestMethod.GET)
+	public String noticeboardWriteForm() {
+		return "/notice/noticeboardWriteForm";
+	}
+	
+	@RequestMapping(value="/admin/noticeboardWrite.do",method=RequestMethod.POST)
+	public void noticeboardWrite(@RequestParam Map<String,String> map) {
+		contentManagerDAO.noticeboardWrite(map);
+	}
+	
 }
 
 
