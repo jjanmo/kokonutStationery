@@ -107,7 +107,7 @@
 			<tr>
 				<th>상 품 가 격</th>
 				<td>
-					<input type="text" id="originalPrice" name="originalPrice" > KRW
+					<input type="number" id="originalPrice" name="originalPrice" min="0" > KRW
 				</td>
 			</tr>
 			<tr>
@@ -125,7 +125,7 @@
 			<tr>
 				<th>입 고 수 량</th>
 				<td>
-					<input type="text" id="totalQty" class="inputText" name="totalQty" value="0"> 개
+					<input type="number" id="totalQty" class="inputText" name="totalQty" min="0" value="0"> 개
 					&nbsp;&nbsp;
 					<span style="color: #aaaaaa; font-size: 12px; display:inline-block; vertical-align: middle;">
 						- 옵션을 추가하실 경우 옵션 수량의 합이 자동으로 입고수량으로 측정됩니다.<br>
@@ -158,7 +158,7 @@
 							할인가격 
 						</span>
 						&nbsp;
-						<input type="text" class="inputText" name="discountPrice" value="0"> KRW
+						<input type="number" class="inputText" name="discountPrice" min="0" value="0"> KRW
 						<span style="color: #aaaaaa; font-size: 12px;">
 							- 미입력시 기본 상품가격으로 입력됩니다.
 						</span>
@@ -198,15 +198,18 @@
 </body>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+//창닫기
 $('#registResetBtn').click(function(){
    window.close();
 });
 
+//깜짝세일 기능
 $('#discountDiv').hide();
 $('#discount').click(function(){
 	$('#discountDiv').toggle();
 });
 
+//옵션버튼 기능
 $('#add_optionBtn').hide();
 $('#check_option').click(function(){
 	$('#add_optionBtn').show();
@@ -227,15 +230,18 @@ $('#add_optionBtn').click(function(){
 		})).append($('<span/>', {
 			text : "  입고수량  "
 		})).append($('<input/>', {
-			type : 'text',
+			type : 'number',
 			id   : 'subTotalQty',
-			name : 'subTotalQty'
+			name : 'subTotalQty',
+			value : '0',
+			min : '0'
 		})).append($('<span/>', {
 			text : " 개"
 		}))
 	));		
 });
 
+//유효성 검사
 $('#registBtn').click(function(){
 	if($('#productName').val()=='')
 		alert('상품명을 입력해주세요');

@@ -1,6 +1,7 @@
 package productmanager.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -181,10 +182,132 @@ public class ProductManagerController {
 	
 
 	@RequestMapping(value="/admin/productModifyForm.do",method= RequestMethod.GET)
-	public String productModifyForm(@RequestParam String productCode, Model model) {
+	public String productModifyForm(@RequestParam int productCode, Model model) {
 		GoodsDTO goodsDTO = productManagerDAO.getModifyForm(productCode);
 		model.addAttribute("goodsDTO", goodsDTO);
 		return "/admin/product/productModifyForm";
+	}
+	
+	@RequestMapping(value="/admin/getProductOption.do", method=RequestMethod.POST)
+	public ModelAndView getProductOption(@RequestParam int productCode) {
+		List<ProductOptionDTO> list = productManagerDAO.getProductOption(productCode);
+		//System.out.println(list);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	@RequestMapping(value="/admin/selectedOptionDelete.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int selectedOptionDelete(@RequestParam int optionCode) {
+		int su = productManagerDAO.selectedOptionDelete(optionCode);
+		return su;
+	}
+	
+	@RequestMapping(value="/admin/productModify.do", method=RequestMethod.POST)
+	public String productModify(@ModelAttribute GoodsDTO goodsDTO
+			, @RequestParam MultipartFile thumbFile, @RequestParam MultipartFile detailedFile) {
+		System.out.println(goodsDTO);
+		System.out.println("상품수정프로세스 실행");		
+		
+		//이미지파일이 삽입여부
+		int seq = goodsDTO.getProductCode();
+		
+		if(thumbFile.isEmpty()==false) {//썸네일 있을때 이미지 수정
+			String thumbImgName = seq+".jpg";
+			String thumbImgPath = "D:\\coding\\git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb";
+			File thumbImgFile = new	File(thumbImgPath, thumbImgName); 
+			try {
+				FileCopyUtils.copy(thumbFile.getInputStream(), new FileOutputStream(thumbImgFile));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			goodsDTO.setThumbImg(thumbImgName);
+		}
+		
+		if(detailedFile.isEmpty()==false) {//상세이미지 있을때 이미지 수정
+			String detailedImgName = seq+"d.jpg";
+			String detailedImgPath = "D:\\coding\\git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+			File detailedImgFile = new File(detailedImgPath, detailedImgName);
+			try {
+				FileCopyUtils.copy(detailedFile.getInputStream(), new FileOutputStream(detailedImgFile));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			goodsDTO.setDetailedImg(detailedImgName);
+		}
+		
+		//옵션 여부
+		if(goodsDTO.getProductOption()==1) {
+			int addSubQty = 0;
+			int addOptionQty = 0;
+			
+			//옵션 재고추가
+			if(goodsDTO.getOptionContent()!=null) {
+				for(int i=0; i<goodsDTO.getOptionContent().length; i++) {
+					int optionCode = goodsDTO.getOptionCode()[i];
+					ProductOptionDTO productOptionDTO = productManagerDAO.getOptionCode(optionCode);
+					//System.out.println(productOptionDTO);
+					productOptionDTO.setOptionContent(goodsDTO.getOptionContent()[i]);
+					productOptionDTO.setSubTotalQty(productOptionDTO.getSubTotalQty()+goodsDTO.getAddSubQty()[i]);
+					productOptionDTO.setSubStockQty(productOptionDTO.getSubStockQty()+goodsDTO.getAddSubQty()[i]);
+					//System.out.println(productOptionDTO);
+					
+					//옵션 수정 DB
+					productManagerDAO.productOptionModify(productOptionDTO);
+					
+					addSubQty += goodsDTO.getAddSubQty()[i];
+					System.out.println("옵션 재고추가 :"+addSubQty);
+				}
+			}
+			//새 옵션 추가
+			if(goodsDTO.getAddOptionContent()!=null) {
+				for(int i=0; i<goodsDTO.getAddOptionContent().length; i++) {
+					ProductOptionDTO productOptionDTO = new ProductOptionDTO();
+					productOptionDTO.setProductCode(seq);
+					productOptionDTO.setOptionContent(goodsDTO.getAddOptionContent()[i]);
+					productOptionDTO.setSubTotalQty(goodsDTO.getAddSubTotalQty()[i]);
+					System.out.println(productOptionDTO.getOptionContent()+"///"+productOptionDTO.getSubTotalQty());
+					
+					//새 옵션 추가 DB
+					productManagerDAO.addProductOption(productOptionDTO);
+					
+					addOptionQty += goodsDTO.getAddSubTotalQty()[i];
+					System.out.println("새 옵션 추가 :"+addOptionQty);
+				}
+			}
+			//추가 재고 총합
+			int addQty = addSubQty + addOptionQty;
+			System.out.println("총 추가 재고 : "+addQty);
+			goodsDTO.setAddQty(addQty);
+		}
+		
+		//재고추가기능
+		goodsDTO.setStockQty(goodsDTO.getStockQty()+goodsDTO.getAddQty());
+		goodsDTO.setTotalQty(goodsDTO.getTotalQty()+goodsDTO.getAddQty());
+		
+		
+		
+		//깜짝세일이 아닐때 originPrice==discountPrice
+		if(goodsDTO.getDiscount()!=1||goodsDTO.getDiscountPrice()==0) {
+			goodsDTO.setDiscountPrice(goodsDTO.getOriginalPrice());
+		}
+		
+		//카테고리 값 가져오기
+		GoodsDTO categoriesDTO = productManagerDAO.getCategories(seq);
+		//카테고리 기존값 빼기
+		productManagerDAO.reduceCategories(categoriesDTO);
+		//카테고리 수정값 더하기
+		productManagerDAO.totalProductOnSale(goodsDTO);
+		
+		//상품 수정 DB
+		productManagerDAO.productModify(goodsDTO);
+		
+		return "/admin/product/productModifyResult";
 	}
 	
 	@RequestMapping(value="/admin/productDelete.do",method= RequestMethod.POST)
