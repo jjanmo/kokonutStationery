@@ -18,6 +18,7 @@ import contentmanager.bean.ReviewboardPaging;
 import contentmanager.dao.ContentManagerDAO;
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
+import qnaboard.bean.QnaboardDTO;
 
 @Controller
 public class ContentManagerController {
@@ -25,8 +26,40 @@ public class ContentManagerController {
 	private ContentManagerDAO contentManagerDAO;
 	
 	@Autowired
+	private QnaboardManagerPaging qnaboardManagerPaging;
+	
+	@Autowired
 	private ReviewboardPaging reviewboardPaging;
 
+	//상품문의 - 리스트불러오기
+	@RequestMapping(value="/admin/qnaboardList.do",method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView qnaboardList(@RequestParam(required=false, defaultValue="1") String pg) {
+		int endNum = Integer.parseInt(pg)*5;
+		int startNum = endNum-4;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("startNum", startNum+"");
+		map.put("endNum", endNum+"");
+		
+		List<QnaboardDTO> list = contentManagerDAO.qnaboardList(map);
+		
+		int totalA = contentManagerDAO.qnaboardTotalA();
+		
+		qnaboardManagerPaging.setCurrentPage(Integer.parseInt(pg));
+		qnaboardManagerPaging.setPageBlock(3);
+		qnaboardManagerPaging.setPageSize(5);
+		qnaboardManagerPaging.setTotalA(totalA);
+		qnaboardManagerPaging.makePagingHTML();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("pg", pg);
+		mav.addObject("list", list);
+		mav.addObject("qnaboardManagerPaging", qnaboardManagerPaging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
 	//상품관리 - 리스트불러오기
 	@RequestMapping(value="/admin/reviewboardList.do",method = RequestMethod.POST)
 	@ResponseBody
@@ -66,7 +99,11 @@ public class ContentManagerController {
 		Map<String, String[]> map = new HashMap<String, String[]>();
 		map.put("array", check);
 		
-		if(boardOption.equals("tbl_reviewboard")) {
+		if(boardOption.equals("tbl_qnaboard")) {
+			contentManagerDAO.qnaDelete(map);
+			pagingCheck="qna";
+			
+		}else if(boardOption.equals("tbl_reviewboard")) {
 			contentManagerDAO.reviewDelete(map);
 			pagingCheck="review";
 		}
