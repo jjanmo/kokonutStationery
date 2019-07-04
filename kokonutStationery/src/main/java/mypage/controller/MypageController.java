@@ -116,28 +116,15 @@ public class MypageController {
 	@PostMapping("/setWishList.do")
 	@ResponseBody
 	public void setWishList(@ModelAttribute WishListDTO wishlistDTO) {
-		System.out.println(wishlistDTO);
-		
 		//찜목록에 있는지 확인
-		int checkWishList = wishlistDAO.checkWishList(wishlistDTO.getProductCode());
+		int checkWishList = wishlistDAO.checkWishList(wishlistDTO);
 		if(checkWishList==0) { //찜목록에 없는 상품만 추가
-			if(wishlistDTO.getProductOption()==1) { //옵션이 있을 때
-				//productCode와 optionContent로 optionCode 얻어오기
-			
-//				wishlistDTO.setOptionCode();
-//				wishlistDTO.setOptionContent();
-				
-			} else { //옵션이 없을 때
-				wishlistDTO.setOptionCode(0);
-				wishlistDTO.setOptionContent(null);
-			}
-			
 			//찜목록 테이블에 추가
 			wishlistDAO.setWishList(wishlistDTO);
 			
 			//유저 찜목록수 + 1
 			userDAO.addWishListCount(wishlistDTO.getUserId());
-		}
+		} //if
 	}
 	
 	//마이페이지 정보 가져오기
@@ -157,12 +144,7 @@ public class MypageController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
 		map.put("productCode", productCode);
-		
-		if(optionContent.equals("")) {
-			//optionCode 가져오기
-			
-			//map.put("optionCode", optionCode);
-		}
+		map.put("optionContent", optionContent);
 		
 		//찜목록 삭제
 		wishlistDAO.deleteWishList(map);

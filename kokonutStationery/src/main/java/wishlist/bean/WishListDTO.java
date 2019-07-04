@@ -16,6 +16,6 @@ public class WishListDTO {
 	private String thumbImg;
 	private int discountPrice;
 	private int optionCode;
-	private String[] optionContent;
+	private String optionContent;
 	private Date logdate;
 }
