@@ -112,6 +112,21 @@ body{
 	text-align: center;
 	padding: 30px 15px 15px 75px;
 }
+/*후기 페이징*/
+#currentPaging {
+	padding-right:5px;
+	color: #2AC1BC; 
+	font-weight: 700;
+	cursor:pointer;
+}
+
+#paging {
+	padding-right:5px;
+	color : black; 
+	text-decoration: none; 
+	cursor:pointer;
+}
+
 /*비밀글*/
 .userPage_private_lock{
 	background-color: #f7f7f7;
