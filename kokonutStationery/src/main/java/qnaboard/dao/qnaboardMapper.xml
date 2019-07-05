@@ -5,19 +5,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="qnaSQL">
 
-	<!-- 특정상품후기갯수 -->
+	<!-- 특정상품문의갯수 -->
 	<select id="getTotalQ" parameterType="Integer" resultType="Integer">
 		select count(*) from TBL_qnaboard where productcode=#{productCode}
 	</select>
 	
-	<!-- 모든상품후기리스트 가져오기 -->
-	<select id="getAllQnaList" resultType="qnaboard">
-		select * from TBL_qnaboard
-		order by ref desc, admin asc, qnaboardcode desc
-		
+	<!-- 모든상품문의갯수 -->
+	<select id="getTotalAllQ"  resultType="Integer">
+		select count(*) from TBL_qnaboard
 	</select>
 	
-	<!-- 특정상품후기리스트 가져오기 -->
+	<!-- 검색한 문의갯수 -->
+	<select id="getTotalSearchQ" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from TBL_qnaboard where ${searchOption} like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 검색한 문의갯수 -->
+	<select id="getTotalAllSearchQ" parameterType="String" resultType="Integer">
+		select count(*) from TBL_qnaboard 
+		where userId like '%'||#{searchContent}||'%' or qnaboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 모든상품문의리스트 가져오기 -->
+	<select id="getAllQnaList" parameterType="java.util.Map" resultType="qnaboard">
+		<!-- select * from TBL_qnaboard
+		order by ref desc, admin asc, qnaboardcode desc -->
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_qnaboard order by ref desc, admin asc, qnaboardcode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 특정검색문의리스트 가져오기 -->
+	<select id="qnaboardSearch" parameterType="java.util.Map" resultType="qnaboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_qnaboard 
+		where ${searchOption} like '%'||#{searchContent}||'%'
+		order by ref desc, admin asc, qnaboardcode desc)tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 모든검색문의리스트 -->
+	<select id="qnaboardAllSearch" parameterType="String" resultType="qnaboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_qnaboard 
+		where userId like '%'||#{searchContent}||'%' or qnaboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+		order by ref desc, admin asc, qnaboardcode desc)tt)
+        where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 특정상품문의리스트 최신2개만 가져오기 -->
 	<select id="getQnaList" parameterType="java.util.Map" resultType="qnaboard">
 		<!-- select * from TBL_qnaboard where productcode=#{productCode} 
 		order by ref desc, admin asc, qnaboardcode desc -->
@@ -25,7 +64,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from
 		(select rownum rn,tt.*from
 		(select * from TBL_qnaboard where productcode=#{productCode} order by ref desc, admin asc, qnaboardcode desc) tt)
-		where rn >= #{startNum} and rn <![CDATA[<=]]> #{endNum}
+		where rn<![CDATA[<=]]>2
+		
+		<!-- where rn >= #{startNum} and rn <![CDATA[<=]]> #{endNum} -->
+		
 	</select>
 
 	<!-- 상품후기 작성 -->

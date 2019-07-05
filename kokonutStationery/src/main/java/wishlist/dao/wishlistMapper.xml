@@ -14,46 +14,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							   , productCode
 							   , productName
 							   , productOption
-							   , thumbImg
+							   , optionContent
 							   , discountPrice
+							   , thumbImg
 							   , logdate)
 						  values(#{userId}
 						  	   , #{productCode}
 						  	   , #{productName}
 						  	   , #{productOption}
-						  	   , #{thumbImg}
+						  	   , #{optionContent}
 						  	   , #{discountPrice}
+						  	   , #{thumbImg}
 						  	   , sysdate)
 	</insert>
-	
-<!-- 	<insert id="setWishList" parameterType="wishlist">
-		insert into tbl_wishlist(userId
-							   , productCode
-							   , productName
-							   , productOption
-							   , thumbImg
-							   , discountPrice
-							   , optionCode
-							   , optionContent
-							   , logdate)
-						  values(#{userId}
-						  	   , #{productCode}
-						  	   , #{productName}
-						  	   , #{productOption}
-						  	   , #{thumbImg}
-						  	   , #{discountPrice}
-						  	   , #{optionCode}
-						  	   , #{optionContent}
-						  	   , sysdate)
-	</insert> -->
-	
-	<!-- 찜목록 중복차단 -->
-	<select id="checkWishList" parameterType="int" resultType="int">
-		select count(*) from tbl_wishlist where productCode = #{productCode}
+
+	<!-- 찜목록 중복확인 -->
+	<select id="checkWishList" parameterType="wishlist" resultType="int">
+		select count(*) from tbl_wishlist where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
 	</select>
 	
 	<!-- 찜목록 삭제 -->
 	<delete id="deleteWishList" parameterType="java.util.Map">
-		delete from tbl_wishlist where userId = #{userId} and productCode = #{productCode}
+		delete from tbl_wishlist where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
 	</delete>
 </mapper>

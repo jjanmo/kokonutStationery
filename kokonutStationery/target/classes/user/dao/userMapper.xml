@@ -82,7 +82,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원탈퇴 -->
 	<delete id="memberDelete" parameterType="java.util.Map">
-		delete from TBL_USER where userId=#{userId}
+		begin
+			delete from TBL_USER where userId=#{userId};
+			delete from TBL_POINT where userId=#{userId};
+			delete from TBL_WISHLIST where userId=#{userId};
+		end;
 	</delete>
 	
 	<!-- 마이페이지 회원정보 조회 -->
