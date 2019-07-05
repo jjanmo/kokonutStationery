@@ -620,18 +620,23 @@ $(document).ready(function(){
 							id:'qna_'+index+'_content',
 							text:item.qnaboardContent
 						}));
-						
-						
-						//수정버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
-							text:'수정'
-						}));
+												
+						/*
 						//삭제버튼
 						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
+							class:'qna_content_btn',
+							id:'qna_delete_btn',
+							style:'visible:hidden;',
 							text:'삭제'
 						}));
+						//수정버튼
+						$('#qna_'+index+'_content').append($('<button/>',{
+							class:'qna_content_btn',
+							id:'qna_modify_btn',
+							style:'visible:hidden;',
+							text:'수정'
+						}));
+						*/
 						
 						//비밀글일때 
 						if(item.secret==1){
@@ -709,8 +714,57 @@ $(document).ready(function(){
 					$('#qna_'+index+'_content').hide();
 					//답변내용클릭시 보이게
 					$('#qna_'+index).on('click', function(){
-						$('#qna_'+index+'_content').toggle();
+						
+						$('#qna_'+index+'_content').toggle(function(){
+							
+							var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							var content = $(this).text();
+							var thisContent = $(this);
+							//var content = $(this).parent().children('#qna_'+index+'_content').text();
+							alert("userId="+userId+"content="+content);
+							
+								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										alert(data+" 내용은="+content);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.text(item.qnaboardContent);
+											//삭제버튼
+											$('#qna_'+index+'_content').append($('<button/>',{
+												class:'qna_content_btn',
+												id:'qna_delete_btn',
+												text:'삭제'
+											}));
+											//수정버튼
+											$('#qna_'+index+'_content').append($('<button/>',{
+												class:'qna_content_btn',
+												id:'qna_modify_btn',
+												text:'수정'
+											}));
+										}
+									}
+									
+								});
+							
+							
+						});//toggle
+					});//내용이벤트
+					
+					
+					//문의수정
+					$('#qna_modify_btn').on('click',function(){
+						alert("수정!");
 					});
+
+					//문의삭제
+					$('#qna_delete_btn').on('click',function(){
+						alert("삭제!");
+						
+					});
+
 					
 					//후기 문의 게시물 hover 이벤트
 					$('.userPage_area').hover(function(){
@@ -730,7 +784,9 @@ $(document).ready(function(){
 		}//success
 	});//ajax
 	
-});
+});//document
+
+
 
 /*
 function boardPaging(pg){

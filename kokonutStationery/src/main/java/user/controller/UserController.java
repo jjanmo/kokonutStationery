@@ -22,7 +22,20 @@ import user.dao.UserDAO;
 public class UserController {
 	@Autowired
 	private UserDAO userDAO;
-
+	//비밀글내용과 자기아이디체크
+	@GetMapping("/checkSecret")
+	@ResponseBody
+	public String checkSecret(HttpSession session,@RequestParam String userId) {
+		String memId = (String)session.getAttribute("memId");
+		System.out.println("로그인한 memId = "+memId+" 클릭한글의 userId="+userId);
+		
+		if(memId==null)
+			return "fail";
+		else if(memId.equals(userId)==false)
+			return "fail";
+		else
+			return "ok";
+	}
 	
 	//로그인후작성권한체크
 	@GetMapping("/checkAuth")

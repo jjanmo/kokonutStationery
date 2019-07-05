@@ -6,6 +6,24 @@
 <style type="text/css">
 #statistic_wrap h2{font-weight:normal; margin-top:40px;}
 #statistic_wrap p{color:gray; margin-top:10px;}
+
+#salesSearchFormBtn{
+	text-align: center;
+	width: 100px;
+	height: 35px;
+    padding: 0 20px;
+    font-size: 14px;
+	font-weight: normal;
+    cursor: pointer;
+	color: #1b87d4;
+    border: 1px solid #1b87d4;
+    background-color: #fff;
+   	float: right;
+}
+#salesSearchFormBtn:hover{
+   background-color:#1b87d4;
+   color:#ffffff;
+}
 </style>
 </head>
 
@@ -17,7 +35,10 @@
 		</div>
 	
 		<!-- 일별 그래프 -->
-		<h2>일별 매출 현황</h2>
+		<h2 style="display: inline;">일별 매출 현황</h2>
+		<div style="float: right; padding-right: 63px;">
+			<input type="button" id="salesSearchFormBtn" value="상세 매출">
+		</div>
 		<p>6월</p>
 		<div id="day_sales"></div>
 		
@@ -33,6 +54,7 @@
 </div><!-- 메인컨텐츠 끝 -->
 
 <script src="../js/Easygraphs.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 
 // 일별 매출현황
@@ -134,4 +156,9 @@ var eg2 = new Easygraphs({
   }]
 });
 eg2.render();
+
+//상세 매출 클릭 시 검색 폼 띄우기
+$('#salesSearchFormBtn').click(function(){
+  	window.open('/kokonutStationery/admin/salesSearchForm.do','','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+});
 </script>
