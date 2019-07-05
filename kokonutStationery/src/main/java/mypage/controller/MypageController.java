@@ -20,28 +20,29 @@ import point.bean.PointDTO;
 import point.dao.PointDAO;
 import user.bean.UserDTO;
 import user.dao.UserDAO;
-import wishlist.bean.WishListDTO;
-import wishlist.dao.WishListDAO;
+import wishlist.bean.WishlistDTO;
+import wishlist.dao.WishlistDAO;
 
 @Controller
 @RequestMapping("/mypage/*")
-public class MypageController {
-	
+public class MypageController {	
 	@Autowired	
 	private UserDAO userDAO;
 	@Autowired
 	private PointDAO pointDAO;
 	@Autowired
-	private WishListDAO wishlistDAO;
+	private WishlistDAO wishlistDAO;
 	
 	//포인트
 	@GetMapping("/mypage_pointlist.do")
 	public ModelAndView pointlist(HttpSession session) {
 		//포인트 리스트 가져오기
 		String userId = (String) session.getAttribute("memId");
+		UserDTO userInfo = userDAO.getUserInfo(userId);
 		List<PointDTO> list = pointDAO.getPointList(userId);
 		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("userInfo", userInfo);
 		mav.addObject("list", list);
 		mav.addObject("contents", "/mypage/mypage_pointlist.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
@@ -55,7 +56,7 @@ public class MypageController {
 	public ModelAndView wishlist(HttpSession session) {
 		//찜목록 리스트 가져오기
 		String userId = (String) session.getAttribute("memId");
-		List<WishListDTO> list = wishlistDAO.getWishList(userId);
+		List<WishlistDTO> list = wishlistDAO.getWishList(userId);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
@@ -86,12 +87,6 @@ public class MypageController {
 		return mav;
 	}
 	
-	//1:1문의하기
-	@GetMapping("/mypage_onetoone_register.do")
-	public String onetoone_register() {
-		return "/mypage/mypage_onetoone_register";
-	}
-	
 	//상품후기페이지
 	@GetMapping("/mypage_review.do")
 	public ModelAndView review() {
@@ -115,7 +110,7 @@ public class MypageController {
 	//찜목록 추가
 	@PostMapping("/setWishList.do")
 	@ResponseBody
-	public void setWishList(@ModelAttribute WishListDTO wishlistDTO) {
+	public void setWishList(@ModelAttribute WishlistDTO wishlistDTO) {
 		//찜목록에 있는지 확인
 		int checkWishList = wishlistDAO.checkWishList(wishlistDTO);
 		if(checkWishList==0) { //찜목록에 없는 상품만 추가
