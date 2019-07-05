@@ -23,6 +23,7 @@
 	<context:component-scan base-package="reviewboard.dao"/>
 	<context:component-scan base-package="noticeboard.bean"/>
 	<context:component-scan base-package="noticeboard.dao"/>
+	<context:component-scan base-package="order.bean"/>
 	<context:component-scan base-package="point.bean"/>
 	<context:component-scan base-package="point.dao"/>
 	<context:component-scan base-package="wishlist.bean"/>
@@ -35,6 +36,7 @@
 	<context:component-scan base-package="admin.bean"/>
 	<context:component-scan base-package="usermanager.dao"/>
 	<context:component-scan base-package="productmanager.dao"/>
+	<context:component-scan base-package="ordermanager.dao"/>
 	<context:component-scan base-package="contentmanager.dao"/>
 	<context:component-scan base-package="contentmanager.bean"/>
 	
