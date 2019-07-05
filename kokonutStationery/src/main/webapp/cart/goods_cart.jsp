@@ -36,6 +36,14 @@
 				<c:if test="${list.size()!=0}"> 
 					<c:forEach var="cartDTO" items="${list }">
 					<c:set var="total" value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
+					<c:set var="cnt" value="${cnt+1}" />
+					<input type="hidden" id="productCode${cnt}" value="${cartDTO.productCode}">
+					<input type="hidden" id="productName${cnt}" value="${cartDTO.productName}">
+					<input type="hidden" id="productOption${cnt}" value="${cartDTO.productOption}">
+					<input type="hidden" id="thumbImg${cnt}" value="${cartDTO.thumbImg}">
+					<input type="hidden" id="discountPrice${cnt}" value="${cartDTO.discountPrice}">
+					<input type="hidden" id="optionContent${cnt}" value="${cartDTO.optionContent}">
+
 						<tr>
 							<td id="cart_checkbox" style="vertical-align: top; padding: 30px 17px;">
 								<input type="checkbox" name="cartCheckbox" class="checkbox${cnt}" checked>
@@ -287,4 +295,54 @@ $('.selectDelete').click(function(){
 	//새로고침
 	location.href='/kokonutStationery/cart/goods_cart.do';
 });
+
+
+//선택 찜하기
+$('.selectLike').click(function(){
+	var productCode = '';
+	var productName = '';
+	var productOption = '';
+	var thumbImg = '';
+	var discountPrice = '';
+	var optionContent = '';
+	
+	//선택된 것을 확인
+	for(var i=1; i<=$('input[name=cartCheckbox]').length; i++) {
+		if($('.checkbox'+i).is(':checked')) {
+			productCode = $('#productCode'+i).val();
+			productName = $('#productName'+i).val();
+			productOption = $('#productOption'+i).val();
+			thumbImg = $('#thumbImg'+i).val();
+			discountPrice = $('#discountPrice'+i).val();
+
+			if($('#productOption'+i).val()==0) { //옵션이 없을 때
+				optionContent = 'none';
+			} else { //옵션이 있을 때
+				optionContent = $('#optionContent'+i).val();
+			}
+			
+			$.ajax({	
+				type: 'post',
+				url: '/kokonutStationery/mypage/setWishList.do',
+				data: {'userId': '${memId}',
+					   'productCode': productCode,
+					   'productName': productName,
+					   'productOption': productOption,
+					   'thumbImg': thumbImg,
+					   'discountPrice': discountPrice,
+					   'optionContent': optionContent},
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
+			});
+		} //if; 체크 유무 확인
+	} //for
+});
+
 </script>
+
+
+
+
+
+

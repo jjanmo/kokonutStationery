@@ -536,7 +536,10 @@ $('#wishlistBtn').click(function(){
 					   'thumbImg': '${goodsDTO.thumbImg}',
 					   'discountPrice': '${goodsDTO.discountPrice}',
 					   'optionContent': 'none'
-					   }
+					   },
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
 			}); //ajax
 		} else { //옵션이 있을 때
 			if(selArray.length==0) {
@@ -554,15 +557,15 @@ $('#wishlistBtn').click(function(){
 							   'thumbImg': '${goodsDTO.thumbImg}',
 							   'discountPrice': '${goodsDTO.discountPrice}',
 							   'optionContent': selArray[i]
-							   }
+							   },
+						success: function(){
+							location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+						}
 					}); //ajax
 				} //for	
 			} //if~else
 		} //if~else
-
-		//페이지 이동
-		location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
-	}
+	} //if~else
 });
 </script>
 
