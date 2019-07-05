@@ -698,11 +698,12 @@ $(document).ready(function(){
 						$(this).css("background-color", "#ffffff");
 					});	
 				});//for문
-				
+				/*
 				//페이징
 				$('.qnaPage_paging_num').append($('<div/>',{
 					html : data.qnaboardPaging.pagingHTML
 				}));
+				*/
 			}//if - data문
 			
 		}//success
@@ -710,11 +711,12 @@ $(document).ready(function(){
 	
 });
 
+/*
 function boardPaging(pg){
 	
 	$.ajax({
 		type:'get',
-		url:'../qna/goods_qnaList.do',
+		url:'../qna/goods_qnaAllList.do',
 		data:{'pg':pg,
 			'productCode':productCode},
 		dataType:'json',
@@ -867,15 +869,18 @@ function boardPaging(pg){
 					});	
 				});//for문
 				
+				/*
 				//페이징
 				$('.qnaPage_paging_num').append($('<div/>',{
 					
 					html : data.qnaboardPaging.pagingHTML
 				}));
+				
 			}//if - data문
 				
 		}
 	});
 	
 }
+*/
 </script>

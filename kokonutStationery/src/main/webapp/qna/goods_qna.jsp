@@ -22,18 +22,19 @@
 			<form id="userPage_searchForm" method="post" action="../qna/qnaboardSearch.do">
 				<div class="goods_userPage_search">
 					<select id="searchOption" name="searchOption" class="goods_userPage_searchOption">
-						<option value="">통합검색</option>
+						<option value="all">통합검색</option>
 						<option value="qnaboardSubject">제목</option>
 						<option value="userId">작성자</option>
 						<option value="productName">상품명</option>
 					</select>
-					<input type="text"  id="searchContent" name="searchContent" class="goods_userPage_searchValue" placeholder="검색어를 입력하세요">
+					<input type="hidden" name="pg" value="1">
+					<input type="text"  id="searchContent" name="searchContent" value="" class="goods_userPage_searchValue" placeholder="검색어를 입력하세요">
 					<input type="button" id="goods_userPage_searchBtn" class="goods_userPage_searchBtn" value="검색">
 				</div>
 				<div>
-					<select class="goods_userPage_sortOption">
-						<option>10개씩 정렬</option>
-						<option>20개씩 정렬</option>
+					<select id="pageNum" name="pageNum" class="goods_userPage_sortOption">
+						<option value="10">10개씩 정렬</option>
+						<option value="20">20개씩 정렬</option>
 					</select>
 				</div>
 				<br><br>
@@ -55,7 +56,7 @@
 				</div>
 				
 				<!-- 페이징 -->
-				<div class="goods_userPage_paging"><b>1</b></div>
+				<div class="goods_userPage_paging"></div>
 			</form>
 		</div>
 	</div>
@@ -64,9 +65,18 @@
 
 
 <script type="text/javascript">
+
+//검색했을때 작성자 제목 유지하도록
+window.onload=function(){
+	if('${searchOption}'=='all'||'${searchOption}'=='qnaboardSubject'
+		||'${searchOption}'=='userId'||'${searchOption}'=='productName'){
+		document.getElementById('searchOption').value='${searchOption}';
+	}
+}
+
 $(document).ready(function(){
 	$.ajax({
-		typd:'post',
+		type:'post',
 		url:'../qna/goods_qnaAllList.do',
 		dataType:'json',
 		success:function(data){
@@ -258,73 +268,683 @@ $(document).ready(function(){
 						$(this).css("background-color", "#ffffff");
 					});
 				});//for문
-			}//if - data문
+				
+				//페이징
+				$('.goods_userPage_paging').append($('<div/>',{
+					html : data.qnaboardPaging.pagingHTML
+				}));
+				
+			}//if문
 			
 		}//success
 	});//ajax
 	
-	$('#goods_userPage_searchBtn').on('click',function(){
+	$('#goods_userPage_searchBtn').on('click',function(event,str){
+		if(str!='trigger') $('input[name=pg]').val(1);
+		var pg = $('input[name=pg]').val();
+		var pageNum=$('select[name=pageNum]').val();
 		var searchOption = $('#searchOption').val();
 		var searchContent = $('#searchContent').val();
 		
-		if(searchContent==''){
-			alert("글써!");
-		}else{
-			$.ajax({
-				type:'POST',
-				url:'../qna/qnaboardSearch.do',
-				data:{
-					'searchOption':searchOption,
-					'searchContent':searchContent},
-				dataType:'json',
-				success:function(data){
-					alert(JSON.stringify(data));
-					$('.goods_userPage_board tr').children().remove();//0보다 큰 tr은 제거
-					
-					
-					$.each(data.list, function(index, items){
-						
-					});
-					
-				}
-			});
-		}
-	});
-	
-	/*
-	//검색버튼
-	$('#goods_userPage_searchBtn').click(function(event,str){
-		if(str!='trigger') $('input[name=pg]').val(1);
-		//trigger이벤트일 땐 2~이상의 페이지/ 검색하지않을때는 1페이지보여주기
 		
-		if($('#searchContent').val()=='')
-			alert("검색어를 입력하세요.");
-		else{
-			var pg = $('input[name=pg]').val();//1
-			var searchOption = $('#searchOption').val();
-			var searchContent = $('#searchContent').val();
-			
 			$.ajax({
 				type:'POST',
 				url:'../qna/qnaboardSearch.do',
 				data:{'pg':pg,
+					'pageNum':pageNum,
 					'searchOption':searchOption,
 					'searchContent':searchContent},
 				dataType:'json',
 				success:function(data){
-					$('#boardTable tr:gt(0)').remove();//0보다 큰 tr은 제거
+					//alert("search다!"+JSON.stringify(data));
 					
+					$('#contentDiv').children().remove();//0보다 큰 tr은 제거
+					$('.goods_userPage_paging').children().remove();
 					
-					$.each(data.list, function(index, items){
+					if(data!=null){
+						//테이블생성
+						$('#contentDiv').append($('<table/>',{
+							class:'goods_userPage_board',
+							cellpadding:'5'
+						}));
+						$.each(data.list, function(index, item) {
+							
+							//////////////////질문///////////////////					
+							if(item.admin==0){
+								//타이틀
+								$('.goods_userPage_board').append($('<tr/>',{
+									
+									height:'25',
+									id:'qna_'+index
+									
+									}).append($('<td/>',{
+										width:'80',
+										text:item.qnaboardCode
+										
+									})).append($('<td/>',{
+										width:'80',
+										id:'qnaThumbImg_'+index
+										
+									})).append($('<td/>',{							
+										id:'qnaSubject_'+index,
+										style:'text-align:left;'
+										
+										}).append($('<span/>',{
+											style:'font-weight:700; color:#a0a0a0; padding:10px;',
+											text: '질문 : '
+										
+										})).append($('<sapn/>',{
+											text:item.qnaboardSubject
+										
+									}))).append($('<td/>',{
+										width:'140',
+										text:item.userId
+										
+									})).append($('<td/>',{
+										width:'120',
+										text:item.regDate
+									})));
+								
+									//이미지,a태그추가
+									$('#qnaThumbImg_'+index).append($('<a/>',{
+										href:'../goods/goods_view.do?productCode='+item.productCode
+									
+										}).append($('<img/>',{
+											class:'goods_userPage_img',
+											src:'../image/thumb/'+item.thumbImg
+									})));
+								
+								//내용
+								if(item.secret==0){
+									
+									$('.goods_userPage_board').append($('<tr/>',{
+										class:'userPage_content_'+index,
+										id:'qna_'+index+'_content'
+										
+									}).append($('<td/>',{
+										colspan:'5',
+										style:'text-align:left; padding:25px; white-space: pre-wrap;',
+										height:'100%',
+										text:item.qnaboardContent
+									})));
+								
+								 
+								}else if(item.secret==1){
+									//비밀글일때
+									//잠금이미지 추가
+									$('#qnaSubject_'+index).append($('<img>',{
+										src:'../image/private_lock.gif'
+									}));
+									
+									//내용
+									$('.goods_userPage_board').append($('<tr/>',{
+										id:'qna_'+index+'_content'
+										
+									}).append($('<td/>',{
+										class:'userPage_content_'+index,
+										colspan:'5',
+										text:'비밀글입니다.'
+									})));
+									
+									//비밀글일때 내용안보이게
+									$('.userPage_content_'+index).addClass('userPage_private_lock');
+									
+								}
+								
+							}else if(item.admin==1){						
+								//////////////////답변///////////////////
+								
+									$('.goods_userPage_board').append($('<tr/>',{
+									
+									height:'50',
+									id:'qna_'+index
+									
+									}).append($('<td/>',{
+										width:'80',
+										text:item.qnaboardCode
+										
+									})).append($('<td/>',{
+										width:'80'
+										
+									})).append($('<td/>',{	
+										id:'qnaSubject_'+index,
+										style:'text-align:left;'
+										
+										}).append($('<span/>',{
+											style:'font-weight:700; color:#2AC1BC; padding:10px;',
+											text: '답변 : '
+										
+										})).append($('<sapn/>',{
+											text:item.qnaboardSubject
+										
+									}))).append($('<td/>',{
+										width:'140',
+										text:item.userId
+										
+									})).append($('<td/>',{
+										width:'120',
+										text:item.regDate
+									})));
+								
+								
+									//내용
+									if(item.secret==0){
+										
+										$('.goods_userPage_board').append($('<tr/>',{
+											class:'userPage_content_'+index,
+											id:'qna_'+index+'_content'
+											
+										}).append($('<td/>',{
+											colspan:'5',
+											style:'text-align:left; padding:25px; white-space: pre-wrap;',
+											height:'100%',
+											text:item.qnaboardContent
+										})));
+									
+									 
+									}else if(item.secret==1){
+										//비밀글일때
+										//잠금이미지 추가
+										$('#qnaSubject_'+index).append($('<img>',{
+											src:'../image/private_lock.gif'
+										}));
+										
+										//내용
+										$('.goods_userPage_board').append($('<tr/>',{
+											id:'qna_'+index+'_content'
+											
+										}).append($('<td/>',{
+											class:'userPage_content_'+index,
+											colspan:'5',
+											text:'비밀글입니다.'
+										})));
+										
+										//비밀글일때 내용안보이게
+										$('.userPage_content_'+index).addClass('userPage_private_lock');
+										
+									}
+								
+								
+							}//관리자답변if
+							
+							
+							//답변내용숨기기
+							$('#qna_'+index+'_content').hide();
+							//답변내용클릭시 보이게
+							$('#qna_'+index).on('click', function(){
+								$('#qna_'+index+'_content').toggle();
+							});
+							
+							//후기 문의 게시물 hover 이벤트
+							$('#qna_'+index).hover(function(){
+								$(this).css("background-color", "#f6f6f6");
+							},function(){
+								$(this).css("background-color", "#ffffff");
+							});	
+							$('#qna_'+index+'_content').hover(function(){
+								$(this).css("background-color", "#f6f6f6");
+							},function(){
+								$(this).css("background-color", "#ffffff");
+							});
+						});//for문
 						
+						//페이징
+						$('.goods_userPage_paging').append($('<div/>',{
+							html : data.qnaboardPaging.pagingHTML
+						}));
+						
+					}//if문
+					
+				}//data
+			});//ajax
+		
+	});//clickevent
+	
+	
+});
+function boardSearchPaging(pg){
+	$('input[name=pg]').val(pg);
+	//검색버튼을 클릭한 효과를 주어야한다
+	$('#goods_userPage_searchBtn').trigger('click','trigger');//'trigger'를 전달
+	$('#pageNum').trigger('change','trigger');//'trigger'를 전달
+}
+function boardPaging(pg){
+	
+	$.ajax({
+		type:'POST',
+		url:'../qna/goods_qnaAllList.do',
+		data:{'pg':pg},
+		dataType:'json',
+		success:function(data){
+			//alert(JSON.stringify(data));
+			//$('.goods_userPage_board').children().remove();//0보다 큰 tr은 제거
+			$('#contentDiv').children().remove();//0보다 큰 tr은 제거
+			$('.goods_userPage_paging').children().remove();
+			
+			
+			if(data!=null){
+				//테이블생성
+				$('#contentDiv').append($('<table/>',{
+					class:'goods_userPage_board',
+					cellpadding:'5'
+				}));
+				
+				$.each(data.list, function(index, item) {
+					
+					//////////////////질문///////////////////					
+					if(item.admin==0){
+						//타이틀
+						$('.goods_userPage_board').append($('<tr/>',{
+							
+							height:'25',
+							id:'qna_'+index
+							
+							}).append($('<td/>',{
+								width:'80',
+								text:item.qnaboardCode
+								
+							})).append($('<td/>',{
+								width:'80',
+								id:'qnaThumbImg_'+index
+								
+							})).append($('<td/>',{							
+								id:'qnaSubject_'+index,
+								style:'text-align:left;'
+								
+								}).append($('<span/>',{
+									style:'font-weight:700; color:#a0a0a0; padding:10px;',
+									text: '질문 : '
+								
+								})).append($('<sapn/>',{
+									text:item.qnaboardSubject
+								
+							}))).append($('<td/>',{
+								width:'140',
+								text:item.userId
+								
+							})).append($('<td/>',{
+								width:'120',
+								text:item.regDate
+							})));
+						
+							//이미지,a태그추가
+							$('#qnaThumbImg_'+index).append($('<a/>',{
+								href:'../goods/goods_view.do?productCode='+item.productCode
+							
+								}).append($('<img/>',{
+									class:'goods_userPage_img',
+									src:'../image/thumb/'+item.thumbImg
+							})));
+						
+						//내용
+						if(item.secret==0){
+							
+							$('.goods_userPage_board').append($('<tr/>',{
+								class:'userPage_content_'+index,
+								id:'qna_'+index+'_content'
+								
+							}).append($('<td/>',{
+								colspan:'5',
+								style:'text-align:left; padding:25px; white-space: pre-wrap;',
+								height:'100%',
+								text:item.qnaboardContent
+							})));
+						
+						 
+						}else if(item.secret==1){
+							//비밀글일때
+							//잠금이미지 추가
+							$('#qnaSubject_'+index).append($('<img>',{
+								src:'../image/private_lock.gif'
+							}));
+							
+							//내용
+							$('.goods_userPage_board').append($('<tr/>',{
+								id:'qna_'+index+'_content'
+								
+							}).append($('<td/>',{
+								class:'userPage_content_'+index,
+								colspan:'5',
+								text:'비밀글입니다.'
+							})));
+							
+							//비밀글일때 내용안보이게
+							$('.userPage_content_'+index).addClass('userPage_private_lock');
+							
+						}
+						
+					}else if(item.admin==1){						
+						//////////////////답변///////////////////
+						
+							$('.goods_userPage_board').append($('<tr/>',{
+							
+							height:'50',
+							id:'qna_'+index
+							
+							}).append($('<td/>',{
+								width:'80',
+								text:item.qnaboardCode
+								
+							})).append($('<td/>',{
+								width:'80'
+								
+							})).append($('<td/>',{	
+								id:'qnaSubject_'+index,
+								style:'text-align:left;'
+								
+								}).append($('<span/>',{
+									style:'font-weight:700; color:#2AC1BC; padding:10px;',
+									text: '답변 : '
+								
+								})).append($('<sapn/>',{
+									text:item.qnaboardSubject
+								
+							}))).append($('<td/>',{
+								width:'140',
+								text:item.userId
+								
+							})).append($('<td/>',{
+								width:'120',
+								text:item.regDate
+							})));
+						
+						
+							//내용
+							if(item.secret==0){
+								
+								$('.goods_userPage_board').append($('<tr/>',{
+									class:'userPage_content_'+index,
+									id:'qna_'+index+'_content'
+									
+								}).append($('<td/>',{
+									colspan:'5',
+									style:'text-align:left; padding:25px; white-space: pre-wrap;',
+									height:'100%',
+									text:item.qnaboardContent
+								})));
+							
+							 
+							}else if(item.secret==1){
+								//비밀글일때
+								//잠금이미지 추가
+								$('#qnaSubject_'+index).append($('<img>',{
+									src:'../image/private_lock.gif'
+								}));
+								
+								//내용
+								$('.goods_userPage_board').append($('<tr/>',{
+									id:'qna_'+index+'_content'
+									
+								}).append($('<td/>',{
+									class:'userPage_content_'+index,
+									colspan:'5',
+									text:'비밀글입니다.'
+								})));
+								
+								//비밀글일때 내용안보이게
+								$('.userPage_content_'+index).addClass('userPage_private_lock');
+								
+							}
+						
+						
+					}//관리자답변if
+					
+					
+					//답변내용숨기기
+					$('#qna_'+index+'_content').hide();
+					//답변내용클릭시 보이게
+					$('#qna_'+index).on('click', function(){
+						$('#qna_'+index+'_content').toggle();
 					});
 					
-				}
-			});
+					//후기 문의 게시물 hover 이벤트
+					$('#qna_'+index).hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
+					$('#qna_'+index+'_content').hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});
+				});//for문
+				
+				//페이징
+				$('.goods_userPage_paging').append($('<div/>',{
+					html : data.qnaboardPaging.pagingHTML
+				}));
+				
+			}//if문
 		}
-		
 	});
-	*/
+}//boardPaging
+</script>
+
+<script type="text/javascript">
+//정렬이벤트
+$(function() {
+	$("#pageNum").change(function(event,str) {
+	if(str!='trigger') $('input[name=pg]').val(1);
+	var pg = $('input[name=pg]').val();
+	var pageNum=$('#pageNum option:selected').val();
+	var searchOption = $('#searchOption').val();
+	var searchContent = $('#searchContent').val();
+	//alert("변경된 pageNum="+pageNum);
+		
+	
+		$.ajax({
+			type:'POST',
+			url:'../qna/qnaboardSearch.do',
+			data:{'pg':pg,
+				'pageNum':pageNum,
+				'searchOption':searchOption,
+				'searchContent':searchContent},
+			dataType:'json',
+			success:function(data){
+				//alert("search다!"+JSON.stringify(data));
+				
+				$('#contentDiv').children().remove();//0보다 큰 tr은 제거
+				$('.goods_userPage_paging').children().remove();
+				
+				if(data!=null){
+					//테이블생성
+					$('#contentDiv').append($('<table/>',{
+						class:'goods_userPage_board',
+						cellpadding:'5'
+					}));
+					$.each(data.list, function(index, item) {
+						
+						//////////////////질문///////////////////					
+						if(item.admin==0){
+							//타이틀
+							$('.goods_userPage_board').append($('<tr/>',{
+								
+								height:'25',
+								id:'qna_'+index
+								
+								}).append($('<td/>',{
+									width:'80',
+									text:item.qnaboardCode
+									
+								})).append($('<td/>',{
+									width:'80',
+									id:'qnaThumbImg_'+index
+									
+								})).append($('<td/>',{							
+									id:'qnaSubject_'+index,
+									style:'text-align:left;'
+									
+									}).append($('<span/>',{
+										style:'font-weight:700; color:#a0a0a0; padding:10px;',
+										text: '질문 : '
+									
+									})).append($('<sapn/>',{
+										text:item.qnaboardSubject
+									
+								}))).append($('<td/>',{
+									width:'140',
+									text:item.userId
+									
+								})).append($('<td/>',{
+									width:'120',
+									text:item.regDate
+								})));
+							
+								//이미지,a태그추가
+								$('#qnaThumbImg_'+index).append($('<a/>',{
+									href:'../goods/goods_view.do?productCode='+item.productCode
+								
+									}).append($('<img/>',{
+										class:'goods_userPage_img',
+										src:'../image/thumb/'+item.thumbImg
+								})));
+							
+							//내용
+							if(item.secret==0){
+								
+								$('.goods_userPage_board').append($('<tr/>',{
+									class:'userPage_content_'+index,
+									id:'qna_'+index+'_content'
+									
+								}).append($('<td/>',{
+									colspan:'5',
+									style:'text-align:left; padding:25px; white-space: pre-wrap;',
+									height:'100%',
+									text:item.qnaboardContent
+								})));
+							
+							 
+							}else if(item.secret==1){
+								//비밀글일때
+								//잠금이미지 추가
+								$('#qnaSubject_'+index).append($('<img>',{
+									src:'../image/private_lock.gif'
+								}));
+								
+								//내용
+								$('.goods_userPage_board').append($('<tr/>',{
+									id:'qna_'+index+'_content'
+									
+								}).append($('<td/>',{
+									class:'userPage_content_'+index,
+									colspan:'5',
+									text:'비밀글입니다.'
+								})));
+								
+								//비밀글일때 내용안보이게
+								$('.userPage_content_'+index).addClass('userPage_private_lock');
+								
+							}
+							
+						}else if(item.admin==1){						
+							//////////////////답변///////////////////
+							
+								$('.goods_userPage_board').append($('<tr/>',{
+								
+								height:'50',
+								id:'qna_'+index
+								
+								}).append($('<td/>',{
+									width:'80',
+									text:item.qnaboardCode
+									
+								})).append($('<td/>',{
+									width:'80'
+									
+								})).append($('<td/>',{	
+									id:'qnaSubject_'+index,
+									style:'text-align:left;'
+									
+									}).append($('<span/>',{
+										style:'font-weight:700; color:#2AC1BC; padding:10px;',
+										text: '답변 : '
+									
+									})).append($('<sapn/>',{
+										text:item.qnaboardSubject
+									
+								}))).append($('<td/>',{
+									width:'140',
+									text:item.userId
+									
+								})).append($('<td/>',{
+									width:'120',
+									text:item.regDate
+								})));
+							
+							
+								//내용
+								if(item.secret==0){
+									
+									$('.goods_userPage_board').append($('<tr/>',{
+										class:'userPage_content_'+index,
+										id:'qna_'+index+'_content'
+										
+									}).append($('<td/>',{
+										colspan:'5',
+										style:'text-align:left; padding:25px; white-space: pre-wrap;',
+										height:'100%',
+										text:item.qnaboardContent
+									})));
+								
+								 
+								}else if(item.secret==1){
+									//비밀글일때
+									//잠금이미지 추가
+									$('#qnaSubject_'+index).append($('<img>',{
+										src:'../image/private_lock.gif'
+									}));
+									
+									//내용
+									$('.goods_userPage_board').append($('<tr/>',{
+										id:'qna_'+index+'_content'
+										
+									}).append($('<td/>',{
+										class:'userPage_content_'+index,
+										colspan:'5',
+										text:'비밀글입니다.'
+									})));
+									
+									//비밀글일때 내용안보이게
+									$('.userPage_content_'+index).addClass('userPage_private_lock');
+									
+								}
+							
+							
+						}//관리자답변if
+						
+						
+						//답변내용숨기기
+						$('#qna_'+index+'_content').hide();
+						//답변내용클릭시 보이게
+						$('#qna_'+index).on('click', function(){
+							$('#qna_'+index+'_content').toggle();
+						});
+						
+						//후기 문의 게시물 hover 이벤트
+						$('#qna_'+index).hover(function(){
+							$(this).css("background-color", "#f6f6f6");
+						},function(){
+							$(this).css("background-color", "#ffffff");
+						});	
+						$('#qna_'+index+'_content').hover(function(){
+							$(this).css("background-color", "#f6f6f6");
+						},function(){
+							$(this).css("background-color", "#ffffff");
+						});
+					});//for문
+					
+					//페이징
+					$('.goods_userPage_paging').append($('<div/>',{
+						html : data.qnaboardPaging.pagingHTML
+					}));
+					
+				}//if문
+				
+			}//data
+		});//ajax
+	
+	});
 });
 </script>
 </html>

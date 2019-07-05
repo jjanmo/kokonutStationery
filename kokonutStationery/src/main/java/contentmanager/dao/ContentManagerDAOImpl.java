@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
+import qnaboard.bean.QnaboardDTO;
 
 @Transactional
 @Repository
@@ -40,6 +41,18 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 	}
 	
 
+	
+	@Override
+	public int qnaboardTotalA() {
+		return sqlSession.selectOne("contentSQL.qnaboardTotalA");
+	}
+
+
+	@Override
+	public List<QnaboardDTO> qnaboardList(Map<String, String> map) {
+		return sqlSession.selectList("contentSQL.qnaboardList", map);
+	}
+
 	@Override
 	public int reviewboardTotalA() {
 		return sqlSession.selectOne("contentSQL.reviewboardTotalA");
@@ -49,11 +62,22 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 	public List<GoodsDTO> reviewboardList(Map<String, String> map) {
 		return sqlSession.selectList("contentSQL.reviewboardList", map);
 	}
+	
+	@Override
+	public void qnaDelete(Map<String, String[]> map) {
+		sqlSession.delete("contentSQL.qnaDelete", map);
+	}
 
 	@Override
 	public void reviewDelete(Map<String, String[]> map) {
 		sqlSession.delete("contentSQL.reviewDelete", map);
 	}
+
+	@Override
+	public void noticeDelete(Map<String, String[]> map) {
+		sqlSession.delete("contentSQL.noticeDelete", map);
+	}
+	
 
 
 }
