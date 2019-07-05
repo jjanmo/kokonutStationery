@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <head>
 <meta charset="UTF-8">
@@ -113,17 +114,33 @@
 
 /* 공지사항 글쓰기 버튼 */
 #noticeWriteBtn{
-	width:55px; height:25px;
-	padding-top:7px;
-	display:none; border:1px solid #808080;
+	width:60px; height:23px;
+	padding-top:10px; margin-right:6px;
+	display:none; border:1px solid #1b87d4;
 	cursor:pointer; float:right;
 	text-align:center;
+	font-size:14px;
+	color:#1b87d4;
+
 }
 
 #noticeWriteBtn:hover{
+	background:#1b87d4;
+	color:#ffffff;
+}
+
+/* 문의 관리 답변 버튼 */
+#replyA{
+	margin-top:50px;
+}
+
+#replyA:hover{
 	background:#808080;
 	color:#ffffff;
 }
+
+
+
 </style>
 </head>
 <form id="check_delete_form" method="post"
@@ -289,7 +306,7 @@ function reviewboardPaging(pg){
 //공지사항 전체 리스트
 $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
-	   $(this).css('color','#000000').css('font-weight','bold');
+	   $(this).css('color','#000000');
 	   	
 	/*공지사항 글쓰기 버튼 활성화*/
 	$('#noticeWriteBtn').text("글쓰기").css('display','block');
@@ -387,7 +404,7 @@ $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 //상품 문의 전체 리스트
 $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
-	   $(this).css('color','#000000').css('font-weight','bold');
+	   $(this).css('color','#000000');
 	if($('#boardOption').val()!='tbl_qnaboard')$('#ajaxCheck').val(0);   
 	$('#noticeWriteBtn').css('display','none');
 	$('#boardOption').val('tbl_qnaboard');
@@ -407,66 +424,104 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 				$('#contentTable tr:gt(0)').remove();
 				//문의 전체 리스트
 				$.each(data.list, function(index,items){
-					$('<tr/>').append($('<td/>',{
-						align: 'center'
-					}).append($('<input/>',{
-						type : 'checkbox',
-						name : 'check',
-						class : 'check',
-						value : items.qnaboardCode
-					}))).append($('<td/>',{
-						align : 'center',
-						text : items.qnaboardCode
-					})).append($('<td/>',{
+					
+					//////// admin이 아닐 경우 ////////
+					if(items.admin==0) {
+						$('<tr/>',{
+							class : 'subjectTr',
+							style : 'height:50px;'
+						}).append($('<td/>',{
+							align: 'center'
+						}).append($('<input/>',{
+							type : 'checkbox',
+							name : 'check',
+							class : 'check',
+							value : items.qnaboardCode
+							
+						}))).append($('<td/>',{
 							align : 'center',
-						}).append($('<img/>',{
-							src : '../image/thumb/'+ items.thumbImg
-						}).css('width','65px').css('padding-top','5px')
-						)).append($('<td/>').append($('<a/>',{
+							text : items.qnaboardCode
+							
+						})).append($('<td/>',{
+								align : 'center',
+							}).append($('<img/>',{
+								src : '../image/thumb/'+ items.thumbImg
+							}).css('width','65px').css('padding-top','5px')
+							
+							)).append($('<td/>').append($('<a/>',{
+								href : 'javascript:void(0)',
+								name : items.qnaboardCode,
+								class : 'subjectA',
+								text : items.qnaboardSubject
+								
+							})).css('padding-left', '5px')).append($('<td/>',{
+								align : 'center',
+								text : items.userId
+								
+							})).append($('<td/>',{
+								align : 'center',
+								text : items.regDate
+							})).appendTo($('#contentTable'));
+					}//if - admin==0
+					
+					else if(items.admin==1) {
+						$('<tr/>',{
+							class : 'subjectTr',
+							style : 'height:50px;'
+						}).append($('<td/>',{
+							align: 'center'
+						}).append($('<input/>',{
+							type : 'checkbox',
+							name : 'check',
+							class : 'check',
+							value : items.qnaboardCode
+							
+						}))).append($('<td/>',{
+							align : 'center',
+							text : items.qnaboardCode
+							
+						})).append($('<td/>',{
+								align : 'center'
+								
+						})).append($('<td/>').append($('<a/>',{
 							href : 'javascript:void(0)',
 							name : items.qnaboardCode,
 							class : 'subjectA',
 							text : items.qnaboardSubject
+							
 						})).css('padding-left', '5px')).append($('<td/>',{
-							align : 'center',
-							text : items.userId
-						})).append($('<td/>',{
+							align : 'center'
+						}).append($('<img/>',{ // 관리자 로고 띄우기
+							src : '../image/admin.gif'
+							
+						}))).append($('<td/>',{
 							align : 'center',
 							text : items.regDate
 						})).appendTo($('#contentTable'));
-						
+					}//if - admin==1
+					
+					
+										
 					//문의 선택 내용 생성
-					if(items.qnaboardImg!=0){//문의 이미지 첨부 있을 시
-						$('<tr/>').append($('<td/>',{
-							colspan : 6,
-							style : 'padding: 30px 0 10px 130px; border-bottom:none;',
-							class : 'contentA',
-							id : items.qnaboardCode
-						}).append($('<img/>',{
-								src:'../image/thumb/'+items.qnaboardImg,
-								style : 'width: 300px; height: 300px;'
-							}))).appendTo($('#contentTable'));
-						
-						$('<tr/>').append($('<td/>',{
+					$('<tr/>').append($('<td/>',{
 							text : items.qnaboardContent,
-							style : 'padding: 10px 0 75px 130px; border-top:none;',
+							style : 'padding: 35px 60px 75px 130px; border-top:none;',
 							colspan : 6,
 							class : 'contentA',
 							id : items.qnaboardCode
-						})).appendTo($('#contentTable'));
-					}//if
-					else{//문의 이미지 첨부 없을 시
-						$('<tr/>').append($('<td/>',{
-								text : items.qnaboardContent,
-								style : 'padding: 35px 0 75px 130px; border-top:none;',
-								colspan : 6,
-								class : 'contentA',
-								id : items.qnaboardCode
-							})).appendTo($('#contentTable'));		
-					}//else
+							
+						}).append($('<div/>',{ //답변 버튼
+							style : 'width:50px; height:25px; float:right; border:2px solid #808080; text-align:center; cursor:pointer;',
+							text : '답변',
+							id : 'replyA',
+							class : items.qnaboardCode
+							
+						}))).appendTo($('#contentTable'));		
+					
 					$('.contentA').hide();
 				});//each
 				
+				//드롭다운
 				$('.subjectA').click(function(){
 		            var code = $(this).attr('name');
 		            
@@ -478,6 +533,17 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 		               $(this).toggle();
 		            });
 		         });
+				
+				//답변버튼 클릭 시
+				($('#contentTable')).on("click",'#replyA',function(){			
+					window.open(
+							"/kokonutStationery/admin/qnaboardReplyForm.do?qnaboardCode="
+							+$(this).attr('class')
+							,'','width=900, height=920, left=200, resizable=no, toolbar=no'
+							,'true'
+					);
+				});
+				
 				$('#pagingDiv').html(data.qnaboardManagerPaging.pagingHTML);
 			}//if
 			$('#pg').val(1);
@@ -489,7 +555,7 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 //상품 후기 전체 리스트
 $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 	$('.content_menuBar').css('color','#808080');
-	   $(this).css('color','#000000').css('font-weight','bold');
+	   $(this).css('color','#000000');
 	if($('#boardOption').val()!='tbl_reviewboard') $('#ajaxCheck').val(0);   
 	$('#noticeWriteBtn').css('display','none');
 	$('#boardOption').val('tbl_reviewboard');
@@ -511,7 +577,10 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 				$('#contentTable tr:gt(0)').remove();
 				//후기 전체 리스트
 				$.each(data.list, function(index,items){
-					$('<tr/>').append($('<td/>',{
+					$('<tr/>',{
+						class : 'subjectTr',
+						style : 'height:50px;'
+					}).append($('<td/>',{
 						align: 'center'
 					}).append($('<input/>',{
 						type : 'checkbox',

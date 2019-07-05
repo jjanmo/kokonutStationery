@@ -31,4 +31,8 @@ public interface ContentManagerDAO {
 
 	public void noticeDelete(Map<String, String[]> map);
 
+	public QnaboardDTO qnaboardReplyForm(int qnaboardCode);
+
+	public void qnaboardReply(Map<String, Object> map);
+
 }
