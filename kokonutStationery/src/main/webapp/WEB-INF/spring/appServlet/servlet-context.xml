@@ -60,4 +60,5 @@
 	<context:component-scan base-package="productmanager.controller" />
 	<context:component-scan base-package="ordermanager.controller"/>
 	<context:component-scan base-package="contentmanager.controller" />
+	<context:component-scan base-package="statisticsmanager.controller" />
 </beans:beans>
