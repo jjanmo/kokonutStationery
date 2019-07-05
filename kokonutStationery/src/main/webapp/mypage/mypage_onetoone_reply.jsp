@@ -8,13 +8,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title></title>
     <link href="../css/mypage_onetoone_reply.css" rel="stylesheet">
+    <link href="../css/mypage.css" rel="stylesheet">
 </head>
 <body>
   <div class="onetoone_reply_top">
     1:1 문의 작성하기
+    <img id="close_btn_img" src="../image/btn_multioption_del_2.png">
   </div>
-
-  <img id="hide_btn_img" src="https://store.baemin.com:14045/shop/data/exskin/btn_multioption_del_2.png">
+  
   <div class="onetoone_reply_center">
       <table width="100%" cellpadding="5" cellspacing="10" border="0">
         <colgroup>
@@ -52,9 +53,5 @@
 
 </body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<<script type="text/javascript">
-$('#hide_btn_img').click(function(){
-window.close();
-});
-</script>
+<script type="text/javascript" src="../js/mypage.js"></script>
 </html>

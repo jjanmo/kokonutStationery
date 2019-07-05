@@ -7,25 +7,25 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import wishlist.bean.WishListDTO;
+import wishlist.bean.WishlistDTO;
 
 @Repository
-public class WishListDAOImpl implements WishListDAO {
+public class WishlistDAOImpl implements WishlistDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<WishListDTO> getWishList(String userId) {
+	public List<WishlistDTO> getWishList(String userId) {
 		return sqlSession.selectList("wishlistSQL.getWishList", userId);
 	}
 
 	@Override
-	public void setWishList(WishListDTO wishlistDTO) {
+	public void setWishList(WishlistDTO wishlistDTO) {
 		sqlSession.insert("wishlistSQL.setWishList", wishlistDTO);
 	}
 
 	@Override
-	public int checkWishList(WishListDTO wishlistDTO) {
+	public int checkWishList(WishlistDTO wishlistDTO) {
 		return sqlSession.selectOne("wishlistSQL.checkWishList", wishlistDTO);	
 	}
 

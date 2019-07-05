@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class WishListDTO {
+public class WishlistDTO {
 	private String userId;
 	private int productCode;
 	private String productName;
