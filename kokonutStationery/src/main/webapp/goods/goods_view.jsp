@@ -623,18 +623,20 @@ $(document).ready(function(){
 												
 						/*
 						//삭제버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
+						$('#qna_'+index+'_content').append($('<input/>',{
+							type:'button',
 							class:'qna_content_btn',
 							id:'qna_delete_btn',
 							style:'visible:hidden;',
-							text:'삭제'
+							value:'삭제'
 						}));
 						//수정버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
+						$('#qna_'+index+'_content').append($('<input/>',{
+							type:'button',
 							class:'qna_content_btn',
 							id:'qna_modify_btn',
 							style:'visible:hidden;',
-							text:'수정'
+							value:'수정'
 						}));
 						*/
 						
@@ -708,7 +710,22 @@ $(document).ready(function(){
 						
 						
 					}//관리자답변if
-					
+					//삭제버튼
+					$('#qna_'+index+'_content').append($('<input/>',{
+						type:'button',
+						class:'qna_content_btn',
+						id:'qna_delete_btn',
+						style:'visibility:hidden;',
+						value:'삭제'
+					}));
+					//수정버튼
+					$('#qna_'+index+'_content').append($('<input/>',{
+						type:'button',
+						class:'qna_content_btn',
+						id:'qna_modify_btn',
+						style:'visibility:hidden;',
+						value:'수정'
+					}));
 					
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
@@ -718,52 +735,48 @@ $(document).ready(function(){
 						$('#qna_'+index+'_content').toggle(function(){
 							
 							var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
-							var content = $(this).text();
+							var thisText = $(this).text();
 							var thisContent = $(this);
+							var qnaboardCode = item.qnaboardCode;
 							//var content = $(this).parent().children('#qna_'+index+'_content').text();
-							alert("userId="+userId+"content="+content);
+							//alert("userId="+userId+"content="+content);
 							
-								$.ajax({
-									type:'get',
-									url:'../user/checkSecret.do',
-									data:{'userId':userId},
-									success:function(data){
-										alert(data+" 내용은="+content);
-										if(data=="ok"){
-											thisContent.removeClass("userPage_private_lock");
-											thisContent.text(item.qnaboardContent);
-											//삭제버튼
-											$('#qna_'+index+'_content').append($('<button/>',{
-												class:'qna_content_btn',
-												id:'qna_delete_btn',
-												text:'삭제'
-											}));
-											//수정버튼
-											$('#qna_'+index+'_content').append($('<button/>',{
-												class:'qna_content_btn',
-												id:'qna_modify_btn',
-												text:'수정'
-											}));
-										}
+							$.ajax({
+								type:'get',
+								url:'../user/checkSecret.do',
+								data:{'userId':userId},
+								success:function(data){
+									alert(data+" 내용은="+thisText);
+									if(data=="ok"){
+										thisContent.removeClass("userPage_private_lock");
+										thisContent.children('input').css('visibility','visible');
+										
 									}
+								}
+								
+							});
+							
+							//문의수정
+							$('#qna_modify_btn').off('click').on('click',function(){
+								
+								alert("수정!");
+								window.open("/kokonutStationery/qna/goods_qna_modify.do?productCode="+productCode+"&qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+							});
+
+							//문의삭제
+							$('#qna_delete_btn').off('click').on('click',function(){
+								alert("삭제!");
+								$.ajax({
 									
 								});
-							
-							
+							});
+								
 						});//toggle
+						
 					});//내용이벤트
 					
 					
-					//문의수정
-					$('#qna_modify_btn').on('click',function(){
-						alert("수정!");
-					});
-
-					//문의삭제
-					$('#qna_delete_btn').on('click',function(){
-						alert("삭제!");
-						
-					});
+					
 
 					
 					//후기 문의 게시물 hover 이벤트
