@@ -13,9 +13,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="qnaboardList" parameterType="java.util.Map" resultType="qnaboard">
 		select * from 
 		(select rownum rn, tt.* from
-		(select * from TBL_QNABOARD order by qnaboardcode desc) tt)
+		(select * from TBL_QNABOARD order by ref desc, admin asc) tt)
 		where rn between #{startNum} and #{endNum}
 	</select>
+	
+	<!-- 상품 문의 답변 창 띄우기 -->
+	<select id="qnaboardReplyForm" parameterType="int" resultType="qnaboard">
+		select * from TBL_QNABOARD where qnaboardCode=#{qnaboardCode}
+	</select>
+	
+	<!-- 상품 문의 답변 등록 -->
+	<insert id="qnaboardReply" parameterType="java.util.Map">
+		insert into TBL_QNABOARD (	userId,
+									qnaboardCode,
+									qnaboardSubject,
+									qnaboardContent,
+									secret,
+									ref,
+									admin)  
+				values(	#{userId},
+						QNABOARDCODE_SEQ.nextval,
+						#{qnaboardSubject},
+						#{qnaboardContent},
+						#{secret},
+						#{ref},
+						1)
+	</insert>
 	
 	
 	<!-- review 테이블의 총 글 수-->

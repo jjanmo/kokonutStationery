@@ -1,6 +1,5 @@
 package contentmanager.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +59,23 @@ public class ContentManagerController {
 		mav.setViewName("jsonView");
 		return mav;
 	}
+	
+	//상품문의 - 답변 창 띄우기
+	@RequestMapping(value="/admin/qnaboardReplyForm.do",method=RequestMethod.GET)
+	public String qnaboardReplyForm(@RequestParam String qnaboardCode, Model model ) {
+		QnaboardDTO qnaboardDTO = contentManagerDAO.qnaboardReplyForm(Integer.parseInt(qnaboardCode));
+		
+		model.addAttribute("qnaboardDTO", qnaboardDTO);
+		model.addAttribute("qnaboardCode", qnaboardCode);
+		return "/admin/content/qnaboardReplyForm";
+	}
+	
+	//상품문의 - 답변 등록
+	@RequestMapping(value="/admin/qnaboardReply.do",method=RequestMethod.POST)
+	public void qnaboardReply(@RequestParam Map<String,Object> map) {
+		contentManagerDAO.qnaboardReply(map);
+	}
+	
 	
 	//상품관리 - 리스트불러오기
 	@RequestMapping(value="/admin/reviewboardList.do",method = RequestMethod.POST)
@@ -134,7 +150,7 @@ public class ContentManagerController {
 		
 		model.addAttribute("noticeboardCode", noticeboardCode);
 		model.addAttribute("noticeboardDTO", noticeboardDTO);
-		return "/notice/noticeboardModifyForm";
+		return "/admin/content/noticeboardModifyForm";
 	}
 	
 	// 공지사항 수정
@@ -146,9 +162,10 @@ public class ContentManagerController {
 	// 공지사항 글쓰기 창 띄우기
 	@RequestMapping(value="/admin/noticeboardWriteForm.do",method=RequestMethod.GET)
 	public String noticeboardWriteForm() {
-		return "/notice/noticeboardWriteForm";
+		return "/admin/content/noticeboardWriteForm";
 	}
 	
+	// 공지사항 글쓰기
 	@RequestMapping(value="/admin/noticeboardWrite.do",method=RequestMethod.POST)
 	public void noticeboardWrite(@RequestParam Map<String,String> map) {
 		contentManagerDAO.noticeboardWrite(map);

@@ -54,8 +54,9 @@ public class AdminController {
 	
 	//관리자 주문관리
 	@RequestMapping(value="/admin/orderList.do",method=RequestMethod.GET)
-	public ModelAndView orderList() {
+	public ModelAndView orderList(@RequestParam(required=false, defaultValue="1") String pg){
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("pg", pg);
 		mav.addObject("display","/admin/order/orderList.jsp");
 		mav.setViewName("/admin/index");
 		return mav;

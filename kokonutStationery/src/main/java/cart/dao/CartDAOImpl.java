@@ -28,6 +28,17 @@ public class CartDAOImpl implements CartDAO {
 		return sqlSession.selectList("cartSQL.getCart", userId);
 	}
 
+	@Override
+	public int checkCart(CartDTO cartDTO) {
+		return sqlSession.selectOne("cartSQL.checkCart", cartDTO);
+	}
+
+	@Override
+	public void deleteCart(Map<String, String> map) {
+		sqlSession.delete("cartSQL.deleteCart", map);
+		
+	}
+
 	
 	
 	
