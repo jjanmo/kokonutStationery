@@ -181,6 +181,18 @@ body{
 	float: right;
 	cursor: pointer;
 }
+.qna_content_btn{
+	border: 1px solid #ccc;
+	margin-right:5px;
+	width: 40px;
+	height: 26px;
+	background-color: #fff;
+	font-size: 11px;
+	color: #a4a4a4;
+	float: right;
+	cursor: pointer;
+}
+
 .userPage_private_lock{
 	background-color: #f7f7f7;
 	font-size: 14px;
