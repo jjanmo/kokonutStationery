@@ -111,13 +111,14 @@ $('#wishlistDeleteBtn').click(function(){
 				url: '/kokonutStationery/mypage/deleteWishList.do',
 				data: {'userId': '${memId}', 
 					   'productCode' : productCode,
-					   'optionContent' : optionContent}
+					   'optionContent' : optionContent
+					  },
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
 			});
 		} //if; 체크 유무 확인
 	} //for
-	
-	//새로고침
-	location.href='/kokonutStationery/mypage/mypage_wishlist.do';
 });
 </script>
 
