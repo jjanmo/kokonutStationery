@@ -60,7 +60,7 @@
 							<div style="float: left;">
 								<input type="text" name="productQty" id="productQty" step="1"
 									min="1" max="0" size="2" value="1"
-									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
+									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;" />
 							</div>
 
 							<div style="float: left; padding-left: 3px;">
@@ -480,28 +480,43 @@ $('#down').click(function() {
 	}
 });
 
-//장바구니페이지
-$('#cartBtn').click(function(){
-	location.href = "/kokonutStationery/cart/goods_cart.do?productCode="+productCode;
-});
-
 //장바구니 추가
 $('#cartBtn').click(function(){
-	alert(discountPrice);
-	$.ajax({
-		type : 'post',
-		url : '/kokonutStationery/cart/goods_cart_insert.do',
-		data : { 'userId' : '${memId}',
-				'userEmail' : '${memEmail}',
-				'productName' : '${goodsDTO.productName}',
-				'productCode': '${goodsDTO.productCode}',
-				'thumbImg' : '${goodsDTO.thumbImg}',
-				'discountPrice' : discountPrice,
-				'productQty' : productQty },
-		success : function () {
-			
-			}
-	});
+	alert("cart");
+	if(option==0) { //옵션이 없을 때
+		$.ajax({	
+			type: 'post',
+			url: '/kokonutStationery/cart/goods_cart_insert.do',
+			data: {'userId': '${memId}',
+				   'userEmail' : '${memEmail}',
+				   'productCode': '${goodsDTO.productCode}',
+				   'productName': '${goodsDTO.productName}',
+				   'productOption': '${goodsDTO.productOption}',
+				   'thumbImg': '${goodsDTO.thumbImg}',
+				   'discountPrice': '${goodsDTO.discountPrice}',
+				   'productQty' : $('#productQty').val(),
+				   'optionContent': 'none'
+				   }
+		}); //ajax
+	} else { //옵션이 있을 때
+		for(var i=0; i<selArray.length; i++) {
+			$.ajax({	
+				type: 'post',
+				url: '/kokonutStationery/cart/goods_cart_insert.do',
+				data: {'userId': '${memId}',
+					   'userEmail' : '${memEmail}',
+					   'productCode': '${goodsDTO.productCode}',
+					   'productName': '${goodsDTO.productName}',
+					   'productOption': '${goodsDTO.productOption}',
+					   'thumbImg': '${goodsDTO.thumbImg}',
+					   'discountPrice': '${goodsDTO.discountPrice}',
+					   'productQty' : $('#productQty').val(),
+					   'optionContent': selArray[i]
+					   }
+			}); //ajax
+		} //for
+	} //if~else
+	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
 //찜목록
 $('#wishlistBtn').click(function(){

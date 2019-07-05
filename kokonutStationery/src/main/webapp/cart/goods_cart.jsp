@@ -44,8 +44,7 @@
 					</colgroup>
 					<thead>
 						<tr>
-							<th class="select"><input type="checkbox" id="all"
-								onclick="checkAll()" checked="checked"></th>
+							<th class="cart_select" style="cursor: pointer; border-top: 1px solid #999;" >선택</th>
 							<th class="goodsInfo" colspan="2" style="text-align: left;">상품정보</th>
 							<th class="sellPrice">판매가</th>
 							<th class="sellQty">수량</th>
@@ -54,32 +53,51 @@
 						</tr>
 					</thead>
 					
-		
+					
+					<c:set var="total" value="0"></c:set>
 					<c:if test="${list != null }"> 
 						<c:forEach var="cartDTO" items="${list }">
+						<c:set var="total"
+						value="${total + cartDTO.discountPrice * cartDTO.productQty }"></c:set>
 						
 					<tbody>
 
 						<tr>
-							<td style="vertical-align: top; padding: 30px 17px;"><input
-								type="checkbox" name="check" value="0" onclick="" checked="checked"></td>
+							<td id="cart_checkbox" style="vertical-align: top; padding: 30px 17px;"><input
+								type="checkbox" name="cartCheckbox" class="checkbox${cnt} " checked></td>
 
 							<td style="vertical-align: top; padding: 30px 17px;"><a href=""
 								style="margin-bottom: 0;"><img
-									src="http://store.baemin.com/shop/data/goods/1476870027237s0.jpg"
+									src="../image/thumb/${cartDTO.thumbImg }"
 									width="70px"
 									onerror=""></a></td>
 
 							<td class="orderOption"
 								style="text-align: left; vertical-align: top; padding: 30px 0;" >
-								<div class="thumbImg">${cartDTO.productName} </div> <a
+								<div class="thumbImg">${cartDTO.productName} </div> 
+								
+								<!-- 선택옵션 내용 -->
+								<c:if test="${cartDTO.productOption==1}">
+									<font style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
+										&emsp;[&nbsp;${cartDTO.optionContent}&nbsp;]
+									</font>
+									<a
+									href="goods_cart_edit.jsp" data-width="600" data-height="400"
+									class="popup" style="margin-bottom: 0px; margin-top: 13px;">
+										<li class="optionButton" style="margin: 26px 0 0;">선택옵션수정</li>
+									</a>
+								</c:if>
+								
+								<c:if test="${cartDTO.productOption==0 }">
+								<a
 								href="goods_cart_edit.jsp" data-width="600" data-height="400"
 								class="popup" style="margin-bottom: 0px; margin-top: 13px;">
 									<li class="optionButton">선택옵션수정</li>
-							</a>
+								</a>
+								</c:if>
 							</td>
 
-							<td class="price">${cartDTO.discountPrice } </td>
+							<td class="price"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice }" />원</td>
 							<td style="vertical-align: top; padding: 22px 0 30px 0;">
 								<table cellpadding="0" cellspacing="0" border="0"
 									style="margin: 0 auto;">
@@ -88,9 +106,9 @@
 											<td style="padding: 0; height: 0px; border: 0">
 												<div style="float: left;">
 													<input type="text" name="productQty" id="productQty"
-														step="1" min="1" max="0" size="2" value="1" class="line"
+														step="1" min="1" max="0" size="2" value="${cartDTO.productQty }" class="line"
 														style="border: 1px solid #DDD; width: 40px; text-align: right; height: 38px; padding-right: 5px; font-weight: 500;"
-														>
+														/>
 												</div>
 												<div style="float: left; padding-left: 3px;">
 													<div style="padding: 1px 0 3px 0;">
@@ -101,7 +119,7 @@
 													<div>
 														<img id="down"
 															src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png"
-															onclick="" style="cursor: pointer; width: 14px;">
+															style="cursor: pointer; width: 14px;">
 													</div>
 												</div>
 											</td>
@@ -124,7 +142,7 @@
 							</td>
 
 							<td
-								style="vertical-align: top; color: #333; text-align: right; padding: 30px 0; font-weight: 700; padding-right: 20px;">6,000원</td>
+								style="vertical-align: top; color: #333; text-align: right; padding: 30px 0; font-weight: 700; padding-right: 20px;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice * cartDTO.productQty }" />원</td>
 						</tr>
 					
 					</c:forEach>	
@@ -142,17 +160,22 @@
 										<tr class="totalPrice" style="padding-right: 0px;">
 											<td><font style="color: #333; font-weight: 500;">상품합계금액
 													(배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;<font
-												style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">6,000</font><font
-												style="font-size: 15px; color: #2ac1bc; font-weight: 700;">원</font>
+												style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;"><f:formatNumber pattern="###,###,###" value="${total }"/></font>
+												<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">원</font>
 
 											</td>
 										</tr>
 									</tbody>
 								</table>
+								
+								
 							</td>
 						</tr>
 					</tfoot>
+					
+					
 					<!-- 배송비 부분 -->
+					
 				</table>
 			</form>
 			
@@ -199,9 +222,10 @@
 					
 			</c:if>
 				
-			<c:if test="${list == null }">
+			
 								
 			<tr>
+			<c:if test="${list == null }">
 				<td colspan="10" style="padding: 30px 0;">
 					<font style="color:#333;font-weight:700;">상품합계금액 (배송비 별도)</font>
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -223,10 +247,14 @@
 		      <div class="shopContinue main-button-s" style="width: 140px; margin: -59px 564px 0px;">
 		      	쇼핑계속하기
 		      </div>
+		      
+		      </c:if>
 		    </div>
 			
-			</c:if>
+			
 		</div>
+		
+		
 		<!-- End indiv -->
 
 	</div>
@@ -242,7 +270,7 @@
 <script type="text/javascript">
    
    //체크박스
-   function checkAll(){
+  /*  function checkAll(){
 		var check = document.getElementsByName("check");
 		if(document.getElementById("all").checked){
 			for(i=0; i<check.length; i++){
@@ -253,8 +281,20 @@
 				check[i].checked = false;
 			}
 		}
-	}
+	} */
    
+	$('.cart_select').click(function(){
+		if($('.cart_select').hasClass('checkedAll')) {
+			$('input[name=cartCheckbox]').prop('checked', false);
+			$('.cart_select').removeClass('checkedAll');
+			
+		} else {
+			$('input[name=cartCheckbox]').prop('checked', true);
+			$('.cart_select').addClass('checkedAll');
+		}
+		
+	});
+	
    //팝업창
    $(function(){
 	  $('.popup').click(function(event){
@@ -282,10 +322,36 @@
 	   		qty--;
 		$('#productQty').val(qty);
 		}
-  });
+   });
    
-   
-   
-   
+   //장바구니 삭제
+   $('.selectDelete').click(function(){
+	var productCode = '';
+	var optionContent = '';
+	
+	alert("삭제");
+	for(var i=1; i<=$('input[name=cartCheckbox]').length; i++) {
+		if($('.checkbox'+i).is(':checked')) {
+			productCode = $('#productCode'+i).val();
+			
+			if($('#productOption'+i).val()==0) { //옵션이 없을 때
+				optionContent = 'none';
+			} else { //옵션이 있을 때
+				optionContent = $('#optionContent'+i).val();
+			}
+			
+			$.ajax({
+				type: 'post',
+				url: '/kokonutStationery/cart/deleteCart.do',
+				data: {'userId': '${memId}', 
+					   'productCode' : productCode,
+					   'optionContent' : optionContent}
+			});
+		} //if; 체크 유무 확인
+	} //for
+	
+	//새로고침
+	location.href='/kokonutStationery/cart/goods_cart.do';
+});
    </script>
 </html>

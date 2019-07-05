@@ -4,21 +4,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cartSQL">
 	
-	<insert id="cartInsert" parameterType="goods">
+	<insert id="cartInsert" parameterType="cart">
 		insert into tbl_cart(userId,
 							userEmail,
 							productCode,
 							productName,
 							thumbImg,
 							discountPrice,
-							optionCode,
-							productQty)
-							values(#{userId},#{userEmail},#{productCode},#{productName}
-							   		,#{thumbImg},#{discountPrice},#{optionCode}
-							   		,#{productQty})
+							productOption,
+							productQty,
+							optionContent)
+							values(#{userId}
+									,#{userEmail}
+									,#{productCode}
+									,#{productName}
+							   		,#{thumbImg}
+							   		,#{discountPrice}
+							   		,#{productOption}
+							   		,#{productQty}
+							   		,#{optionContent})
 	</insert>
-
-	<select id="getCart" parameterType="String" resultType="goods">
+	
+	<select id="getCart" parameterType="String" resultType="cart">
 		select * from tbl_cart where userId = #{userId}
 	</select>
+	
+	<select id="checkCart" parameterType="cart" resultType="int">
+		select count(*) from tbl_cart where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
+	</select>
+	
+	<delete id="deleteCart" parameterType="java.util.Map">
+		delete tbl_cart where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
+	</delete>
 </mapper>

@@ -12,7 +12,7 @@ public class CartDTO {
 	private String productName;
 	private String thumbImg;
 	private int discountPrice; 
-	private int optionCode; 
+	private int productOption; 
 	private int productQty; //장바구니에 담은 상품수량
-	
+	private String optionContent; //선택옵션 내용
 }
