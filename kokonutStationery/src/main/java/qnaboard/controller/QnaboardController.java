@@ -164,10 +164,24 @@ public class QnaboardController {
 		return mav;
 	}
 	
+	//상품qna수정페이지
+	@GetMapping("/goods_qna_modify.do")
+	public ModelAndView goodsQnaModify(@RequestParam String productCode) {
+		//상품한개받아오기
+		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("goodsDTO", goodsDTO);			
+		mav.setViewName("/qna/goods_qna_modify");
+		return mav;
+	}
+	
 	//문의작성
 	@RequestMapping(value="/qnaboardWrite.do",method=RequestMethod.POST)
 	@ResponseBody
 	public void qnaboardWrite(@ModelAttribute QnaboardDTO qnaboardDTO) {
 		qnaboardDAO.qnaboardWrite(qnaboardDTO);
 	}
+	
+	
 }
