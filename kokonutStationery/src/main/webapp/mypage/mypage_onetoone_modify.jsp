@@ -129,5 +129,9 @@
     $('.order_Number_Btn').click(function(){
       $('.order_Number_search').addClass('show');
     });
+
+    $('#hide_btn_img').click(function(){
+      $('.order_Number_search').removeClass('show');
+    });
   </script>
 </html>
