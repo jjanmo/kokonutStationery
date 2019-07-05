@@ -77,6 +77,17 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 	public void noticeDelete(Map<String, String[]> map) {
 		sqlSession.delete("contentSQL.noticeDelete", map);
 	}
+
+	@Override
+	public QnaboardDTO qnaboardReplyForm(int qnaboardCode) {
+		return sqlSession.selectOne("contentSQL.qnaboardReplyForm",qnaboardCode);
+	}
+
+	@Override
+	public void qnaboardReply(Map<String, Object> map) {
+		sqlSession.insert("contentSQL.qnaboardReply",map);
+		
+	}
 	
 
 
