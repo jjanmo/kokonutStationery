@@ -29,4 +29,6 @@ public interface ContentManagerDAO {
 
 	public void noticeboardWrite(Map<String, String> map);
 
+	public void noticeDelete(Map<String, String[]> map);
+
 }

@@ -42,6 +42,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete TBL_REVIEWBOARD where reviewboardCode in 
 		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
 	</delete>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="noticeDelete" parameterType="java.util.Map">
+		delete TBL_NOTICEBOARD where noticeboardCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</delete>
+	
 		
 		<!-- 공지사항 리스트 전체 뿌리기 -->
 		<select id="noticeboardList" resultType="notice">

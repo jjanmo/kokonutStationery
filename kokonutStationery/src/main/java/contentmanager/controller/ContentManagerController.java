@@ -90,6 +90,7 @@ public class ContentManagerController {
 		return mav;
 	}
 	
+	//컨텐츠 삭제 - 공통 삭제
 	@RequestMapping(value="/admin/contentDelete.do",method= RequestMethod.POST)
 	public String contentDelete(@RequestParam String[] check,
 								@RequestParam String boardOption) {
@@ -107,6 +108,9 @@ public class ContentManagerController {
 		}else if(boardOption.equals("tbl_reviewboard")) {
 			contentManagerDAO.reviewDelete(map);
 			pagingCheck="review";
+		}else if(boardOption.equals("tbl_admin")) {
+			contentManagerDAO.noticeDelete(map);
+			pagingCheck="notice";
 		}
 		
 		return "redirect: contentList.do?pagingCheck="+pagingCheck+"";

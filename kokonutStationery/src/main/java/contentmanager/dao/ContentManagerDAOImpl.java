@@ -72,6 +72,11 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 	public void reviewDelete(Map<String, String[]> map) {
 		sqlSession.delete("contentSQL.reviewDelete", map);
 	}
+
+	@Override
+	public void noticeDelete(Map<String, String[]> map) {
+		sqlSession.delete("contentSQL.noticeDelete", map);
+	}
 	
 
 

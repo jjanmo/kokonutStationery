@@ -94,10 +94,6 @@
 	border-collapse:collapse;
 }
 
-#contentTable tr{
-	border-bottom:1px solid #cccccc;
-}
-
 .subjectTr:hover{
 	background:#f6f6f6;
 }
@@ -224,6 +220,9 @@ action="contentDelete.do">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function(){
+	if($('#boardOption').val()=='tbl_admin'){
+		$('#notice_board').get(0).click();
+	}
 	if($('#pagingCheck').val()=='qna'){
 		$('#product_qna').get(0).click();
 	}else if($('#pagingCheck').val()=='review'){
@@ -316,8 +315,10 @@ $('#notice_board').click(function(){ //공지사항 탭 누를 경우
 				}).append($('<td/>',{ // 체크박스
 					align : 'center'
 				}).append($('<input/>',{
-					type : 'checkbox'
-					
+					type : 'checkbox',
+					name : 'check',
+					class : 'check',
+					value : items.noticeboardCode
 				}))).append($('<td/>',{ // 번호
 					align : 'center',
 					text : items.noticeboardCode
@@ -448,7 +449,7 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 						
 						$('<tr/>').append($('<td/>',{
 							text : items.qnaboardContent,
-							style : 'padding: 10px 0 100px 130px; border-top:none;',
+							style : 'padding: 10px 0 75px 130px; border-top:none;',
 							colspan : 6,
 							class : 'contentA',
 							id : items.qnaboardCode
@@ -457,7 +458,7 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 					else{//문의 이미지 첨부 없을 시
 						$('<tr/>').append($('<td/>',{
 								text : items.qnaboardContent,
-								style : 'padding: 35px 0 100px 130px; border-top:none;',
+								style : 'padding: 35px 0 75px 130px; border-top:none;',
 								colspan : 6,
 								class : 'contentA',
 								id : items.qnaboardCode
@@ -481,9 +482,7 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 			}//if
 			$('#pg').val(1);
 		}//success
-	});//ajax				$('#reviewImg').remove();
-				$('#writer').remove();
-
+	});//ajax				
 });
 
 
@@ -555,7 +554,7 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 						
 						$('<tr/>').append($('<td/>',{
 							text : items.reviewboardContent,
-							style : 'padding: 10px 0 100px 130px; border-top:none;',
+							style : 'padding: 10px 0 75px 130px; border-top:none;',
 							colspan : 6,
 							class : 'contentA',
 							id : items.reviewboardCode
@@ -564,7 +563,7 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 					else{//후기 이미지 첨부 없을 시
 						$('<tr/>').append($('<td/>',{
 								text : items.reviewboardContent,
-								style : 'padding: 35px 0 100px 130px; border-top:none;',
+								style : 'padding: 35px 0 75px 130px; border-top:none;',
 								colspan : 6,
 								class : 'contentA',
 								id : items.reviewboardCode
