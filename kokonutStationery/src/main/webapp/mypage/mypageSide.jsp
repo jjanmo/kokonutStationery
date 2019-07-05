@@ -24,7 +24,7 @@
           <td class="mem_val_td"><span class="mam_val" id="userPoint"></span> 원</td>
         </tr>
         <tr>
-          <td class="mem_menu"><a href="../goods/goods_cart.do">장바구니</a></td>
+          <td class="mem_menu"><a href="../cart/goods_cart.do">장바구니</a></td>
           <td class="mem_val_td"><span class="mam_val" id="productInCart"></span> 개</td>
         </tr>
         <tr>
