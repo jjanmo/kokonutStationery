@@ -160,9 +160,9 @@
 		<c:if test="${list.size()==0}"> 
 			<div class="cart_button">
 				<div class="none_previous subButton-xs" style="width: 140px; margin: 31px 0px -60px 260px;">
-					이전으로
+					<a href="javascript:history.back();">이전으로</a>
 				</div>
-				<div class="none_allDelete subButton-xs" style="width: 140px; margin: 0px 469px 0 412px;">
+				<div class="none_allDelete subButton-xs allDelete" style="width: 140px; margin: 0px 469px 0 412px;">
 					비우기
 				</div>
 				<div class="shopContinue main-button-s" style="width: 140px; margin: -59px 564px 0px;">
