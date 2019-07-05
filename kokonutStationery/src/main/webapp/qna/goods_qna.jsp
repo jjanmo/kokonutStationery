@@ -19,7 +19,7 @@
 		<div class="goods_userPage_main">		
 			<div style="font-size:22px; font-weight:700;">상품문의</div>
 			
-			<form id="userPage_searchForm" method="post" action="../qna/qnaboardSearch.do">
+			<!-- <form id="userPage_searchForm" method="post" action="../qna/qnaboardSearch.do"> -->
 				<div class="goods_userPage_search">
 					<select id="searchOption" name="searchOption" class="goods_userPage_searchOption">
 						<option value="all">통합검색</option>
@@ -57,7 +57,7 @@
 				
 				<!-- 페이징 -->
 				<div class="goods_userPage_paging"></div>
-			</form>
+			<!-- </form> -->
 		</div>
 	</div>
 </div>
