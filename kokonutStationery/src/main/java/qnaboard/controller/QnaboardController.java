@@ -189,4 +189,13 @@ public class QnaboardController {
 	public void qnaboardModify(@ModelAttribute QnaboardDTO qnaboardDTO) {
 		qnaboardDAO.qnaboardModify(qnaboardDTO);
 	}
+	
+	//문의삭제
+	@RequestMapping(value="/qnaboardDelete.do",method=RequestMethod.POST)
+	@ResponseBody
+	public void qnaboardDelete(@RequestParam String qnaboardCode) {
+		qnaboardDAO.qnaboardDelete(Integer.parseInt(qnaboardCode));
+	}
+	
+	
 }

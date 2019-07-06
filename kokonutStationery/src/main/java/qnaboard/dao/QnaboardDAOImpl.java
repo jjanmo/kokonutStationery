@@ -68,6 +68,11 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	public QnaboardDTO getQnaboard(int qnaboardCode) {
 		return sqlSession.selectOne("qnaSQL.getQnaboard",qnaboardCode);
 	}
+
+	@Override
+	public void qnaboardDelete(int qnaboardCode) {
+		sqlSession.delete("qnaSQL.qnaboardDelete",qnaboardCode);
+	}
 	
 
 	

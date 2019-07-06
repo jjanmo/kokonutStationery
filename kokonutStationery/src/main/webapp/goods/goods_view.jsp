@@ -621,28 +621,10 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
-												
-						
-						//삭제버튼
-						$('#qna_'+index+'_content').append($('<input/>',{
-							type:'button',
-							class:'qna_content_btn',
-							id:'qna_delete_btn',
-							style:'visibility:hidden;',
-							value:'삭제'
-						}));
-						//수정버튼
-						$('#qna_'+index+'_content').append($('<input/>',{
-							type:'button',
-							class:'qna_content_btn',
-							id:'qna_modify_btn',
-							style:'visibility:hidden;',
-							value:'수정'
-						}));
-						
-						
+								
 						//비밀글일때 
 						if(item.secret==1){
 							//잠금이미지 추가
@@ -653,6 +635,27 @@ $(document).ready(function(){
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
 							$('#qna_'+index+'_content').text("비밀글입니다");
+							
+						}else if(item.secret==0){
+							
+							//삭제버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaDelete('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_delete_btn',
+								style:'visibility:hidden;',
+								value:'삭제'
+							}));
+							//수정버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaModify('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_modify_btn',
+								style:'visibility:hidden;',
+								value:'수정'
+							}));
 						}
 						
 					}else if(item.admin==1){						
@@ -695,6 +698,7 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
 						
@@ -713,24 +717,7 @@ $(document).ready(function(){
 						
 						
 					}//관리자답변if
-					/*
-					//삭제버튼
-					$('#qna_'+index+'_content').append($('<input/>',{
-						type:'button',
-						class:'qna_content_btn',
-						id:'qna_delete_btn',
-						style:'visibility:hidden;',
-						value:'삭제'
-					}));
-					//수정버튼
-					$('#qna_'+index+'_content').append($('<input/>',{
-						type:'button',
-						class:'qna_content_btn',
-						id:'qna_modify_btn',
-						style:'visibility:hidden;',
-						value:'수정'
-					}));
-					*/
+					
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
 					//답변내용클릭시 보이게
@@ -738,12 +725,11 @@ $(document).ready(function(){
 						
 						$('#qna_'+index+'_content').toggle(function(){
 							
-							var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							//var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							var userId=item.userId;							
 							var thisText = $(this).text();
 							var thisContent = $(this);
-							var qnaboardCode = item.qnaboardCode;
-							//var content = $(this).parent().children('#qna_'+index+'_content').text();
-							//alert("userId="+userId+"content="+content);
+							
 							if(item.secret==0){
 								//비밀글아닐때
 								$.ajax({
@@ -751,32 +737,30 @@ $(document).ready(function(){
 									url:'../user/checkSecret.do',
 									data:{'userId':userId},
 									success:function(data){
-										alert(data+" 내용은="+thisText);
+										//alert(data+" 내용은="+thisText);
 										if(data=="ok"){
 											thisContent.removeClass("userPage_private_lock");
 											thisContent.children('input').css('visibility','visible');
-											//thisContent.html(item.qnaboardContent);
-											
+											//thisContent.html(item.qnaboardContent);											
 										}
-									}
-									
-								});
-							
-								
+									}									
+								});								
 							}else if(item.secret==1){
+								var qnaboardCode = item.qnaboardCode;
 								//비밀글일때
 								$.ajax({
 									type:'get',
 									url:'../user/checkSecret.do',
 									data:{'userId':userId},
 									success:function(data){
-										alert(data+" 내용은="+thisText);
+										//alert(data+" 내용은="+thisText);
 										if(data=="ok"){
 											thisContent.removeClass("userPage_private_lock");
 											thisContent.html(item.qnaboardContent);
 											//삭제버튼
 											$('#qna_'+index+'_content').append($('<input/>',{
 												type:'button',
+												onclick:'qnaDelete('+qnaboardCode+')',
 												class:'qna_content_btn',
 												id:'qna_delete_btn',
 												value:'삭제'
@@ -784,6 +768,7 @@ $(document).ready(function(){
 											//수정버튼
 											$('#qna_'+index+'_content').append($('<input/>',{
 												type:'button',
+												onclick:'qnaModify('+qnaboardCode+')',
 												class:'qna_content_btn',
 												id:'qna_modify_btn',
 												value:'수정'
@@ -792,26 +777,14 @@ $(document).ready(function(){
 									}
 									
 								});
-							}
+																
+								
+							}//if문
 							
 							
 						});//toggle
-						//문의수정
-						$('#qna_modify_btn').off('click').on('click',function(){
-							alert("수정");
-							//window.open("/kokonutStationery/qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
-						});
-
-						//문의삭제
-						$('#qna_delete_btn').off('click').on('click',function(){
-							alert("삭제!");
-							$.ajax({
-								
-							});
-						});
+						
 					});//내용이벤트
-					
-					
 					
 
 					
@@ -835,7 +808,25 @@ $(document).ready(function(){
 	
 });//document
 
-
+function qnaModify(qnaboardCode){
+	window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+}
+function qnaDelete(qnaboardCode){
+	if (confirm("문의를 삭제하시겠습니까??") == true){//확인
+		var qnaboardCode = item.qnaboardCode;
+		$.ajax({
+			type:'post',
+			url:'../qna/qnaboardDelete.do',
+			data:{'qnaboardCode':qnaboardCode},
+			success:function(){
+				alert("삭제를 완료했습니다!");
+				location.href="../goods/goods_view.do?productCode="+productCode;
+			}
+		});
+	 }else{   //취소
+	     return false;
+	 }
+}
 
 /*
 function boardPaging(pg){

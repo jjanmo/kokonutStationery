@@ -66,7 +66,9 @@
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">비밀글</td>
-					<td><input type="checkbox" name="secret" value="1"> 비밀글</td>
+					<td>					
+						<input type="checkbox" id="secret" name="secret" value="1"> 비밀글
+					</td>
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">제목</td>
@@ -100,12 +102,21 @@
 		</div>
 	</div>
 	<div class="goods_qna_register_submitDiv">
-		<input type="button" class="goods_qna_modify_submitBtn" value="확인">
+		<input type="button" class="goods_qna_submitBtn" value="확인">
 	</div>
 </div>
 </form>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+window.onload=function(){
+	//alert(${qnaboardDTO.secret});
+	if(${qnaboardDTO.secret}==1){
+		$('#secret').prop('checked',true);		
+	}else if(${qnaboardDTO.secret}==0){
+		$('#secret').prop('checked',false);
+	}
+}
+
 //개인정보 동의 
 function private_agree(){
 	var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
@@ -120,7 +131,7 @@ function private_agree(){
 $(document).ready(function(){
 	
 	//서브밋버튼
-	$('.goods_qna_modify_submitBtn').click(function(){
+	$('.goods_qna_submitBtn').click(function(){
 		var param =$('#qnaboardForm').serialize();
 		var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
 		

@@ -27,6 +27,8 @@ public interface QnaboardDAO {
 
 	public void qnaboardModify(QnaboardDTO qnaboardDTO);
 
-	public QnaboardDTO getQnaboard(int parseInt);
+	public QnaboardDTO getQnaboard(int qnaboardCode);
+
+	public void qnaboardDelete(int qnaboardCode);
 
 }

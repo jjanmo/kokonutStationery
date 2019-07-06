@@ -98,12 +98,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							,qnaboardcode_seq.currval)
 	</insert>
 	
-	<!--  -->
+	<!-- 해당문의받아오기 -->
 	<select id="getQnaboard" parameterType="Integer" resultType="qnaboard">
 		select * from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode}
 	</select>
 	
-	<!-- 상품후기 작성 -->
+	<!-- 상품후기 수정 -->
 	<update id="qnaboardModify" parameterType="qnaboard">
 		update TBL_QNABOARD set 
 							 
@@ -117,4 +117,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							 
 							where QNABOARDCODE =#{qnaboardCode}
 	</update>
+	
+	
+	<!-- 상품후기삭제 -->
+	<delete id="qnaboardDelete" parameterType="Integer">
+		delete from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode} 
+	</delete>
 </mapper>
