@@ -621,6 +621,7 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
 												
@@ -695,6 +696,7 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
 						
@@ -798,15 +800,23 @@ $(document).ready(function(){
 						});//toggle
 						//문의수정
 						$('#qna_modify_btn').off('click').on('click',function(){
-							alert("수정");
-							//window.open("/kokonutStationery/qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+							var qnaboardCode = item.qnaboardCode;
+							//alert("수정! qnaboardCode="+qnaboardCode);
+							window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
 						});
 
 						//문의삭제
 						$('#qna_delete_btn').off('click').on('click',function(){
 							alert("삭제!");
+							var qnaboardCode = item.qnaboardCode;
 							$.ajax({
-								
+								type:'post',
+								url:'../qna/qnaboardDelete.do',
+								data:{'qnaboardCode':qnaboardCode},
+								success:function(){
+									alert("삭제를 완료했습니다!");
+									location.href="../goods/goods_view.do?productCode="+productCode;
+								}
 							});
 						});
 					});//내용이벤트

@@ -100,7 +100,7 @@
 		</div>
 	</div>
 	<div class="goods_qna_register_submitDiv">
-		<input type="button" class="goods_qna_modify_submitBtn" value="확인">
+		<input type="button" class="goods_qna_submitBtn" value="확인">
 	</div>
 </div>
 </form>
@@ -120,7 +120,7 @@ function private_agree(){
 $(document).ready(function(){
 	
 	//서브밋버튼
-	$('.goods_qna_modify_submitBtn').click(function(){
+	$('.goods_qna_submitBtn').click(function(){
 		var param =$('#qnaboardForm').serialize();
 		var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
 		
