@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 
 @Transactional
@@ -18,5 +19,10 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	@Override
 	public List<OrderlistDTO> getOrderList() {
 		return sqlSession.selectList("orderManagerSQL.getOrderList");
+	}
+
+	@Override
+	public List<OrderDTO> orderViewList(String orderCode) {
+		return sqlSession.selectList("orderManagerSQL.orderViewList", orderCode);
 	}
 }

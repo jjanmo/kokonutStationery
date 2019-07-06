@@ -80,6 +80,15 @@
 	height: 23px;
 	padding-left: 5px;
 }
+.orderList_tr{
+	background-color: #fff;
+}
+.orderList_tr:hover{
+	background-color: #eef;
+	cursor: pointer;
+	color : #1b87d4;
+	text-decoration-line: underline;
+}
 </style>
 </head>
 <body>
@@ -191,7 +200,9 @@ $(document).ready(function(){
 				else if(items.orderState==8)
 					var orderState = '환불완료';
 				
-				$('<tr/>').append($('<td/>',{
+				$('<tr/>', {
+					class : 'orderList_tr'
+				}).append($('<td/>',{
 					align : 'center'
 					}).append($('<input/>', {
 						type : 'checkbox',
@@ -219,8 +230,14 @@ $(document).ready(function(){
 					align : 'center',
 					text : orderState
 				})).appendTo($('#orderList_table'));
+				
+				//주문확인 페이지 이동
+				$('.orderList_tr').click(function(){
+					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userName='+items.userName+'&userId='+items.userId+'&orderDate='+items.orderDate
+							,'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+				});			
 			});
-		}
+		}		
 	});
 });
 </script>
