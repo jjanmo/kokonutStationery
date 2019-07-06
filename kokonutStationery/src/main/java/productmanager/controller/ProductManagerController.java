@@ -175,7 +175,7 @@ public class ProductManagerController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pg", map.get("pg"));
 		mav.addObject("list", list);
-		mav.addObject("productPaging", produectPaging);
+		mav.addObject("productPaging", productPaging);
 		mav.setViewName("jsonView");
 		return mav;
 	}

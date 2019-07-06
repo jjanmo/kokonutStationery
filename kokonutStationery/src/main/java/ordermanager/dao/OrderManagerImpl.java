@@ -1,6 +1,7 @@
 package ordermanager.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	@Override
 	public List<OrderDTO> orderViewList(String orderCode) {
 		return sqlSession.selectList("orderManagerSQL.orderViewList", orderCode);
+	}
+
+	@Override
+	public int orderStateChange(Map<String, Object> map) {
+		return sqlSession.update("orderManagerSQL.orderStateChange", map);
 	}
 }
