@@ -25,15 +25,16 @@
 	<div class="goods_qna_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="${goodsDTO.thumbImg }" 
+				<img src="${qnaboardDTO.thumbImg }" 
 					 class="goods_qna_register_img" name="thumbImg" >
-				<input type="hidden" name="thumbImg" value="${goodsDTO.thumbImg }">
+				<input type="hidden" name="thumbImg" value="${qnaboardDTO.thumbImg }">
 				<div class="goods_qna_register_goodsName">
-					<input type="hidden" name="productCode" value="${goodsDTO.productCode }">
-					<input type="hidden" name="productName" value="${goodsDTO.productName }">
-					<input type="hidden" name="discountPrice" value="${goodsDTO.discountPrice }">
-					<b name="productName">${goodsDTO.productName }</b><br>
-					<span name="discountPrice">${goodsDTO.discountPrice }</span>
+					<input type="hidden" name="qnaboardCode" value="${qnaboardDTO.qnaboardCode }">
+					<input type="hidden" name="productCode" value="${qnaboardDTO.productCode }">
+					<input type="hidden" name="productName" value="${qnaboardDTO.productName }">
+					<input type="hidden" name="discountPrice" value="${qnaboardDTO.discountPrice }">
+					<b name="productName">${qnaboardDTO.productName }</b><br>
+					<span name="discountPrice">${qnaboardDTO.discountPrice }</span>
 				</div>
 			</div>
 		</div>
@@ -50,7 +51,7 @@
 				<tr>
 					<td class="goods_qna_register_category" >이메일</td>
 					<td>
-						<input type="text" name="userEmail" 
+						<input type="text" name="userEmail" value="${qnaboardDTO.userEmail }"
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px; ">
 						&nbsp;<input type="checkbox">&nbsp;&nbsp;받습니다.
 					</td>
@@ -58,7 +59,7 @@
 				<tr>
 					<td class="goods_qna_register_category">문자메세지</td>
 					<td>
-						<input type="text" name="userPhone" 
+						<input type="text" name="userPhone" value="${qnaboardDTO.userPhone }"
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px; ">
 						&nbsp;<input type="checkbox">&nbsp;&nbsp;받습니다.
 					</td>
@@ -70,15 +71,15 @@
 				<tr>
 					<td class="goods_qna_register_category">제목</td>
 					<td>
-						<input type="text" id="qnaboardSubject" name="qnaboardSubject" required
+						<input type="text" id="qnaboardSubject" name="qnaboardSubject" value="${qnaboardDTO.qnaboardSubject }"required
 						style="border: 1px solid #ddd; width: 700px; height: 36px; padding: 10px; ">
 					</td>
 				</tr>
 				<tr>
 					<td class="goods_qna_register_category">내용</td>
 					<td>
-						<textarea id="qnaboardContent" name="qnaboardContent" required
-						style="border: 1px solid #ddd; width: 700px; height:250px; padding: 10px 0 1px 10px; "></textarea>					    
+						<textarea id="qnaboardContent" name="qnaboardContent"  required
+						style="border: 1px solid #ddd; width: 700px; height:250px; padding: 10px 0 1px 10px; ">${qnaboardDTO.qnaboardContent }</textarea>					    
 					</td>
 				</tr>
 			</table>
@@ -99,7 +100,7 @@
 		</div>
 	</div>
 	<div class="goods_qna_register_submitDiv">
-		<input type="button" class="goods_qna_register_submitBtn" value="확인">
+		<input type="button" class="goods_qna_modify_submitBtn" value="확인">
 	</div>
 </div>
 </form>
@@ -117,19 +118,9 @@ function private_agree(){
 </script>
 <script>
 $(document).ready(function(){
-	$.ajax({
-		type:'get',
-		url:'../user/checkAuth',
-		success:function(data){
-			if(data=='fail'){
-				alert("상품문의 작성 권한이 없습니다");
-				window.close();
-			}
-		}
-	});	
 	
 	//서브밋버튼
-	$('.goods_qna_register_submitBtn').click(function(){
+	$('.goods_qna_modify_submitBtn').click(function(){
 		var param =$('#qnaboardForm').serialize();
 		var privateRadio = $('input[name="goods_qna_register_privateRadio"]:checked').val();
 		
@@ -141,18 +132,18 @@ $(document).ready(function(){
 		else if(privateRadio!='yes'){
 			alert('개인정보 수집 및 이용에 대한 안내에 동의해주셔야합니다.');
 		}else{
-			/*
+			
 			$.ajax({
 				type:'post',
-				url:'../qna/qnaboardWrite.do',
+				url:'../qna/qnaboardModify.do',
 				data:param,
 				success:function(){
-					alert("문의 작성을 완료했습니다.");
+					alert("문의 수정을 완료했습니다.");
 					window.close();
 				}
 				
 			});
-			*/
+			
 		}
 	});
 	

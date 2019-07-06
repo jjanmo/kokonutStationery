@@ -97,4 +97,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							,#{discountPrice}
 							,qnaboardcode_seq.currval)
 	</insert>
+	
+	<!--  -->
+	<select id="getQnaboard" parameterType="Integer" resultType="qnaboard">
+		select * from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode}
+	</select>
+	
+	<!-- 상품후기 작성 -->
+	<update id="qnaboardModify" parameterType="qnaboard">
+		update TBL_QNABOARD set 
+							 
+							 USEREMAIL=#{userEmail},
+							 USERPHONE=#{userPhone},							 
+							 QNABOARDSUBJECT=#{qnaboardSubject},
+							 QNABOARDCONTENT=#{qnaboardContent},
+							
+							 SECRET=#{secret}
+							 
+							 
+							where QNABOARDCODE =#{qnaboardCode}
+	</update>
 </mapper>
