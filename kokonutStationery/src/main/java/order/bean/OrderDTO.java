@@ -4,14 +4,17 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Component
 @Data
 public class OrderDTO {
 	
-	private int orderCode; 
-	private Date ordreDate;
+	private int orderCode;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
+	private Date orderDate;
 	private String userId; 
 	private String userName;
 	private String thumbImg; 
