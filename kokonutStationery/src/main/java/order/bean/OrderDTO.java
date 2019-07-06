@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class OrderDTO {
 	
-	private int orderCode; 
-	private Date ordreDate;
+	private String orderCode; 
+	private Date orderDate;
 	private String userId; 
 	private String userName;
 	private String thumbImg; 
@@ -23,7 +23,7 @@ public class OrderDTO {
 	private int paymentType; 		// 1:신용카드 / 2:핸드폰
 	private int totalPayment; 		// 해당주문번호에 대한 총 결제금액
 	private int productOption;		// 0:없음 / 1:있음
-	private String optionCode;		// 옵션내용
+	private String optionContent;	// 옵션내용
 	private int orderState;			// 0: 주문취소1: 주문접수2: 배송준비3: 배송중4: 배송완료 5:교환접수6:교환완료7:환불접수8: 환불완료
 	private int cancel;				// 취소여부
 	private int cancelQty; 
