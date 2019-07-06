@@ -725,12 +725,11 @@ $(document).ready(function(){
 						
 						$('#qna_'+index+'_content').toggle(function(){
 							
-							var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							//var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							var userId=item.userId;							
 							var thisText = $(this).text();
 							var thisContent = $(this);
-							var qnaboardCode = item.qnaboardCode;
-							//var content = $(this).parent().children('#qna_'+index+'_content').text();
-							//alert("userId="+userId+"content="+content);
+							
 							if(item.secret==0){
 								//비밀글아닐때
 								$.ajax({
@@ -778,15 +777,12 @@ $(document).ready(function(){
 									}
 									
 								});
-								
-								
+																
 								
 							}//if문
 							
 							
 						});//toggle
-						
-						//버튼이벤트위치
 						
 					});//내용이벤트
 					
