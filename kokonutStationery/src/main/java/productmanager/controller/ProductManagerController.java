@@ -175,7 +175,7 @@ public class ProductManagerController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pg", map.get("pg"));
 		mav.addObject("list", list);
-		mav.addObject("productPaging", productPaging);
+		mav.addObject("productPaging", produectPaging);
 		mav.setViewName("jsonView");
 		return mav;
 	}
@@ -193,7 +193,7 @@ public class ProductManagerController {
 		List<ProductOptionDTO> list = productManagerDAO.getProductOption(productCode);
 		//System.out.println(list);
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView();	
 		mav.addObject("list", list);
 		mav.setViewName("jsonView");
 		return mav;
@@ -209,8 +209,8 @@ public class ProductManagerController {
 	@RequestMapping(value="/admin/productModify.do", method=RequestMethod.POST)
 	public String productModify(@ModelAttribute GoodsDTO goodsDTO
 			, @RequestParam MultipartFile thumbFile, @RequestParam MultipartFile detailedFile) {
-		System.out.println(goodsDTO);
-		System.out.println("상품수정프로세스 실행");		
+		//System.out.println(goodsDTO);
+		//System.out.println("상품수정프로세스 실행");		
 		
 		//이미지파일이 삽입여부
 		int seq = goodsDTO.getProductCode();
@@ -261,7 +261,7 @@ public class ProductManagerController {
 					productManagerDAO.productOptionModify(productOptionDTO);
 					
 					addSubQty += goodsDTO.getAddSubQty()[i];
-					System.out.println("옵션 재고추가 :"+addSubQty);
+					//System.out.println("옵션 재고추가 :"+addSubQty);
 				}
 			}
 			//새 옵션 추가
@@ -277,12 +277,12 @@ public class ProductManagerController {
 					productManagerDAO.addProductOption(productOptionDTO);
 					
 					addOptionQty += goodsDTO.getAddSubTotalQty()[i];
-					System.out.println("새 옵션 추가 :"+addOptionQty);
+					//System.out.println("새 옵션 추가 :"+addOptionQty);
 				}
 			}
 			//추가 재고 총합
 			int addQty = addSubQty + addOptionQty;
-			System.out.println("총 추가 재고 : "+addQty);
+			//System.out.println("총 추가 재고 : "+addQty);
 			goodsDTO.setAddQty(addQty);
 		}
 		
