@@ -621,13 +621,13 @@ $(document).ready(function(){
 							text:item.qnaboardContent
 						}));
 												
-						/*
+						
 						//삭제버튼
 						$('#qna_'+index+'_content').append($('<input/>',{
 							type:'button',
 							class:'qna_content_btn',
 							id:'qna_delete_btn',
-							style:'visible:hidden;',
+							style:'visibility:hidden;',
 							value:'삭제'
 						}));
 						//수정버튼
@@ -635,10 +635,10 @@ $(document).ready(function(){
 							type:'button',
 							class:'qna_content_btn',
 							id:'qna_modify_btn',
-							style:'visible:hidden;',
+							style:'visibility:hidden;',
 							value:'수정'
 						}));
-						*/
+						
 						
 						//비밀글일때 
 						if(item.secret==1){
@@ -649,7 +649,7 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
 						}
 						
 					}else if(item.admin==1){						
@@ -705,11 +705,12 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
 						}
 						
 						
 					}//관리자답변if
+					/*
 					//삭제버튼
 					$('#qna_'+index+'_content').append($('<input/>',{
 						type:'button',
@@ -726,7 +727,7 @@ $(document).ready(function(){
 						style:'visibility:hidden;',
 						value:'수정'
 					}));
-					
+					*/
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
 					//답변내용클릭시 보이게
@@ -740,39 +741,71 @@ $(document).ready(function(){
 							var qnaboardCode = item.qnaboardCode;
 							//var content = $(this).parent().children('#qna_'+index+'_content').text();
 							//alert("userId="+userId+"content="+content);
-							
-							$.ajax({
-								type:'get',
-								url:'../user/checkSecret.do',
-								data:{'userId':userId},
-								success:function(data){
-									alert(data+" 내용은="+thisText);
-									if(data=="ok"){
-										thisContent.removeClass("userPage_private_lock");
-										thisContent.children('input').css('visibility','visible');
-										
-									}
-								}
-								
-							});
-							
-							//문의수정
-							$('#qna_modify_btn').off('click').on('click',function(){
-								
-								alert("수정!");
-								window.open("/kokonutStationery/qna/goods_qna_modify.do?productCode="+productCode+"&qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
-							});
-
-							//문의삭제
-							$('#qna_delete_btn').off('click').on('click',function(){
-								alert("삭제!");
+							if(item.secret==0){
+								//비밀글아닐때
 								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										alert(data+" 내용은="+thisText);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.children('input').css('visibility','visible');
+											//thisContent.html(item.qnaboardContent);
+											
+										}
+									}
 									
 								});
-							});
+							
 								
+							}else if(item.secret==1){
+								//비밀글일때
+								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										alert(data+" 내용은="+thisText);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.html(item.qnaboardContent);
+											//삭제버튼
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												class:'qna_content_btn',
+												id:'qna_delete_btn',
+												value:'삭제'
+											}));
+											//수정버튼
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												class:'qna_content_btn',
+												id:'qna_modify_btn',
+												value:'수정'
+											}));
+										}
+									}
+									
+								});
+							}
+							
+							
 						});//toggle
-						
+						//문의수정
+						$('#qna_modify_btn').off('click').on('click',function(){
+							alert("수정");
+							//window.open("/kokonutStationery/qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+						});
+
+						//문의삭제
+						$('#qna_delete_btn').off('click').on('click',function(){
+							alert("삭제!");
+							$.ajax({
+								
+							});
+						});
 					});//내용이벤트
 					
 					

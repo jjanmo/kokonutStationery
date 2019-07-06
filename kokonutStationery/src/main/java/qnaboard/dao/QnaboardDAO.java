@@ -25,4 +25,8 @@ public interface QnaboardDAO {
 
 	public int getTotalAllSearchQ(String searchContent);
 
+	public void qnaboardModify(QnaboardDTO qnaboardDTO);
+
+	public QnaboardDTO getQnaboard(int parseInt);
+
 }
