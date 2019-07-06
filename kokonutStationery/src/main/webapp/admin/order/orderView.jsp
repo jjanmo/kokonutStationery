@@ -41,27 +41,11 @@
 	font-size: 12px;
 	color: #ccc;
 }
-#order_state{
-	width: 100%;
-	background-color: #f5f4f4;
-	margin-top: 20px;
-	padding: 20px 0 20px 0;
-}
-#order_state_table{
-	width:80%; 
-	height: 80%;
-	border: 1px solid #d9dadc; 
-	border-spacing: 0; 
-	line-height: 1.5;
-	text-align: center;
-	
-	background-color: #fff;
-	margin: 0 auto;
-}
+
 #order_paymentType{
 	border: 1px solid #d9dadc;
 	width: 450px;
-	height: 200px;
+	height: 100px;
 	background-color: #f5f4f4;
 	float: left;
 	padding: 20px;
@@ -71,7 +55,7 @@
 #order_totalPayment{
 	border: 1px solid #d9dadc;
 	width: 450px;
-	height: 200px;
+	height: 100px;
 	background-color: #f5f4f4;
 	text-align: right;
 	font-size: 40px;
@@ -88,7 +72,17 @@
 	<div><h1 style="font-weight: normal;">주문상세</h1></div>
 	<div style="width: 100%; margin-top: 10px; display: inline-block;"> 		
 		<span style="width: 200px; float: left;">주문번호 : ${orderCode} </span>
-		<span style="width: 250px; float: left;">주문자 : ${userName}(${userId })</span>
+		<span style="width: 230px; float: left;">주문자 : ${userName}(${userId })</span>
+		<span style="float: left;">주문상태 : </span>&nbsp;
+		<select id="order_state" style="width:100px; height: 20px; padding: 1px;">
+			<option value="0">주문취소</option>
+			<option value="1">주문접수</option>
+			<option value="2">배송준비</option>
+			<option value="3">배송중</option>
+			<option value="4">배송완료</option>
+			<option value="9">주문완료</option>
+		</select>
+		<input type="button" id="order_state_change" value="주문상태 갱신">
 		<span style="width: 127px; float: right;">주문일 : ${orderDate }</span>
 	</div>
 	<div id="order_info">
@@ -101,28 +95,8 @@
 				<th width="80">수량</th>
 				<th width="120">합계</th>
 			</tr>
-		</table>
+		</table>	
 		
-		<div id="order_state">
-			<table id="order_state_table" border="1">
-				<tr>
-					<td><input type="radio" name="order_state_radio" value="1"> 주문접수</td>
-					<td><input type="radio" name="order_state_radio" value="2"> 배송준비</td>
-					<td><input type="radio" name="order_state_radio" value="3"> 배송중</td>
-					<td><input type="radio" name="order_state_radio" value="4"> 배송완료</td>
-					<td><input type="radio" name="order_state_radio" value="9"> 주문완료</td>
-				</tr>				
-			</table>
-		</div>
-		<div id="order_paymentType">
-			
-		</div>
-		<div id="order_totalPayment">
-			<span>상품 합계 금액 : </span><span id="totalPrice" style="width: 170px;"></span><br>
-			<span>배송비 : </span><span id="deliveryF" style="width: 170px;"></span><br>
-			<div style="border: 2px solid; margin: 10px 0;"></div>
-			결제 금액 : <span id="totalPayment" style="width: 170px;"></span>
-		</div>
 	</div>
 </div>
 </form>
@@ -138,6 +112,7 @@ $(document).ready(function(){
 		dataType : 'json',
 		success : function(data){
 			var totalPrice = 0; // 합ㄱ{금액}
+			var orderState = 0;
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
 				$('<tr/>').append($('<td/>', {
@@ -150,10 +125,10 @@ $(document).ready(function(){
 				}))).append($('<td/>', {
 					align : 'left',
 					text : items.productName
-					}).append($('<br>')).append($('<span/>', {
-						id : 'order_optionContent'+index,
-						class : 'order_optionContent',
-						text : '['+items.optionContent+']'
+				}).append($('<br>')).append($('<span/>', {
+					id : 'order_optionContent'+index,
+					class : 'order_optionContent',
+					text : '['+items.optionContent+']'
 				}))).append($('<td/>', {
 					align : 'right',
 					text : items.discountPrice + ' 원'				
@@ -170,6 +145,7 @@ $(document).ready(function(){
 				}
 				//합계금액 산정				
 				totalPrice += items.totalPrice;
+				orderState = items.orderState;
 			});
 			
 			$('#totalPrice').append(totalPrice+' 원');
@@ -179,8 +155,25 @@ $(document).ready(function(){
 			}
 			$('#deliveryF').append(deliveryF + ' 원');
 			$('#totalPayment').append(totalPrice+deliveryF + ' 원');
+			
+			$('#order_state').prop('value', orderState);
 		}
-	}); 
+	});
+	$('#order_state_change').click(function(){
+		//alert($('#order_state').val());
+		$.ajax({
+			type : 'post',
+			url : '/kokonutStationery/admin/orderStateChange.do',
+			data : 'orderState='+$('#order_state').val()+'&orderCode='+$('#orderCode').val(),
+			success : function(result){
+				if(result=="success"){
+					alert("주문상태가 갱신되었습니다.");
+					location.reload();	
+				}else
+					alert("주문상태 갱신에 실패하였습니다.");
+			}
+		});
+	})
 });
 </script>
 </html>
