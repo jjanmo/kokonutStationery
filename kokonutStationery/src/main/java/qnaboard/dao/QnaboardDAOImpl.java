@@ -73,6 +73,16 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	public void qnaboardDelete(int qnaboardCode) {
 		sqlSession.delete("qnaSQL.qnaboardDelete",qnaboardCode);
 	}
+
+	@Override
+	public List<QnaboardDTO> getMyQnaList(Map<String, String> map) {
+		return sqlSession.selectList("qnaSQL.getMyQnaList",map);
+	}
+
+	@Override
+	public int getTotalMyQ(String userId) {
+		return sqlSession.selectOne("qnaSQL.getTotalMyQ",userId);
+	}
 	
 
 	

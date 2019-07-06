@@ -20,10 +20,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from TBL_qnaboard where ${searchOption} like '%'||#{searchContent}||'%'
 	</select>
 	
+	<!-- 내 상품문의갯수 -->
+	<select id="getTotalMyQ" parameterType="String" resultType="Integer">
+		select count(*) from TBL_qnaboard where userId=#{userId}
+	</select>
+	
 	<!-- 검색한 문의갯수 -->
 	<select id="getTotalAllSearchQ" parameterType="String" resultType="Integer">
 		select count(*) from TBL_qnaboard 
 		where userId like '%'||#{searchContent}||'%' or qnaboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 내 상품문의 -->
+	<select id="getMyQnaList" parameterType="String" resultType="qnaboard">
+		select * from
+		(select rownum rn,tt.*from       
+		(select * from TBL_qnaboard 
+		where ref in(
+		            select ref from TBL_qnaboard 
+		            where userId=#{userId}) 
+		            order by ref desc, admin asc, qnaboardcode desc) tt)
+		            where rn between #{startNum} and #{endNum}
 	</select>
 	
 	<!-- 모든상품문의리스트 가져오기 -->
