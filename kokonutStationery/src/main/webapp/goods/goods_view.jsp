@@ -753,18 +753,14 @@ $(document).ready(function(){
 									url:'../user/checkSecret.do',
 									data:{'userId':userId},
 									success:function(data){
-										alert(data+" 내용은="+thisText);
+										//alert(data+" 내용은="+thisText);
 										if(data=="ok"){
 											thisContent.removeClass("userPage_private_lock");
 											thisContent.children('input').css('visibility','visible');
-											//thisContent.html(item.qnaboardContent);
-											
+											//thisContent.html(item.qnaboardContent);											
 										}
-									}
-									
-								});
-							
-								
+									}									
+								});								
 							}else if(item.secret==1){
 								//비밀글일때
 								$.ajax({
@@ -794,31 +790,62 @@ $(document).ready(function(){
 									}
 									
 								});
-							}
+								
+								//문의수정
+								$('#qna_modify_btn').on('click',function(){
+									var qnaboardCode = item.qnaboardCode;
+									window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+								});
+
+								//문의삭제
+								$('#qna_delete_btn').on('click',function(){
+									if (confirm("문의를 삭제하시겠습니까??") == true){//확인
+										var qnaboardCode = item.qnaboardCode;
+										$.ajax({
+											type:'post',
+											url:'../qna/qnaboardDelete.do',
+											data:{'qnaboardCode':qnaboardCode},
+											success:function(){
+												alert("삭제를 완료했습니다!");
+												location.href="../goods/goods_view.do?productCode="+productCode;
+											}
+										});
+									 }else{   //취소
+									     return false;
+									 }
+									
+								});
+								
+							}//if문
 							
 							
 						});//toggle
+						
 						//문의수정
 						$('#qna_modify_btn').off('click').on('click',function(){
 							var qnaboardCode = item.qnaboardCode;
-							//alert("수정! qnaboardCode="+qnaboardCode);
 							window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
 						});
 
 						//문의삭제
 						$('#qna_delete_btn').off('click').on('click',function(){
-							alert("삭제!");
-							var qnaboardCode = item.qnaboardCode;
-							$.ajax({
-								type:'post',
-								url:'../qna/qnaboardDelete.do',
-								data:{'qnaboardCode':qnaboardCode},
-								success:function(){
-									alert("삭제를 완료했습니다!");
-									location.href="../goods/goods_view.do?productCode="+productCode;
-								}
-							});
+							if (confirm("문의를 삭제하시겠습니까??") == true){//확인
+								var qnaboardCode = item.qnaboardCode;
+								$.ajax({
+									type:'post',
+									url:'../qna/qnaboardDelete.do',
+									data:{'qnaboardCode':qnaboardCode},
+									success:function(){
+										alert("삭제를 완료했습니다!");
+										location.href="../goods/goods_view.do?productCode="+productCode;
+									}
+								});
+							 }else{   //취소
+							     return false;
+							 }
+							
 						});
+						
 					});//내용이벤트
 					
 					

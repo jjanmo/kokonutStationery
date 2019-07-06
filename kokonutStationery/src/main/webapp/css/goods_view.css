@@ -192,6 +192,7 @@ body{
 	color: #a4a4a4;
 	float: right;
 	cursor: pointer;
+	z-index:6;
 }
 
 .userPage_private_lock{
