@@ -61,6 +61,7 @@
 	background-color: #f5f4f4;
 	text-align: right;
 	font-size: 30px;
+	line-height: 40px;
 	float: right;
 	padding: 20px;
 	margin: 20px 0;
@@ -128,7 +129,7 @@ $(document).ready(function(){
 		dataType : 'json',
 		success : function(data){
 			var totalPrice = 0; // 합ㄱ{금액}
-			var orderState = 0;
+			var orderState = 0; // 주문상태
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
 				//교환/환불요청

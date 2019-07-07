@@ -665,3 +665,18 @@ h5 {
 #order_code:hover {
   text-decoration: underline;
 }
+
+/*후기 페이징*/
+#currentPaging {
+	padding-right:5px;
+	color: #2AC1BC; 
+	font-weight: 700;
+	cursor:pointer;
+}
+
+#paging {
+	padding-right:5px;
+	color : black; 
+	text-decoration: none; 
+	cursor:pointer;
+}
