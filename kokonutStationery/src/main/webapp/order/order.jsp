@@ -372,7 +372,6 @@ var userEmail = '${userDTO.userEmail }';
 
 
 $(function(){
-	
 	//구매하기버튼 : 상품1개에 대한 구매
 	//옵션이 없는 경우
 	if(${goodsDTO.productOption} == 0){
