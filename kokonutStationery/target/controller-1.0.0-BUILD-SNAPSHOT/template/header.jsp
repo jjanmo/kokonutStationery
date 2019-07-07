@@ -111,7 +111,7 @@ a{color:#1E1E1E; text-decoration:none;}
 			<c:if test="${memId != null}">
 			<li id="logoutBtn"><a href="/kokonutStationery/user/logout.do" class="utilMenuText">로그아웃</a></li>
 			</c:if>
-			<li><a href="/kokonutStationery/goods/goods_cart.do" class="utilMenuText">장바구니</a></li>
+			<li><a href="/kokonutStationery/cart/goods_cart.do" class="utilMenuText">장바구니</a></li>
 			
 			<c:if test="${memId == null}">
 			<li><a href="/kokonutStationery/user/loginForm.do" class="utilMenuText">마이페이지</a></li>
@@ -149,7 +149,32 @@ $(document).ready(function(){
 		$('.subLayer').css('display','none');
 	});
 
+/* 	//카테고리 상품수 세션에 넣기
+	$.ajax({
+		type: 'GET',
+		url: '/kokonutStationery/goods/get_count.do',
+	});
+	
+	//최초 한번 새로고침
+	if (location.href.indexOf('#reload') == -1) location.href; */
+	
+	//카테고리 상품수
+	$.ajax({
+		type: 'GET',
+		url: '/kokonutStationery/goods/get_count.do',
+		dataType: 'json',
+		success: function(data) {
+ 			$.each(data.count, function(index, items) {
+ 				$('#stationery_cnt').text(items.stationery);
+ 				$('#living_cnt').text(items.living);
+ 				$('#travel_cnt').text(items.travel);
+ 				$('#collabo_cnt').text(items.collabo);
+			});
+		}
+	});	
+	
 });
+
 
 </script>
 

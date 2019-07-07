@@ -97,9 +97,7 @@ a#topBtn {
 			</div><!-- slider_wrap -->
 			
 			<!-- content_wrap -->
-			<div id="">
-				<jsp:include page="${display }" />
-			</div>
+			<jsp:include page="${display }" />
 			
 			<a href="#" id="topBtn">
 				<img src="../image/topBtn.png" />

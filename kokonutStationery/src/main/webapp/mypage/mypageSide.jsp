@@ -13,7 +13,7 @@
     <div class="mem_box">
       <table class="mem_box_table">
         <tr>
-          <td class="mem_menu" colspan="2"><span class="mem_name">${memName }</span> 님</td>
+          <td class="mem_menu" colspan="2"><span class="mem_name">${memName}</span> 님</td>
         </tr>
         <tr>
           <td class="mem_menu">총구매액</td>

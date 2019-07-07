@@ -31,4 +31,8 @@ public interface QnaboardDAO {
 
 	public void qnaboardDelete(int qnaboardCode);
 
+	public List<QnaboardDTO> getMyQnaList(Map<String, String> map);
+
+	public int getTotalMyQ(String userId);
+
 }

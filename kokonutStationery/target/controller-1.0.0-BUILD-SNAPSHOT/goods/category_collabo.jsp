@@ -15,32 +15,32 @@
 	<div id="container">
 		<div id="category_area">
 			<a href="/kokonutStationery/goods/category_stationery.do">
-				<span class="category_name">문구</span>&nbsp;
-				<span class="category_product_qty">50</span>
+				<span class="category_name">문구</span>&ensp;
+				<span id="stationery_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_living.do">
-				<span class="category_name">리빙</span>&nbsp;
-				<span class="category_product_qty">39</span>
+				<span class="category_name">리빙</span>&ensp;
+				<span id="living_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_travel.do">
-				<span class="category_name">여행</span>&nbsp;
-				<span class="category_product_qty">12</span>
+				<span class="category_name">여행</span>&ensp;
+				<span id="travel_cnt"></span>
 			</a>&emsp;&ensp;
 			<a href="/kokonutStationery/goods/category_collabo.do">
-				<span class="category_name selected">콜라보레이션</span>&nbsp;
-				<span class="category_product_qty">29</span>
+				<span class="category_name selected">콜라보레이션</span>&ensp;
+				<span id="collabo_cnt"></span>
 			</a>
 		</div>
 		<div id="sort_area">
-			<a id="sort_name" href="#">
+			<a id="sort_name" href="/kokonutStationery/goods/category_collabo.do?sort=name">
 				<span class="sort_subject">이름순</span>
 			</a>
 			<span class="dot">·</span>
-			<a id="sort_desc" href="#">
+			<a id="sort_desc" href="/kokonutStationery/goods/category_collabo.do?sort=price_desc">
 				<span class="sort_subject">높은가격순</span>
 			</a>
 			<span class="dot">·</span>
-			<a class="sort_asc" href="#">
+			<a class="sort_asc" href="/kokonutStationery/goods/category_collabo.do?sort=price_asc">
 				<span class="sort_subject">낮은가격순</span>
 			</a>
 		</div>
@@ -53,17 +53,13 @@
 		<!-- 상품 한개(반복) -->
 		<c:forEach var="list" items="${list}">
 			<div class="product">
-				<%-- <div class="product_img" 
-					 style="background-image: url(<c:out value="${list.thumbImg}"/>); background-size: 100%;">
-				</div>  --%>
-				
-				<div class="product_img" 
-					 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); background-size: 100%;">
-				</div>
-
+				<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><div class="product_img" 
+								 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); 
+								 		background-size: 100%;">
+				</div></a>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<span class="product_name"><c:out value="${list.productName}"/></span>
+						<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_name"><c:out value="${list.productName}"/></span></a>
 					</div>
 					<div class="product_price_div">
 					
@@ -80,7 +76,7 @@
 							<div class="product_status status_new"></div>
 						</c:if>
 
-				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
+				  		<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
 					</div>
 				</div>
 			</div>
@@ -89,5 +85,6 @@
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript"></script>
+<script type="text/javascript">
+</script>
 

@@ -48,9 +48,6 @@
 	margin:auto;
 }
 
-<<<<<<< HEAD
-#content_wrap{padding-top:40px;}
-=======
 #main_slider {
 	width:2500px; 
 	height:500px; 
@@ -58,7 +55,6 @@
 	position:relative; 
 	left:-70%;
 }
->>>>>>> refs/heads/gihyeon
 
 #main_slider img {
 	left:-20%;

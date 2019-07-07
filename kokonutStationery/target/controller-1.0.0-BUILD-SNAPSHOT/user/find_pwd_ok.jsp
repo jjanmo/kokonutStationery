@@ -3,6 +3,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/join.css">    
 
+
 <div class="indiv" style="margin:80px 150px 150px 150px; padding-top:150px;"><!-- Start indiv -->
 	<div class="mem_tit" style="margin-bottom:13px; font-size: 26px; font-weight: 700; text-align: center;">
 		비밀번호 찾기
@@ -55,56 +56,59 @@
 <!-- 이메일 주소 인증번호창 -->
 <div id="modalLayer" class="password-auth-form-wrapper">
 	<div class="modalContent contents">
-	<table width="100%" cellpadding="0" cellspacing="0" border="0">
-	<tr>
-		<td>	
-			<h3 style="color:#A6A6A6;">이메일주소 인증</h3>
-		</td>
-	</tr>
 	
-	<tr>
-		<td>
-			<div style="font-size: 13px; line-height:21px; color: #777; padding: 30px 50px 30px 50px;">
-				<b style="color:#333;">고객님의 이메일주소로 인증번호가 전송되었습니다.</b><br>
-				전송된 인증번호를 입력하여 주세요.<br>
-				전송량이 많을 경우 지연될 수 있습니다.
-			</div>		
-		</td>
-	</tr>
-	
-	<tr>
-		<td>
-			<form name="confirmAuthForm" method="post" action="../mail/confirmAuth">
-				<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:30px;">
-				<tbody>
-					<tr>
-						<td align="center">
-							<div style="background:#F6F6F6;">
-								<input type="text" name="authKey" id="authKey" maxlength="8" placeholder="인증번호" required
-								style="position:relative; border:1px solid #DDD; width: 210px; height:40px; padding-left: 10px; margin:20px 10px 20px 20px; font-size:14px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
-								<div class="main-button-s" id="reSubmit"
-								style="text-align:center;height: 38px;float: right;margin-top: 21px;margin-right: 20px;width: 80px;line-height: 38px;">재전송</div>
-							</div>
-						</td>
-					<tr>
-						<td>			
-							<div style="margin-left:80px; width:100%; padding:15px;">
-								<div style="width: 120px; display: inline-block; padding-left: 3px;">
-									<input type="button" id="okBtn" class="main-button-s" 
-									style="text-align:center; height:45px; background-color:#444; width:120px; line-height:45px; -webkit-appearance: none; border-radius:0; border:none;" value="확인"> 
+		<div class="email_header">이메일주소 인증</div>
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+		<!--<tr>
+			<td>	
+				 <h3 style="color:#A6A6A6;">이메일주소 인증</h3> 
+				
+			</td>
+		</tr>-->
+		
+		<tr>
+			<td>
+				<div style="font-size: 13px; line-height:21px; color: #777; padding: 30px 50px 30px 50px;">
+					<b style="color:#333;">고객님의 이메일주소로 인증번호가 전송되었습니다.</b><br>
+					전송된 인증번호를 입력하여 주세요.<br>
+					전송량이 많을 경우 지연될 수 있습니다.
+				</div>		
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<form name="confirmAuthForm" method="post" action="../mail/confirmAuth">
+					<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:30px;">
+					<tbody>
+						<tr>
+							<td align="center">
+								<div style="background:#F6F6F6;">
+									<input type="text" name="authKey" id="authKey" maxlength="8" placeholder="인증번호" required
+									style="position:relative; border:1px solid #DDD; width: 210px; height:40px; padding-left: 10px; margin:20px 10px 20px 20px; font-size:14px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
+									<div class="main-button-s" id="reSubmit"
+									style="text-align:center;height: 38px;float: right;margin-top: 21px;margin-right: 20px;width: 80px;line-height: 38px;">재전송</div>
 								</div>
-								<div style="width: 120px; display: inline-block; padding-left: 3px;">
-									<li id="cancelBtn" class="sub-button-s" style="text-align:center; height:45px; line-height:45px;">취소</li>
+							</td>
+						<tr>
+							<td>			
+								<div style="margin-left:80px; width:100%; padding:15px;">
+									<div style="width: 120px; display: inline-block; padding-left: 3px;">
+										<input type="button" id="okBtn" class="main-button-s" 
+										style="text-align:center; height:45px; background-color:#444; width:120px; line-height:45px; -webkit-appearance: none; border-radius:0; border:none;" value="확인"> 
+									</div>
+									<div style="width: 120px; display: inline-block; padding-left: 3px;">
+										<li id="cancelBtn" class="sub-button-s" style="text-align:center; height:45px; line-height:45px;">취소</li>
+									</div>
 								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-				</table>
-			</form>
-		</td>
-	</tr>	
-	</table>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+				</form>
+			</td>
+		</tr>	
+		</table>
 	</div>
 </div>
 
@@ -114,7 +118,8 @@
 <div id="modalLayer2" class="password-auth-form-wrapper">		
 	
 		<div class="modalContent">
-			<h3 style="color:#A6A6A6;">비밀번호 변경/등록</h3>
+			<div class="email_header">비밀번호 변경/등록</div>
+			<!-- <h3 style="color:#A6A6A6;">비밀번호 변경/등록</h3> -->
 			<p style="text-align:center; font-size:14px; padding:5px 0 5px 0;">
 				<b style="font-size:13px; color:#333">인증이 완료되었습니다.</b> 새로운 비밀번호를 등록하여 주세요.
 			</p>
@@ -215,7 +220,16 @@
 #modalLayer2 .modalContent{width:440px; height:300px; padding:20px; border:1px solid #ccc; position:fixed; left:50%; top:50%; z-index:1; background:#fff;}
 #modalLayer2 .modalContent button{position:absolute; right:0; top:0; cursor:pointer;}
 
-
+.email_header{
+	width: 100%;
+	background-color: #777;
+	hegiht : 43px;
+	line-height: 44px;
+	font-size: 15px;
+	font-weight: 700;
+	color: #fff;
+	margin: 0 ;
+}
 </style>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -236,8 +250,8 @@ $(document).ready(function(){
 				type:'POST',
 				url:'/kokonutStationery/mail/auth',
 				data:{'userEmail':userEmail},//'pg='+$('#pg').val() ==> board.js로 빼내어 hidden값으로 pg를 넘겨줬을때
-				success:function(data){	
-					alert(data);
+				success:function(){	
+					
 				}
 			}); 
 		  
