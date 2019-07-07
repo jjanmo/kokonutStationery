@@ -36,8 +36,8 @@ public class QnaboardController {
 	@RequestMapping(value="/goods_qnaMyList.do",method=RequestMethod.POST)
 	public ModelAndView getMyQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String userId) {
 		
-		int endNum = Integer.parseInt(pg)*10;
-		int startNum = endNum-9;
+		int endNum = Integer.parseInt(pg)*5;
+		int startNum = endNum-4;
 		Map<String, String> map = new HashMap<String,String>();
 		
 		//페이징처리
@@ -54,7 +54,7 @@ public class QnaboardController {
 		map.put("userId",userId);
 		
 		List<QnaboardDTO> list = qnaboardDAO.getMyQnaList(map);
-		System.out.println("내 상품문의갯수="+list.size());
+		//System.out.println("내 상품문의갯수="+list.size());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
@@ -78,8 +78,13 @@ public class QnaboardController {
 		
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(map);
+<<<<<<< HEAD
 		System.out.println("개별상품코드="+productCode);
 
+=======
+		//System.out.println("개별상품코드="+productCode);
+		/*
+>>>>>>> refs/heads/ssong
 		//페이징처리
 		int totalA = qnaboardDAO.getTotalQ(Integer.parseInt(productCode));
 		qnaboardPaging.setCurrentPage(Integer.parseInt(pg));
