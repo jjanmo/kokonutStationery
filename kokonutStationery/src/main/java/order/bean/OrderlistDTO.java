@@ -24,4 +24,3 @@ public class OrderlistDTO {
 	private int orderState;				//주문상태
 }
 
-

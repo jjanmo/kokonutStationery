@@ -21,7 +21,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="wishlist.bean.WishListDTO" alias="wishlist" />
 		<typeAlias type="order.bean.OrderDTO" alias="order"/>
 		<typeAlias type="order.bean.PostDTO" alias="post"/>
-
 	</typeAliases>
 
 </configuration>
