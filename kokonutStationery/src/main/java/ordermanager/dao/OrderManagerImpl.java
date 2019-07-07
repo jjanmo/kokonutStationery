@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
+import user.bean.UserDTO;
 
 @Transactional
 @Repository
@@ -23,6 +24,11 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	}
 
 	@Override
+	public UserDTO getReceiverInform(String userId) {
+		return sqlSession.selectOne("orderManagerSQL.getReceiverInform", userId);
+	}
+	
+	@Override
 	public List<OrderDTO> orderViewList(String orderCode) {
 		return sqlSession.selectList("orderManagerSQL.orderViewList", orderCode);
 	}
@@ -31,4 +37,6 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	public int orderStateChange(Map<String, Object> map) {
 		return sqlSession.update("orderManagerSQL.orderStateChange", map);
 	}
+
+	
 }

@@ -42,11 +42,13 @@
 	color: #ccc;
 }
 
-#order_paymentType{
+#receiver_inform{
 	border: 1px solid #d9dadc;
 	width: 450px;
-	height: 100px;
+	height: 150px;
 	background-color: #f5f4f4;
+	font-size: 15px;
+	line-height: 20px;
 	float: left;
 	padding: 20px;
 	margin: 20px 0;
@@ -55,10 +57,10 @@
 #order_totalPayment{
 	border: 1px solid #d9dadc;
 	width: 450px;
-	height: 100px;
+	height: 150px;
 	background-color: #f5f4f4;
 	text-align: right;
-	font-size: 40px;
+	font-size: 30px;
 	float: right;
 	padding: 20px;
 	margin: 20px 0;
@@ -72,7 +74,7 @@
 	<div><h1 style="font-weight: normal;">주문상세</h1></div>
 	<div style="width: 100%; margin-top: 10px; display: inline-block;"> 		
 		<span style="width: 200px; float: left;">주문번호 : ${orderCode} </span>
-		<span style="width: 230px; float: left;">주문자 : ${userName}(${userId })</span>
+		<span style="width: 230px; float: left;">주문자 : ${userDTO.userName}(${userDTO.userId })</span>
 		<span style="float: left;">주문상태 : </span>&nbsp;
 		<select id="order_state" style="width:100px; height: 20px; padding: 1px;">
 			<option value="0">주문취소</option>
@@ -85,7 +87,7 @@
 		<input type="button" id="order_state_change" value="주문상태 갱신">
 		<span style="width: 127px; float: right;">주문일 : ${orderDate }</span>
 	</div>
-	<div id="order_info">
+	<div id="order_info" style="overflow: auto;">
 		<table id="orderView_info_table" border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 10px;">
 			<tr>
 				<th width="100">상품코드</th>
@@ -94,9 +96,23 @@
 				<th width="100">판매가</th>
 				<th width="80">수량</th>
 				<th width="120">합계</th>
+				<th width="150">교환/환불요청</th>
 			</tr>
 		</table>	
-		
+		<div id="receiver_inform">
+			<div style="font-size: 30px;">배송지 정보</div><br>
+			<div>받으실분 : ${userDTO.receiverName}</div>
+			<div>우편번호 : ${userDTO.receiverZipcode }</div>
+			<div>상세주소 : ${userDTO.receiverAddr1} ${userDTO.receiverAddr2}</div>
+			<div>연락처 : ${userDTO.receiverPhone1}-${userDTO.receiverPhone2}-${userDTO.receiverPhone3 }</div>
+			<div>남기실말씀 : ${userDTO.deliveryMsg}</div>
+		</div>
+		<div id="order_totalPayment">
+			<span>상품 합계 금액 : </span><span id="totalPrice" style="width: 170px;"></span><br>
+			<span>배송비 : </span><span id="deliveryF" style="width: 170px;"></span><br>
+			<div style="border: 2px solid; margin: 10px 0;"></div>
+			결제 금액 : <span id="totalPayment" style="width: 170px;"></span>
+		</div>
 	</div>
 </div>
 </form>
@@ -115,6 +131,17 @@ $(document).ready(function(){
 			var orderState = 0;
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
+				//교환/환불요청
+				var userRequest;
+				if(items.cancel==1)
+					userRequest = "주문취소";
+				else if(items.exchange==1)
+					userRequest = "교환요청";
+				else if(items.refunt==1)
+					userRequest = "환불요청";
+				else
+					userRequest = "요청없음";			
+				
 				$('<tr/>').append($('<td/>', {
 					align : 'center',
 					text : items.productCode
@@ -138,19 +165,28 @@ $(document).ready(function(){
 				})).append($('<td/>', {
 					align : 'right',
 					text : items.totalPrice + ' 원'
+				})).append($('<td/>', {
+					align : 'center',
+					text : userRequest
 				})).appendTo($('#orderView_info_table'));
+				
 				//옵션없는 상품은 옵션 숨기기
 				if(items.productOption==0){
 					$('#order_optionContent'+index).hide();
 				}
-				//합계금액 산정				
-				totalPrice += items.totalPrice;
+				//합계금액 산정	
+				if(userRequest == "주문취소"){
+					totalPrice = 0;
+				}else if(userRequest == "요청없음"){
+					totalPrice += items.totalPrice;
+				}
+				//주문상태 일괄적용
 				orderState = items.orderState;
 			});
 			
 			$('#totalPrice').append(totalPrice+' 원');
 			var deliveryF = 2500;
-			if(totalPrice>=30000){
+			if(totalPrice>=30000||totalPrice<=0){
 				deliveryF = 0;
 			}
 			$('#deliveryF').append(deliveryF + ' 원');
