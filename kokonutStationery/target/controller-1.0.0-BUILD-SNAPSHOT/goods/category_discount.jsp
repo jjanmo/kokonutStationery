@@ -28,15 +28,16 @@
 <!-- 상품 리스트 -->
 <div class="contents_area no_cate_bar">
 	<div class="product_list">
-    <!-- 상품 한개(반복) -->
+    	<!-- 상품 한개(반복) -->
 		<c:forEach var="list" items="${list}">
 			<div class="product">
-				<div class="product_img" 
-					 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); background-size: 100%;">
-				</div>
+				<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><div class="product_img" 
+								 style="background-image: url(<c:url value='../image/thumb/${list.thumbImg}' />); 
+								 		background-size: 100%;">
+				</div></a>
 				<div class="product_contents">
 					<div class="product_name_div">
-						<span class="product_name"><c:out value="${list.productName}"/></span>
+						<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_name"><c:out value="${list.productName}"/></span></a>
 					</div>
 					<div class="product_price_div">
 					
@@ -53,7 +54,7 @@
 							<div class="product_status status_new"></div>
 						</c:if>
 
-				  		<span class="product_price"><c:out value="${list.discountPrice}"/></span>
+				  		<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}"><span class="product_price"><c:out value="${list.discountPrice}"/></span></a>
 					</div>
 				</div>
 			</div>
@@ -72,4 +73,14 @@ jQuery('#countDown').countdown({
 	day: 'Day',
 	days: 'Days'
 });
+
+//카운트다운 fixed 
+$(window).scroll(function(){
+	if($(this).scrollTop() > 350){
+		$('#count').addClass('fixed');
+	} else{
+		$('#count').removeClass('fixed');
+	}
+});
+
 </script>

@@ -9,12 +9,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from TBL_QNABOARD
 	</select>
 	
+	<!-- 상품문의 검색 총 글 수 가져오기 -->
+	<select id="qnaboardTotalAS" resultType="int" parameterType="java.util.Map">
+		select count(*) from TBL_QNABOARD  
+			<choose>
+				<when test=' option=="qnaSearch" '>
+				
+					where qnaboardSubject like '%'||#{keyword}||'%' or 
+						qnaboardContent like '%'||#{keyword}||'%'
+				</when>
+				<otherwise>
+					where ${option} like '%'||#{keyword}||'%'
+				</otherwise>
+			</choose>
+	</select>
+	
 	<!-- 상품 문의 한페이지의 목록 -->
 	<select id="qnaboardList" parameterType="java.util.Map" resultType="qnaboard">
 		select * from 
 		(select rownum rn, tt.* from
 		(select * from TBL_QNABOARD order by ref desc, admin asc) tt)
 		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 상품 문의 검색한 페이지의 목록 -->
+	<select id="qnaboardSearch" parameterType="java.util.Map" resultType="qnaboard">
+		select * from
+		<choose>
+			<when test='option=="qnaSearch"'>
+				(select rownum rn, tt.* from  
+			    	(select * from TBL_QNABOARD 
+			    		where qnaboardSubject like '%'||#{keyword}||'%' or 
+			    		 	  qnaboardContent like '%'||#{keyword}||'%' 
+			    		order by ref desc, admin asc) tt ) 
+			    where rn between #{startNum} and #{endNum}
+			</when>
+			
+			<otherwise>
+					(select rownum rn, tt.* from 
+				    	(select * from TBL_QNABOARD  
+				    		where ${option} like '%'||#{keyword}||'%'
+				    		order by ref desc, admin asc) tt ) 
+				where rn between #{startNum} and #{endNum}
+			</otherwise>	
+		</choose>
+		
 	</select>
 	
 	<!-- 상품 문의 답변 창 띄우기 -->
@@ -40,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						1)
 	</insert>
 	
-	
+		
 	<!-- review 테이블의 총 글 수-->
 	<select id="reviewboardTotalA" resultType="int">
 		select count(*) from TBL_REVIEWBOARD
@@ -53,6 +92,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(select * from TBL_REVIEWBOARD order by reviewboardcode desc) tt)
 		where rn between #{startNum} and #{endNum}
 	</select>
+	
+	<!-- 상품후기 검색 총 글 수 가져오기 -->
+	<select id="reviewboardTotalAS" resultType="int" parameterType="java.util.Map">
+		select count(*) from TBL_REVIEWBOARD  
+			<choose>
+				<when test=' option=="reviewSearch" '>
+				
+					where reviewboardSubject like '%'||#{keyword}||'%' or 
+						reviewboardContent like '%'||#{keyword}||'%'
+				</when>
+				<otherwise>
+					where ${option} like '%'||#{keyword}||'%'
+				</otherwise>
+			</choose>
+	</select>
+	
+	<!-- 상품 후기 검색한 페이지의 목록 -->
+	<select id="reviewboardSearch" parameterType="java.util.Map" resultType="reviewboard">
+		select * from
+		<choose>
+			<when test='option=="reviewSearch"'>
+				(select rownum rn, tt.* from  
+			    	(select * from TBL_REVIEWBOARD 
+			    		where reviewboardSubject like '%'||#{keyword}||'%' or 
+			    		 	  reviewboardContent like '%'||#{keyword}||'%' 
+			    		order by reviewboardcode desc) tt ) 
+			    where rn between #{startNum} and #{endNum}
+			</when>			
+			<otherwise>
+					(select rownum rn, tt.* from 
+				    	(select * from TBL_REVIEWBOARD  
+				    		where ${option} like '%'||#{keyword}||'%'
+				    		order by reviewboardcode desc) tt ) 
+				where rn between #{startNum} and #{endNum}
+			</otherwise>	
+		</choose>		
+	</select>
+	
 	
 	<!-- 상품 문의 삭제 -->
 	<delete id="qnaDelete" parameterType="java.util.Map">
@@ -73,34 +150,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 		
-		<!-- 공지사항 리스트 전체 뿌리기 -->
-		<select id="noticeboardList" resultType="notice">
-			select * from TBL_NOTICEBOARD order by noticeboardcode desc
-		</select>
-		
-		<!-- 공지사항 수정창 띄우기 -->
-		<select id="noticeboardModifyForm" resultType="notice" parameterType="int">
-			select * from TBL_NOTICEBOARD
-				where noticeboardCode=#{noticeboardCode}
-		</select>
-		
-		<!-- 공지사항 수정 -->
-		<update id="noticeboardModify" parameterType="java.util.Map">
-			update TBL_NOTICEBOARD
-				set noticeboardSubject=#{noticeboardSubject},
-					noticeboardContent=#{noticeboardContent} 
-				where noticeboardCode=#{noticeboardCode}
-		</update>
-		
-		<!-- 공지사항 등록 -->
-		<insert id="noticeboardWrite" parameterType="java.util.Map">
-			insert into TBL_NOTICEBOARD
-				values(NOTICEBOARDCODE_SEQ.nextval,
-						#{noticeboardSubject},
-						#{noticeboardContent},
-						sysdate)
-		</insert>
-		
+	<!-- 공지사항 리스트 전체 뿌리기 -->
+	<select id="noticeboardList" resultType="notice">
+		select * from TBL_NOTICEBOARD order by noticeboardcode desc
+	</select>
+	
+	<!-- 공지사항 수정창 띄우기 -->
+	<select id="noticeboardModifyForm" resultType="notice" parameterType="int">
+		select * from TBL_NOTICEBOARD
+			where noticeboardCode=#{noticeboardCode}
+	</select>
+	
+	<!-- 공지사항 수정 -->
+	<update id="noticeboardModify" parameterType="java.util.Map">
+		update TBL_NOTICEBOARD
+			set noticeboardSubject=#{noticeboardSubject},
+				noticeboardContent=#{noticeboardContent} 
+			where noticeboardCode=#{noticeboardCode}
+	</update>
+	
+	<!-- 공지사항 등록 -->
+	<insert id="noticeboardWrite" parameterType="java.util.Map">
+		insert into TBL_NOTICEBOARD
+			values(NOTICEBOARDCODE_SEQ.nextval,
+					#{noticeboardSubject},
+					#{noticeboardContent},
+					sysdate)
+	</insert>
+	
+	
+	<!-- 검색 : 공지사항 -->
+	<select id="noticeboardSearch" parameterType="java.util.Map" resultType="notice">
+		<choose>
+			<when test=' option=="noticeSearch" '>
+				select * from
+				(select rownum rn, tt.* from 
+			    	(select * from TBL_NOTICEBOARD 
+			    		where noticeboardSubject like '%'||#{keyword}||'%' or
+			    		 	  noticeboardContent like '%'||#{keyword}||'%'
+			    		order by noticeboardCode desc) tt )
+			</when>
+			<otherwise>
+				select * from
+					(select rownum rn, tt.* from 
+				    	(select * from TBL_NOTICEBOARD 
+				    		where ${option} like '%'||#{keyword}||'%' 
+				    		order by noticeboardCode desc) tt )
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
 </mapper>
 
 

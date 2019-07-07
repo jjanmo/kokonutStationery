@@ -45,7 +45,7 @@ public class CartController {
 	public ModelAndView cart(HttpSession session) { //들고갈파라미터 필요함 + 회원일때와 비회원일때를 구분지어야함!
 		
 		String userId = (String) session.getAttribute("memId");
-		
+
 		List<CartDTO> list = cartDAO.getCart(userId);
 		
 		System.out.println(list);

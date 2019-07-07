@@ -6,7 +6,7 @@
 	<div class="line_mypage"></div>
 	<table width="100%" cellpadding=0 cellspacing=0 border=0 class="lnbMyMenu">
 		<tr>
-			<th><a href="/kokonutStationery/service/noticeBoard.do" >공지사항</a></th>
+			<th><a href="/kokonutStationery/service/noticeboard.do" >공지사항</a></th>
 		</tr>
 		<tr>
 			<th>

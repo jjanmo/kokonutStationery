@@ -32,7 +32,7 @@
 							  <input type="button" class="sub-button-s" id="checkIdBtn" 
 							  style="text-align:center; width: 112px; height: 42px; position: absolute; margin: -41px 0 0 223px; padding: 12px 0; line-height: 16px; font-size: 12px;" align="absmiddle"
 							  value="아이디중복체크">
-							 
+							  
 						  </td>
 						</tr>
 						
@@ -174,7 +174,7 @@
 						          style=" width:50px;"required>
 						          <br>
 						          <div style="margin:4px 0 0 0; position: relative;">
-							          <input type="checkbox" name="sms" id="sms_confirm" 
+							          <input type="checkbox" name="sms" id="sms" 
 							          style="margin-top:0; margin-bottom:0; height: 13px; vertical-align: middle;">
 							          <span class="join_blue01" style="color:#333;">
 								          <label style="font-weight:500;">정보,이벤트SMS수신&nbsp;&nbsp;&nbsp;

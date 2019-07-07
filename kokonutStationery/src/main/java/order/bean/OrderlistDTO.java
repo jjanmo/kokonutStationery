@@ -11,7 +11,7 @@ import lombok.Data;
 @Component
 @Data
 public class OrderlistDTO {
-	private int orderCode;
+	private String orderCode;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date orderDate;
 	private String userName;
@@ -23,3 +23,4 @@ public class OrderlistDTO {
 	private int crPayment;				//취소/환불금액(cancel /refund) 둘다 있다면,합산금액으로
 	private int orderState;				//주문상태
 }
+

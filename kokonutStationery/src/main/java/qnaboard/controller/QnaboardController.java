@@ -32,8 +32,40 @@ public class QnaboardController {
 	@Autowired
 	private QnaboardPaging qnaboardPaging;
 	
+	//나의상품문의가져오기
+	@RequestMapping(value="/goods_qnaMyList.do",method=RequestMethod.POST)
+	public ModelAndView getMyQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String userId) {
+		
+		int endNum = Integer.parseInt(pg)*5;
+		int startNum = endNum-4;
+		Map<String, String> map = new HashMap<String,String>();
+		
+		//페이징처리
+		int totalA = qnaboardDAO.getTotalMyQ(userId);
+		qnaboardPaging.setCurrentPage(Integer.parseInt(pg));
+		qnaboardPaging.setPageBlock(5);
+		qnaboardPaging.setPageSize(5);
+		qnaboardPaging.setTotalA(totalA);
+		
+		qnaboardPaging.makePagingHTML();
+		
+		map.put("startNum",	startNum+"");
+		map.put("endNum",	endNum+"");
+		map.put("userId",userId);
+		
+		List<QnaboardDTO> list = qnaboardDAO.getMyQnaList(map);
+		//System.out.println("내 상품문의갯수="+list.size());
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("qnaboardPaging", qnaboardPaging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	
 	//개별상품페이지의 qna리스트
-	@GetMapping("/goods_qnaList.do")
+	@RequestMapping(value="/goods_qnaList.do",method=RequestMethod.POST)
 	public ModelAndView getQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String productCode) {
 		
 		int endNum = Integer.parseInt(pg)*5;
@@ -46,7 +78,7 @@ public class QnaboardController {
 		
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(map);
-		System.out.println("개별상품코드="+productCode);
+		//System.out.println("개별상품코드="+productCode);
 		/*
 		//페이징처리
 		int totalA = qnaboardDAO.getTotalQ(Integer.parseInt(productCode));
@@ -56,7 +88,7 @@ public class QnaboardController {
 		qnaboardPaging.setTotalA(totalA);
 		
 		qnaboardPaging.makePagingHTML();
-		*/	
+		 */
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		//mav.addObject("qnaboardPaging", qnaboardPaging);
@@ -164,10 +196,38 @@ public class QnaboardController {
 		return mav;
 	}
 	
+	//상품qna수정페이지
+	@GetMapping("/goods_qna_modify.do")
+	public ModelAndView goodsQnaModify(@RequestParam String qnaboardCode) {
+		//문의한개받아오기
+		QnaboardDTO qnaboardDTO = qnaboardDAO.getQnaboard(Integer.parseInt(qnaboardCode));
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("qnaboardDTO", qnaboardDTO);			
+		mav.setViewName("/qna/goods_qna_modify");
+		return mav;
+	}
+	
 	//문의작성
 	@RequestMapping(value="/qnaboardWrite.do",method=RequestMethod.POST)
 	@ResponseBody
 	public void qnaboardWrite(@ModelAttribute QnaboardDTO qnaboardDTO) {
 		qnaboardDAO.qnaboardWrite(qnaboardDTO);
 	}
+	
+	//문의수정
+	@RequestMapping(value="/qnaboardModify.do",method=RequestMethod.POST)
+	@ResponseBody
+	public void qnaboardModify(@ModelAttribute QnaboardDTO qnaboardDTO) {
+		qnaboardDAO.qnaboardModify(qnaboardDTO);
+	}
+	
+	//문의삭제
+	@RequestMapping(value="/qnaboardDelete.do",method=RequestMethod.POST)
+	@ResponseBody
+	public void qnaboardDelete(@RequestParam String qnaboardCode) {
+		qnaboardDAO.qnaboardDelete(Integer.parseInt(qnaboardCode));
+	}
+	
+	
 }

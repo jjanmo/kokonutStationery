@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
 import qnaboard.bean.QnaboardDTO;
+import reviewboard.bean.ReviewboardDTO;
 
 @Transactional
 @Repository
@@ -88,7 +89,32 @@ public class ContentManagerDAOImpl implements ContentManagerDAO{
 		sqlSession.insert("contentSQL.qnaboardReply",map);
 		
 	}
-	
+
+	//게시물 관리 검색 - 공지사항
+	@Override
+	public List<NoticeboardDTO> noticeboardSearch(Map<String, Object> map2) {
+		return sqlSession.selectList("contentSQL.noticeboardSearch", map2);
+	}
+
+	@Override
+	public List<QnaboardDTO> qnaboardSearch(Map<String, Object> map2) {
+		return sqlSession.selectList("contentSQL.qnaboardSearch",map2);
+	}
+
+	@Override
+	public int qnaboardTotalAS(Map<String, Object> map2) {
+		return sqlSession.selectOne("contentSQL.qnaboardTotalAS",map2);
+	}
+
+	@Override
+	public List<ReviewboardDTO> reviewboardSearch(Map<String, Object> map2) {
+		return sqlSession.selectList("contentSQL.reviewboardSearch",map2);
+	}
+
+	@Override
+	public int reviewboardTotalAS(Map<String, Object> map2) {
+		return sqlSession.selectOne("contentSQL.reviewboardTotalAS",map2);
+	}
 
 
 }

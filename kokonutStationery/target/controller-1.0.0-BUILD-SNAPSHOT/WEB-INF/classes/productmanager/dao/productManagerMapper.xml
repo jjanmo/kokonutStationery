@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="productSQL">
+	<!-- 상품등록 -->
+		<!-- 상품코드 증가 -->
+		<select id="productCodeIncrease" resultType="int">
+			select productCode_seq.nextval from dual
+		</select>
+		<!-- 상품옵션 등록 -->
+		<insert id="productOptionRegist" parameterType="option">
+			insert into tbl_productOption(optionCode, productCode, optionContent
+									, subTotalQty, subStockQty)
+									values(optionCode_seq.nextval
+										, productCode_seq.currval
+										, #{optionContent}
+										, #{subTotalQty}
+										, #{subTotalQty})
+		</insert>
+		<!-- 상품본체 등록 -->
+		<insert id="productRegist" parameterType="goods">
+			insert into TBL_PRODUCT(productCode, productName, originalPrice, discountPrice
+								, origin, manufacturer, thumbImg, detailedImg, totalQty
+								, stockQty, saleStatus, regDate, updateDate, productOption
+								, stationery, living, travel, collabo, discount, best, newP) 
+								values(productCode_seq.currval
+										, #{productName}
+										, #{originalPrice}
+										, #{discountPrice}
+										, #{origin}
+										, #{manufacturer}
+										, #{thumbImg}
+										, #{detailedImg}
+										, #{totalQty}
+										, #{totalQty}
+										, 1
+										, sysdate
+										, sysdate
+										, #{productOption}
+										, #{stationery}
+										, #{living}
+										, #{travel}
+										, #{collabo}
+										, #{discount}
+										, #{best}
+										, 1)
+		</insert>
+		<!-- 전체상품갯수파악용 테이블에 추가 -->
+		<update id="totalProductOnSale" parameterType="goods">
+			update TBL_TOTALPRODUCTONSALE set stationery = stationery + #{stationery}
+											, living = living + #{living}
+											, travel = travel + #{travel}
+											, collabo = collabo + #{collabo}
+                           					, discount = discount + #{discount}
+                           					, best = best + #{best}
+                           					, newp = newp + #{newP}
+		</update>
+	<!-- 상품등록 끝 -->
+	
+	<!-- 페이지 로딩시 10개의 상품 목록 -->
+	<select id="productList" parameterType="java.util.Map" resultType="goods">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_PRODUCT order by productCode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	
+	<!-- 상품검색 시 상품 목록 -->
+	<select id="productSearch" parameterType="java.util.Map" resultType="goods">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_PRODUCT where
+			<if test="!kategorie.equals('-카테고리 선택-')">
+			<choose>
+				<when test="kategorie.equals('stationery')">
+					stationery=1
+				</when>
+				<when test="kategorie.equals('living')">
+					living=1
+				</when>
+				<when test="kategorie.equals('travel')">
+					travel=1
+				</when>
+				<otherwise>
+					collabo=1
+			</otherwise>
+			</choose>
+		</if>
+		<if test="productSearchWord!=''">
+			<if test="!kategorie.equals('-카테고리 선택-')">
+				and 
+			</if>
+			<choose>
+				<when test="productKeyword.equals('productName')">
+					productName like '%'||#{productSearchWord}||'%'
+				</when>
+				<when test="productKeyword.equals('productCode')">
+					productCode like '%'||#{productSearchWord}||'%'
+				</when>
+				<otherwise>
+					manufacturer like '%'||#{productSearchWord}||'%'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test="lowPrice!='' and highPrice!=''">
+			<if test="productSearchWord!=''">
+				and
+			</if>
+			originalPrice between #{lowPrice} and #{highPrice}
+		</if>
+		
+		order by productCode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	
+	<!-- 전체목록 글 수 -->
+	<select id="getTotalA" resultType="int">
+		select count(*) from TBL_PRODUCT
+	</select>
+	
+	
+	<!-- 검색목록 글 수 -->
+	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="int">
+		select count(*) from TBL_PRODUCT where
+		<if test="!kategorie.equals('-카테고리 선택-')">
+			<choose>
+				<when test="kategorie.equals('stationery')">
+					stationery=1
+				</when>
+				<when test="kategorie.equals('living')">
+					living=1
+				</when>
+				<when test="kategorie.equals('travel')">
+					travel=1
+				</when>
+				<otherwise>
+					collabo=1
+			</otherwise>
+			</choose>
+		</if>
+		<if test="productSearchWord!=''">
+			<if test="!kategorie.equals('-카테고리 선택-')">
+				and 
+			</if>
+			<choose>
+				<when test="productKeyword.equals('productName')">
+					productName like '%'||#{productSearchWord}||'%'
+				</when>
+				<when test="productKeyword.equals('productCode')">
+					productCode like '%'||#{productSearchWord}||'%'
+				</when>
+				<otherwise>
+					manufacturer like '%'||#{productSearchWord}||'%'
+				</otherwise>
+			</choose>
+		</if>
+		
+		<if test="lowPrice!='' and highPrice!=''">
+			<if test="productSearchWord!=''">
+				and
+			</if>
+			originalPrice between #{lowPrice} and #{highPrice}
+		</if>
+	</select>
+	
+	
+	<!-- 상품수정폼 선택 값 불러오기 -->
+	<select id="getModifyForm" parameterType="int" resultType="goods">
+		select * from TBL_PRODUCT where productCode=#{productCode}
+	</select>
+	
+	<!-- 선택 삭제 시 필요한 상품의 정보 -->
+	<select id="getProductlist" parameterType="java.util.Map" resultType="goods">
+		select * from TBL_PRODUCT where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</select>
+	
+	<update id="updateTotalProductOnSale" parameterType="java.util.Map">
+		update TBL_TOTALPRODUCTONSALE set stationery=(stationery-${stationery}),
+                                 		  living=(living-${living}),
+										  travel=(travel-${travel}),
+										  collabo=(collabo-${collabo}),
+									 	  discount=(discount-${discount}),
+									   	  best=(best-${best}),
+										  newP=(newP-${newP})
+	</update>
+	
+	<!-- 상품수정폼 옵션 리스트 불러오기 -->
+	<select id="getProductOption" parameterType="int" resultType="option">
+		select * from TBL_PRODUCTOPTION where productCode=#{productCode}
+	</select>
+	<!-- 상품수정 -->
+		<!-- 상품 수정시 옵션내용 불러오기 -->
+		<select id="getOptionCode" parameterType="int" resultType="option">
+			select * from TBL_PRODUCTOPTION where optionCode=#{optionCode}
+		</select>
+		<!-- 옵션 수정 -->
+		<update id="productOptionModify" parameterType="option">
+			update TBL_PRODUCTOPTION set optionContent = #{optionContent}
+										, subTotalQty = #{subTotalQty}
+										, subStockQty = #{subStockQty}
+			where optionCode = #{optionCode}
+		</update>
+		<!-- 새 옵션 추가 -->
+		<insert id="addProductOption" parameterType="option">
+			insert into tbl_productOption(optionCode, productCode, optionContent
+									, subTotalQty, subStockQty)
+									values(optionCode_seq.nextval
+										, #{productCode}
+										, #{optionContent}
+										, #{subTotalQty}
+										, #{subTotalQty}) 
+		</insert>
+		<!-- 옵션 개별 삭제 -->
+		<delete id="selectedOptionDelete" parameterType="int">
+			delete TBL_PRODUCTOPTION where optionCode = #{optionCode}
+		</delete>
+		<!-- 카테고리값 불러오기 -->
+		<select id="getCategories" parameterType="int" resultType="goods">
+			select stationery, living, travel, collabo, discount, best, newp 
+			from tbl_product where productCode = #{seq}	
+		</select>
+		<!-- 카테고리 기존값 빼기 -->
+		<update id="reduceCategories" parameterType="goods">
+			update TBL_TOTALPRODUCTONSALE set stationery = stationery - #{stationery}
+											, living = living - #{living}
+											, travel = travel - #{travel}
+											, collabo = collabo - #{collabo}
+                           					, discount = discount - #{discount}
+                           					, best = best - #{best}
+                           					, newp = newp - #{newP}
+		</update>
+		<!-- 상품 전체 수정 -->
+		<update id="productModify" parameterType="goods">
+			update TBL_PRODUCT set productName = #{productName}
+								, originalPrice = #{originalPrice}
+								, discountPrice = #{discountPrice}
+								, origin = #{origin}
+								, manufacturer = #{manufacturer}
+								, thumbImg = #{thumbImg}
+								, detailedImg = #{detailedImg}
+								, totalQty = #{totalQty}
+								, stockQty = #{stockQty}
+								, saleStatus = #{saleStatus}
+								, updateDate = sysdate
+								, productOption = #{productOption}
+								, stationery = #{stationery}
+								, living = #{living}
+								, travel = #{travel}
+								, collabo = #{collabo}
+								, discount = #{discount}
+								, best = #{best}
+								, newP = #{newP}
+			where productCode = #{productCode}
+		</update>	
+	<!-- 상품삭제 -->
+	<delete id="productDelete" parameterType="java.util.Map">
+		delete TBL_PRODUCT where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</delete>
+	
+	<!-- 상품삭제 시 옵션코드 삭제 -->
+	<delete id="productOptionDelete">
+		delete TBL_PRODUCTOPTION where productCode in 
+		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

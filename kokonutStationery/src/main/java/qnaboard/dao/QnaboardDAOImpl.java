@@ -58,6 +58,31 @@ public class QnaboardDAOImpl implements QnaboardDAO {
 	public int getTotalAllSearchQ(String searchContent) {
 		return sqlSession.selectOne("qnaSQL.getTotalAllSearchQ",searchContent);
 	}
+
+	@Override
+	public void qnaboardModify(QnaboardDTO qnaboardDTO) {
+		sqlSession.update("qnaSQL.qnaboardModify",qnaboardDTO);
+	}
+
+	@Override
+	public QnaboardDTO getQnaboard(int qnaboardCode) {
+		return sqlSession.selectOne("qnaSQL.getQnaboard",qnaboardCode);
+	}
+
+	@Override
+	public void qnaboardDelete(int qnaboardCode) {
+		sqlSession.delete("qnaSQL.qnaboardDelete",qnaboardCode);
+	}
+
+	@Override
+	public List<QnaboardDTO> getMyQnaList(Map<String, String> map) {
+		return sqlSession.selectList("qnaSQL.getMyQnaList",map);
+	}
+
+	@Override
+	public int getTotalMyQ(String userId) {
+		return sqlSession.selectOne("qnaSQL.getTotalMyQ",userId);
+	}
 	
 
 	

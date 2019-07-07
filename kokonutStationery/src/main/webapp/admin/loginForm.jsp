@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="../image/favicon.ico" type="image/x-icon" />
 <meta charset="UTF-8">
 <title>코코넛 문방구 관리자 로그인 페이지</title>
 <style>

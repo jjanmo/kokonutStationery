@@ -25,4 +25,14 @@ public interface QnaboardDAO {
 
 	public int getTotalAllSearchQ(String searchContent);
 
+	public void qnaboardModify(QnaboardDTO qnaboardDTO);
+
+	public QnaboardDTO getQnaboard(int qnaboardCode);
+
+	public void qnaboardDelete(int qnaboardCode);
+
+	public List<QnaboardDTO> getMyQnaList(Map<String, String> map);
+
+	public int getTotalMyQ(String userId);
+
 }

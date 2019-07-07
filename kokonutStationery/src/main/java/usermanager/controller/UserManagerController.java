@@ -92,7 +92,7 @@ public class UserManagerController {
 		//페이징 처리
 		int totalA = userDAO.getTotalAS(map2);	
 		boardPaging.setCurrentPage(Integer.parseInt(pg));
-		boardPaging.setPageBlock(3); // 목록 8번까지
+		boardPaging.setPageBlock(3); // 목록 3번까지
 		boardPaging.setPageSize(10); // 1페이지에 10개씩 보여줌
 		boardPaging.setTotalA(totalA); // 총글수
 		

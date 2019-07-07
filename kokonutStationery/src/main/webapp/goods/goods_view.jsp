@@ -89,7 +89,7 @@
 				</div>
 
 				<div id="goods_buttons">
-					<div class="main_button">구매하기</div>
+					<div id="orderBtn" class="main_button">구매하기</div>
 					<div id="cartBtn" class="sub_button" style="border-right: none; float: left;">장바구니</div>
 					<div id="wishlistBtn" class="sub_button" style="float: right;">찜하기</div>
 				</div>
@@ -206,6 +206,7 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+var userId = "${memId}";
 var option = ${goodsDTO.productOption};
 var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
@@ -213,12 +214,44 @@ var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
 var showDiv = 0;
 
+//alert("productCode : "+ productCode);
+
+//구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
+$('#orderBtn').click(function(){
+	if(option == 0){ //옵션이 없는 경우
+		location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
+																	+"&productQty="+productQty;
+																	
+	}
+	else { //옵션이 있는 경우
+		if(selArray.length == 0){
+			alert("종류 선택하세요");
+		}
+		else{
+			alert("aaa");
+			//옵션마다 선택된 수량
+			var qtyArray = $('.option_productQty');
+			for(i = 0; i <qtyArray.length; i++){
+				var ct = qtyArray[i].value;
+				ct = ct*1;
+				productQtyArray.push(ct);
+			}
+			location.href="/kokonutStationery/order/orderOption.do?productCode="+productCode
+																	+"&selArray="+selArray
+																	+"&productQtyArray="+productQtyArray;
+																	
+		}	
+	}
+});
+
 //문의 작성 페이지 띄우기
 $('#qna_regist_btn').click(function(){
 	window.open("/kokonutStationery/qna/goods_qna_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
 });
 
+//옵션 tag 생성 및 옵션 div 생성
 $(function() {
+
 	alert(option);
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
@@ -252,7 +285,11 @@ $(function() {
 
 });
 
+//옵션내용을 배열로 담은 것
 var selArray =  new Array();
+//옵션에대한 상품의 수를 배열로 담은 것 
+var productQtyArray = new Array();
+
 var notOption = $('#optionBox option:eq(0)').val();
 var sel = $('#optionBox option:selected').val();
 
@@ -312,7 +349,7 @@ function createDiv(sel){
 	  text : sel,
 	  id : 'option_contentDiv'
 	}));
-	$('#'+optionCnt).append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{ 
 	  id : 'inputDiv' + optionCnt
 	}).css('float','left'));
 	
@@ -402,6 +439,8 @@ $(document).on('click','.close', function(){
 		$('#priceSpan').text(0);
 		showDiv = 0;
 	} */
+	
+	//optionCnt초기화
 	if(selArray.length == 0){
 		optionCnt = 0;
 	}
@@ -536,7 +575,10 @@ $('#wishlistBtn').click(function(){
 					   'thumbImg': '${goodsDTO.thumbImg}',
 					   'discountPrice': '${goodsDTO.discountPrice}',
 					   'optionContent': 'none'
-					   }
+					   },
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
 			}); //ajax
 		} else { //옵션이 있을 때
 			if(selArray.length==0) {
@@ -554,22 +596,22 @@ $('#wishlistBtn').click(function(){
 							   'thumbImg': '${goodsDTO.thumbImg}',
 							   'discountPrice': '${goodsDTO.discountPrice}',
 							   'optionContent': selArray[i]
-							   }
+							   },
+						success: function(){
+							location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+						}
 					}); //ajax
 				} //for	
 			} //if~else
 		} //if~else
-
-		//페이지 이동
-		location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
-	}
+	} //if~else
 });
 </script>
 
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajax({
-		typd:'post',
+		type:'post',
 		url:'../qna/goods_qnaList.do',
 		data:{'productCode':productCode},
 		dataType:'json',
@@ -618,26 +660,10 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
-												
-						/*
-						//삭제버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'qna_content_btn',
-							id:'qna_delete_btn',
-							style:'visible:hidden;',
-							text:'삭제'
-						}));
-						//수정버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'qna_content_btn',
-							id:'qna_modify_btn',
-							style:'visible:hidden;',
-							text:'수정'
-						}));
-						*/
-						
+								
 						//비밀글일때 
 						if(item.secret==1){
 							//잠금이미지 추가
@@ -647,7 +673,28 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
+							
+						}else if(item.secret==0){
+							
+							//삭제버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaDelete('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_delete_btn',
+								style:'visibility:hidden;',
+								value:'삭제'
+							}));
+							//수정버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaModify('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_modify_btn',
+								style:'visibility:hidden;',
+								value:'수정'
+							}));
 						}
 						
 					}else if(item.admin==1){						
@@ -690,6 +737,7 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
 						
@@ -703,12 +751,11 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
 						}
 						
 						
 					}//관리자답변if
-					
 					
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
@@ -717,53 +764,67 @@ $(document).ready(function(){
 						
 						$('#qna_'+index+'_content').toggle(function(){
 							
-							var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
-							var content = $(this).text();
+							//var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							var userId=item.userId;							
+							var thisText = $(this).text();
 							var thisContent = $(this);
-							//var content = $(this).parent().children('#qna_'+index+'_content').text();
-							alert("userId="+userId+"content="+content);
 							
+							if(item.secret==0){
+								//비밀글아닐때
 								$.ajax({
 									type:'get',
 									url:'../user/checkSecret.do',
 									data:{'userId':userId},
 									success:function(data){
-										alert(data+" 내용은="+content);
+										//alert(data+" 내용은="+thisText);
 										if(data=="ok"){
 											thisContent.removeClass("userPage_private_lock");
-											thisContent.text(item.qnaboardContent);
+											thisContent.children('input').css('visibility','visible');
+											//thisContent.html(item.qnaboardContent);											
+										}
+									}									
+								});								
+							}else if(item.secret==1){
+								var qnaboardCode = item.qnaboardCode;
+								//비밀글일때
+								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										//alert(data+" 내용은="+thisText);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.html(item.qnaboardContent);
 											//삭제버튼
-											$('#qna_'+index+'_content').append($('<button/>',{
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												onclick:'qnaDelete('+qnaboardCode+')',
 												class:'qna_content_btn',
 												id:'qna_delete_btn',
-												text:'삭제'
+												value:'삭제'
 											}));
 											//수정버튼
-											$('#qna_'+index+'_content').append($('<button/>',{
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												onclick:'qnaModify('+qnaboardCode+')',
 												class:'qna_content_btn',
 												id:'qna_modify_btn',
-												text:'수정'
+												value:'수정'
 											}));
 										}
 									}
 									
 								});
+																
+								
+							}//if문
 							
 							
 						});//toggle
+						
 					});//내용이벤트
 					
-					
-					//문의수정
-					$('#qna_modify_btn').on('click',function(){
-						alert("수정!");
-					});
-
-					//문의삭제
-					$('#qna_delete_btn').on('click',function(){
-						alert("삭제!");
-						
-					});
 
 					
 					//후기 문의 게시물 hover 이벤트
@@ -786,7 +847,25 @@ $(document).ready(function(){
 	
 });//document
 
-
+function qnaModify(qnaboardCode){
+	window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+}
+function qnaDelete(qnaboardCode){
+	if (confirm("문의를 삭제하시겠습니까??") == true){//확인
+		var qnaboardCode = item.qnaboardCode;
+		$.ajax({
+			type:'post',
+			url:'../qna/qnaboardDelete.do',
+			data:{'qnaboardCode':qnaboardCode},
+			success:function(){
+				alert("삭제를 완료했습니다!");
+				location.href="../goods/goods_view.do?productCode="+productCode;
+			}
+		});
+	 }else{   //취소
+	     return false;
+	 }
+}
 
 /*
 function boardPaging(pg){

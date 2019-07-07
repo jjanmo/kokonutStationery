@@ -19,6 +19,11 @@
 
 
 /*loginForm*/
+.loginMsg_bg{
+	width:500px; height:200px;
+	margin:auto; padding-bottom:40px;
+}
+
 .login_bg {
 	text-align: center;
 }
@@ -144,7 +149,7 @@ a.member_btn_style04 {
 }
 
 
-/* 회원가입 타입선택 */
+
 
 /* 쇼핑몰 계정으로 회원가입 */
 div.join-shop {
