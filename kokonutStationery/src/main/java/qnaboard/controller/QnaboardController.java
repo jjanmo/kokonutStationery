@@ -46,6 +46,7 @@ public class QnaboardController {
 		
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(map);
+
 		System.out.println("개별상품코드="+productCode);
 		/*
 		//페이징처리

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
@@ -23,12 +24,10 @@
 				<th style="border-top: 1px solid #999; font-size: 12px; color: #999; text-align: right; padding-right:20px; font-weight:500;">합계</th>
 			</tr>
 		</thead>
-		<tbody>		
-			<tr>
-				<td style="vertical-align:top; padding: 30px 0;">
-					<a href="#" style="margin-bottom:0;"><img src="" width="70"></a>
-				</td>
+		<!-- 제품상세내역 -->
+		<tbody id="tbody">		
 			
+<<<<<<< HEAD
 				<td class="order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
 					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
 				</td>
@@ -40,9 +39,11 @@
 			
 				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;">3,500원</td>
 			</tr>			
+=======
+>>>>>>> refs/heads/jjanmo
 		</tbody>
 		
-		<tfoot>
+		<tfoot id="tfooter">
 			<tr>
 				<td colspan="10" style="padding: 30px 0;">
 					<table width="100%" cellpadding="0" cellspacing="0" border="0" class="total_price_area">
@@ -50,7 +51,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">15,500</font>
+									<font id ="totalPrice" style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"></font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
@@ -61,11 +62,10 @@
 		</tfoot>
 	</table>
 	
-	<form id="orderForm" method="post" action="../order/order_settle" onsubmit="return chkOrder();">
+	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
+		<c:if test="${memId == null }" >
 		<!-- 개인정보취급방침 -->
 		<div id="agreementDiv" style="position:relative; visibility:visible;">
-					<!-- 회원 시 style="position:absolute; visibility:hidden;" -->
-			
 			<div style="margin: 50px 0 0 0; border:none;">
 				<h5 class="join_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">개인정보취급방침</h5>
 			</div>
@@ -81,10 +81,10 @@
 						회사는 회원님께서 회원가입, 상품구매 및 배송 서비스의 원활한 제공을 위해 최소한의 범위 내에서 아래와 같이 개인정보 수집·이용합니다. <br />
 						<br />
 						(1) 회원 정보의 수집·이용목적, 수집항목, 보유·이용기간은 아래와 같습니다.<br />
-						<img src="../img/private_5_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_5_1.gif" style="width: 100%;"><br />
 						<br />
 						(2) 법령에 의하여 수집·이용되는 이용자의 정보는 아래와 같은 수집·이용목적으로 보관합니다.<br />
-						<img src="../img/private_6_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_6_1.gif" style="width: 100%;"><br />
 						<br />
 						(3) 이용자가 선택정보에 동의를 거부하더라도 배민문방구 서비스 이용은 가능합니다. <br />
 						<br />
@@ -101,6 +101,7 @@
 					<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
 			</div>
 		</div>
+		</c:if>
 	
 		<div style="margin: 30px 0 0 0;">
 			<h5 class="order_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">주문서 작성</h5>
@@ -123,15 +124,6 @@
 						         readonly required>
 						     </td>
 						    </tr>
-				   
-				          	<tr>
-					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">주소 :</td>
-					            
-					            <td style="padding:10px 0; color:#333">	
-					            	<!-- 주문자 주소 빈칸 -->	
-					            		               
-					            </td>
-					        </tr>
 								 
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
@@ -156,11 +148,9 @@
 					            </td>
 				          	</tr>
 			               </tbody>
-			               </table>
-					
+			           </table>
 				</td>
 			</tr>
-		
 		</table>
 	
 		<!-- 배송 정보 -->
@@ -244,14 +234,7 @@
 				              <input type="radio" name="deliveryOption" value="0" checked style="height: 14px; border-color: #fff;">기본배송
 				            </td>
 				          </tr>
-				          
-				          <tr>
-				            <td style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">회원정보 반영 :</td>
-				            <td style="font-size: 13px; color: #333; font-weight:normal; padding:10px 0;">
-				            	<input type="checkbox" id="updateMemberInfo" value="y" style="height: 14px;"> 위 내용을 회원정보에 반영합니다. (주소, 핸드폰번호)
-				            </td>
-				          </tr>
-				          
+				        	                
 			          	</tbody>
 			          </table>
 			  
@@ -274,13 +257,13 @@
 			        	<tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">상품합계금액 :</td>
 				            <td class="noline" style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">
-				              <span id="paper_goodsprice" style="font-weight:normal; color:#333;">가격 원</span>
-				            </td>
+				            	<span id="goodsPrice"></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;">원</span>
+				            </td>  
 			          	</tr>
 						<tr>
 							<td style="font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">배송비 :</td>
 							<td class="noline" style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">배송비</span> 원</div>
+								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;"></span> 원</div>
 								
 							</td>
 						</tr>
@@ -294,7 +277,7 @@
 							  <tr>
 							    <td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용가능 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" readonly
+								<input type="text" id="totalPoint" name="coupon" size="12" readonly
 								style="text-align:right;"> 원
 							
 								</td>								
@@ -303,8 +286,8 @@
 							  <tr>
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 할 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" value="0 " 
-								style="text-align:right;"> 원
+								<input type="text" id="usingPoint" name="coupon" size="12" value="0" 
+								style="text-align:right;" onchange="usePoint()"> 원
 							
 								</td>	
 							  </tr>
@@ -312,7 +295,7 @@
 							  <tr>
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 후 남은 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" readonly
+								<input type="text" id="remainingPoint" name="coupon" size="12" readonly 
 								style="text-align:right;"> 원
 							
 								</td>	
@@ -326,8 +309,8 @@
 		          <tr>
 		            <td style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">총 결제금액 :</td>
 		            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-			            <span style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
-			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">총 가격</span>
+			            <span id="totalP" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
+			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;"></span>
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
 		            </td>
 		          </tr>
@@ -354,8 +337,8 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">일반결제 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-				              <input type="radio" name="payType" value="credit" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
-				              <input type="radio" name="payType" value="phone" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="2" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
 				            </td>
 				          </tr>
 		       	 	  </tbody>
@@ -373,11 +356,11 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div onclick="location.href='../index'" class="sub-button-s" 
+			            	<div onclick="location.href='/kokonutStationery.main/index.do'" class="sub-button-s" 
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
-							<input type="submit" id="orderWriteBtn" class="main-button-s" 
+							<input type="button" id="orderWriteBtn" class="main-button-s" 
 							style="border:0px; text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;" value="다음">			
 						</div>					
 			          </div>
@@ -385,9 +368,7 @@
 			      </tr>
 		    </tbody>
 		</table>
-		
 	</form>
-
 </div>
 
 
@@ -395,14 +376,42 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
-$(document).ready(function(){
+
+var userName = '${userDTO.userName }';
+var userPhone1 = ${userDTO.userPhone1 };
+var userPhone2 = ${userDTO.userPhone2 };
+var userPhone3 = ${userDTO.userPhone3 };
+var userEmail = '${userDTO.userEmail }';
+
+
+
+$(function(){
 	
+	//구매하기버튼 : 상품1개에 대한 구매
+	//옵션이 없는 경우
+	if(${goodsDTO.productOption} == 0){
+		createTabNoOption();
+		totalP();		
+	}
+	//옵션이 있는 경우
+	else{
+		var optionStr = '${selValue}';
+		var optionContent = optionStr.split(",");
+		var qtyStr = '${pdQtyValue}';
+		var productQty = qtyStr.split(",");
+		createTabOption(optionContent, productQty);
+		totalP();
+	}
+
+	//페이지 자동으로 출력되는 것들
+	$('#userName').val(userName);
+	$('#userPhone1').val(userPhone1);
+	$('#userPhone2').val(userPhone2);
+	$('#userPhone3').val(userPhone3);
+	$('#userEmail').val(userEmail);
+	
+	//배송지 확인 클릭
 	$('#sameInfo').click(function(){
-		
-		var userName = $('#userName').val();
-		var userPhone1 = $('#userPhone1').val();
-		var userPhone2 = $('#userPhone2').val();
-		var userPhone3 = $('#userPhone3').val();
 		
 		if($('#sameInfo').prop('checked')){
 			$('#receiverName').val(userName);
@@ -416,6 +425,261 @@ $(document).ready(function(){
 			$('#receiverPhone3').val('');
 		}
 	});
-	
+
 });
+
+
+//제품 1개에 대한 table 생성 : 옵션없음
+function createTabNoOption(){
+	$('<tr/>').append($('<td/>',{
+		style: "vertical-align:top; padding: 30px 0;"
+	}).append($('<a/>',{
+		href : "#",
+		style : "margin-bottom:0;"		
+	}).append($('<img>',{
+		src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+		width : "70"
+	})))).append($('<td>',{
+		class : "order_option",
+		style : "text-align:left;vertical-align:top; padding: 30px 0;"
+	}).append($('<div/>',{
+		text : '${goodsDTO.productName}',
+		style : "color: #222; font-weight: 700; font-size: 14px;",
+	}))).append($('<td>',{
+		text : '${goodsDTO.discountPrice}',
+		style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
+	}).append($('<span/>',{
+		text : '원'
+	}))).append($('<td/>',{
+		style : "vertical-align:top; padding: 22px 0 30px 0;"
+	}).append($('<div/>',{
+		style : "padding-top: 8px; vertical-align: top; color:#222;",
+		text : '${productQty}'
+	}).append($('<span>',{
+		text : '개'
+	})))).append($('<td>',{
+		class : 'totalPrice',
+		tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+		text : '${goodsDTO.discountPrice * productQty}'
+	}).append($('<span/>', {
+		text : '원'
+	}))).appendTo($('#tbody'));
+}
+
+//제품 1개에 대한 table 생성 : 옵션있음
+function createTabOption(optionContent, productQty){
+
+	for(var i = 0; i< optionContent.length-1; i++ ){
+		$('<tr/>').append($('<td/>',{
+			style: "vertical-align:top; padding: 30px 0;"
+		}).append($('<a/>',{
+			href : "#",
+			style : "margin-bottom:0;"		
+		}).append($('<img>',{
+			src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+			width : "70"
+		})))).append($('<td>',{
+			class : "order_option",
+			style : "text-align:left;vertical-align:top; padding: 30px 0;"
+		}).append($('<div/>',{
+			text : '${goodsDTO.productName}',
+			style : "color: #222; font-weight: 700; font-size: 14px;",
+		})).append($('<div>', {
+			text : '선택옵션 : ',
+		})).append($('<div/>',{
+			text : optionContent[i] +'/'
+		}))).append($('<td>',{
+			text : '${goodsDTO.discountPrice}',
+			style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
+		}).append($('<span/>',{
+			text : '원'
+		}))).append($('<td/>',{
+			style : "vertical-align:top; padding: 22px 0 30px 0;"
+		}).append($('<div/>',{
+			style : "padding-top: 8px; vertical-align: top; color:#222;",
+			text : productQty[i]
+		}).append($('<span>',{
+			text : '개'
+		})))).append($('<td>',{
+			class : 'totalPrice',
+			tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+			text : '${goodsDTO.discountPrice}' * productQty[i]
+		}).append($('<span/>', {
+			text : '원'
+		}))).appendTo($('#tbody'));
+	
+	}  
+
+}
+	
+//상품합계금액과 포인트 
+function totalP(){
+	var totalPriceArray = new Array();
+	totalPriceArray = $('.totalPrice');
+	var totalP = 0;
+	for(var i=0; i<totalPriceArray.length; i++){
+		var price = totalPriceArray.eq(i).text();
+		price = price.slice(0, price.length-1) * 1;
+		totalP += price;
+	}
+	$('#totalPrice').text(AddComma(totalP));
+	
+	//포인트
+	var totalPoint = ${userDTO.userPoint};
+	var usingPoint = $('#usingPoint').val(0);
+	var remainingPoint = $('#remainingPoint').val(totalPoint);	
+	$('#totalPoint').val(totalPoint);
+	
+	if(totalP > 30000){
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(0);
+		$('#totalP').text(AddComma(totalP))
+	}
+	
+	else {
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(AddComma(2500));
+		$('#totalP').text(AddComma(totalP+2500))
+	}
+	
+	
+}
+
+//포인트 사용
+function usePoint(){
+	var usePoint = $('#usingPoint').val();
+	var totalPoint = ${userDTO.userPoint};
+	var totalP = stringNumberToInt($('#goodsPrice').text())
+				+ stringNumberToInt($('#paper_delivery').text());  //포인트사용전의 결제금액
+	
+	//숫자만 들어오게 유효성 검사
+	if(isNaN(usePoint)){
+		alert("1000원 단위의 숫자를 입력해주세요");
+		$('#usingPoint').val(0);
+	}
+	
+	else if( usePoint < 1000 && usePoint > 0){
+		alert("1000원 이상부터 사용가능합니다")
+		$('#usingPoint').val(0);
+	}
+	
+	else {
+		var remainPoint = totalPoint*1 - usePoint*1;
+		var usePoint = $('#usingPoint').val();
+		$('#remainingPoint').val(remainPoint);
+		totalP = totalP - usePoint;
+		$('#totalP').text(AddComma(totalP));
+	}
+	
+}
+//숫자 3자리당 쉼표찍기
+function AddComma(number) {
+	return Number(number).toLocaleString('en');
+}
+//콤마찍힌 숫자 정수형으로 변환
+function stringNumberToInt(stringNumber){
+    return parseInt(stringNumber.replace(/,/g , ''));
+}
+
+
+//'다음' 버튼 이벤트
+// /kokonutStationery/order/order_settle.do
+$('#orderWriteBtn').click(function(){
+	alert("btn click");
+	//user정보 및 배송정보 
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/order/updateUserInfo.do',
+		data : {'userId'			: '${memId}',
+				'receiverName' 		: $('#receiverName').val(),
+				'receiverAddr1' 	: $('#receiverAddr1').val(),
+				'receiverAddr2' 	: $('#receiverAddr2').val(),
+				'receiverZipcode' 	: $('#receiverZipcode').val(),
+				'receiverPhone1' 	: $('#receiverPhone1').val(),
+				'receiverPhone2' 	: $('#receiverPhone2').val(),
+				'receiverPhone3' 	: $('#receiverPhone3').val(),
+				'deliveryMsg' 		: $('#deliveryMsg').val() },
+		success : function(data){
+			if(data == "success"){
+				alert("고객배송정보보내기 성공");
+			}
+			else {
+				alert("실패!!");
+			}
+		}
+		
+	});
+	
+	//상품정보 : orderDB
+	var option = ${goodsDTO.productOption};
+	if(option == 0){ //옵션이 없는 경우
+		alert("option == 0");
+		$.ajax({
+			type : 'POST',
+			url : '/kokonutStationery/order/setOrderInfo.do',
+			data : {'userId' 		: '${memId}',
+					'userName' 		: '${memName}',
+					'thumbImg' 		: '${goodsDTO.thumbImg}',
+					'productCode' 	: ${goodsDTO.productCode},
+					'discountPrice' : ${goodsDTO.discountPrice},
+					'purchaseQty' 	: ${productQty},
+					'totalPrice'	: ${goodsDTO.discountPrice} * ${productQty},
+					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+					'productOption' : '${goodsDTO.productOption}' },
+			dataType : 'text',
+			success : function(data){
+				if(data == "success"){
+					alert("주문정보보내기 성공");
+				}
+				else {
+					alert("실패!!");
+				}
+				
+			}
+			
+		});
+	}//if
+	
+	else { //옵션이 있는 경우(option = 1)
+		var qtyStr = '${pdQtyValue}';
+		var productQty = qtyStr.split(",");
+		var optionStr = '${selValue}';
+		var optionContent = optionStr.split(",");
+	
+		alert("option == 1");
+		for(i = 0 ; i < optionContent.length ; i++){
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/setOrderInfoOption.do',
+				data : {'userId' 		: '${memId}',
+						'userName' 		: '${memName}',
+						'thumbImg' 		: '${goodsDTO.thumbImg}',
+						'productCode' 	: ${goodsDTO.productCode},
+						'discountPrice' : ${goodsDTO.discountPrice},
+						'purchaseQty' 	: productQty[i],
+						'totalPrice'	: ${goodsDTO.discountPrice} * productQty[i],
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : ${goodsDTO.productOption},
+						'optionContent' : optionContent[i] },
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						alert("주문정보보내기 성공");
+					}
+					else {
+						alert("실패!!");
+					}
+
+				}
+			});
+		}
+	}//else
+	
+	location.href = "/kokonutStationery/order/order_settle.do";	
+		
+});
+
+
 </script>

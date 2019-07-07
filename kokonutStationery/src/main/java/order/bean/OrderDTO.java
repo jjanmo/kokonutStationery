@@ -38,3 +38,4 @@ public class OrderDTO {
 	private int refundAmount; 		//환불금액
 
 }
+

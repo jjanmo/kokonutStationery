@@ -30,7 +30,9 @@
 	<context:component-scan base-package="wishlist.dao"/>
 	<context:component-scan base-package="onetoone.bean"/>
 	<context:component-scan base-package="onetoone.dao"/>
-		
+	<context:component-scan base-package="order.dao"/>
+	<context:component-scan base-package="order.bean"/>
+
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.dao"/>
 	<context:component-scan base-package="admin.bean"/>

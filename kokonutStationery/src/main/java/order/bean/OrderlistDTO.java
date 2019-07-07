@@ -23,3 +23,5 @@ public class OrderlistDTO {
 	private int crPayment;				//취소/환불금액(cancel /refund) 둘다 있다면,합산금액으로
 	private int orderState;				//주문상태
 }
+
+
