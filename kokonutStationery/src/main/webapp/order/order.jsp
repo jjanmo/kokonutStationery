@@ -369,26 +369,9 @@ var userPhone2 = ${userDTO.userPhone2 };
 var userPhone3 = ${userDTO.userPhone3 };
 var userEmail = '${userDTO.userEmail }';
 
-
-
 $(function(){
+	alert("aa");
 	
-	//구매하기버튼 : 상품1개에 대한 구매
-	//옵션이 없는 경우
-	if(${goodsDTO.productOption} == 0){
-		createTabNoOption();
-		totalP();		
-	}
-	//옵션이 있는 경우
-	else{
-		var optionStr = '${selValue}';
-		var optionContent = optionStr.split(",");
-		var qtyStr = '${pdQtyValue}';
-		var productQty = qtyStr.split(",");
-		createTabOption(optionContent, productQty);
-		totalP();
-	}
-
 	//페이지 자동으로 출력되는 것들
 	$('#userName').val(userName);
 	$('#userPhone1').val(userPhone1);
@@ -396,24 +379,44 @@ $(function(){
 	$('#userPhone3').val(userPhone3);
 	$('#userEmail').val(userEmail);
 	
-	//배송지 확인 클릭
-	$('#sameInfo').click(function(){
+	//구매하기버튼 : 상품1개에 대한 구매
+	//옵션이 없는 경우
+	if( ${goodsDTO.productOption} == 0){
+		alert("no option")
+		createTabNoOption();
+		totalP();		
+	}
+	//옵션이 있는 경우
+	else{
+		alert("option");
+		var optionStr = '${selValue}';
+		var optionContent = optionStr.split(",");
+		var qtyStr = '${pdQtyValue}';
+		var productQty = qtyStr.split(",");
 		
-		if($('#sameInfo').prop('checked')){
-			$('#receiverName').val(userName);
-			$('#receiverPhone1').val(userPhone1);
-			$('#receiverPhone2').val(userPhone2);
-			$('#receiverPhone3').val(userPhone3);
-		}else{
-			$('#receiverName').val('');
-			$('#receiverPhone1').val('');
-			$('#receiverPhone2').val('');
-			$('#receiverPhone3').val('');
-		}
-	});
+		createTabOption(optionContent, productQty);
+		totalP();
+		alert("end");
+	}
+
 
 });
 
+//배송지 확인 클릭
+$('#sameInfo').click(function(){
+	
+	if($('#sameInfo').prop('checked')){
+		$('#receiverName').val(userName);
+		$('#receiverPhone1').val(userPhone1);
+		$('#receiverPhone2').val(userPhone2);
+		$('#receiverPhone3').val(userPhone3);
+	}else{
+		$('#receiverName').val('');
+		$('#receiverPhone1').val('');
+		$('#receiverPhone2').val('');
+		$('#receiverPhone3').val('');
+	}
+});
 
 //제품 1개에 대한 table 생성 : 옵션없음
 function createTabNoOption(){
@@ -454,7 +457,7 @@ function createTabNoOption(){
 
 //제품 1개에 대한 table 생성 : 옵션있음
 function createTabOption(optionContent, productQty){
-
+	alert("aa");
 	for(var i = 0; i< optionContent.length-1; i++ ){
 		$('<tr/>').append($('<td/>',{
 			style: "vertical-align:top; padding: 30px 0;"
@@ -495,7 +498,6 @@ function createTabOption(optionContent, productQty){
 		}))).appendTo($('#tbody'));
 	
 	}  
-
 }
 	
 //상품합계금액과 포인트 

@@ -65,7 +65,7 @@ public class QnaboardController {
 	
 	
 	//개별상품페이지의 qna리스트
-	@GetMapping("/goods_qnaList.do")
+	@RequestMapping(value="/goods_qnaList.do",method=RequestMethod.POST)
 	public ModelAndView getQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String productCode) {
 		
 		int endNum = Integer.parseInt(pg)*5;

@@ -47,10 +47,10 @@ public class OrderController {
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/order/order.jsp");
 		mav.addObject("productQty", productQty);
 		mav.addObject("goodsDTO", goodsDTO);
 		mav.addObject("userDTO", userDTO);
+		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
@@ -74,13 +74,14 @@ public class OrderController {
 			selValue += (selArray[i] + ",");
 			pdQtyValue += (productQtyArray[i]+ ",");
 		}
-		System.out.println("되니??");
+		System.out.println(selValue);
+		System.out.println(pdQtyValue);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/order/order.jsp");
 		mav.addObject("pdQtyValue", pdQtyValue); //선택한 옵션 
 		mav.addObject("selValue", selValue);	 //선택한 옵션 상품의 수량
 		mav.addObject("goodsDTO", goodsDTO);
 		mav.addObject("userDTO", userDTO);
+		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
