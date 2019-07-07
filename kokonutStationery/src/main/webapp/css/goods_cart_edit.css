@@ -22,7 +22,7 @@ div {
     box-sizing: border-box;
     display: list-item;
     font-size: 15px;
-    font-family: 'Noto Sans KR', sans-serif,Arial, dotum, µ¸¿ò;
+    font-family: 'Noto Sans KR', sans-serif,Arial, dotum, ï¿½ï¿½ï¿½ï¿½;
     font-weight: 500;
     color: #a4a4a4;
     cursor: pointer;
@@ -48,11 +48,22 @@ td {
     box-sizing: border-box;
     display: list-item;
     font-size: 16px;
-    font-family: "Noto Sans KR", sans-serif, Arial, dotum, µ¸¿ò;
+    font-family: "Noto Sans KR", sans-serif, Arial, dotum, ï¿½ï¿½ï¿½ï¿½;
     color: rgb(255, 255, 255);
     cursor: pointer;
     margin: 0px;
     padding: 0px;
     list-style: none;
     transition: all 0.2s ease 0s;
+}
+
+.optionSelect{
+	border:1px solid #DDD; 
+	width:100%; 
+	height:37.4px;
+	padding-left: 10px; 
+	font-size:13px; 
+	color: #333; 
+	/* -webkit-appearance:none; */ 
+	border-radius:0;
 }

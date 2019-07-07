@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
@@ -23,26 +24,12 @@
 				<th style="border-top: 1px solid #999; font-size: 12px; color: #999; text-align: right; padding-right:20px; font-weight:500;">합계</th>
 			</tr>
 		</thead>
-		<tbody>		
-			<tr>
-				<td style="vertical-align:top; padding: 30px 0;">
-					<a href="#" style="margin-bottom:0;"><img src="" width="70"></a>
-				</td>
+		<!-- 제품상세내역 -->
+		<tbody id="tbody">		
 			
-				<td class="order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
-					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
-				</td>
-				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;">3,500원
-				</td>
-				<td style="vertical-align:top; padding: 22px 0 30px 0;">
-					<div style="padding-top: 8px; vertical-align: top; color:#222;">1개</div>
-				</td>
-			
-				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;">3,500원</td>
-			</tr>			
 		</tbody>
 		
-		<tfoot>
+		<tfoot id="tfooter">
 			<tr>
 				<td colspan="10" style="padding: 30px 0;">
 					<table width="100%" cellpadding="0" cellspacing="0" border="0" class="total_price_area">
@@ -50,7 +37,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">15,500</font>
+									<font id ="totalPrice" style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"></font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
@@ -61,7 +48,8 @@
 		</tfoot>
 	</table>
 	
-	<form id="orderForm" method="post" action="../order/order_settle" onsubmit="return chkOrder();">
+	<form id="orderForm" method="post" action="/kokonutStationery/order/order_settle.do" onsubmit="return chkOrder();">
+		<c:if test="${memId == null }" >
 		<!-- 개인정보취급방침 -->
 		<div id="agreementDiv" style="position:relative; visibility:visible;">
 					<!-- 회원 시 style="position:absolute; visibility:hidden;" -->
@@ -81,10 +69,10 @@
 						회사는 회원님께서 회원가입, 상품구매 및 배송 서비스의 원활한 제공을 위해 최소한의 범위 내에서 아래와 같이 개인정보 수집·이용합니다. <br />
 						<br />
 						(1) 회원 정보의 수집·이용목적, 수집항목, 보유·이용기간은 아래와 같습니다.<br />
-						<img src="../img/private_5_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_5_1.gif" style="width: 100%;"><br />
 						<br />
 						(2) 법령에 의하여 수집·이용되는 이용자의 정보는 아래와 같은 수집·이용목적으로 보관합니다.<br />
-						<img src="../img/private_6_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_6_1.gif" style="width: 100%;"><br />
 						<br />
 						(3) 이용자가 선택정보에 동의를 거부하더라도 배민문방구 서비스 이용은 가능합니다. <br />
 						<br />
@@ -101,6 +89,7 @@
 					<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
 			</div>
 		</div>
+		</c:if>
 	
 		<div style="margin: 30px 0 0 0;">
 			<h5 class="order_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">주문서 작성</h5>
@@ -418,4 +407,119 @@ $(document).ready(function(){
 	});
 	
 });
+
+//구매하기버튼 : 상품1개에 대한 구매
+$(function(){
+	//옵션이 없는 경우
+	if(${goodsDTO.productOption} == 0){
+		createTabNoOption();
+		totalP();		
+	}
+	//옵션이 있는 경우
+	else{
+		var optionStr = '${selValue}';
+		var optionContent = optionStr.split(",");
+		var qtyStr = '${pdQtyValue}';
+		var productQty = qtyStr.split(",");
+		createTabOption(optionContent, productQty);
+		totalP();
+	}
+});
+
+//제품 1개에 대한 table 생성 : 옵션없음
+function createTabNoOption(){
+	$('<tr/>').append($('<td/>',{
+		style: "vertical-align:top; padding: 30px 0;"
+	}).append($('<a/>',{
+		href : "#",
+		style : "margin-bottom:0;"		
+	}).append($('<img>',{
+		src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+		width : "70"
+	})))).append($('<td>',{
+		class : "order_option",
+		style : "text-align:left;vertical-align:top; padding: 30px 0;"
+	}).append($('<div/>',{
+		text : '${goodsDTO.productName}',
+		style : "color: #222; font-weight: 700; font-size: 14px;",
+	}))).append($('<td>',{
+		text : '${goodsDTO.discountPrice}',
+		style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
+	}).append($('<span/>',{
+		text : '원'
+	}))).append($('<td/>',{
+		style : "vertical-align:top; padding: 22px 0 30px 0;"
+	}).append($('<div/>',{
+		style : "padding-top: 8px; vertical-align: top; color:#222;",
+		text : '${productQty}'
+	}).append($('<span>',{
+		text : '개'
+	})))).append($('<td>',{
+		class : 'totalPrice',
+		tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+		text : '${goodsDTO.discountPrice * productQty}'
+	}).append($('<span/>', {
+		text : '원'
+	}))).appendTo($('#tbody'));
+}
+
+//제품 1개에 대한 table 생성 : 옵션있음
+function createTabOption(optionContent, productQty){
+
+	for(var i = 0; i< optionContent.length-1; i++ ){
+		$('<tr/>').append($('<td/>',{
+			style: "vertical-align:top; padding: 30px 0;"
+		}).append($('<a/>',{
+			href : "#",
+			style : "margin-bottom:0;"		
+		}).append($('<img>',{
+			src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+			width : "70"
+		})))).append($('<td>',{
+			class : "order_option",
+			style : "text-align:left;vertical-align:top; padding: 30px 0;"
+		}).append($('<div/>',{
+			text : '${goodsDTO.productName}',
+			style : "color: #222; font-weight: 700; font-size: 14px;",
+		})).append($('<div>', {
+			text : '선택옵션 : ',
+		})).append($('<div/>',{
+			text : optionContent[i] +'/'
+		}))).append($('<td>',{
+			text : '${goodsDTO.discountPrice}',
+			style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
+		}).append($('<span/>',{
+			text : '원'
+		}))).append($('<td/>',{
+			style : "vertical-align:top; padding: 22px 0 30px 0;"
+		}).append($('<div/>',{
+			style : "padding-top: 8px; vertical-align: top; color:#222;",
+			text : productQty[i]
+		}).append($('<span>',{
+			text : '개'
+		})))).append($('<td>',{
+			class : 'totalPrice',
+			tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+			text : '${goodsDTO.discountPrice}' * productQty[i]
+		}).append($('<span/>', {
+			text : '원'
+		}))).appendTo($('#tbody'));
+	
+	}  
+
+}
+	
+//상품합계금액
+function totalP(){
+	var totalPriceArray = new Array();
+	totalPriceArray = $('.totalPrice');
+	var totalP = 0;
+	for(var i=0; i<totalPriceArray.length; i++){
+		var price = totalPriceArray.eq(i).text();
+		price = price.slice(0, price.length-1) * 1;
+		totalP += price;
+	}
+	$('#totalPrice').text(totalP);
+}
+
 </script>
