@@ -39,7 +39,7 @@ public class QnaboardManagerPaging {
 		
 	}
 	
-	/*
+	
 	public void makeSearchPagingHTML() {
 		pagingHTML = new StringBuffer();
 		
@@ -65,5 +65,5 @@ public class QnaboardManagerPaging {
 		}//if
 		
 	}
-	*/
+	
 }

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import contentmanager.dao.ContentManagerDAO;
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
 import qnaboard.bean.QnaboardDTO;
+import reviewboard.bean.ReviewboardDTO;
+import user.bean.UserDTO;
 
 @Controller
 public class ContentManagerController {
@@ -77,7 +81,7 @@ public class ContentManagerController {
 	}
 	
 	
-	//상품관리 - 리스트불러오기
+	//상품후기 - 리스트불러오기
 	@RequestMapping(value="/admin/reviewboardList.do",method = RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView reviewboardList(@RequestParam(required=false, defaultValue="1") String pg) {
@@ -124,7 +128,8 @@ public class ContentManagerController {
 		}else if(boardOption.equals("tbl_reviewboard")) {
 			contentManagerDAO.reviewDelete(map);
 			pagingCheck="review";
-		}else if(boardOption.equals("tbl_admin")) {
+			
+		}else if(boardOption.equals("tbl_noticeboard")) {
 			contentManagerDAO.noticeDelete(map);
 			pagingCheck="notice";
 		}
@@ -169,6 +174,88 @@ public class ContentManagerController {
 	@RequestMapping(value="/admin/noticeboardWrite.do",method=RequestMethod.POST)
 	public void noticeboardWrite(@RequestParam Map<String,String> map) {
 		contentManagerDAO.noticeboardWrite(map);
+	}
+	
+	
+	
+	
+	//////////      검색               ///////////
+	@RequestMapping(value="/admin/contentListSearch.do",method = RequestMethod.POST)
+	public ModelAndView contentListSearch(@RequestParam(required=false, defaultValue="1") String pg
+									, @RequestParam Map<String,String> map
+									, HttpSession session) {
+	
+		
+		//세션 관리자 아이디 가져오기
+		String adId = (String)session.getAttribute("adId");
+		
+		//DB - 1페이지당 10개씩
+		int endNum = Integer.parseInt(pg)*10;
+		int startNum = endNum-9;
+		
+		Map<String,Object> map2 = new HashMap<String,Object>();
+		map2.put("startNum", startNum);
+		map2.put("endNum", endNum);
+		map2.put("keyword",map.get("keyword"));
+		map2.put("option",map.get("option"));
+		map2.put("table",map.get("table"));
+		
+		ModelAndView mav = new ModelAndView();
+		
+		
+		//공지사항 일 때
+		if(map.get("table").equals("tbl_noticeboard")) {
+			
+			List<NoticeboardDTO> list = contentManagerDAO.noticeboardSearch(map2);
+			
+			mav.addObject("list", list);
+			mav.addObject("keyword",map.get("keyword"));
+			mav.addObject("option",map.get("option"));
+			mav.addObject("table",map.get("table"));
+			mav.setViewName("jsonView");
+		}//if 공지사항
+		
+		
+		//상품문의 일 때
+		else if(map.get("table").equals("tbl_qnaboard")) {
+				
+			List<QnaboardDTO> list = contentManagerDAO.qnaboardSearch(map2);
+			
+			int totalA = contentManagerDAO.qnaboardTotalAS(map2);
+					
+			qnaboardManagerPaging.setCurrentPage(Integer.parseInt(pg));
+			qnaboardManagerPaging.setPageBlock(3);
+			qnaboardManagerPaging.setPageSize(10);
+			qnaboardManagerPaging.setTotalA(totalA);
+			qnaboardManagerPaging.makeSearchPagingHTML();
+			
+			mav.addObject("pg", pg);
+			mav.addObject("list", list);
+			mav.addObject("qnaboardManagerPaging", qnaboardManagerPaging);
+			mav.setViewName("jsonView");
+		}//if 상품문의
+		
+		
+		//상품후기 일 때
+		else if(map.get("table").equals("tbl_reviewboard")) {
+					
+			List<ReviewboardDTO> list = contentManagerDAO.reviewboardSearch(map2);
+			
+			int totalA = contentManagerDAO.reviewboardTotalAS(map2);
+			
+			reviewboardPaging.setCurrentPage(Integer.parseInt(pg));
+			reviewboardPaging.setPageBlock(3);
+			reviewboardPaging.setPageSize(10);
+			reviewboardPaging.setTotalA(totalA);
+			reviewboardPaging.makeSearchPagingHTML();
+			
+			mav.addObject("pg", pg);
+			mav.addObject("list", list);
+			mav.addObject("reviewboardPaging", reviewboardPaging);
+			mav.setViewName("jsonView");
+		}//if 상품후기	
+		
+		return mav;
 	}
 	
 }

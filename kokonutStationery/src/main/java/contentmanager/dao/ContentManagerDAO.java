@@ -6,6 +6,7 @@ import java.util.Map;
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
 import qnaboard.bean.QnaboardDTO;
+import reviewboard.bean.ReviewboardDTO;
 
 public interface ContentManagerDAO {
 
@@ -34,5 +35,15 @@ public interface ContentManagerDAO {
 	public QnaboardDTO qnaboardReplyForm(int qnaboardCode);
 
 	public void qnaboardReply(Map<String, Object> map);
+
+	public List<NoticeboardDTO> noticeboardSearch(Map<String, Object> map2);
+
+	public List<QnaboardDTO> qnaboardSearch(Map<String, Object> map2);
+
+	public int qnaboardTotalAS(Map<String, Object> map2);
+
+	public List<ReviewboardDTO> reviewboardSearch(Map<String, Object> map2);
+
+	public int reviewboardTotalAS(Map<String, Object> map2);
 
 }
