@@ -139,8 +139,7 @@
 			<tr>
 				<th>내  용</th>
 				<td>
-					<textarea id="noticeboardContent" cols="60" rows="30" >${noticeboardDTO.noticeboardContent }
-					</textarea>
+					<textarea id="noticeboardContent" cols="60" rows="30" >${noticeboardDTO.noticeboardContent }</textarea>
 					<span id="contentDiv"></span>
 				</td>
 			</tr>
