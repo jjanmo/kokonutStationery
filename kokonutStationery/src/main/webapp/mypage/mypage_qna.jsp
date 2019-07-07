@@ -10,7 +10,7 @@
   <!-- mypage right contents -->
   <div class="content">
     <div class="content_title">
-    <input type="hidden" id="userId" value="${memId}">
+    	<input type="hidden" id="userId" value="${memId}">
       	나의 상품문의
     </div>
     <table class="mypage_table">
@@ -72,7 +72,7 @@ $(document).ready(function(){
 	//alert("페이지왔따!");
 	//${memName}
 	var userId=$('#userId').val();
-	alert("userId="+userId);
+	//alert("userId="+userId);
 	
 	$.ajax({
 		type:'POST',
@@ -80,42 +80,55 @@ $(document).ready(function(){
 		data:{'userId':userId},
 		dataType:'json',
 		success:function(data){
-			alert(JSON.stringify(data));
+			//alert(JSON.stringify(data));
 			
 			if(data!=null){	
-				$('#mypage_table').append($('<tr/>',{
-					//id:'mypage_table_content'+index,
-					class:'mypage_table_content review_content'	,
-					text:"띠용"
-				}));
-				/*
+				
 				$.each(data.list, function(index, item) {
+					console.log(index+" ");
 					
-					$('#mypage_table').append($('<tr/>',{
-						id:'mypage_table_content'+index,
-						class:'mypage_table_content review_content'					
-					}));
-					
-					$('.mypage_table_content').append($('<td/>',{
-						text:index
-					})).append($('<td/>',{}).append($('<img/>',{
-						class:'product_thumb',
-						src:'../image/thumb/'+item.thumbImg
-						}))).append($('<td/>',{
-							id:'pName_td'
-						})).append($('<td/>',{
-							text: item.regDate
-						})).append()('<td/>',{
+					//tr만들기
+					$('.mypage_table').append($('<tr/>',{
+						id:'mypage_table_content_'+index,
+						class:'mypage_table_content review_content'	
+						
+						}).append($('<td/>',{
+							text:index+1
 							
-						}).append($('<li/>',{
-							class:'white_btn product_view_btn',
-							text:"제품보기"
-						})));
+						})).append($('<td/>',{
+							id:'product_thumb'+index
+							
+							}).append($('<img/>',{
+								
+								class:'product_thumb',
+								src:'../image/thumb/'+item.thumbImg						
+						}))).append($('<td/>',{
+							id:'pName_td',
+							align: 'left'
+							
+							}).append($('<span/>',{
+								
+								}).append($('<strong/>',{
+									text:item.productName
+									
+							}))).append("<br>").append($('<span/>',{
+								text:item.qnaboardContent
+							
+								}).append($('<img/>',{
+									id:'disk_icon',
+									class:'hide',
+									src:'../image/disk_icon.gif'
+						})))).append($('<td/>',{
+							text: item.regDate
+						})).append($('<td/>',{
+								
+							}).append($('<li/>',{
+								class:'white_btn product_view_btn',
+								text:"제품보기"
+					}))));
+					
+				});//each
 				
-				
-				
-				}//each
-				*/
 			}//if(data!=null)
 			
 		}//success:function

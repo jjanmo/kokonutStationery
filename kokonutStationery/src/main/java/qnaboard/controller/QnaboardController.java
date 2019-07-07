@@ -54,7 +54,7 @@ public class QnaboardController {
 		map.put("userId",userId);
 		
 		List<QnaboardDTO> list = qnaboardDAO.getMyQnaList(map);
-		System.out.println("내 상품문의갯수="+list.size());
+		//System.out.println("내 상품문의갯수="+list.size());
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
@@ -78,7 +78,7 @@ public class QnaboardController {
 		
 		//상품문의리스트가져오기
 		List<QnaboardDTO> list = qnaboardDAO.getQnaList(map);
-		System.out.println("개별상품코드="+productCode);
+		//System.out.println("개별상품코드="+productCode);
 		/*
 		//페이징처리
 		int totalA = qnaboardDAO.getTotalQ(Integer.parseInt(productCode));
