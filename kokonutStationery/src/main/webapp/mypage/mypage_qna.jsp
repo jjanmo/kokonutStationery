@@ -122,32 +122,94 @@ $(document).ready(function(){
 						}))));
 					
 					//내용
+					
 					$('.mypage_table').append($('<tr/>',{
-						
+						id:'review_content_'+index
 						}).append($('<td/>',{
-							colspan:'5'
+							colspan:'4'
 							}).append($('<div/>',{
-								class:'review hide'
+									class:'review_show_img',
+									style:'white-space: pre-wrap; padding:25px;',
+									text:item.qnaboardContent
+									
+						}))).append($('<td/>',{
+								style:'min-width:90px; padding:15px;'
+							}).append($('<div/>',{
+								style:'display:inline;'
+								}).append($('<div/>',{
+										class:'white_btn btn_size_xs',
+										id:'qna_deleteBtn_'+index,
+										style:'display:inline;',
+										onclick:'qnaDelete('+item.qnaboardCode+')',
+										visibility:'hidden',
+										text:"삭제"
+										
+									})).append($('<div/>',{
+										class:'white_btn btn_size_xs',
+										id:'qna_modifyBtn_'+index,
+										style:'display:inline;',
+										onclick:'qnaModify('+item.qnaboardCode+')',
+										visibility:'hidden',
+										text:"수정"
+								
+						}))))); 
+					
+					/*
+						$('.mypage_table').append($('<tr/>',{
+							id:'review_content_'+index
+							}).append($('<td/>',{
+								colspan:'4'
+								}).append($('<div/>',{
+										class:'review_show_img',
+										style:'white-space: pre-wrap; padding:25px;',
+										text:item.qnaboardContent
+										
+							}))).append($('<td/>',{
 								
 								}).append($('<div/>',{
-									class:'review_show_img',
-									text:item.qnaboardContent
-						}))).append($('<div/>',{
-							class:'review_btns_div'
-						}).append($('<li/>',{
-							class:'white_btn btn_size_xs',
-							onclick:'qnaDelete('+item.qnaboardCode+')',
-							text:"삭제"
-						})).append($('<li/>',{
-							class:'white_btn btn_size_xs',
-							onclick:'qnaModify('+item.qnaboardCode+')',
-							text:"수정"
-						})))));
+										class:'white_btn btn_size_xs',
+										id:'qna_deleteBtn_'+index,
+										//style:'display:inline;',
+										onclick:'qnaDelete('+item.qnaboardCode+')',
+										visibility:'hidden',
+										text:"삭제"
+										
+							}))).append($('<td/>',{
+										
+								}).append($('<div/>',{
+										class:'white_btn btn_size_xs',
+										id:'qna_modifyBtn_'+index,
+										//style:'display:inline;',
+										onclick:'qnaModify('+item.qnaboardCode+')',
+										visibility:'hidden',
+										text:"수정"
+								
+							}))));
+					*/
+					//답변내용숨기기
+					$('#review_content_'+index).hide();
+					//답변내용클릭시 보이게
+					$('#mypage_table_content_'+index).on('click', function(){					
+						$('#review_content_'+index).toggle(function(){
+							//$('#qna_deleteBtn_'+index).css('visibility','visible');
+							//$('#qna_modifyBtn_'+index).css('visibility','visible');
+						});
+					});
+					
+					
+					//후기 문의 게시물 hover 이벤트
+					$('#mypage_table_content_'+index).hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
 					
 				});//each
 				
 				//페이징
 				$('.pageDiv').html(	data.qnaboardPaging.pagingHTML	);
+				
+				
 				
 			}//if(data!=null)
 			

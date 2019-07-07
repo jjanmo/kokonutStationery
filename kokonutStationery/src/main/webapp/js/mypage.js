@@ -21,7 +21,7 @@ $('#review_modifyBtn').click(function(){
 });
 
 /* maypage_qna.jsp */
-$('#qna_deleteBtn').click(function(){
+/*$('#qna_deleteBtn').click(function(){
   window.open('mypage_qna_delete.html',
               '상품문의삭제',
               'width=500, height=280');
@@ -37,4 +37,4 @@ $('#qna_replyBtn').click(function(){
   window.open('mypage_qna_reply.html',
               '상품문의답변',
               'width=950, height=650');
-});
+});*/
