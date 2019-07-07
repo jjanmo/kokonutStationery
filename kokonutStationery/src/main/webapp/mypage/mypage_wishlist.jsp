@@ -27,9 +27,9 @@
 		
 		<c:forEach var="list" items="${list}">
 			<c:set var="cnt" value="${cnt+1}" />
-			<input type="hidden" id="productCode${cnt}" value="${list.productCode }">
-			<input type="hidden" id="productOption${cnt}" value="${list.productOption }">
-			<input type="hidden" id="optionContent${cnt}" value="${list.optionContent }">
+			<input type="hidden" id="productCode${cnt}" value="${list.productCode}">
+			<input type="hidden" id="productOption${cnt}" value="${list.productOption}">
+			<input type="hidden" id="optionContent${cnt}" value="${list.optionContent}">
 			
 			<tr id="wishlist_middle">
 				<td id="wishilist_checkbox">
@@ -37,15 +37,15 @@
 				</td>
 				
 				<td id="wishlist_img">
-					<a href="">
-						<img src="../image/thumb/${list.thumbImg }" style="width: 70px; height: 86px; float: left;">
+					<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}">
+						<img src="../image/thumb/${list.thumbImg}" style="width: 70px; height: 86px; float: left;">
 					</a>
-					<a href="">
+					<a href="/kokonutStationery/goods/goods_view.do?productCode=${list.productCode}">
 						<div style="float: left;">
-							&emsp;${list.productName }<br>
-							<c:if test="${list.productOption==1 }">
+							&emsp;${list.productName}<br>
+							<c:if test="${list.productOption==1}">
 								<font style="font-weight:normal; font-size:12px; color:#666; line-height:23px;">
-									&emsp;[&nbsp;${list.optionContent }&nbsp;]
+									&emsp;[&nbsp;${list.optionContent}&nbsp;]
 								</font>
 							</c:if>
 						</div>
@@ -54,15 +54,15 @@
 				</td>
 				
 				<td id="wishlist_savepoint">
-					<fmt:formatNumber value="${list.discountPrice/10 }" pattern="###"/>원
+					<fmt:formatNumber value="${list.discountPrice/10}" pattern="###"/>원
 				</td>
 				
 				<td id="wishlist_price">
-					<fmt:formatNumber value="${list.discountPrice }" pattern="##,###"/>원
+					<fmt:formatNumber value="${list.discountPrice}" pattern="##,###"/>원
 				</td>
 				
 				<td id="wishlist_storedate">
-					<fmt:formatDate value="${list.logdate }" pattern="yyyy.MM.dd"/>
+					<fmt:formatDate value="${list.logdate}" pattern="yyyy.MM.dd"/>
 				</td>
 			</tr>
 		</c:forEach>
@@ -100,22 +100,25 @@ $('#wishlistDeleteBtn').click(function(){
 		if($('.checkbox'+i).is(':checked')) {
 			productCode = $('#productCode'+i).val();
 			
-			if($('#productOption'+i).val()==1) {
+			if($('#productOption'+i).val()==0) { //옵션이 없을 때
+				optionContent = 'none';
+			} else { //옵션이 있을 때
 				optionContent = $('#optionContent'+i).val();
 			}
-		}
-		
-		$.ajax({
-			type: 'post',
-			url: '/kokonutStationery/mypage/deleteWishList.do',
-			data: {'userId': '${memId}', 
-				   'productCode' : productCode,
-				   'optionContent' : optionContent}
-		});
+			
+			$.ajax({
+				type: 'post',
+				url: '/kokonutStationery/mypage/deleteWishList.do',
+				data: {'userId': '${memId}', 
+					   'productCode' : productCode,
+					   'optionContent' : optionContent
+					  },
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
+			});
+		} //if; 체크 유무 확인
 	} //for
-	
-	//새로고침
-	location.href='/kokonutStationery/mypage/mypage_wishlist.do';
 });
 </script>
 

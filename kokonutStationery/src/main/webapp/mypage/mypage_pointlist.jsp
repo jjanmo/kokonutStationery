@@ -15,19 +15,8 @@
       <table class="tot_point_table">
         <tr>
           <td style="font-size: 18px;">현재 적립된 포인트</td>
-          <td style="font-size: 18px; text-align: right;" class="color_2ac1bc"><fmt:formatNumber type="number" value="${userDTO.userPoint }"/> 원</td>
+          <td style="font-size: 18px; text-align: right;" class="color_2ac1bc">${userInfo.userPoint} 원</td>
         </tr>
-<%--    	<tr>
-          <td style="font-size: 15px;">사용 가능 포인트</td>
-          <td style="font-size: 15px; text-align: right;"><fmt:formatNumber type="number" value="${userDTO.userPoint }"/> 원</td>
-        </tr>
-        <tr>
-          <td style="font-size: 15px; vertical-align: top;">소멸 예정 포인트</td>
-          <td class="color_2ac1bc" style="font-size: 15px; text-align: right;">
-            -500 원<br>
-            <p style="color: #999; font-size: 13px; margin: 0">2019.12.31까지</p>
-          </td>
-        </tr> --%>
       </table>
     </div>
 
@@ -44,19 +33,19 @@
 	
 		<c:forEach var="list" items="${list}">
 		<tr class="mypage_table_content point_table_contents">
-			<td><fmt:formatDate value="${list.logdate }" pattern="yyyy.MM.dd"/></td>
+			<td><fmt:formatDate value="${list.logdate}" pattern="yyyy.MM.dd"/></td>
 			<td>${list.contents }</td>
-			<td><a id="order_code">${list.orderCode }</a></td>
+			<td><a id="order_code">${list.orderCode}</a></td>
 			
-			<c:if test="${list.pointType==0 }">
+			<c:if test="${list.pointType==0}">
 				<td style="color: #2ac1bc;">
-				 	-${list.usePoint } 원
+				 	-${list.usePoint} 원
 				 </td>
 			</c:if>
 			
-			<c:if test="${list.pointType==1 }">
+			<c:if test="${list.pointType==1}">
 				<td>
-				 	${list.savePoint } 원
+				 	${list.savePoint} 원
 				 </td>
 			</c:if>
 		</tr>

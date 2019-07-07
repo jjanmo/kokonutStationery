@@ -1,6 +1,5 @@
 package user.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -21,15 +20,27 @@ import user.dao.UserDAO;
 @Controller
 @RequestMapping("/user/*")
 public class UserController {
-	
 	@Autowired
-	UserDAO userDAO;
+	private UserDAO userDAO;
+	//비밀글내용과 자기아이디체크
+	@GetMapping("/checkSecret")
+	@ResponseBody
+	public String checkSecret(HttpSession session,@RequestParam String userId) {
+		String memId = (String)session.getAttribute("memId");
+		System.out.println("로그인한 memId = "+memId+" 클릭한글의 userId="+userId);
+		
+		if(memId==null)
+			return "fail";
+		else if(memId.equals(userId)==false)
+			return "fail";
+		else
+			return "ok";
+	}
 	
 	//로그인후작성권한체크
 	@GetMapping("/checkAuth")
 	@ResponseBody
 	public String checkAuth(HttpSession session) {
-		
 		String memId = (String)session.getAttribute("memId");
 		System.out.println("권한이 있나요? memId = "+memId);
 		
@@ -37,7 +48,6 @@ public class UserController {
 			return "fail";
 		else
 			return "ok";
-		
 	}
 	
 	//헤더의 회원가입 버튼을 눌렀을때 회원가입 입구페이지

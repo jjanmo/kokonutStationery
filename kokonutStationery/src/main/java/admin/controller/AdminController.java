@@ -54,8 +54,9 @@ public class AdminController {
 	
 	//관리자 주문관리
 	@RequestMapping(value="/admin/orderList.do",method=RequestMethod.GET)
-	public ModelAndView orderList() {
+	public ModelAndView orderList(@RequestParam(required=false, defaultValue="1") String pg){
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("pg", pg);
 		mav.addObject("display","/admin/order/orderList.jsp");
 		mav.setViewName("/admin/index");
 		return mav;
@@ -86,7 +87,8 @@ public class AdminController {
 	public ModelAndView contentList(@RequestParam(required=false, defaultValue="0") String pagingCheck,
 									@RequestParam(required=false, defaultValue="1") String pg) {
 		ModelAndView mav = new ModelAndView();
-		if(pagingCheck.equals("review")) mav.addObject("pagingCheck", "review");
+		if(pagingCheck.equals("qna")) mav.addObject("pagingCheck", "qna");
+		else if(pagingCheck.equals("review")) mav.addObject("pagingCheck", "review");
 		
 		mav.addObject("pg", pg);
 		mav.addObject("display","/admin/content/contentList.jsp");

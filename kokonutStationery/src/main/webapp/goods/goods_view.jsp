@@ -60,7 +60,7 @@
 							<div style="float: left;">
 								<input type="text" name="productQty" id="productQty" step="1"
 									min="1" max="0" size="2" value="1"
-									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;">
+									style="border: 1px solid #DDD; width: 47px; text-align: center; height: 42px; padding-right: 5px; font-weight: 500;" />
 							</div>
 
 							<div style="float: left; padding-left: 3px;">
@@ -384,7 +384,7 @@ function changeTotalPrice(){
 $(document).on('click','.close', function(){
 	var number = $(this).attr('id');
 	var text = $('#'+number).children().first().text();
-	
+	alert(text);
 	//옵션div가 지워질때 총합변화
 	var total2 = $('#priceSpan').text();
 	var pp = $('#priceSpan'+number).text()*1;
@@ -483,54 +483,92 @@ $('#down').click(function() {
 	}
 });
 
-//장바구니페이지
-$('#cartBtn').click(function(){
-	location.href = "/kokonutStationery/cart/goods_cart.do?productCode="+productCode;
-});
-
 //장바구니 추가
 $('#cartBtn').click(function(){
-	alert(discountPrice);
-	$.ajax({
-		type : 'post',
-		url : '/kokonutStationery/cart/goods_cart_insert.do',
-		data : { 'userId' : '${memId}',
-				'userEmail' : '${memEmail}',
-				'productName' : '${goodsDTO.productName}',
-				'productCode': '${goodsDTO.productCode}',
-				'thumbImg' : '${goodsDTO.thumbImg}',
-				'discountPrice' : discountPrice,
-				'productQty' : productQty },
-		success : function () {
-			
-			}
-	});
+	alert("cart");
+	if(option==0) { //옵션이 없을 때
+		$.ajax({	
+			type: 'post',
+			url: '/kokonutStationery/cart/goods_cart_insert.do',
+			data: {'userId': '${memId}',
+				   'userEmail' : '${memEmail}',
+				   'productCode': '${goodsDTO.productCode}',
+				   'productName': '${goodsDTO.productName}',
+				   'productOption': '${goodsDTO.productOption}',
+				   'thumbImg': '${goodsDTO.thumbImg}',
+				   'discountPrice': '${goodsDTO.discountPrice}',
+				   'productQty' : $('#productQty').val(),
+				   'optionContent': 'none'
+				   }
+		}); //ajax
+	} else { //옵션이 있을 때
+		for(var i=0; i<selArray.length; i++) {
+			$.ajax({	
+				type: 'post',
+				url: '/kokonutStationery/cart/goods_cart_insert.do',
+				data: {'userId': '${memId}',
+					   'userEmail' : '${memEmail}',
+					   'productCode': '${goodsDTO.productCode}',
+					   'productName': '${goodsDTO.productName}',
+					   'productOption': '${goodsDTO.productOption}',
+					   'thumbImg': '${goodsDTO.thumbImg}',
+					   'discountPrice': '${goodsDTO.discountPrice}',
+					   'productQty' : $('#productQty').val(),
+					   'optionContent': selArray[i]
+					   }
+			}); //ajax
+		} //for
+	} //if~else
+	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
+
 //찜목록
 $('#wishlistBtn').click(function(){
 	if('${memId}'=='') {
 		alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
 		location.href='/kokonutStationery/user/loginForm.do';
 	} else {
-		$.ajax({	
-			type: 'post',
-			url: '/kokonutStationery/mypage/setWishList.do',
-			data: {'userId': '${memId}',
-				   'productCode': '${goodsDTO.productCode}',
-				   'productName': '${goodsDTO.productName}',
-				   'productOption': '${goodsDTO.productOption}',
-				   'thumbImg': '${goodsDTO.thumbImg}',
-				   'discountPrice': '${goodsDTO.discountPrice}',
-				   /* 'optionContent': selArray */
-				   },
-			success: function(){
-				alert('찜목록에 담기 성공');
-			}
-		}); //ajax
-		
-		//페이지 이동
-		location.href = "/kokonutStationery/mypage/mypage_wishlist.do"
-	}
+		if(option==0) { //옵션이 없을 때
+			$.ajax({	
+				type: 'post',
+				url: '/kokonutStationery/mypage/setWishList.do',
+				data: {'userId': '${memId}',
+					   'productCode': '${goodsDTO.productCode}',
+					   'productName': '${goodsDTO.productName}',
+					   'productOption': '${goodsDTO.productOption}',
+					   'thumbImg': '${goodsDTO.thumbImg}',
+					   'discountPrice': '${goodsDTO.discountPrice}',
+					   'optionContent': 'none'
+					   },
+				success: function(){
+					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+				}
+			}); //ajax
+		} else { //옵션이 있을 때
+			if(selArray.length==0) {
+				alert('종류 선택하세요.');
+				return;
+			} else {
+				for(var i=0; i<selArray.length; i++) {
+					$.ajax({	
+						type: 'post',
+						url: '/kokonutStationery/mypage/setWishList.do',
+						data: {'userId': '${memId}',
+							   'productCode': '${goodsDTO.productCode}',
+							   'productName': '${goodsDTO.productName}',
+							   'productOption': '${goodsDTO.productOption}',
+							   'thumbImg': '${goodsDTO.thumbImg}',
+							   'discountPrice': '${goodsDTO.discountPrice}',
+							   'optionContent': selArray[i]
+							   },
+						success: function(){
+							location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+						}
+					}); //ajax
+				} //for	
+			} //if~else
+		} //if~else
+	} //if~else
 });
 </script>
 
@@ -586,21 +624,10 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
-						
-						
-						//수정버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
-							text:'수정'
-						}));
-						//삭제버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
-							text:'삭제'
-						}));
-						
+								
 						//비밀글일때 
 						if(item.secret==1){
 							//잠금이미지 추가
@@ -610,7 +637,28 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
+							
+						}else if(item.secret==0){
+							
+							//삭제버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaDelete('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_delete_btn',
+								style:'visibility:hidden;',
+								value:'삭제'
+							}));
+							//수정버튼
+							$('#qna_'+index+'_content').append($('<input/>',{
+								type:'button',
+								onclick:'qnaModify('+item.qnaboardCode+')',
+								class:'qna_content_btn',
+								id:'qna_modify_btn',
+								style:'visibility:hidden;',
+								value:'수정'
+							}));
 						}
 						
 					}else if(item.admin==1){						
@@ -653,6 +701,7 @@ $(document).ready(function(){
 						$('#qnaList').append($('<div/>',{
 							class:'userPage_content',
 							id:'qna_'+index+'_content',
+							style:'white-space: pre-wrap;',
 							text:item.qnaboardContent
 						}));
 						
@@ -666,19 +715,81 @@ $(document).ready(function(){
 							
 							//비밀글일때 내용안보이게
 							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
+							$('#qna_'+index+'_content').text("비밀글입니다");
 						}
 						
 						
 					}//관리자답변if
 					
-					
 					//답변내용숨기기
 					$('#qna_'+index+'_content').hide();
 					//답변내용클릭시 보이게
 					$('#qna_'+index).on('click', function(){
-						$('#qna_'+index+'_content').toggle();
-					});
+						
+						$('#qna_'+index+'_content').toggle(function(){
+							
+							//var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
+							var userId=item.userId;							
+							var thisText = $(this).text();
+							var thisContent = $(this);
+							
+							if(item.secret==0){
+								//비밀글아닐때
+								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										//alert(data+" 내용은="+thisText);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.children('input').css('visibility','visible');
+											//thisContent.html(item.qnaboardContent);											
+										}
+									}									
+								});								
+							}else if(item.secret==1){
+								var qnaboardCode = item.qnaboardCode;
+								//비밀글일때
+								$.ajax({
+									type:'get',
+									url:'../user/checkSecret.do',
+									data:{'userId':userId},
+									success:function(data){
+										//alert(data+" 내용은="+thisText);
+										if(data=="ok"){
+											thisContent.removeClass("userPage_private_lock");
+											thisContent.html(item.qnaboardContent);
+											//삭제버튼
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												onclick:'qnaDelete('+qnaboardCode+')',
+												class:'qna_content_btn',
+												id:'qna_delete_btn',
+												value:'삭제'
+											}));
+											//수정버튼
+											$('#qna_'+index+'_content').append($('<input/>',{
+												type:'button',
+												onclick:'qnaModify('+qnaboardCode+')',
+												class:'qna_content_btn',
+												id:'qna_modify_btn',
+												value:'수정'
+											}));
+										}
+									}
+									
+								});
+																
+								
+							}//if문
+							
+							
+						});//toggle
+						
+					});//내용이벤트
+					
+
 					
 					//후기 문의 게시물 hover 이벤트
 					$('.userPage_area').hover(function(){
@@ -687,23 +798,45 @@ $(document).ready(function(){
 						$(this).css("background-color", "#ffffff");
 					});	
 				});//for문
-				
+				/*
 				//페이징
 				$('.qnaPage_paging_num').append($('<div/>',{
 					html : data.qnaboardPaging.pagingHTML
 				}));
+				*/
 			}//if - data문
 			
 		}//success
 	});//ajax
 	
-});
+});//document
 
+function qnaModify(qnaboardCode){
+	window.open("../qna/goods_qna_modify.do?qnaboardCode="+qnaboardCode, "_blank", "width=890, height=750");
+}
+function qnaDelete(qnaboardCode){
+	if (confirm("문의를 삭제하시겠습니까??") == true){//확인
+		var qnaboardCode = item.qnaboardCode;
+		$.ajax({
+			type:'post',
+			url:'../qna/qnaboardDelete.do',
+			data:{'qnaboardCode':qnaboardCode},
+			success:function(){
+				alert("삭제를 완료했습니다!");
+				location.href="../goods/goods_view.do?productCode="+productCode;
+			}
+		});
+	 }else{   //취소
+	     return false;
+	 }
+}
+
+/*
 function boardPaging(pg){
 	
 	$.ajax({
 		type:'get',
-		url:'../qna/goods_qnaList.do',
+		url:'../qna/goods_qnaAllList.do',
 		data:{'pg':pg,
 			'productCode':productCode},
 		dataType:'json',
@@ -856,15 +989,18 @@ function boardPaging(pg){
 					});	
 				});//for문
 				
+				/*
 				//페이징
 				$('.qnaPage_paging_num').append($('<div/>',{
 					
 					html : data.qnaboardPaging.pagingHTML
 				}));
+				
 			}//if - data문
 				
 		}
 	});
 	
 }
+*/
 </script>

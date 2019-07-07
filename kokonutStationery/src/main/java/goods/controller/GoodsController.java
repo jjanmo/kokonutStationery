@@ -115,16 +115,7 @@ public class GoodsController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	
-	//장바구니 페이지
-	@GetMapping("/goods_cart.do")
-	public ModelAndView cart() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("display", "/goods/goods_cart.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
-	
+		
 	//카테고리 상품수 받아오기
 	@GetMapping("/get_count.do")
 	public ModelAndView get_count() {

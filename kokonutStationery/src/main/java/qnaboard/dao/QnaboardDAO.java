@@ -11,10 +11,24 @@ public interface QnaboardDAO {
 
 	public void qnaboardWrite(QnaboardDTO qnaboardDTO);
 
-	public List<QnaboardDTO> getAllQnaList();
+	public List<QnaboardDTO> getAllQnaList(Map<String, Integer> map);
 
 	public int getTotalQ(int productCode);
 
 	public List<QnaboardDTO> qnaboardSearch(Map<String, String> map);
+
+	public int getTotalAllQ();
+
+	public List<QnaboardDTO> qnaboardAllSearch(Map<String, String> map);
+
+	public int getTotalSearchQ(Map<String, String> map);
+
+	public int getTotalAllSearchQ(String searchContent);
+
+	public void qnaboardModify(QnaboardDTO qnaboardDTO);
+
+	public QnaboardDTO getQnaboard(int qnaboardCode);
+
+	public void qnaboardDelete(int qnaboardCode);
 
 }

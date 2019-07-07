@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			userBirthDay=#{userBirthDay},
 			userEmail=#{userEmail},
 			userPhone1=#{userPhone1},
-			userPhone2=#{userPhone2},
+				userPhone2=#{userPhone2},
 			userPhone3=#{userPhone3},
 			userPoint=#{userPoint},
 			totalPayment=#{totalPayment}

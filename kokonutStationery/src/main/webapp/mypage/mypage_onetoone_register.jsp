@@ -6,11 +6,13 @@
     <meta charset="utf-8">
     <title>1:1 문의작성</title>
     <link href="../css/mypage_onetoone_register.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/mypage.css">
   </head>
   <body>
     <form class="" action="" method="post">
     <div class="onetoone_register_top">
       1:1 문의 작성하기
+      <img id="close_btn_img" src="../image/btn_multioption_del_2.png">
     </div>
 
     <div class="order_Number_search">
@@ -122,13 +124,10 @@
     </form>
   </body>
   <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="../js/mypage.js"></script>
   <script type="text/javascript">
     $('.order_Number_Btn').click(function(){
       $('.order_Number_search').addClass('show');
-    });
-
-    $('#hide_btn_img').click(function(){
-      $('.order_Number_search').removeClass('show');
     });
   </script>
 </html>

@@ -52,10 +52,13 @@
 	<context:component-scan base-package="qnaboard.controller"/>
 	<context:component-scan base-package="reviewboard.controller"/>
 	<context:component-scan base-package="noticeboard.controller"/>
+	<context:component-scan base-package="onetoone.controller"/>
 	
 	<!-- 관리자 -->
 	<context:component-scan base-package="admin.controller" />
 	<context:component-scan base-package="usermanager.controller" />
 	<context:component-scan base-package="productmanager.controller" />
+	<context:component-scan base-package="ordermanager.controller"/>
 	<context:component-scan base-package="contentmanager.controller" />
+	<context:component-scan base-package="statisticsmanager.controller" />
 </beans:beans>
