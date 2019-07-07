@@ -80,11 +80,39 @@
 	height: 23px;
 	padding-left: 5px;
 }
+.orderList_tr{
+	background-color: #fff;
+}
+.orderList_tr:hover{
+	background-color: #eef;
+	cursor: pointer;
+	color : #1b87d4;
+	text-decoration-line: underline;
+}
+
+#orderManagerPagingDiv{
+	width: 1000px;
+	float: left;
+	text-align: center;
+}
+
+#paging{
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#currentPaging{
+	color: red;
+	text-decoration: underline;
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
 <!-- 메인컨텐츠 시작 -->
 <div id="mainContent_wrap">
+	<input type="hidden" id="pg" name="pg" value="${pg }">
 	<div id="order_search_wrap" style="width: 1000px; margin: 0 auto;">
 		<div id="order_search_title" style="margin-bottom: 20px;">
 			<h1 style="font-weight:normal;">주문관리</h1>
@@ -134,31 +162,141 @@
 		</form>
 		
 		<div id="orderSeach_list" align="left" style="margin-top: 50px;">
-			<table border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
+			<table id="orderList_table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
 					<th style="width: 44px;">
 						<input type="checkbox">
 					</th>
-					<th style="width: 200px;">주문일</th>
-					<th style="width: 200px;">주문번호</th>
-					<th style="width: 140px;">주문자</th>
-					<th style="width: 360px;">상품명</th>
+					<th style="width: 120px;">주문일</th>
+					<th style="width: 130px;">주문번호</th>
+					<th style="width: 170px;">주문자</th>
+					<th style="width: 360px;">상품이름</th>
 					<th style="width: 160px;">결제 금액</th>
-					<th style="width: 160px;">결제상태</th>
-					<th style="width: 160px;">배송상태</th>
-					<th style="width: 140px;">취소</th>
-					<th style="width: 140px;">교환</th>
-					<th style="width: 140px;">반품</th>
+					<th style="width: 120px;">결제방법</th>
+					<th style="width: 120px;">주문상태</th>
 				</tr>
 			</table>
+			<br>
+			<div id="orderManagerPagingDiv"></div>
+			<br><br><br><br>
 		</div>
 	</div><!-- search_wrap -->
 	
 </div><!-- 메인컨텐츠 끝 -->
 
 </body>
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/heads/jjanmo
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+$(document).ready(function(){
+	//주문 리스트 출력
+	$.ajax({
+		type : 'post',
+		url : '/kokonutStationery/admin/getOrderList.do',
+		data : {'pg' : $('#pg').val()},
+		dataType : 'json',
+		success : function(data){
+			//alert(JSON.stringify(data));
+			$.each(data.list, function(index, items){
+				if(items.paymentType==1)
+					var paymentType = '신용카드';
+				else if(items.paymentType==2)
+					var paymentType = '핸드폰 결제';
+				
+				if(items.orderState==0)
+					var orderState = '주문취소';
+				else if(items.orderState==1)
+					var orderState = '주문접수';
+				else if(items.orderState==2)
+					var orderState = '배송준비';
+				else if(items.orderState==3)
+					var orderState = '배송중';
+				else if(items.orderState==4)
+					var orderState = '배송완료';
+				else if(items.orderState==5)
+					var orderState = '교환접수';
+				else if(items.orderState==6)
+					var orderState = '교환완료';
+				else if(items.orderState==7)
+					var orderState = '환불접수';
+				else if(items.orderState==8)
+					var orderState = '환불완료';
+				
+				//상품이름 외 x건 출력
+				var orderProductName="";
+				var orderProductAmount = 0;
+				
+				$.ajax({
+					type : 'post',
+					url : '/kokonutStationery/admin/getOrderProduct.do',
+					data : {'orderCode' : items.orderCode},
+					dataType : 'json',
+					success : function(pData){
+						//alert(JSON.stringify(pData));
+						
+						$.each(pData.pName, function(pIndex, pItems){
+							if(orderProductAmount==0){
+								orderProductName = pItems.productName;
+								orderProductAmount++;
+							}else{
+								orderProductAmount++;
+							}
+							
+							
+						});
+						$('.order_product'+index).append($('<span/>', {
+							text : orderProductName + ' 포함 ' + orderProductAmount + ' 건'
+						}));
+						
+					}
+				});
+				//alert(orderProductName);
+				$('<tr/>', {
+					class : 'orderList_tr'
+				}).append($('<td/>',{
+					align : 'center'
+					}).append($('<input/>', {
+						type : 'checkbox',
+						value : items.orderCode,
+						name : 'check',
+						class : 'check'
+				}))).append($('<td/>', {
+					align : 'center',
+					text : items.orderDate
+				})).append($('<td/>', {
+					align : 'center',
+					id : 'order_code',
+					text : items.orderCode
+				})).append($('<td/>', {
+					align : 'center',
+					text : items.userName + '(' + items.userId + ')'
+				})).append($('<td/>', {
+					class : 'order_product'+index
+				}).css('padding', '0 5px')).append($('<td/>', {
+					align : 'right',
+					text : items.totalPayment + '원'
+				}).css('padding', '0 5px')).append($('<td/>', {
+					align : 'center',
+					text : paymentType
+				})).append($('<td/>', {
+					align : 'center',
+					text : orderState
+				})).appendTo($('#orderList_table'));
+				
+				//주문확인 페이지 이동
+				$('.orderList_tr').click(function(){
+					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userName='+items.userName+'&userId='+items.userId+'&orderDate='+items.orderDate
+							,'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+				});			
+			});
+			//페이징 생성
+			$('#orderManagerPagingDiv').html(data.orderManagerPaging.pagingHTML);
+		}		
+	});	
+});
+//페이징 링크
+function orderManagerPaging(pg){
+	location.href="/kokonutStationery/admin/orderList.do?pg="+pg;
+}
+</script>
 </html>
