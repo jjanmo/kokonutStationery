@@ -7,6 +7,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOrderList" resultType="orderlist">
 		select * from TBL_ORDERLIST
 	</select>
+	<!-- 배송지 정보 -->
+	<select id="getReceiverInform" parameterType="String" resultType="user">
+		select userId, userName, receiverName, receiverZipcode, receiverAddr1, receiverAddr2
+			,  receiverPhone1, receiverPhone2, receiverPhone3, deliveryMsg
+		from TBL_USER
+		where userId = #{userId} 
+	</select>
 	<!-- 주문상세 -->
 	<select id="orderViewList" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode = #{orderCode} order by productCode desc
@@ -15,11 +22,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="orderStateChange" parameterType="java.util.Map">
 		begin
 			<!-- tbl_order -->
-			update TBL_ORDER set orderState = #{orderState} where orderCode = #{orderCode};
+			update TBL_ORDER set orderState = #{orderState}
+								, cancel = 0
+								, exchange = 0
+								, refund = 0
+			where orderCode = #{orderCode};
 			
 			<!-- tbl_orderlist -->
 			update TBL_ORDERLIST set orderState = #{orderState} where orderCode = #{orderCode};
 			
+			<!-- 주문취소시 컬럼 업데이트 -->
+			<if test="orderState == 0">
+				update TBL_ORDER set cancel = 1 where orderCode = #{orderCode};
+			</if>
 		end;
 	</update>
 </mapper>

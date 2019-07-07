@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import ordermanager.dao.OrderManagerDAO;
+import user.bean.UserDTO;
 
 @Controller
 public class OrderManagerController {
@@ -37,11 +38,11 @@ public class OrderManagerController {
 	
 	@RequestMapping(value="/admin/orderView.do", method=RequestMethod.GET)
 	public String orderView(@RequestParam String orderCode, @RequestParam String orderDate, 
-			@RequestParam String userName, @RequestParam String userId, Model model) {
+			@RequestParam String userId, Model model) {
+		UserDTO userDTO = orderManagerDAO.getReceiverInform(userId);
+		model.addAttribute("userDTO", userDTO);
 		model.addAttribute("orderDate", orderDate);
 		model.addAttribute("orderCode", orderCode);
-		model.addAttribute("userName", userName);
-		model.addAttribute("userId", userId);
 		return "/admin/order/orderView";
 	}
 	
