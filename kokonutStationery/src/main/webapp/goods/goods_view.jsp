@@ -89,7 +89,7 @@
 				</div>
 
 				<div id="goods_buttons">
-					<div class="main_button">구매하기</div>
+					<div id="orderBtn" class="main_button">구매하기</div>
 					<div id="cartBtn" class="sub_button" style="border-right: none; float: left;">장바구니</div>
 					<div id="wishlistBtn" class="sub_button" style="float: right;">찜하기</div>
 				</div>
@@ -206,12 +206,42 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+var userId = "${memId}";
 var option = ${goodsDTO.productOption};
 var productQty = $('#productQty').val();
 var productCode = ${goodsDTO.productCode};
 var originalPrice = ${goodsDTO.originalPrice};
 var discountPrice = ${goodsDTO.discountPrice};
 var showDiv = 0;
+
+//alert("productCode : "+ productCode);
+
+//구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
+$('#orderBtn').click(function(){
+	if(option == 0){ //옵션이 없는 경우
+		location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
+																	+"&productQty="+productQty;
+																	
+	}
+	else { //옵션이 있는 경우
+		if(selArray.length == 0){
+			alert("종류 선택하세요");
+		}
+		else{
+			//옵션마다 선택된 수량
+			var qtyArray = $('.option_productQty');
+			for(i = 0; i <qtyArray.length; i++){
+				var ct = qtyArray[i].value;
+				ct = ct*1;
+				productQtyArray.push(ct);
+			}
+			location.href="/kokonutStationery/order/orderOption.do?productCode="+productCode
+																	+"&selArray="+selArray
+																	+"&productQtyArray="+productQtyArray;
+																	
+		}	
+	}
+});
 
 //문의 작성 페이지 띄우기
 $('#qna_regist_btn').click(function(){
@@ -220,6 +250,7 @@ $('#qna_regist_btn').click(function(){
 
 //옵션 tag 생성 및 옵션 div 생성
 $(function() {
+
 	alert(option);
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
@@ -253,7 +284,11 @@ $(function() {
 
 });
 
+//옵션내용을 배열로 담은 것
 var selArray =  new Array();
+//옵션에대한 상품의 수를 배열로 담은 것 
+var productQtyArray = new Array();
+
 var notOption = $('#optionBox option:eq(0)').val();
 var sel = $('#optionBox option:selected').val();
 
@@ -313,7 +348,7 @@ function createDiv(sel){
 	  text : sel,
 	  id : 'option_contentDiv'
 	}));
-	$('#'+optionCnt).append($('<div/>',{
+	$('#'+optionCnt).append($('<div/>',{ 
 	  id : 'inputDiv' + optionCnt
 	}).css('float','left'));
 	
@@ -537,7 +572,7 @@ $('#wishlistBtn').click(function(){
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajax({
-		typd:'post',
+		type:'post',
 		url:'../qna/goods_qnaList.do',
 		data:{'productCode':productCode},
 		dataType:'json',

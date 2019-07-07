@@ -50,7 +50,7 @@ $(document).ready(function(){
 	$('#review_regist_btn').click(function(){
 		window.open("/kokonutStationery/review/goods_review_register.do", "_blank", "width=605, height=600");
 	});
-	
-	
 
 });
+
+
