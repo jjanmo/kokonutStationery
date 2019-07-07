@@ -19,10 +19,19 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<OrderlistDTO> getOrderList() {
-		return sqlSession.selectList("orderManagerSQL.getOrderList");
+	public List<OrderlistDTO> getOrderList(Map<String, String> map) {
+		return sqlSession.selectList("orderManagerSQL.getOrderList", map);
 	}
-
+	
+	@Override
+	public int getTotalA() {
+		return sqlSession.selectOne("orderManagerSQL.getTotalA");
+	}
+	
+	@Override
+	public List<OrderDTO> getOrderProduct(String orderCode) {
+		return sqlSession.selectList("orderManagerSQL.getOrderProduct", orderCode);
+	}
 	@Override
 	public UserDTO getReceiverInform(String userId) {
 		return sqlSession.selectOne("orderManagerSQL.getReceiverInform", userId);
@@ -37,6 +46,10 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	public int orderStateChange(Map<String, Object> map) {
 		return sqlSession.update("orderManagerSQL.orderStateChange", map);
 	}
+
+	
+
+	
 
 	
 }
