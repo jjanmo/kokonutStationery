@@ -36,8 +36,8 @@ public class QnaboardController {
 	@RequestMapping(value="/goods_qnaMyList.do",method=RequestMethod.POST)
 	public ModelAndView getMyQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String userId) {
 		
-		int endNum = Integer.parseInt(pg)*10;
-		int startNum = endNum-9;
+		int endNum = Integer.parseInt(pg)*5;
+		int startNum = endNum-4;
 		Map<String, String> map = new HashMap<String,String>();
 		
 		//페이징처리

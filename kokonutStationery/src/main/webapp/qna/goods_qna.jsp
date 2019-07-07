@@ -314,9 +314,8 @@ function boardPaging(pg){
 		data:{'pg':pg},
 		dataType:'json',
 		success:function(data){
-			//alert(JSON.stringify(data));
-			//$('.goods_userPage_board').children().remove();//0보다 큰 tr은 제거
-			$('#contentDiv').children().remove();//0보다 큰 tr은 제거
+			
+			$('#contentDiv').children().remove();
 			$('.goods_userPage_paging').children().remove();
 			
 			
