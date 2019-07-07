@@ -74,6 +74,7 @@ public class OrderController {
 			selValue += (selArray[i] + ",");
 			pdQtyValue += (productQtyArray[i]+ ",");
 		}
+		System.out.println("되니??");
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("display", "/order/order.jsp");
 		mav.addObject("pdQtyValue", pdQtyValue); //선택한 옵션 

@@ -228,6 +228,7 @@ $('#orderBtn').click(function(){
 			alert("종류 선택하세요");
 		}
 		else{
+			alert("aaa");
 			//옵션마다 선택된 수량
 			var qtyArray = $('.option_productQty');
 			for(i = 0; i <qtyArray.length; i++){

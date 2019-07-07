@@ -27,23 +27,6 @@
 		<!-- 제품상세내역 -->
 		<tbody id="tbody">		
 			
-<<<<<<< HEAD
-<<<<<<< HEAD
-				<td class="order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
-					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
-				</td>
-				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;">3,500원
-				</td>
-				<td style="vertical-align:top; padding: 22px 0 30px 0;">
-					<div style="padding-top: 8px; vertical-align: top; color:#222;">1개</div>
-				</td>
-			
-				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;">3,500원</td>
-			</tr>			
-=======
->>>>>>> refs/heads/jjanmo
-=======
->>>>>>> refs/heads/jjanmo
 		</tbody>
 		
 		<tfoot id="tfooter">
