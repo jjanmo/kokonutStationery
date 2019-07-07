@@ -32,6 +32,38 @@ public class QnaboardController {
 	@Autowired
 	private QnaboardPaging qnaboardPaging;
 	
+	//나의상품문의가져오기
+	@RequestMapping(value="/goods_qnaMyList.do",method=RequestMethod.POST)
+	public ModelAndView getMyQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String userId) {
+		
+		int endNum = Integer.parseInt(pg)*10;
+		int startNum = endNum-9;
+		Map<String, String> map = new HashMap<String,String>();
+		
+		//페이징처리
+		int totalA = qnaboardDAO.getTotalMyQ(userId);
+		qnaboardPaging.setCurrentPage(Integer.parseInt(pg));
+		qnaboardPaging.setPageBlock(5);
+		qnaboardPaging.setPageSize(5);
+		qnaboardPaging.setTotalA(totalA);
+		
+		qnaboardPaging.makePagingHTML();
+		
+		map.put("startNum",	startNum+"");
+		map.put("endNum",	endNum+"");
+		map.put("userId",userId);
+		
+		List<QnaboardDTO> list = qnaboardDAO.getMyQnaList(map);
+		System.out.println("내 상품문의갯수="+list.size());
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("qnaboardPaging", qnaboardPaging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	
 	//개별상품페이지의 qna리스트
 	@GetMapping("/goods_qnaList.do")
 	public ModelAndView getQnaList(@RequestParam(required=false,defaultValue="1") String pg,@RequestParam String productCode) {

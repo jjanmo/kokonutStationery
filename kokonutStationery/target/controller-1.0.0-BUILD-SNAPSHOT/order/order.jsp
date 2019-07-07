@@ -29,7 +29,7 @@
 					<a href="#" style="margin-bottom:0;"><img src="" width="70"></a>
 				</td>
 			
-				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
+				<td class="order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
 					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
 				</td>
 				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;">3,500원

@@ -5,6 +5,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="goodsSQL">
 	<!-- 상품리스트 -->
 	<select id="get_goods_list" parameterType="java.util.Map" resultType="goods">
-		select * from tbl_product where ${category}=1
+		select * from tbl_product where ${category}=1 order by productcode desc
+	</select>
+	
+	<!-- 이름순 -->
+	<select id="get_goods_list_name" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by productname
+	</select>
+	
+	<!-- 높은가격순 -->
+	<select id="get_goods_list_price_desc" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by discountprice desc
+	</select>
+	
+	<!-- 낮은가격순 -->
+	<select id="get_goods_list_price_asc" parameterType="java.util.Map" resultType="goods">
+		select * from tbl_product where ${category}=1 order by discountprice
+	</select>
+	
+	<!-- 신상품리스트; newP -->
+	<select id="get_goods_list_newP" resultType="goods">
+		select * from tbl_product where newP=1 order by productcode desc
+	</select>
+	
+	<!-- 상품수 -->
+	<select id="get_count" resultType="onSale">
+		select * from tbl_totalproductonsale
+	</select>
+	
+	<!-- 상품상세페이지정보 가져오기 -->
+	<select id="getGoodsView" parameterType="Integer" resultType="goods">
+		select * from TBL_PRODUCT where productCode = #{productCode}
+	</select> 
+	
+	<select id="getOption" parameterType="Integer" resultType="option">
+		select * from TBL_PRODUCTOPTION where productCode = #{productCode}
 	</select>
 </mapper>

@@ -1,78 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="../css/mypage.css">
 </head>
 <body>
-<!-- <div class="contents_wrap">
-  mypage left menu
-  <div class="mypage_list">
-    <div class="mypae_title">
-      <span>마이페이지</span>
-    </div>
-    <div class="mem_box">
-      <table class="mem_box_table">
-        <tr>
-          <td class="mem_menu" colspan="2"><span class="mem_name">김기현</span> 님</td>
-        </tr>
-        <tr>
-          <td class="mem_menu">총구매액</td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 원</td>
-        </tr>
-        <tr>
-          <td class="mem_menu"><a>포인트</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 매</td>
-        </tr>
-        <tr>
-          <td class="mem_menu"><a>장바구니</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
-        </tr>
-        <tr>
-          <td class="mem_menu"><a>찜목록</a></td>
-          <td class="mem_val_td"><span class="mam_val">0</span> 개</td>
-        </tr>
-      </table>
-    </div>
-
-    <div class="mypage_menu">
-      <table class="mypage_menu_table">
-        <tr>
-          <th id="menu_top">내 쇼핑정보</th>
-        </tr>
-        <tr>
-          <td id="mem_order">
-            <a>주문내역 · 배송조회</a>
-          </td>
-        </tr>
-        <tr>
-          <th><a>1:1 문의게시판</a></th>
-        </tr>
-        <tr>
-          <th><a>나의 상품후기<a></th>
-        </tr>
-        <tr>
-          <th><a>나의 상품문의</a></th>
-        </tr>
-        <tr>
-          <th id="mem_info">개인정보</th>
-        </tr>
-        <tr>
-          <td><a>회원정보수정</a><br>
-        </tr>
-        <tr>
-          <td><a>회원탈퇴</a></td>
-        </tr>
-      </table>
-    </div>
-  </div> -->
-
   <!-- mypage right contents -->
   <div class="content">
     <div class="content_title">
-      나의 상품문의
+    <input type="hidden" id="userId" value="${memId}">
+      	나의 상품문의
     </div>
     <table class="mypage_table">
       <tr id="mypage_table_top">
@@ -82,7 +21,7 @@
         <th id="review_date">작성일</th>
         <th id="productview"></th>
       </tr>
-
+	<!-- 
       <tr class="mypage_table_content review_content">
         <td>1</td>
         <td>
@@ -91,9 +30,10 @@
         <td id="pName_td">
           <span><strong>누가 나 좀 말려줘요. 수건세트</strong></span><br>
           <span>
-            재입고문의
+            	재입고문의
             <img id="disk_icon" class="hide" src="../image/disk_icon.gif">
           </span>
+         </td>
         <td>2019.06.25</td>
         <td>
           <li class="white_btn product_view_btn">제품보기</li>
@@ -115,14 +55,74 @@
           </div>
         </td>
       </tr>
+      -->
     </table>
-
+	
     <div class="pageDiv">
       1
     </div>
+    
   </div>
-<!-- </div> -->
 </body>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/mypage.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//alert("페이지왔따!");
+	//${memName}
+	var userId=$('#userId').val();
+	alert("userId="+userId);
+	
+	$.ajax({
+		type:'POST',
+		url:'../qna/goods_qnaMyList.do',
+		data:{'userId':userId},
+		dataType:'json',
+		success:function(data){
+			alert(JSON.stringify(data));
+			
+			if(data!=null){	
+				$('#mypage_table').append($('<tr/>',{
+					//id:'mypage_table_content'+index,
+					class:'mypage_table_content review_content'	,
+					text:"띠용"
+				}));
+				/*
+				$.each(data.list, function(index, item) {
+					
+					$('#mypage_table').append($('<tr/>',{
+						id:'mypage_table_content'+index,
+						class:'mypage_table_content review_content'					
+					}));
+					
+					$('.mypage_table_content').append($('<td/>',{
+						text:index
+					})).append($('<td/>',{}).append($('<img/>',{
+						class:'product_thumb',
+						src:'../image/thumb/'+item.thumbImg
+						}))).append($('<td/>',{
+							id:'pName_td'
+						})).append($('<td/>',{
+							text: item.regDate
+						})).append()('<td/>',{
+							
+						}).append($('<li/>',{
+							class:'white_btn product_view_btn',
+							text:"제품보기"
+						})));
+				
+				
+				
+				}//each
+				*/
+			}//if(data!=null)
+			
+		}//success:function
+	});//ajax
+	
+});//document.ready
+
+
+</script>
 </html>
