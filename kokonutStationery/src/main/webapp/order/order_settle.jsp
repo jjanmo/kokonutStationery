@@ -18,26 +18,13 @@
 				<th style="border-top: 1px solid #999; font-size: 12px; color: #999; text-align: right; padding-right:20px; font-weight:500;">합계</th>
 			</tr>
 		</thead>
-		<tbody>		
+		<tbody id="tbody">		
 			<tr>
-				<td style="vertical-align:top; padding: 30px 0;">
-					<a href="#" style="margin-bottom:0;"><img src="" width="70"></a>
-				</td>
 			
-				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
-					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
-				</td>
-				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;">3,500원
-				</td>
-				<td style="vertical-align:top; padding: 22px 0 30px 0;">
-					<div style="padding-top: 8px; vertical-align: top; color:#222;">1개</div>
-				</td>
-			
-				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;">3,500원</td>
 			</tr>			
 		</tbody>
 		
-		<tfoot>
+		<tfoot id="tfooter">
 			<tr>
 				<td colspan="10" style="padding: 30px 0;">
 					<table width="100%" cellpadding="0" cellspacing="0" border="0" class="total_price_area">
@@ -45,7 +32,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">15,500</font>
+									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"></font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
@@ -56,7 +43,7 @@
 		</tfoot>
 	</table>
 	
-	<form id="orderForm" method="post" action="../order/order_settle" onsubmit="return chkOrderSettle();">		
+	
 	
 		<div style="margin: 30px 0 0 0;">
 			<h5 class="order_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">주문정보확인</h5>
@@ -224,7 +211,7 @@
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">뒤로</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
-							<input type="button" id="payBtn" class="main-button-s" 
+							<input id="paymentBtn" type="button" id="payBtn" class="main-button-s" 
 							style="border:0px; text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;" value="결제하기">			
 						</div>					
 			          </div>
@@ -232,8 +219,7 @@
 			      </tr>
 		    </tbody>
 		</table>
-		
-	</form>
+
 </div>
 <!-- indiv 끝 -->
 
@@ -241,20 +227,16 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
-$(document).ready(function(){
-	
-	$('#payBtn').click(function(){
-		
-		var payAgreeVal = $('input[name="payAgree"]:checked').val();
-		
-		if(payAgreeVal!='yes'){
-			alert("구매 내용에 동의하셔야 결제가 가능합니다.");
-			return false;
-		}else{
-			alert("결제완료~");
-			location.href="../main/index";
-		}
-	});
-	
+
+$('#payBtn').click(function(){
+	var payAgreeVal = $('input[name="payAgree"]:checked').val();
+	if(payAgreeVal!='yes'){
+		alert("구매 내용에 동의하셔야 결제가 가능합니다.");
+		return false;
+	}else{
+		alert("결제완료~");
+		location.href="/kokonutStationery/main/index.do";
+	}
 });
+
 </script>
