@@ -25,7 +25,7 @@ a:hover {
 	border-left-color:#FFFFFF;
 	border-right-color:#FFFFFF;
 	padding: 50px;
-	margin : 50px 80px 50px 180px;
+	margin : 50px 80px 50px 150px;
 }
 
 .outline_side{
@@ -61,7 +61,7 @@ a:hover {
 .mem_box {
   padding: 25px 0 25px;
   font-size: 13px;
-  color: #888;
+  /* color: #888; */
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -76,7 +76,7 @@ a:hover {
 }
 
 .mem_menu {
-  color: #888;
+  /* color: #888; */
   font-size: 13px;
   line-height: 30px;
 }
@@ -118,7 +118,7 @@ a:hover {
   width: 95%;
   height: 100%;
   float: right;
-  margin: 0 10px 0 10px;
+  margin: 0 20px 0 20px;
 }
 
 .content_title {
@@ -244,6 +244,7 @@ h5 {
   font-weight: 700;
   text-align: left;
   margin-bottom: 13px;
+  margin-top: 20px;
 }
 
 .orderview_content td {

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="qnaSQL">
+
+	<!-- 특정상품문의갯수 -->
+	<select id="getTotalQ" parameterType="Integer" resultType="Integer">
+		select count(*) from TBL_qnaboard where productcode=#{productCode}
+	</select>
+	
+	<!-- 모든상품문의갯수 -->
+	<select id="getTotalAllQ"  resultType="Integer">
+		select count(*) from TBL_qnaboard
+	</select>
+	
+	<!-- 검색한 문의갯수 -->
+	<select id="getTotalSearchQ" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from TBL_qnaboard where ${searchOption} like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 내 상품문의갯수 -->
+	<select id="getTotalMyQ" parameterType="String" resultType="Integer">
+		select count(*) from TBL_qnaboard where userId=#{userId}
+	</select>
+	
+	<!-- 검색한 문의갯수 -->
+	<select id="getTotalAllSearchQ" parameterType="String" resultType="Integer">
+		select count(*) from TBL_qnaboard 
+		where userId like '%'||#{searchContent}||'%' or qnaboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 내 상품문의 -->
+	<select id="getMyQnaList" parameterType="String" resultType="qnaboard">
+		select * from
+		(select rownum rn,tt.*from       
+		(select * from TBL_qnaboard 
+		where ref in(
+		            select ref from TBL_qnaboard 
+		            where userId=#{userId}) 
+		            order by ref desc, admin asc, qnaboardcode desc) tt)
+		            where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 모든상품문의리스트 가져오기 -->
+	<select id="getAllQnaList" parameterType="java.util.Map" resultType="qnaboard">
+		<!-- select * from TBL_qnaboard
+		order by ref desc, admin asc, qnaboardcode desc -->
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_qnaboard order by ref desc, admin asc, qnaboardcode desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 특정검색문의리스트 가져오기 -->
+	<select id="qnaboardSearch" parameterType="java.util.Map" resultType="qnaboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_qnaboard 
+		where ${searchOption} like '%'||#{searchContent}||'%'
+		order by ref desc, admin asc, qnaboardcode desc)tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 모든검색문의리스트 -->
+	<select id="qnaboardAllSearch" parameterType="String" resultType="qnaboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_qnaboard 
+		where userId like '%'||#{searchContent}||'%' or qnaboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+		order by ref desc, admin asc, qnaboardcode desc)tt)
+        where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 특정상품문의리스트 최신2개만 가져오기 -->
+	<select id="getQnaList" parameterType="java.util.Map" resultType="qnaboard">
+		<!-- select * from TBL_qnaboard where productcode=#{productCode} 
+		order by ref desc, admin asc, qnaboardcode desc -->
+		
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_qnaboard where productcode=#{productCode} order by ref desc, admin asc, qnaboardcode desc) tt)
+		where rn<![CDATA[<=]]>2
+		
+		<!-- where rn >= #{startNum} and rn <![CDATA[<=]]> #{endNum} -->
+		
+	</select>
+
+	<!-- 상품후기 작성 -->
+	<insert id="qnaboardWrite" parameterType="qnaboard">
+		insert into TBL_QNABOARD (USERID,
+							 USEREMAIL,
+							 USERPHONE,
+							 QNABOARDCODE,
+							 QNABOARDSUBJECT,
+							 QNABOARDCONTENT,
+							 THUMBIMG,
+							 SECRET,
+							 PRODUCTCODE,
+							 PRODUCTNAME,
+							 DISCOUNTPRICE,
+							 REF) 
+					values (#{userId} 
+							,#{userEmail} 
+							,#{userPhone}
+							,qnaboardcode_seq.nextval
+							,#{qnaboardSubject}
+							,#{qnaboardContent}
+							,#{thumbImg}
+							,#{secret}
+							,#{productCode}
+							,#{productName}
+							,#{discountPrice}
+							,qnaboardcode_seq.currval)
+	</insert>
+	
+	<!-- 해당문의받아오기 -->
+	<select id="getQnaboard" parameterType="Integer" resultType="qnaboard">
+		select * from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode}
+	</select>
+	
+	<!-- 상품후기 수정 -->
+	<update id="qnaboardModify" parameterType="qnaboard">
+		update TBL_QNABOARD set 
+							 
+							 USEREMAIL=#{userEmail},
+							 USERPHONE=#{userPhone},							 
+							 QNABOARDSUBJECT=#{qnaboardSubject},
+							 QNABOARDCONTENT=#{qnaboardContent},
+							
+							 SECRET=#{secret}
+							 
+							 
+							where QNABOARDCODE =#{qnaboardCode}
+	</update>
+	
+	
+	<!-- 상품후기삭제 -->
+	<delete id="qnaboardDelete" parameterType="Integer">
+		delete from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode} 
+	</delete>
+</mapper>

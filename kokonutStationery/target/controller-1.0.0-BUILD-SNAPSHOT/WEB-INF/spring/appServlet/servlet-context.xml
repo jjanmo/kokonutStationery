@@ -34,6 +34,12 @@
 		<beans:property name="order" value="0"/>
 	</beans:bean>
 	
+	<!-- 파일 업로드 리졸버 추가-->
+	<beans:bean id="multipartResolver"
+				class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="5000000"/>
+	</beans:bean>
+	
 	<context:component-scan base-package="com.finalproject.controller" />
 	<context:component-scan base-package="main.controller"/>
 	<context:component-scan base-package="user.controller"/>	
@@ -41,4 +47,18 @@
 	<context:component-scan base-package="goods.controller"/>
 	<context:component-scan base-package="mypage.controller"/>
 	<context:component-scan base-package="mail.controller"/>
+	<context:component-scan base-package="order.controller"/>
+	<context:component-scan base-package="cart.controller"/>
+	<context:component-scan base-package="qnaboard.controller"/>
+	<context:component-scan base-package="reviewboard.controller"/>
+	<context:component-scan base-package="noticeboard.controller"/>
+	<context:component-scan base-package="onetoone.controller"/>
+	
+	<!-- 관리자 -->
+	<context:component-scan base-package="admin.controller" />
+	<context:component-scan base-package="usermanager.controller" />
+	<context:component-scan base-package="productmanager.controller" />
+	<context:component-scan base-package="ordermanager.controller"/>
+	<context:component-scan base-package="contentmanager.controller" />
+	<context:component-scan base-package="statisticsmanager.controller" />
 </beans:beans>

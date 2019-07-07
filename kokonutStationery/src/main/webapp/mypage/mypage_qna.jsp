@@ -81,10 +81,18 @@ $(document).ready(function(){
 		dataType:'json',
 		success:function(data){
 			alert(JSON.stringify(data));
-			/*
-			if(data!=null){				
+			
+			if(data!=null){	
+				$('#mypage_table').append($('<tr/>',{
+					//id:'mypage_table_content'+index,
+					class:'mypage_table_content review_content'	,
+					text:"띠용"
+				}));
+				/*
 				$.each(data.list, function(index, item) {
-					$('#mypage_table_top').append($('<tr/>',{
+					
+					$('#mypage_table').append($('<tr/>',{
+						id:'mypage_table_content'+index,
 						class:'mypage_table_content review_content'					
 					}));
 					
@@ -103,9 +111,13 @@ $(document).ready(function(){
 							class:'white_btn product_view_btn',
 							text:"제품보기"
 						})));
-				}
+				
+				
+				
+				}//each
+				*/
 			}//if(data!=null)
-			*/
+			
 		}//success:function
 	});//ajax
 	

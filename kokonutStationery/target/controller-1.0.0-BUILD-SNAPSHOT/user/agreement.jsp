@@ -169,7 +169,7 @@
 			</div>
 			
 			<div align=right style="margin-top:15px; text-align:center;" class="join_agreement_radio">
-				<input type="radio" name="agree" value="yes"> 
+				<input type="radio" class="check" name="agree" value="yes"> 
 					<label style="font-size:13px; color:#333;"><b>동의합니다</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" name="agree" value="no"> 
 					<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
@@ -208,13 +208,16 @@
 		</div>
 	
 		<div align="right" style="margin-top:15px; text-align:center;" >
-			<input type="radio" name="private1" value="yes">
+			<input type="radio" class="check" name="private1" value="yes">
 				<label style="font-size:13px; color:#333;"><b>동의합니다</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio" name="private1" value="no">
 				<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
 		</div>
 		
-
+		<div align="right" style="padding-top:50px; text-align:center;" >
+			<input type="checkbox"  id="all" value="yes">
+				<label style="font-weight:700; font-size:14px; color:#333;"><b>모든 약관에 동의합니다</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			
+		</div>
 		
 	<!-- 하단버튼 -->
 	<div align="center" style="padding:40px 0 80px 0">
@@ -238,6 +241,15 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	//전체선택 / 해제
+	$('#all').click(function(){//전체선택했을 때
+		if($('#all').prop('checked')){
+			$('.check').prop('checked',true);
+		}else{
+			$('.check').prop('checked',false);
+		}
+	});
+	
 	$('#nextBtn').click(function(){
 		var agreeVal = $('input[name="agree"]:checked').val();
 		var privateVal = $('input[name="private1"]:checked').val();
