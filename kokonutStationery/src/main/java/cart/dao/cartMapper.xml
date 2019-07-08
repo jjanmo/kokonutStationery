@@ -69,4 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- <select id="cartOrder" parameterType="String" resultType="cart">
 		select * from tbl_cart where userId = #{userId}
 	</select> -->
+	
+	<!-- 선택한 주문가져오기 -->
+	<select id="getSelectCart" parameterType="String" resultType="cart">
+		select * from tbl_cart where cartCode=#{cartCode}
+	</select>
 </mapper>
