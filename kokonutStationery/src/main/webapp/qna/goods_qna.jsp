@@ -540,6 +540,7 @@ $(function() {
 	
 });
 
+//토글이벤트
 function toggleFunction(userId,qnaboardCode,secret,qnaboardContent,thisContent){
 	if(secret==0){
 		//비밀글아닐때
@@ -549,7 +550,8 @@ function toggleFunction(userId,qnaboardCode,secret,qnaboardContent,thisContent){
 			data:{'userId':userId},
 			success:function(data){
 				if(data=="ok"){
-					//alert(thisContent.attr('id'));									
+					//alert(thisContent.attr('id'));
+					
 				}
 			}									
 		});								
