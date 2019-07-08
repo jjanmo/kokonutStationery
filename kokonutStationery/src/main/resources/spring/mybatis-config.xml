@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="goods.bean.TotalProductOnSaleDTO" alias="onSale" />
 		<typeAlias type="noticeboard.bean.NoticeboardDTO" alias="notice" />
 		<typeAlias type="wishlist.bean.WishlistDTO" alias="wishlist" />
+		<typeAlias type="statisticsmanager.bean.StatisticsDTO" alias="statistics" />
 	</typeAliases>
 
 </configuration>
