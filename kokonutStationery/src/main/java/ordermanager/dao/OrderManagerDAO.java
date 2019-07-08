@@ -21,6 +21,10 @@ public interface OrderManagerDAO {
 
 	public int orderStateChange(Map<String, Object> map);
 
+	public List<OrderDTO> orderSearchList(Map<String, String> map);
+
+	public int getSearchTotalA(Map<String, String> map);
+
 	
 
 	

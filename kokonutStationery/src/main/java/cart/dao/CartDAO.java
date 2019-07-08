@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 
 public interface CartDAO {
 
@@ -15,5 +16,19 @@ public interface CartDAO {
 	public int checkCart(CartDTO cartDTO);
 
 	public void deleteCart(Map<String, String> map);
+
+	public void allDeleteCart(String userId);
+
+	public void cartUpdate(CartDTO cartDTO);
+
+	public CartDTO goodsCartEdit(int cartCode);
+
+	public List<ProductOptionDTO> getOption(int productCode);
+
+	public void cartOptionModify(Map<String, String> map);
+
+	
+
+	
 
 }

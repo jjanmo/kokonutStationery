@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -38,15 +38,15 @@
 				<tbody>
 					<tr>
 						<td style="text-align: center;"><a
-							href="/shop/goods/goods_view.php?&amp;goodsno=166"><img
-								src="http://store.baemin.com/shop/data/goods/1476870027237s0.jpg"
-								width="80" id="objImg"
+							href="#"><img
+								src="../image/thumb/${cartDTO.thumbImg }"
+								width="80" id="cartEditImg"
 								onerror="this.src='/shop/data/skin/mdelight_C/img/common/noimg_100.gif'"></a>
 						</td>
 					</tr>
 					<tr>
 						<td style="font-size: 15px; font-weight: 700; text-align: center;">
-							볼펜세트. 어머 펜이에요~</td>
+							${cartDTO.productName }</td>
 					</tr>
 				</tbody>
 			</table>
@@ -55,37 +55,35 @@
 				style="width: 100%; height: 1px; background: #F6F6F6; margin: 15px 0;"></div>
 
 
-			<!-- 추가 옵션 입력형 -->
-
-
-			<!-- 필수 옵션 일체형 -->
-
-
-			<!-- 필수 옵션 분리형 -->
-
+			
 
 
 			<!-- 추가 옵션 -->
 
+			<div id="optionDiv" style="margin-top: 3px;">
+				<div class="items" style="padding: 5px 0; " class="optionSelect">옵션명 (종류)</div>
+				<select id="optionBox" style="height:37.4px;" class="item_contents_select" name="option">
+					<option>옵션을 선택하세요</option>
+				</select>
+			</div>
 
-			<!--<div style="margin:15px 0 5px 0;overflow:hidden;height:1px;background:url(/shop/data/skin/mdelight_C/img/common/line.gif) repeat-x top left;"></div>-->
+			<!-- 옵션 div 추가-->
+			<div class="option_wrap"></div>
 
 			<!-- 수량 -->
 
-			<div style="padding: 0; height: 0px; border: 0">
+			<%-- <div style="padding: 0; height: 0px; border: 0">
 				<div
 					style="float: left; font-weight: bold; color: #565656; padding-top: 12px;">수량&nbsp;&nbsp;&nbsp;</div>
 				<div style="float: right; padding-left: 3px;">
 					<div style="padding: 1px 0 3px 0;">
-						<img
-							id="up"
+						<img id="up"
 							src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png"
 							onclick="chg_cart_ea(frmCartOption.ea,'up')"
 							style="cursor: pointer; width: 14px;">
 					</div>
 					<div>
-						<img
-							id="down"
+						<img id="down"
 							src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png"
 							onclick="chg_cart_ea(frmCartOption.ea,'dn')"
 							style="cursor: pointer; width: 14px;">
@@ -93,11 +91,11 @@
 				</div>
 				<div style="float: right;">
 					<input type="text" name="productQty" id="productQty" step="1"
-						min="1" max="0" size="2" value="1"
+						min="1" max="0" size="2" value="${cartDTO.productQty }"
 						onblur="chg_cart_ea(this, 'set');" class="line"
 						style="border: 1px solid #DDD; width: 80px; text-align: right; height: 38px; padding-right: 5px; font-weight: 500;">
 				</div>
-			</div>
+			</div> --%>
 			<div
 				style="width: 100%; height: 1px; background: #F6F6F6; margin: 68px 0 15px 0;"></div>
 
@@ -117,7 +115,7 @@
 							</div>
 							<div
 								style="width: 120px; display: inline-block; padding-left: 5px;">
-								<input type="submit" class="main-button"
+								<input type="button" class="main-button"
 									style="border: none; text-align: center; height: 55px; width: 120px; line-height: 55px; -webkit-appearance: none; border-radius: 0; font-size: 13px; font-weight: 500;"
 									value="수정">
 							</div>
@@ -137,13 +135,14 @@
 </body>
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-<script src="js/bootstrap.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
 <script type="text/javascript">
 //수량 변경
+	var option = ${cartDTO.productOption};
+	var productCode = ${cartDTO.productCode}
 
-	var qty = $('#productQty').val();
+	/* var qty = $('#productQty').val();
 	$('#up').click(function() {
 		qty++;
 		$('#productQty').val(qty);
@@ -154,6 +153,45 @@
 			qty--;
 			$('#productQty').val(qty);
 		}
+	}); */
+			
+	$(function(){
+			//옵션 출력
+		$.ajax({
+			type : 'get',
+			url : '/kokonutStationery/goods/getOption.do',
+			data : {'productCode' : productCode},
+			dataType : 'json',
+			success : function(data) {
+				$.each(data.list, function(index, item) {
+					$('select').append($('<option>' + item.optionContent + '</option>'));
+				});
+			}
+		});
+	});	
+	
+	//수정버튼 클릭
+	$('.main-button').click(function() {
+		var optionContent = $("#optionBox option:selected").val();
+		var cartCode = ${cartDTO.cartCode};
+		alert(cartCode);
+		$.ajax({
+			type :'post',
+			url :'/kokonutStationery/cart/option_content_modify.do',
+			data : {'optionContent' : optionContent,
+					'cartCode' : cartCode	}
+		});
+		modifyOptionClose(optionContent);
 	});
+
+	function modifyOptionClose(optionContent){
+		alert("optionContent");
+		opener.document.getElementById('${cartDTO.cartCode }').value = optionContent;
+		opener.parent.location.reload();
+		/* opener.parent.location = '/kokonutStationery/cart/goods_cart.do'; */
+		window.close();
+	}
+	
+	
 </script>
 </html>

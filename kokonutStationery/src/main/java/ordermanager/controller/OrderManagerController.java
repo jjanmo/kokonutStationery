@@ -93,4 +93,49 @@ public class OrderManagerController {
 		orderManagerDAO.orderStateChange(map);
 		return "success";
 	}
+	
+	@RequestMapping(value="/admin/orderSearchList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView orderSearchList(@RequestParam Map<String,String> map) {
+		int endNum = Integer.parseInt(map.get("pg"))*10;
+		int startNum = endNum-9;
+		
+		map.put("startNum", startNum+"");
+		map.put("endNum", endNum+"");
+		
+		int dateText1 = 0;
+		int dateText2 = 0;
+		List<OrderDTO> list = null;
+		//기간이 적혀있을 때
+		if(map.get("dataText1")!=null && map.get("dataText2")!=null) {
+			dateText1 = Integer.parseInt(map.get("dateText1").substring(6,8));
+			dateText2 = Integer.parseInt(map.get("dateText2").substring(6,8));
+			//1일 부터 31일까지의 값인지 확인
+			if(dateText1<=dateText2) {
+				if((dateText1>=1 && dateText1<=31) && (dateText2>=1 && dateText2<=31)) {
+					list = orderManagerDAO.orderSearchList(map);
+				}
+			}
+		}else if(map.get("searchText")!=null) {
+			list = orderManagerDAO.orderSearchList(map);
+		}
+		
+		int totalA = orderManagerDAO.getSearchTotalA(map);
+		
+		orderManagerPaging.setCurrentPage(Integer.parseInt(map.get("pg")));
+		orderManagerPaging.setPageBlock(3);
+		orderManagerPaging.setPageSize(10);
+		orderManagerPaging.setTotalA(totalA);
+		orderManagerPaging.makeSearchPagingHTML();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("pg", map.get("pg"));
+		mav.addObject("list", list);
+		mav.addObject("orderManagerPaging", orderManagerPaging);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	
+	
 }

@@ -39,7 +39,7 @@ public class OrderManagerPaging {
 		
 	}
 	
-	/*
+	
 	public void makeSearchPagingHTML() {
 		pagingHTML = new StringBuffer();
 		
@@ -65,6 +65,6 @@ public class OrderManagerPaging {
 		}//if
 		
 	}
-	*/
+	
 }
 
