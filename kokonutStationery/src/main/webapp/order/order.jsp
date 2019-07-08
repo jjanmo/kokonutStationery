@@ -364,9 +364,9 @@
 <script>
 
 var userName = '${userDTO.userName }';
-var userPhone1 = ${userDTO.userPhone1 };
-var userPhone2 = ${userDTO.userPhone2 };
-var userPhone3 = ${userDTO.userPhone3 };
+var userPhone1 = '${userDTO.userPhone1 }';
+var userPhone2 = '${userDTO.userPhone2 }';
+var userPhone3 = '${userDTO.userPhone3 }';
 var option = ${goodsDTO.productOption};
 
 $(function(){
