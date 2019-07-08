@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 로그인 아이디/비밀번호 체크 -->
 	<select id="login" parameterType="java.util.Map" resultType="user">
-		select * from TBL_USER where userId = #{userId} and userPwd = #{userPwd}
+		select * from TBL_USER where userId = #{userId}
 	</select>
 	
 	<!-- 비밀번호찾기 -->
@@ -104,5 +104,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update tbl_user set productInWishList = productInWishList-1
 	</update>
 	
-	
+	<!-- 비회원 아이디 -->
+	<select id="IncreaseKokonutSeq" resultType="int">
+		select kokonutId_seq.nextval from dual
+	</select>
+	<insert id="createKokonutId" parameterType="int">
+		insert into tbl_user(userId, userName) values('Kokonut0'||#{seq}, 'Kokonut0'||#{seq})
+	</insert>
+	<select id="getKokonutId" parameterType="int" resultType="user">
+		select * from tbl_user where userId = 'Kokonut0'||#{seq}
+	</select>
+	<!-- 주문취소후 비회원 아이디 삭제 -->
+	<delete id="kokonutIdCancel" parameterType="String">
+		delete tbl_user where userId = #{userId}
+	</delete>
 </mapper>

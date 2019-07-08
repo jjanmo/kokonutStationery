@@ -130,7 +130,9 @@ function changePwd(){
 			'userPwd':userPwd},
 		success:function(data){
 			if(data=='exist'){
-				$('#chkPwd').val($('#userPwd').val());	
+				$('#chkPwd').val('exist');	
+			}else{
+				$('#chkPwd').val('not_exist');	
 			}
 			
 		}				
@@ -138,7 +140,6 @@ function changePwd(){
 }
 
 $('#memberOutBtn').click(function(){
-	
 	if($('#userPwd').val()=='')
 		alert('비밀번호를 입력하여 주십시요.');
 	else if($("input:checkbox:checked").length == 0)
@@ -148,7 +149,7 @@ $('#memberOutBtn').click(function(){
 		if(!result){return false;}
 		
 	
-	if($('#userPwd').val()!=$('#chkPwd').val()){
+	if($('#chkPwd').val()=='not_exist'){
 		alert("비밀번호가 일치하지 않습니다.");
 		return false;
 	}else {

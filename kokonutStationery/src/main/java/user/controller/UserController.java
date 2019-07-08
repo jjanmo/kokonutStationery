@@ -2,10 +2,13 @@ package user.controller;
 
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,10 @@ import user.dao.UserDAO;
 public class UserController {
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Inject
+	PasswordEncoder passwordEncoder;
+	
 	//비밀글내용과 자기아이디체크
 	@GetMapping("/checkSecret")
 	@ResponseBody
@@ -116,6 +123,8 @@ public class UserController {
 		session.setAttribute("memEmail", userDTO.getUserEmail());
 		
 		//회원가입폼을 DB로 전달 
+		String encPassword = passwordEncoder.encode(userDTO.getUserPwd());
+		userDTO.setUserPwd(encPassword);
 		userDAO.join(userDTO);
 		System.out.println("회원가입완료");
 		
@@ -140,20 +149,20 @@ public class UserController {
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkLogin(@RequestParam Map<String,String> map , HttpSession session) {
-		
+
 		UserDTO userDTO = userDAO.login(map);
 		
-		if(userDTO == null) { //user정보 존재안함 - 로그인 못함
-			return "not_exist";
-		}
-		else { //user정보 존재 - 로그인 가능
-			//session 생성
+		if(userDTO==null){
+       	 	return "not_exist";
+		}else if(passwordEncoder.matches(map.get("userPwd"), userDTO.getUserPwd())) {
 			session.setAttribute("memName", userDTO.getUserName());
 			session.setAttribute("memId", userDTO.getUserId());
 			session.setAttribute("memEmail", userDTO.getUserEmail());
 			return "exist";
+		}else {
+			return "not_exist";
 		}
-		
+
 	}
 	
 	//로그아웃
@@ -248,10 +257,13 @@ public class UserController {
 		
 		//로그인과 동일 sql사용
 		UserDTO userDTO = userDAO.login(map);
-		
-		if (userDTO==null)
-			return "not_exist";
-		else return "exist";
+		System.out.println("유저pwd /"+map.get("userPwd"));
+		System.out.println("DB pwd /"+userDTO.getUserPwd());
+		if(passwordEncoder.matches(map.get("userPwd"), userDTO.getUserPwd())) {
+			return "exist";
+		}else {
+        	 return "not_exist";
+		}
 	}
 	
 	
@@ -277,15 +289,17 @@ public class UserController {
 		
 		System.out.println("수정할 id="+map.get("userId"));
 		UserDTO userDTO = userDAO.checkId(map.get("userId"));
-		
 		System.out.println("이전 pwd="+map.get("userPwd"));
-		System.out.println("수정할 pwd="+userDTO.getUserPwd());
+		System.out.println("수정할 pwd="+map.get("newPwd"));
 		
 		//비밀번호가 null때 이전 값 그대로
 		if(map.get("userPwd")=="")
 			map.put("userPwd",userDTO.getUserPwd());
-		else
-			map.put("userPwd",map.get("newPwd"));
+		else {
+			String encPassword = passwordEncoder.encode(map.get("newPwd"));
+			userDTO.setUserPwd(encPassword);
+			map.put("userPwd",userDTO.getUserPwd());
+		}
 		
 		userDAO.modify(map);
 		

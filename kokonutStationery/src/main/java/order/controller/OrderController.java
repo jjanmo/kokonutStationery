@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
 
@@ -44,13 +45,20 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		//제품정보가져오기
 		GoodsDTO goodsDTO = orderDAO.getProduct(productCode);
-		//유저정보가져오기
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-
+	
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("productQty", productQty);
 		mav.addObject("goodsDTO", goodsDTO);
-		mav.addObject("userDTO", userDTO);
+		//유저정보가져오기
+		if(userId!=null) {
+			UserDTO userDTO = userDAO.getUserInfo(userId);	
+			mav.addObject("userDTO", userDTO);
+		}else {
+			int seq = userDAO.IncreaseKokonutSeq();
+			userDAO.createKokonutId(seq);
+			UserDTO userDTO = userDAO.getKokonutId(seq);
+			mav.addObject("userDTO", userDTO);
+		}
 		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -67,8 +75,7 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		//제품정보가져오기
 		GoodsDTO goodsDTO = orderDAO.getProduct(productCode);
-		//유저정보가져오기
-		UserDTO userDTO = userDAO.getUserInfo(userId);
+		
 		String selValue = "";
 		String pdQtyValue = "";
 		for(int i = 0; i < selArray.length; i++) {
@@ -82,7 +89,16 @@ public class OrderController {
 		mav.addObject("pdQtyValue", pdQtyValue); //선택한 옵션 
 		mav.addObject("selValue", selValue);	 //선택한 옵션의 상품의 수량
 		mav.addObject("goodsDTO", goodsDTO);
-		mav.addObject("userDTO", userDTO);
+		//유저정보가져오기
+		if(userId!=null) {
+			UserDTO userDTO = userDAO.getUserInfo(userId);	
+			mav.addObject("userDTO", userDTO);
+		}else {
+			int seq = userDAO.IncreaseKokonutSeq();
+			userDAO.createKokonutId(seq);
+			UserDTO userDTO = userDAO.getKokonutId(seq);
+			mav.addObject("userDTO", userDTO);
+		}
 		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -162,23 +178,31 @@ public class OrderController {
 		return mav;
 	}
 	
-	//선택주문하기
-	@GetMapping("/order_cart.do")
-	public ModelAndView orderCart(HttpSession session) {
-		
-		//세션아이디
-		String userId = (String) session.getAttribute("memId");
-		
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list); 			//상품정보
-		mav.addObject("userDTO", userDTO);		//유저정보
-		mav.addObject("display", "/order/order_cart.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
+	//ORDERLIST 생성 및 ORDER 수정
+	@RequestMapping(value="/insertOrderlist.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String insertOrderlist(@ModelAttribute OrderlistDTO orderlistDTO) {
+		//ORDERLIST 생성
+		System.out.println(orderlistDTO);
+		int su = orderDAO.insertOrderlist(orderlistDTO);
+		if(su == 0) {
+			return "fail";
+		}
+		else {
+			return "success";
+		}
 	}
-	
+	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String kokonutIdCancel(@RequestParam String userId) {
+		int su = userDAO.kokonutIdCancel(userId);
+		
+		if(su==1) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 }
 
 

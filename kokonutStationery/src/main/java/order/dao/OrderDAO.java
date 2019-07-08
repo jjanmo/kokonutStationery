@@ -3,9 +3,9 @@ package order.dao;
 import java.util.List;
 import java.util.Map;
 
-import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import user.bean.UserDTO;
 
@@ -24,6 +24,7 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getOrderInfo(String userId);
 
-	
+	public int insertOrderlist(OrderlistDTO orderlistDTO);
+
 
 }
