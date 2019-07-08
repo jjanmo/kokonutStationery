@@ -3,7 +3,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
-<div class="indiv" ><!-- Start indiv -->
+<div class="indiv2" style="width:1000px; margin-top:135px;" ><!-- Start indiv -->
 	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222;">
 		결제하기
 	</div>
@@ -133,7 +133,7 @@
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">총 주문 금액 : </td>
 				            <td>
 				            <span id="totalAmount" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
-				            <span>원</span>
+				            <span style="font-size: 13px; color: #666;">원</span>
 				            </td>
 				          </tr>
 						<tr>
@@ -145,14 +145,14 @@
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">사용한 포인트 : </td>
 				            <td>
 							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
-				            <span>원</span>
+				            <span style="font-size: 13px; color: #666;">원</span>
 							</td>
 				       </tr>
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">결제금액 : </td>
 				            <td>
 				            <span id="totalPayment1" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
-				            <span>원</span>
+				            <span style="font-size: 13px; color: #666;">원</span>
 				            </td>
 				       </tr>		        
 		        	</tbody>
@@ -241,49 +241,49 @@ var paymentType = 0;
 	$.ajax({
 		type: 'POST',
 		async: false,
-		url: '/kokonutStationery/order/getOrderList.do',
+		url: '/kokonutStationery/order/getOrder.do',
 		dataType: 'json',
 		success: function(data){
 			alert("데이터출력");
 			$.each(data.list, function(index, item) {
 				$('<tr/>').append($('<td/>',{
-					style: "vertical-align:top; padding: 30px 0;"
-				}).append($('<a/>',{
-					href : "#",
-					style : "margin-bottom:0;"		
-				}).append($('<img>',{
-					src : '../image/thumb/'+ item.thumbImg,
-					width : "70"
+					style: "vertical-align: middle; padding: 30px 0;"
+					}).append($('<a/>',{
+						href : "#",
+						style : "margin-bottom:0;"		
+						}).append($('<img>',{
+							src : '../image/thumb/'+ item.thumbImg,
+							width : "70"
 				})))).append($('<td>',{
 					class : 'order_option',
-					style : "text-align:left;vertical-align:top; padding: 30px 0;"
-				}).append($('<div/>',{
-					text : item.productName,
-					style : "color: #222; font-weight: 700; font-size: 14px;",
-				})).append($('<div>', {
-					class : 'optionDiv1'+index,
-					text : '선택옵션 : ',
-				})).append($('<div/>',{
-					class : 'optionDiv2'+index,
-					text : item.optionContent +'/'
+					style : "text-align:left;vertical-align: middle; padding: 30px 0;"
+					}).append($('<div/>',{
+						text : item.productName,
+						style : "color: #222; font-weight: 700; font-size: 14px;",
+					})).append($('<div>', {
+						class : 'optionDiv1'+index,
+						text : '선택옵션 : ',
+					})).append($('<div/>',{
+						class : 'optionDiv2'+index,
+						text : item.optionContent +'/'
 				}))).append($('<td>',{
 					text : item.discountPrice,
-					style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-				}).append($('<span/>',{
-					text : '원'
+					style : "color: #222; vertical-align: middle; padding: 30px 50px 30px 0; text-align:right;"
+					}).append($('<span/>',{
+						text : '원'
 				}))).append($('<td/>',{
-					style : "vertical-align:top; padding: 22px 0 30px 0;"
-				}).append($('<div/>',{
-					style : "padding-top: 8px; vertical-align: top; color:#222;",
-					text : item.purchaseQty,
-				}).append($('<span>',{
-					text : '개'
+					style : "vertical-align: middle; padding: 22px 0 30px 0;"
+					}).append($('<div/>',{
+						style : "padding-top: 8px; vertical-align: middle; color:#222;",
+						text : item.purchaseQty,
+						}).append($('<span>',{
+							text : '개'
 				})))).append($('<td>',{
 					class : 'totalPrice',
-					tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+					tyle : "vertical-align: middle; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
 					text : item.discountPrice * item.purchaseQty 
-				}).append($('<span/>', {
-					text : '원'
+					}).append($('<span/>', {
+						text : '원'
 				}))).appendTo($('#tbody'));
 				
 				if(item.productOption == 0){

@@ -4,7 +4,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
-<div class="indiv"><!-- Start indiv -->
+<div class="indiv2" style="width:1000px; margin-top:135px;"><!-- Start indiv -->
 	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222;">
 		주문하기
 	</div>
@@ -407,36 +407,40 @@ $('#sameInfo').click(function(){
 function createTabNoOption(){
 	$('<tr/>').append($('<td/>',{
 		style: "vertical-align:top; padding: 30px 0;"
-	}).append($('<a/>',{
-		href : "#",
-		style : "margin-bottom:0;"		
-	}).append($('<img>',{
-		src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
-		width : "70"
+		}).append($('<a/>',{
+			href : "#",
+			style : "margin-bottom:0;"		
+			}).append($('<img>',{
+				src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+				width : "70"
+				
 	})))).append($('<td>',{
 		class : "order_option",
-		style : "text-align:left;vertical-align:top; padding: 30px 0;"
-	}).append($('<div/>',{
-		text : '${goodsDTO.productName}',
-		style : "color: #222; font-weight: 700; font-size: 14px;",
+		style : "text-align:left;vertical-align:top; "
+		}).append($('<div/>',{
+			text : '${goodsDTO.productName}',
+			style : "color: #222; height:auto; font-weight: 700; font-size: 14px; padding: 30px 0; margin:20px 0 20px 0;"
+			
 	}))).append($('<td>',{
 		text : '${goodsDTO.discountPrice}',
-		style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-	}).append($('<span/>',{
-		text : '원'
+		style : "color: #222; vertical-align:middle; padding: 30px 50px 30px 0; text-align:right;"
+		}).append($('<span/>',{
+			text : '원'
+			
 	}))).append($('<td/>',{
-		style : "vertical-align:top; padding: 22px 0 30px 0;"
-	}).append($('<div/>',{
-		style : "padding-top: 8px; vertical-align: top; color:#222;",
-		text : '${productQty}'
-	}).append($('<span>',{
-		text : '개'
+		style : "vertical-align: middle; padding: 22px 0 30px 0;"
+		}).append($('<div/>',{
+			style : "padding-top: 8px; vertical-align: middle; color:#222;",
+			text : '${productQty}'
+			}).append($('<span>',{
+				text : '개'
+				
 	})))).append($('<td>',{
 		class : 'totalPrice',
-		tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+		tyle : "vertical-align: middle; color:#333; text-align:right; padding: 30px 20px 0 0; font-weight:700; ",
 		text : '${goodsDTO.discountPrice * productQty}'
-	}).append($('<span/>', {
-		text : '원'
+		}).append($('<span/>', {
+			text : '원'
 	}))).appendTo($('#tbody'));
 }
 
@@ -445,40 +449,40 @@ function createTabOption(optionContent, productQty){
 	for(var i = 0; i< optionContent.length-1; i++ ){
 		$('<tr/>').append($('<td/>',{
 			style: "vertical-align:top; padding: 30px 0;"
-		}).append($('<a/>',{
-			href : "#",
-			style : "margin-bottom:0;"		
-		}).append($('<img>',{
-			src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
-			width : "70"
+			}).append($('<a/>',{
+				href : "#",
+				style : "margin-bottom:0;"		
+				}).append($('<img>',{
+					src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+					width : "70"
 		})))).append($('<td>',{
 			class : "order_option",
-			style : "text-align:left;vertical-align:top; padding: 30px 0;"
-		}).append($('<div/>',{
-			text : '${goodsDTO.productName}',
-			style : "color: #222; font-weight: 700; font-size: 14px;",
-		})).append($('<div>', {
-			text : '선택옵션 : ',
-		})).append($('<div/>',{
-			text : optionContent[i] +'/'
+			style : "text-align:left;vertical-align:middle; padding: 30px 0;"
+			}).append($('<div/>',{
+				text : '${goodsDTO.productName}',
+				style : "color: #222; font-weight: 700; font-size: 14px; ",
+			})).append($('<div>', {
+				text : '선택옵션 : ',
+			})).append($('<div/>',{
+				text : optionContent[i] +'/'
 		}))).append($('<td>',{
 			text : '${goodsDTO.discountPrice}',
-			style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-		}).append($('<span/>',{
-			text : '원'
+			style : "color: #222; vertical-align: middle; padding: 30px 50px 30px 0; text-align:right;"
+			}).append($('<span/>',{
+				text : '원'
 		}))).append($('<td/>',{
-			style : "vertical-align:top; padding: 22px 0 30px 0;"
-		}).append($('<div/>',{
-			style : "padding-top: 8px; vertical-align: top; color:#222;",
-			text : productQty[i]
-		}).append($('<span>',{
-			text : '개'
+			style : "vertical-align:middle; padding: 22px 0 30px 0;"
+			}).append($('<div/>',{
+				style : "padding-top: 8px; vertical-align: middle; color:#222;",
+				text : productQty[i]
+				}).append($('<span>',{
+					text : '개'
 		})))).append($('<td>',{
 			class : 'totalPrice',
-			tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+			tyle : "vertical-align:middle; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
 			text : '${goodsDTO.discountPrice}' * productQty[i]
-		}).append($('<span/>', {
-			text : '원'
+			}).append($('<span/>', {
+				text : '원'
 		}))).appendTo($('#tbody'));
 	
 	}  
@@ -556,6 +560,39 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do
 $('#orderWriteBtn').click(function(){
+	
+	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
+	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
+	
+	//유효성검사
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#receiverName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#receiverName').focus();
+			return false;
+	}else if($('#receiverZipcode').val()==''){
+		alert("주소를 입력해주세요");
+		$('#receiverZipcode').focus();
+		return false;
+	}else if($('#receiverAddr2').val()==''){
+		alert("세부주소를 입력해주세요.");
+		$('#receiverAddr2').focus();
+		return false;
+	}else if( !chkPhone.test($('#receiverPhone1').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone1').focus();
+		return false;
+		
+	}else if( !chkPhone2.test($('#receiverPhone2').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone2').focus();
+		return false;
+		
+	}else if( !chkPhone2.test($('#receiverPhone3').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone3').focus();
+		return false;
+	}
+	
 	//user정보 및 배송정보 
 	$.ajax({
 		type : 'POST',
@@ -592,7 +629,7 @@ $('#orderWriteBtn').click(function(){
 					'productName'	: '${goodsDTO.productName}',
 					'discountPrice' : '${goodsDTO.discountPrice}',
 					'purchaseQty' 	: '${productQty}',
-					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
+					'totalPrice'	: '${goodsDTO.discountPrice* productQty}',
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },
