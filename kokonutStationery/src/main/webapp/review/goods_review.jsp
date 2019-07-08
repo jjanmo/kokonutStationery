@@ -30,8 +30,8 @@
 				</div>
 				<div>
 					<select class="goods_userPage_sortOption">
-						<option>10개씩 정렬</option>
-						<option>20개씩 정렬</option>
+						<option value="10">10개씩 정렬</option>
+						<option value="20">20개씩 정렬</option>
 					</select>
 				</div>
 				<br><br>
@@ -47,56 +47,14 @@
 						</tr>
 					</table>
 				</div>
-				<!-- 내용 div / 갯수만큼 생성되기때문에 실제론 jquery이용 -->
 				<div>
 					<table class="goods_userPage_board" cellpadding="5">
-						<tr height="25">
-							<td width="80" name="review_no">10</td>
-							<td width="80">
-								<a href=""><img src="http://store.baemin.com/shop/data/goods/1556617064338s0.png"
-									 class="goods_userPage_img" name="thumbImg"/></a>
-							</td>
-							<td class="goods_userPage_board_content">
-								<div>
-									<span style="font-weight: 700;" name="productName">오뚜기X배달의민족. 사골곰탕</span>
-									&nbsp;&nbsp;
-									<a href="">
-										<u style="color:#999999; font-weight:600;">보러가기</u></a>
-									<br>
-									<div style="margin: 8px 0;">이렇게 귀여운 건 반칙입니다.</div>
-								</div>
-							</td>
-							<td width="140">zamongpow**</td>
-							<td width="120">2019.05.14</td>
-						</tr>
+						
 					</table>
 				</div>
-				<div>
-					<table class="goods_userPage_board" cellpadding="5">
-						<tr height="25">
-							<td width="80">9</td>
-							<td width="80">
-								<a href=""><img src="http://store.baemin.com/shop/data/goods/1556617064338s0.png"
-									 class="goods_userPage_img"/></a>
-							</td>
-							<td class="goods_userPage_board_content">
-								<div>
-									<span style="height:20px; color: #2AC1BC; font-weight: 700;">답변 : </span>
-									<span style="font-weight: 700;">오뚜기X배달의민족. 사골곰탕</span>
-									&nbsp;&nbsp;
-									<a href="">
-										<u style="color:#999999; font-weight:600;">보러가기</u></a>
-									<br>
-									<div style="margin: 8px 0;">[배민문방구] 답변드립니다.</div>
-								</div>
-							</td>
-							<td width="140">admin</td>
-							<td width="120">2019.05.14</td>
-						</tr>
-					</table>
-				</div>
+				
 				<!-- 페이징 -->
-				<div class="goods_userPage_paging"><b>1</b></div>
+				<div class="goods_userPage_paging"></div>
 			</form>
 		</div>
 	</div>

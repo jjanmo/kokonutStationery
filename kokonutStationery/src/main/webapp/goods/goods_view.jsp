@@ -133,49 +133,22 @@
 				<div class="userPage_div">
 					<p>후기</p>
 				</div>
-				<div>
-					<div class="userPage_area" id="review_01">
-						<div class="userPage_subject">
-							후후후후후 간지 폭발 스티커 감사합니다 &nbsp; <img src="../image/file_icon.png"
-								style="width: 18px; height: 18px; vertical-align: middle;">
-						</div>
-						<div class="userPage_name">uela13**</div>
-						<div class="userPage_date">2017.11.10</div>
-					</div>
-					<br>
-					<div class="userPage_content" id="review_01_content">
-						<img src="http://store.baemin.com/shop/data/review/RV0000008371"
-							style="width: 60%;"> <br>
-						<br> 보드 새로 장만하신 분께 선물로 드렸는데<br> 완전 행복해하시네여 +_+<br>
-						더 사드릴걸 그랬습니다 껄껄<br>
-						<button class="review_reply_btn">답변</button>
-						<br>
-					</div>
-					<div class="userPage_area" id="review_02">
-						<div class="userPage_subject">
-							<span style="color: #2AC1BC; font-weight: 700;">답변 : </span>[배민문방구]
-							답변드립니다.
-						</div>
-						<div class="userPage_name">admin</div>
-						<div class="userPage_date">2017.11.10</div>
-					</div>
-					<div class="userPage_content" id="review_02_content">
-						안녕하세요, 고객님 : )<br> 배민문방구입니다.<br>
-						<br> 보드에 쓰실 생각을 하시다니!!!!!<br> 넘나 예쁠 것 같은 것 ///_// 껄껄<br>
-						오늘 하루도 재미있고 행복한 하루 보내세요~<br>
-						<br> 감사합니다.<br> 배민문방구 드림.<br>
-					</div>
-					<div class="userPage_paging"></div>
-					<div class="userPage_buttons">
-						<a href="/kokonutStationery/review/goods_review.do">
-							<li id="review_list_btn" class="userPage_sub_button">목록</li>
-						</a>
-							<li id="review_regist_btn" class="userPage_main_button">작성</li>
-					</div>
-					<div class="userPage_paging_num">
-						<b>1</b>
-					</div>
+				<div id="reviewList">
+					
+					
 				</div>
+				
+				<div class="userPage_paging"></div>
+				<div class="userPage_buttons">
+					<a href="/kokonutStationery/review/goods_review.do">
+						<li id="review_list_btn" class="userPage_sub_button">목록</li>
+					</a>
+						<li id="review_regist_btn" class="userPage_main_button">작성</li>
+				</div>
+				<div class="userPage_paging_num">
+					<b>1</b>
+				</div>
+
 
 			</div>
 			<!--상품문의 -->
@@ -676,7 +649,8 @@ $(document).ready(function(){
 							$('#qna_'+index+'_content').text("비밀글입니다");
 							
 						}else if(item.secret==0){
-							
+							if(item.admin!=1){
+								
 							//삭제버튼
 							$('#qna_'+index+'_content').append($('<input/>',{
 								type:'button',
@@ -695,6 +669,8 @@ $(document).ready(function(){
 								style:'visibility:hidden;',
 								value:'수정'
 							}));
+							
+							}//if admin!=1
 						}
 						
 					}else if(item.admin==1){						
@@ -721,10 +697,10 @@ $(document).ready(function(){
 						
 						//작성자
 						$('#qna_'+index).append($('<div/>',{
-							class:'userPage_name',
-							text:item.userId
-							
-						}));
+							class:'userPage_name',	
+						}).append($('<img/>',{ // 관리자 이미지
+							src : '../image/admin.gif'
+						})));
 						
 						//날짜
 						$('#qna_'+index).append($('<div/>',{
@@ -796,6 +772,8 @@ $(document).ready(function(){
 										if(data=="ok"){
 											thisContent.removeClass("userPage_private_lock");
 											thisContent.html(item.qnaboardContent);
+											
+											if(item.admin!=1){
 											//삭제버튼
 											$('#qna_'+index+'_content').append($('<input/>',{
 												type:'button',
@@ -812,6 +790,7 @@ $(document).ready(function(){
 												id:'qna_modify_btn',
 												value:'수정'
 											}));
+											}//if admin!=1
 										}
 									}
 									

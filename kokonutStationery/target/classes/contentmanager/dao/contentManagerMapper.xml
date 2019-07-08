@@ -68,6 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 									qnaboardSubject,
 									qnaboardContent,
 									secret,
+									productCode,
+									productName,
 									ref,
 									admin)  
 				values(	#{userId},
@@ -75,6 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 						#{qnaboardSubject},
 						#{qnaboardContent},
 						#{secret},
+						#{productCode},
+						#{productName},
 						#{ref},
 						1)
 	</insert>
