@@ -342,8 +342,8 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div onclick="location.href='/kokonutStationery.main/index.do'" class="sub-button-s" 
-							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
+			            	<div id="order_cancelBtn" class="sub-button-s" 
+			            	style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
 							<input type="button" id="orderWriteBtn" class="main-button-s" 
@@ -592,7 +592,7 @@ $('#orderWriteBtn').click(function(){
 					'productName'	: '${goodsDTO.productName}',
 					'discountPrice' : '${goodsDTO.discountPrice}',
 					'purchaseQty' 	: '${productQty}',
-					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
+					'totalPrice'	: '${goodsDTO.discountPrice * productQty}',
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },
@@ -648,5 +648,29 @@ $('#orderWriteBtn').click(function(){
 	
 	location.href = "/kokonutStationery/order/order_settle.do";	
 		
+});
+var kId = 'Kokonut';
+
+$('#order_cancelBtn').click(function(){
+	//alert('${userDTO.userId}'.indexOf(kId));
+	if('${userDTO.userId}'.indexOf(kId) == 0){
+		if(confirm("상품 구매를 중단하시고 돌아가시겠습니까?")){
+			$.ajax({
+				type : 'get',
+				url : '/kokonutStationery/order/kokonutIdCancel.do',
+				data : 'userId=' + '${userDTO.userId}',
+				dataTye : 'text',
+				success : function(result){
+					if(result=='success'){
+						location.href='/kokonutStationery/main/index.do';
+					}else if(result=='fail'){
+						alert("주문취소 실패! 다시 시도해주세요");
+					}
+				}
+			});
+		}
+	}else{
+		location.href='/kokonutStationery/main/index.do';
+	}	
 });
 </script>

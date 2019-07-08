@@ -335,9 +335,9 @@ $(document).ready(function(){
 		success : function(data){
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
-				if(items.paymentType==1)
+				if(items.paymentType==0)
 					var paymentType = '신용카드';
-				else if(items.paymentType==2)
+				else if(items.paymentType==1)
 					var paymentType = '핸드폰 결제';
 				
 				if(items.orderState==0)

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -132,7 +134,6 @@ public class GoodsController {
 		
 		//상품한개받아오기
 		GoodsDTO goodsDTO = goodsDAO.getGoodsView(Integer.parseInt(productCode));
-		
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("goodsDTO", goodsDTO);

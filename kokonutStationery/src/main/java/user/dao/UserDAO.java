@@ -30,5 +30,15 @@ public interface UserDAO {
 
 	public void subWishListCount(String userId);
 
+	public int IncreaseKokonutSeq();
+	
+	public void createKokonutId(int seq);
+
+	public UserDTO getKokonutId(int seq);
+
+	public int kokonutIdCancel(String userId);
+
+	
+
 
 }
