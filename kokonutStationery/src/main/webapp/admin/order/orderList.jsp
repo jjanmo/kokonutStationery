@@ -75,6 +75,35 @@
 	width: 80px;
 	height: 27px;
 }
+#order_selectDiv{
+	width: 100%;
+	padding-bottom: 10px;
+	overflow: auto;
+}
+
+.orderListBtn{
+	width: 100px;
+	height: 35px;
+    padding: 0 20px;
+    font-size: 14px;
+	font-weight: normal;
+    cursor: pointer;
+	color: #1b87d4;
+    border: 1px solid #1b87d4;
+    background-color: #fff;
+}
+.orderListBtn:hover{
+   background-color:#1b87d4;
+   color:#ffffff;
+}
+
+#order_state{
+	width: 150px;
+	height: 35px;
+    padding: 0 5px;
+    font-size: 14px;
+	font-weight: normal;
+}
 
 .inputText{
 	height: 23px;
@@ -107,12 +136,44 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    
+	/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    max-width: 100%; /* Could be more or less, depending on screen size */     
+     width: auto; display: table;                   
+}
+
+.modalDiv{
+	width:185px;
+	cursor:pointer;
+	background-color:#DDDDDD;
+	text-align: center;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin: 0 15px 0 15px;
+}
 </style>
 </head>
 <body>
 <!-- 메인컨텐츠 시작 -->
-<div id="mainContent_wrap">
-	<input type="hidden" id="pg" name="pg" value="${pg }">
+<div id="mainContent_wrap">	
 	<div id="order_search_wrap" style="width: 1000px; margin: 0 auto;">
 		<div id="order_search_title" style="margin-bottom: 20px;">
 			<h1 style="font-weight:normal;">주문관리</h1>
@@ -161,11 +222,29 @@
 			</div>
 		</form>
 		
+		<form name="orderList_actionForm">
+		<input type="hidden" id="pg" name="pg" value="${pg }">
 		<div id="orderSeach_list" align="left" style="margin-top: 50px;">
+			<div id="order_selectDiv">
+				<input type="button" class="orderListBtn" value="선택 삭제" onclick="orderAction('delete')"/>
+				<div style="float: right;">				
+					<select id="order_state" name="orderState">
+						<option>주문상태 선택</option>
+						<option value="0">주문취소</option>
+						<option value="1">주문접수</option>
+						<option value="2">배송준비</option>
+						<option value="3">배송중</option>
+						<option value="4">배송완료</option>
+						<option value="9">주문완료</option>
+					</select>				
+					&nbsp;
+					<input type="button" class="orderListBtn" value="선택 갱신" onclick="orderAction('change')"/>
+				</div>
+			</div>
 			<table id="orderList_table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
 					<th style="width: 44px;">
-						<input type="checkbox">
+						<input type="checkbox" id="check_all">
 					</th>
 					<th style="width: 120px;">주문일</th>
 					<th style="width: 130px;">주문번호</th>
@@ -180,6 +259,68 @@
 			<div id="orderManagerPagingDiv"></div>
 			<br><br><br><br>
 		</div>
+		</form>
+		<!-- 선택 갱신 시 확인&취소 / Modal -->
+	    <div id="open_changeConfirmModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주문상태 갱신</span></b></span></p>
+				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">선택된 주문의 주문상태를 갱신하시겠습니까?</span></p>
+   				<p><br /></p>
+
+				<div class="modalDiv" id="changeConfirmOK_Modal" style="display: inline-block;">
+					<span class="pop_bt" style="font-size: 13pt; " >
+       					  확인
+    				</span>
+				</div>
+				
+				<div  class="modalDiv" id="changeConfirmClose_Modal" style="float:right;">
+					<span class="pop_bt" style="font-size: 13pt;" >
+               			 취소
+            		</span>
+        		</div>
+			</div>
+		</div>
+  		<!--End Modal-->
+		 <!-- 선택 삭제 시 확인&취소 / Modal -->
+	    <div id="open_deleteConfirmModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
+   				<p><br /></p>
+
+				<div class="modalDiv" id="deleteConfirmOK_Modal" style="display: inline-block;">
+					<span class="pop_bt" style="font-size: 13pt; " >
+       					  확인
+    				</span>
+				</div>
+				
+				<div  class="modalDiv" id="deleteConfirmClose_Modal" style="float:right;">
+					<span class="pop_bt" style="font-size: 13pt;" >
+               			 취소
+            		</span>
+        		</div>
+			</div>
+		</div>
+  		<!--End Modal-->
+  		
+		<!-- 체크박스 선택 X / Modal -->
+		<div id="open_nonCheckModal" class="modal">
+			<!-- Modal content -->
+			<div class="modal-content">	
+				<p style="text-align: center;"><span style="font-size: 14pt;"><b><span id="noneCheck_modal" style="font-size: 24pt;"></span></b></span></p>
+                <p id="stateNoneSelect" style="text-align: center; line-height: 1.5; color: red;"><br />항목을 선택해 주세요</p>
+                <p><br /></p>
+            	<div class="close_Modal" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;">
+               		<span class="pop_bt" style="font-size: 13pt;" >
+                   	 	 닫기
+                	</span>
+            	</div>
+     		</div>
+		</div>
+    	 <!--End Modal-->
+		
 	</div><!-- search_wrap -->
 	
 </div><!-- 메인컨텐츠 끝 -->
@@ -220,11 +361,19 @@ $(document).ready(function(){
 				else if(items.orderState==7)
 					var orderState = '환불접수';
 				else if(items.orderState==8)
-					var orderState = '환불완료';
+					var orderState = '환불완료';				
 				
 				//상품이름 외 x건 출력
 				var orderProductName="";
 				var orderProductAmount = 0;
+				
+				//주문취소시 결제금액 0원
+				var totalPayment;
+				if(orderState == '주문취소'){
+					totalPayment = 0;
+				}else{
+					totalPayment = items.totalPayment;
+				}
 				
 				$.ajax({
 					type : 'post',
@@ -254,13 +403,14 @@ $(document).ready(function(){
 				$('<tr/>', {
 					class : 'orderList_tr'
 				}).append($('<td/>',{
-					align : 'center'
+					align : 'center',
+					onclick : 'event.cancelBubble=true' //이 칸만 이벤트 적용 x
 					}).append($('<input/>', {
 						type : 'checkbox',
 						value : items.orderCode,
 						name : 'check',
-						class : 'check'
-				}))).append($('<td/>', {
+						class : 'check '+ items.orderState
+				})).css('cursor', 'auto')).append($('<td/>', {
 					align : 'center',
 					text : items.orderDate
 				})).append($('<td/>', {
@@ -274,7 +424,8 @@ $(document).ready(function(){
 					class : 'order_product'+index
 				}).css('padding', '0 5px')).append($('<td/>', {
 					align : 'right',
-					text : items.totalPayment + '원'
+					id : 'totalPayment_td',
+					text : totalPayment + '원'
 				}).css('padding', '0 5px')).append($('<td/>', {
 					align : 'center',
 					text : paymentType
@@ -283,20 +434,81 @@ $(document).ready(function(){
 					text : orderState
 				})).appendTo($('#orderList_table'));
 				
+				
+				
 				//주문확인 페이지 이동
 				$('.orderList_tr').click(function(){
-					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userName='+items.userName+'&userId='+items.userId+'&orderDate='+items.orderDate
+					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userId='+items.userId+'&orderDate='+items.orderDate
 							,'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
 				});			
 			});
 			//페이징 생성
 			$('#orderManagerPagingDiv').html(data.orderManagerPaging.pagingHTML);
 		}		
-	});	
+	});
+	
+	//체크박스 전체 선택
+	$('#check_all').click(function(){
+		if($('#check_all').is(':checked'))
+			$('.check').prop('checked', true);
+		else
+			$('.check').prop('checked', false);
+	});
+	/* 모달선택 창 닫기 */
+	$('#changeConfirmClose_Modal').click(function(){
+		$('#open_changeConfirmModal').hide();
+	});
+
+	/* 모달삭제 창 닫기 */
+	$('#deleteConfirmClose_Modal').click(function(){
+		$('#open_deleteConfirmModal').hide();
+	});
+
+	$('.close_Modal').click(function(){
+		$('#open_nonCheckModal').hide();
+		$('#open_deleteSuccessModal').hide();
+	});
 });
 //페이징 링크
 function orderManagerPaging(pg){
 	location.href="/kokonutStationery/admin/orderList.do?pg="+pg;
+}
+//선택갱신 선택 삭제
+function orderAction(action){
+	var count = $('.check:checked').length;
+
+	if(action=='change'){
+		if(count==0){
+			$('#noneCheck_modal').html('주문상태 갱신');
+			$('#open_nonCheckModal').show();
+		}else{
+			if($('#order_state').val()=='주문상태 선택'){
+				$('#noneCheck_modal').html('주문상태 갱신');
+				$('#stateNoneSelect').html('갱신하실 주문상태를 선택해주세요.');
+				$('#open_nonCheckModal').show();
+			}
+			else{
+				$('#open_changeConfirmModal').show();
+				$("#changeConfirmOK_Modal").off().on('click', function(){
+					document.orderList_actionForm.method='post';
+					document.orderList_actionForm.action='/kokonutStationery/admin/selectedOrderStateChange.do';
+					document.orderList_actionForm.submit();
+				});
+			}
+		}
+	}else if(action=='delete'){
+		if(count==0){
+			$('#noneCheck_modal').html('주문내역 삭제');
+			$('#open_nonCheckModal').show();
+		}else{
+			$('#open_deleteConfirmModal').show();
+			$("#deleteConfirmOK_Modal").off().on('click', function(){
+				document.orderList_actionForm.method='post';
+				document.orderList_actionForm.action='/kokonutStationery/admin/selectedOrderDelete.do';
+				document.orderList_actionForm.submit();
+			});
+		}
+	}
 }
 </script>
 </html>

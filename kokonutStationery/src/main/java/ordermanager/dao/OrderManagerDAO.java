@@ -21,6 +21,10 @@ public interface OrderManagerDAO {
 
 	public int orderStateChange(Map<String, Object> map);
 
+	public void selectedOrderStateChange(Map<String, String[]> map);
+
+	public void selectedOrderDelete(Map<String, String[]> map);
+
 	
 
 	

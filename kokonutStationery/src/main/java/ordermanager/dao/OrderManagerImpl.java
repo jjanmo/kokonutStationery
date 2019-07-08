@@ -47,6 +47,16 @@ public class OrderManagerImpl implements OrderManagerDAO {
 		return sqlSession.update("orderManagerSQL.orderStateChange", map);
 	}
 
+	@Override
+	public void selectedOrderStateChange(Map<String, String[]> map) {
+		sqlSession.update("orderManagerSQL.selectedOrderStateChange", map);
+	}
+
+	@Override
+	public void selectedOrderDelete(Map<String, String[]> map) {
+		sqlSession.delete("orderManagerSQL.selectedOrderDelete", map);
+	}
+
 	
 
 	

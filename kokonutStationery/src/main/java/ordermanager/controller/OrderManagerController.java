@@ -93,4 +93,24 @@ public class OrderManagerController {
 		orderManagerDAO.orderStateChange(map);
 		return "success";
 	}
+	
+	@RequestMapping(value="/admin/selectedOrderStateChange.do", method=RequestMethod.POST)
+	public String selectedOrderStateChange(@RequestParam String[] check
+			, @RequestParam String[] orderState, @RequestParam String pg) {
+		Map<String, String[]> map = new HashMap<String, String[]>();
+		
+		map.put("check", check);
+		map.put("orderState", orderState);
+		orderManagerDAO.selectedOrderStateChange(map);
+		return "redirect:/admin/orderList.do?pg="+pg;
+	}
+	
+	@RequestMapping(value="admin/selectedOrderDelete.do", method=RequestMethod.POST)
+	public String selectedOrderDelete(@RequestParam String[] check, @RequestParam String pg) {
+		Map<String, String[]> map = new HashMap<String, String[]>();
+		map.put("check", check);
+		orderManagerDAO.selectedOrderDelete(map);
+		
+		return "redirect:/admin/orderList.do?pg="+pg;
+	}
 }
