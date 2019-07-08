@@ -194,7 +194,7 @@
 								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="#"><li class="main-button-s">선택 주문하기</li></a>
+								<a href="/kokonutStationery/order/order_cart.do"><li id="" class="main-button-s">선택 주문하기</li></a>
 							</div>
 						</div>
 					</td>
