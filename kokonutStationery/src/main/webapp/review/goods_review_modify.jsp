@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품후기작성</title>
+<title>상품후기수정</title>
 <link rel="stylesheet" href="../css/goods_review_register.css">
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
@@ -25,15 +25,16 @@
 	<div class="goods_review_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="${goodsDTO.thumbImg }" 
+				<img src="${reviewboardDTO.thumbImg }" 
 					 class="goods_review_register_img" name="thumbImg" >
-				<input type="hidden" name="thumbImg" value="${goodsDTO.thumbImg }">
+				<input type="hidden" name="thumbImg" value="${reviewboardDTO.thumbImg }">
 				<div class="goods_review_register_goodsName">
-					<input type="hidden" name="productCode" value="${goodsDTO.productCode }">
-					<input type="hidden" name="productName" value="${goodsDTO.productName }">
-					<input type="hidden" name="discountPrice" value="${goodsDTO.discountPrice }">
-					<b name="productName">${goodsDTO.productName }</b><br>
-					<span name="discountPrice">${goodsDTO.discountPrice }</span>
+					<input type="hidden" name="reviewboardCode" value="${reviewboardDTO.reviewboardCode }">
+					<input type="hidden" name="productCode" value="${reviewboardDTO.productCode }">
+					<input type="hidden" name="productName" value="${reviewboardDTO.productName }">
+					<input type="hidden" name="discountPrice" value="${reviewboardDTO.discountPrice }">
+					<b name="productName">${reviewboardDTO.productName }</b><br>
+					<span name="discountPrice">${reviewboardDTO.discountPrice }</span>
 				</div>
 			</div>
 		</div>
@@ -50,7 +51,7 @@
 				<tr>
 					<td class="goods_review_register_category" >이메일</td>
 					<td>
-						<input type="text" name="userEmail" 
+						<input type="text" name="userEmail" value="${reviewboardDTO.userEmail }"
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px; ">
 						&nbsp;<input type="checkbox">&nbsp;&nbsp;받습니다.
 					</td>
@@ -58,7 +59,7 @@
 				<tr>
 					<td class="goods_review_register_category">문자메세지</td>
 					<td>
-						<input type="text" name="userPhone" 
+						<input type="text" name="userPhone"
 						style="border: 1px solid #ddd; width: 300px; height: 36px; padding: 1px 0 1px 10px; ">
 						&nbsp;<input type="checkbox">&nbsp;&nbsp;받습니다.
 					</td>
@@ -66,7 +67,7 @@
 				<tr>
 					<td class="goods_review_register_category">제목</td>
 					<td>
-						<input type="text" id="reviewboardSubject" name="reviewboardSubject" required
+						<input type="text" id="reviewboardSubject" name="reviewboardSubject" value="${reviewboardDTO.reviewboardSubject }" required
 						style="border: 1px solid #ddd; width: 700px; height: 36px; padding: 10px; ">
 					</td>
 				</tr>
@@ -74,7 +75,7 @@
 					<td class="goods_review_register_category">내용</td>
 					<td>
 						<textarea id="reviewboardContent" name="reviewboardContent" required
-						style="border: 1px solid #ddd; width: 700px; height:250px; padding: 10px 0 1px 10px; "></textarea>					    
+						style="border: 1px solid #ddd; width: 700px; height:250px; padding: 10px 0 1px 10px; ">${reviewboardDTO.reviewboardContent }</textarea>					    
 					</td>
 				</tr>
 			</table>
@@ -139,10 +140,10 @@ $(document).ready(function(){
 		}else{
 			$.ajax({
 				type:'post',
-				url:'../review/reviewboardWrite.do',
+				url:'../review/reviewboardModify.do',
 				data:param,
 				success:function(){
-					alert("후기 작성을 완료했습니다.");
+					alert("후기 수정을 완료했습니다.");
 					window.close();
 				}
 				

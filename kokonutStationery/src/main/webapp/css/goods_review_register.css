@@ -1,13 +1,9 @@
 @charset "UTF-8";
-*{
-	/* font-family: 'Noto Sans KR', sans-serif, Arial, dotum, 돋움; */
-}
-body{
-	margin: 0;
+html, body{
+	height: 100%;
 }
 .main{
-	width:100%;
-	height:100%;
+	height: 90%;
 }
 .goods_review_register_header{
 	border-bottom: 1px solid #dddddd;
@@ -29,7 +25,7 @@ body{
 }
 .goods_review_register_content{
 	width: 100%;
-	height: 427px;
+	height: 985px;
 	margin-top: 20px;
 }
 .goods_review_register_goodsName{
@@ -45,26 +41,32 @@ body{
 	float: left;
 }
 .goods_review_register_content_table{
-	/* border: 1px solid; */
-	width: 500px;
-	height: 324px;
+	width: 830px;
+	height: 535px;
 	font-size: 12px;
 	margin: 0 auto;
-	
 }
 .goods_review_register_category{
-	width: 40px;
 	text-align: left;
 	color: #a4a4a4;
 	padding: 0 5px 0 5px;
 }
+.goods_review_register_information{
+	border: 1px solid #dfdfdf;
+	width: 770px;
+	font-size: 12px;
+	margin: 10px auto 0 auto;
+	padding: 20px;
+}
+label{
+	font-size: 13px;
+}
 .goods_review_register_submitDiv{
 	width: 150px;
 	height: 55px;
-	padding: 20px 0; 
-	margin: auto;
+	margin: 0 auto 20px auto;
 }
-.goods_review_register_submitBtn{
+.goods_review_submitBtn{
 	border: none;
 	width: 150px;
 	height: 55px;

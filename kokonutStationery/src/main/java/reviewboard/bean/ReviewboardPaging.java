@@ -1,4 +1,4 @@
-package contentmanager.bean;
+package reviewboard.bean;
 
 import org.springframework.stereotype.Component;
 
@@ -27,9 +27,9 @@ public class ReviewboardPaging {
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='currentPaging' onclick='reviewboardPaging("+i+")'>"+i+"</span>");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='paging' onclick='reviewboardPaging("+i+")'>"+i+"</span>");
 			}//if~else
 		}//for
 		
@@ -49,19 +49,19 @@ public class ReviewboardPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(startPage-1)+")'>이전</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='reviewboardSearchPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='productSearchPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='currentPaging' onclick='reviewboardSearchPaging("+i+")'>"+i+"</span>");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='paging' onclick='reviewboardSearchPaging("+i+")'>"+i+"</span>");
 			}//if~else
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='productSearchPaging("+(endPage+1)+")'>다음</span>]");
+			pagingHTML.append("[<span id='paging' onclick='reviewboardSearchPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}

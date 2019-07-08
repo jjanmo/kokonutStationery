@@ -146,7 +146,6 @@
 						<li id="review_regist_btn" class="userPage_main_button">작성</li>
 				</div>
 				<div class="userPage_paging_num">
-					<b>1</b>
 				</div>
 
 
@@ -169,7 +168,7 @@
 						</a>
 						<li id="qna_regist_btn" class="userPage_main_button">작성</li>
 					</div>
-					<div class="qnaPage_paging_num">
+					<div class="userPage_paging_num">
 						<!-- <b></b> -->
 					</div> 
 			</div>
@@ -219,6 +218,11 @@ $('#orderBtn').click(function(){
 //문의 작성 페이지 띄우기
 $('#qna_regist_btn').click(function(){
 	window.open("/kokonutStationery/qna/goods_qna_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
+});
+
+//후기 작성 페이지 띄우기
+$('#review_regist_btn').click(function(){
+	window.open("/kokonutStationery/review/goods_review_register.do?productCode="+productCode, "_blank", "left=320, width=890, height=750");
 });
 
 //옵션 tag 생성 및 옵션 div 생성
@@ -583,6 +587,8 @@ $('#wishlistBtn').click(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	//상품 문의 리스트 띄우기
 	$.ajax({
 		type:'post',
 		url:'../qna/goods_qnaList.do',
@@ -738,7 +744,7 @@ $(document).ready(function(){
 					//답변내용클릭시 보이게
 					$('#qna_'+index).on('click', function(){
 						
-						$('#qna_'+index+'_content').toggle(function(){
+						$('#qna_'+index+'_content').slideToggle(function(){
 							
 							//var userId= $(this).parent().children('#qna_'+index).children('.userPage_name').text();
 							var userId=item.userId;							
@@ -823,6 +829,100 @@ $(document).ready(function(){
 			
 		}//success
 	});//ajax
+	//상품문의 띄우기 끝
+	
+	
+	//상품 후기 리스트 띄우기
+	$.ajax({
+		type:'post',
+		url:'../review/goods_reviewList.do',
+		data:{'productCode':productCode},
+		dataType:'json',
+		success:function(data){
+			//alert(JSON.stringify(data));
+			
+			if(data!=null){
+				$.each(data.list, function(index, item) {
+					//////////////////후기///////////////////					
+					
+					//제목틀생성
+					$('#reviewList').append($('<div/>',{
+						class: 'userPage_area',
+						id : 'review_'+index
+						
+						}).append($('<div/>',{
+							id:'reviewSubject_'+index,
+							class:'userPage_subject'
+							})));
+					 
+					//제목이름
+					$('#reviewSubject_'+index).append(item.reviewboardSubject);						
+					
+					//작성자
+					$('#review_'+index).append($('<div/>',{
+						class:'userPage_name',
+						text:item.userId
+						
+					}));
+					
+					//날짜
+					$('#review_'+index).append($('<div/>',{
+						class:'userPage_date',
+						text:item.regDate
+						
+					}));
+					
+					//내용
+					$('#reviewList').append($('<div/>',{
+						class:'userPage_content',
+						id:'review_'+index+'_content',
+						style:'white-space: pre-wrap;',
+						text:item.reviewboardContent
+					}));
+							
+					//삭제버튼
+					$('#review_'+index+'_content').append($('<input/>',{
+						type:'button',
+						onclick:'reviewDelete('+item.reviewboardCode+')',
+						class:'review_content_btn',
+						id:'review_delete_btn',
+						value:'삭제',
+						style : 'display:none;'
+					}));
+					//수정버튼
+					$('#review_'+index+'_content').append($('<input/>',{
+						type:'button',
+						onclick:'reviewModify('+item.reviewboardCode+')',
+						class:'review_content_btn',
+						id:'review_modify_btn',
+						value:'수정',
+						style : 'display:none;'
+					}));
+					
+					
+					//답변내용숨기기
+					$('#review_'+index+'_content').hide();
+					//답변내용클릭시 보이게
+					$('#review_'+index).on('click', function(){
+						if(userId==item.userId){
+							$('.review_content_btn').css('display','block');
+						}
+						$('#review_'+index+'_content').slideToggle(function(){
+						});//toggle		
+					});//내용이벤트
+					
+					//후기 문의 게시물 hover 이벤트
+					$('.userPage_area').hover(function(){
+						$(this).css("background-color", "#f6f6f6");
+					},function(){
+						$(this).css("background-color", "#ffffff");
+					});	
+					
+				});//each문
+			}//if - data문 !=null			
+		}//success
+	});//ajax
+	//상품 후기 띄우기 끝
 	
 });//document
 
@@ -831,7 +931,7 @@ function qnaModify(qnaboardCode){
 }
 function qnaDelete(qnaboardCode){
 	if (confirm("문의를 삭제하시겠습니까??") == true){//확인
-		var qnaboardCode = item.qnaboardCode;
+		var qnaboardCode = qnaboardCode;
 		$.ajax({
 			type:'post',
 			url:'../qna/qnaboardDelete.do',
@@ -846,176 +946,25 @@ function qnaDelete(qnaboardCode){
 	 }
 }
 
-/*
-function boardPaging(pg){
-	
-	$.ajax({
-		type:'get',
-		url:'../qna/goods_qnaAllList.do',
-		data:{'pg':pg,
-			'productCode':productCode},
-		dataType:'json',
-		success:function(data){
-			//alert(JSON.stringify(data));
-			$('#qnaList').children().remove();//제거
-			$('.qnaPage_paging_num').children().remove();
-			
-			if(data!=null){
-				$.each(data.list, function(index, item) {
-					//////////////////질문///////////////////					
-					if(item.admin==0){
-						
-						//제목틀생성
-						$('#qnaList').append($('<div/>',{
-							class: 'userPage_area',
-							id : 'qna_'+index
-							
-							}).append($('<div/>',{
-								id:'qnaSubject_'+index,
-								class:'userPage_subject'
-								
-								}).append($('<span/>',{
-									
-									style:'color: #a0a0a0; font-weight: 700;',
-									text:'질문 : '
-									
-								}))));
-						 
-						//제목이름
-						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
-						
-						//작성자
-						$('#qna_'+index).append($('<div/>',{
-							class:'userPage_name',
-							text:item.userId
-							
-						}));
-						
-						//날짜
-						$('#qna_'+index).append($('<div/>',{
-							class:'userPage_date',
-							text:item.regDate
-							
-						}));
-						
-						//내용
-						$('#qnaList').append($('<div/>',{
-							class:'userPage_content',
-							id:'qna_'+index+'_content',
-							text:item.qnaboardContent
-						}));
-						
-						
-						//수정버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
-							text:'수정'
-						}));
-						//삭제버튼
-						$('#qna_'+index+'_content').append($('<button/>',{
-							class:'review_reply_btn',
-							text:'삭제'
-						}));
-						
-						//비밀글일때 
-						if(item.secret==1){
-							//잠금이미지 추가
-							$('#qnaSubject_'+index).append($('<img>',{
-								src:'../image/private_lock.gif'
-							}));
-							
-							//비밀글일때 내용안보이게
-							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
-						}
-						
-					}else if(item.admin==1){						
-						//////////////////답변///////////////////
-						
-						//제목틀
-						$('#qnaList').append($('<div/>',{
-							class: 'userPage_area',
-							id : 'qna_'+index
-							
-							}).append($('<div/>',{
-								id:'qnaSubject_'+index,
-								class:'userPage_subject'
-								
-								}).append($('<span/>',{
-									
-									style:'color: #2AC1BC; font-weight: 700; padding-left:15px;',
-									text:'답변 : '
-									
-								}))));
-						
-						//제목이름
-						$('#qnaSubject_'+index).append(item.qnaboardSubject);						
-						
-						//작성자
-						$('#qna_'+index).append($('<div/>',{
-							class:'userPage_name',
-							text:item.userId
-							
-						}));
-						
-						//날짜
-						$('#qna_'+index).append($('<div/>',{
-							class:'userPage_date',
-							text:item.regDate
-							
-						}));
-						
-						//내용
-						$('#qnaList').append($('<div/>',{
-							class:'userPage_content',
-							id:'qna_'+index+'_content',
-							text:item.qnaboardContent
-						}));
-						
-						
-						//비밀글일때 
-						if(item.secret==1){
-							//잠금이미지 추가
-							$('#qnaSubject_'+index).append($('<img>',{
-								src:'../image/private_lock.gif'
-							}));
-							
-							//비밀글일때 내용안보이게
-							$('#qna_'+index+'_content').addClass('userPage_private_lock');
-							$('#qna_'+index+'_content').text("비밀글입니다.");
-						}
-						
-						
-					}//관리자답변if
-					
-					
-					//답변내용숨기기
-					$('#qna_'+index+'_content').hide();
-					//답변내용클릭시 보이게
-					$('#qna_'+index).on('click', function(){
-						$('#qna_'+index+'_content').toggle();
-					});
-					
-					//후기 문의 게시물 hover 이벤트
-					$('.userPage_area').hover(function(){
-						$(this).css("background-color", "#f6f6f6");
-					},function(){
-						$(this).css("background-color", "#ffffff");
-					});	
-				});//for문
-				
-				/*
-				//페이징
-				$('.qnaPage_paging_num').append($('<div/>',{
-					
-					html : data.qnaboardPaging.pagingHTML
-				}));
-				
-			}//if - data문
-				
-		}
-	});
-	
+function reviewModify(reviewboardCode){
+	window.open("../review/goods_review_modify.do?reviewboardCode="+reviewboardCode, "_blank", "width=890, height=750");
 }
-*/
+function reviewDelete(reviewboardCode){
+	if (confirm("후기를 삭제하시겠습니까??") == true){//확인
+		var reviewboardCode = reviewboardCode;
+		$.ajax({
+			type:'post',
+			url:'../review/reviewboardDelete.do',
+			data:{'reviewboardCode':reviewboardCode},
+			success:function(){
+				alert("삭제를 완료했습니다!");
+				location.href="../goods/goods_view.do?productCode="+productCode;
+			}
+		});
+	 }else{   //취소
+	     return false;
+	 }
+}
+
+
 </script>

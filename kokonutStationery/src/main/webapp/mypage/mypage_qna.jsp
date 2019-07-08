@@ -234,14 +234,14 @@ function qnaModify(qnaboardCode){
 //삭제
 function qnaDelete(qnaboardCode){
 	if (confirm("문의를 삭제하시겠습니까??") == true){//확인
-		var qnaboardCode = item.qnaboardCode;
+		//var qnaboardCode = item.qnaboardCode;
 		$.ajax({
 			type:'post',
 			url:'../qna/qnaboardDelete.do',
 			data:{'qnaboardCode':qnaboardCode},
 			success:function(){
 				alert("삭제를 완료했습니다!");
-				location.href="../goods/goods_view.do?productCode="+productCode;
+				location.href="../mypage/mypage_qna.do";
 			}
 		});
 	 }else{   //취소
