@@ -19,9 +19,7 @@
 			</tr>
 		</thead>
 		<tbody id="tbody">		
-			<tr>
-			
-			</tr>			
+					
 		</tbody>
 		
 		<tfoot id="tfooter">
@@ -227,7 +225,29 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
-
+$(function(){
+	var list = ${list}; x
+	$.each(list, function(index, item) {
+		$('<tr/>').append($('<td/>', {
+			align: 'center',
+			text: item.seq
+		})).append($('<td/>', {
+			}).append($('<a/>', {
+				href: 'javascript:void(0)',
+				id: 'subjectA',
+				class: item.seq+"",
+				text: item.subject		
+		}))).append($('<td/>', {
+			align: 'center',
+			text: item.id
+		})).append($('<td/>', {
+			align: 'center',
+			text: item.hit
+		})).append($('<td/>', {
+			align: 'center',
+			text: item.logtime
+		})).appendTo($('#tbody'));
+});
 $('#payBtn').click(function(){
 	var payAgreeVal = $('input[name="payAgree"]:checked').val();
 	if(payAgreeVal!='yes'){

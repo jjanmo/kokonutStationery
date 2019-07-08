@@ -74,11 +74,12 @@ public class OrderController {
 			selValue += (selArray[i] + ",");
 			pdQtyValue += (productQtyArray[i]+ ",");
 		}
-		System.out.println(selValue);
-		System.out.println(pdQtyValue);
+
+//		System.out.println(selValue);
+//		System.out.println(pdQtyValue);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pdQtyValue", pdQtyValue); //선택한 옵션 
-		mav.addObject("selValue", selValue);	 //선택한 옵션 상품의 수량
+		mav.addObject("selValue", selValue);	 //선택한 옵션의 상품의 수량
 		mav.addObject("goodsDTO", goodsDTO);
 		mav.addObject("userDTO", userDTO);
 		mav.addObject("display", "/order/order.jsp");
@@ -92,7 +93,7 @@ public class OrderController {
 		return "/order/checkPost";
 	}
 	
-	//베송지 검색
+	//배송지 검색
 	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
 	public ModelAndView postSearch(@RequestParam Map<String, String> map) {
 		List<PostDTO> list = orderDAO.postSearch(map);	
@@ -142,8 +143,8 @@ public class OrderController {
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.addObject("userDTO", userDTO);		
+		mav.addObject("list", list); 			//상품정보
+		mav.addObject("userDTO", userDTO);		//유저정보
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
