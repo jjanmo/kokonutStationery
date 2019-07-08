@@ -199,10 +199,11 @@ $(document).ready(function(){
 									text:item.qnaboardSubject
 								
 							}))).append($('<td/>',{
-								width:'140',
-								text:item.userId
+								width:'140'	
+							}).append($('<img/>',{ //관리자 이미지
+								src : '../image/admin.gif'
 								
-							})).append($('<td/>',{
+							}))).append($('<td/>',{
 								width:'120',
 								text:item.regDate
 							})));
