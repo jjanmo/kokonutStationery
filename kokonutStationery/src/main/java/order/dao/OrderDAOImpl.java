@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import user.bean.UserDTO;
 
@@ -56,4 +57,16 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderDTO> getOrderInfo(String userId) {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);
 	}
+	
+	//orderlist생성
+	@Override
+	public int insertOrderlist(OrderlistDTO orderlistDTO) {
+		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
+	}
+
+//	//order 수정
+//	@Override
+//	public int updateOrderInfo(String userId) {
+//		return sqlSession.insert("orderSQL.updateOrderInfo", userId);
+//	}
 }

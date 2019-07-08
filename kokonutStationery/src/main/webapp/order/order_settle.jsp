@@ -138,7 +138,11 @@
 				          </tr>
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">배송비 : </td>
-				            <td id="deliveryFee" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
+				            <td>
+				            <span id="del1">+</span>
+				            <span id="deliveryFee" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+				            <span id="del2">원</span>
+				            </td>
 				        </tr>
 						
 						<tr>
@@ -237,11 +241,11 @@
 $(function(){
 var totalP = 0;	
 var paymentType = 0;
-	//orderlist 뿌리기
+	//order 뿌리기
 	$.ajax({
 		type: 'POST',
 		async: false,
-		url: '/kokonutStationery/order/getOrderList.do',
+		url: '/kokonutStationery/order/getOrder.do',
 		dataType: 'json',
 		success: function(data){
 			alert("데이터출력");
@@ -294,8 +298,7 @@ var paymentType = 0;
 				paymentType = item.paymentType;
 			});
 		}//success
-	});//ajax orderlist
-		
+	});//ajax order
 	$('#totalPurchase').text(totalP);
 		
 	$.ajax({
@@ -311,7 +314,12 @@ var paymentType = 0;
 			var receiverPhone = data.userDTO.receiverPhone1 + '-' + data.userDTO.receiverPhone2 + '-' + data.userDTO.receiverPhone3;
 			$('#receiverPhone').text(receiverPhone);			
 			$('#receiverZipcode').text(data.userDTO.receiverZipcode);
-			var addr = data.userDTO.receiverAddr1 + " " + data.userDTO.receiverAddr2;
+			if(data.userDTO.receiverAddr2 != null){
+				var addr = data.userDTO.receiverAddr1 + " " + data.userDTO.receiverAddr2;
+			}
+			else if(data.userDTO.receiverAddr2 == null){
+				var addr = data.userDTO.receiverAddr1;
+			}
 			$('#receiverAddr').text(addr);
 		}
 	});
@@ -326,21 +334,25 @@ var paymentType = 0;
 	//배송비 및 총 결제 금액
 	var totalPayment = 0;
 	if(totalP > 30000) { //배송비 없음
-		$('#deliveryFee').text("+ 0 원(조건부 무료)");
+		$('#del1').text("+ ")
+		$('#del2').text(" 원(조건부 무료)")
+		$('#deliveryFee').text("0");
 		totalPayment = totalP - point;
 		$('#totalPayment1').text(AddComma(totalPayment));
 		$('#totalPayment2').text(AddComma(totalPayment));
 		
 	}
 	else { //배송비 2500원
-		$('#deliveryFee').text("+2,500원");
+		$('#del1').text("")
+		$('#del2').text("")
+		$('#deliveryFee').text(AddComma(2500));
 		totalPayment = totalP - point + 2500;
 		$('#totalPayment1').text(AddComma(totalPayment));
 		$('#totalPayment2').text(AddComma(totalPayment));
 	}
 		
 	//결제수단
-	if(paymentType == 1){
+	if(paymentType == 0){
 		$('#paymentType').text("신용카드");
 	}
 	else {
@@ -352,19 +364,35 @@ $('#payBtn').click(function(){
 	var payAgreeVal = $('input[name="payAgree"]:checked').val();
 	if(payAgreeVal!='yes'){
 		alert("구매 내용에 동의하셔야 결제가 가능합니다.");
-		return false;
 	}
 	else{
-		alert("결제완료~");
+		//orderlist생성
+		var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
+		var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
+		var deliveryFee = stringNumberToInt($('#deliveryFee').text());
+		
 		$.ajax({
 			type : 'POST',
-			url  : '/kokonutStationery/order/pay.do',
-			//data : {} 
-			dataType: 'json',
+			url  : '/kokonutStationery/order/insertOrderlist.do',
+			data : { 'userId' 				: '${memId}',
+					 'userName' 		 	: '${memName}',
+					 'totalProductPayment' 	: totalProductPayment,
+					 'paymentType' 			: 1, 
+					 'deliveryFee' 			: deliveryFee,
+					 'totalPayment' 		: totalPayment },
+			dataType: 'text',
 			success: function(data){
-			
+				if(data == "success"){
+					alert("orderlist 생성 및 order 수정 완료");
+				}
+				else{
+					alert("orderlist 생성  실패 및 order 수정 ");
+				}
 			}
-		});
+			
+		});//ajax orderlist/order수정
+		
+		
 		location.href="/kokonutStationery/main/index.do";
 	}
 });

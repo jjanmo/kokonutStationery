@@ -5,6 +5,7 @@ import java.util.Map;
 
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import user.bean.UserDTO;
 
@@ -22,5 +23,11 @@ public interface OrderDAO {
 	public int setOrderInfoOption(OrderDTO orderDTO);
 
 	public List<OrderDTO> getOrderInfo(String userId);
+
+	public int insertOrderlist(OrderlistDTO orderlistDTO);
+
+	//public int updateOrderInfo(String userId);
+
+
 
 }
