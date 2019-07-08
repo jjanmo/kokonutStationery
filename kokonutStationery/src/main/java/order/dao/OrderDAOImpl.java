@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
 import order.bean.PostDTO;
@@ -56,4 +57,6 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderDTO> getOrderInfo(String userId) {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);
 	}
+	
+	
 }

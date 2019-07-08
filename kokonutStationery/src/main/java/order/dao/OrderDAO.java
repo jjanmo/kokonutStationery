@@ -3,6 +3,7 @@ package order.dao;
 import java.util.List;
 import java.util.Map;
 
+import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
 import order.bean.PostDTO;
@@ -22,5 +23,7 @@ public interface OrderDAO {
 	public int setOrderInfoOption(OrderDTO orderDTO);
 
 	public List<OrderDTO> getOrderInfo(String userId);
+
+	
 
 }

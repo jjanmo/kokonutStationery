@@ -36,6 +36,8 @@
 				<c:if test="${list.size()!=0}"> 
 					<c:forEach var="cartDTO" items="${list }" varStatus="status">
 							<c:set var="cnt" value="${cnt+1}" />
+							<input type="hidden" id="cartCode${cnt}" name="cartCode"
+								value="${cartDTO.cartCode}">
 							<input type="hidden" id="productCode${cnt}" name="productCode"
 								value="${cartDTO.productCode}">
 							<input type="hidden" id="productOption${cnt}"
@@ -194,7 +196,7 @@
 								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="#"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
+								<a href="/kokonutStationery/cart/order_cart.do"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
 							</div>
 						</div>
 					</td>
