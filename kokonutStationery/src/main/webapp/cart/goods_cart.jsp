@@ -9,7 +9,7 @@
 	<!-- indiv start -->
 	<div class="indiv" style="margin: 135px 10px 0 20px;">
 		<div class="cart_title">장바구니</div>
-		<form name="CartForm" method="post">
+		<form name="CartForm" method="post" action="/kokonutStationery/cart/goods_cart_modify.do">
 			<input type="hidden" name="mode" value="modItem">
 			
 			<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cartTable" style="margin-top: 15px;">
@@ -50,7 +50,7 @@
 							</td>
 
 							<td style="vertical-align: top; padding: 30px 17px;">
-								<a href="" style="margin-bottom: 0;">
+								<a href="/kokonutStationery/goods/goods_view.do?productCode=${cartDTO.productCode}" style="margin-bottom: 0;">
 								<img src="../image/thumb/${cartDTO.thumbImg }" width="70px" onerror=""></a>
 							</td>
 
@@ -59,21 +59,21 @@
 							
 								<!-- 선택옵션 내용 시작 -->
 								<c:if test="${cartDTO.productOption==1}">
-									<font style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
+									<font id="${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
 										&emsp;[&nbsp;${cartDTO.optionContent}&nbsp;]
 									</font>
-									<a href="goods_cart_edit.jsp" data-width="600" data-height="400" class="popup" 
+									<a href="goods_cart_edit.do?cartCode=${cartDTO.cartCode}" data-width="600" data-height="400" class="popup" 
 									   style="margin-bottom: 0px; margin-top: 13px;">
 										<li class="optionButton" style="margin: 26px 0 0;">선택옵션수정</li>
 									</a>
 								</c:if>
 								
-								<c:if test="${cartDTO.productOption==0 }">
+								<%-- <c:if test="${cartDTO.productOption==0 }">
 									<a href="goods_cart_edit.jsp" data-width="600" data-height="400" class="popup" 
 									   style="margin-bottom: 0px; margin-top: 13px;">
 										<li class="optionButton">선택옵션수정</li>
 									</a>
-								</c:if>
+								</c:if> --%>
 								<!-- 선택옵션 내용 끝 -->
 							</td>
 
@@ -106,9 +106,8 @@
 									
 									<tr>
 										<td style="padding: 10px 0 0 0; height: 0px; border: 0">
-											<input type="submit" value="수정" class="sub-button-xs" 
-												   style="text-align: center; font-weight: bold; width: 65px; height: 30px; 
-												   		  line-height: 30px; padding: 0; float: right; font-weight: 500;">
+											<input type="submit" value="수정" class="sub-button-xs" id="modifyBtn" 
+												   style="text-align:center; font-weight:bold; width:65px; height:30px; line-height:30px; padding:0; float:right; font-weight:500;">
 										</td>
 									</tr>
 								</table>
@@ -183,7 +182,7 @@
 								<a href="javascript:history.back();"><li class="subButton subButton-xs">이전으로</li></a>
 							</div>
 							<div class="selectDelete" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="" onfocus="blur()"><li class="subButton subButton-xs">선택 삭제</li></a>
+								<a href="#" onfocus="blur()"><li class="subButton subButton-xs">선택 삭제</li></a>
 							</div>
 							<div class="allDelete" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="#"><li class="subButton subButton-xs">비우기</li></a>
@@ -192,7 +191,7 @@
 								<a href="/kokonutStationery/main/index.do" ><li class="subButton subButton-xs">쇼핑 계속하기</li></a>
 							</div>
 							<div class="selectLike" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="#" ><li class="subButton subButton-xs">선택 찜하기</li></a>
+								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="#"><li class="main-button-s">선택 주문하기</li></a>
@@ -251,7 +250,7 @@ $(function(){
 	}); 
 });
 
-//수량 수정 변경시 페이징처리
+		//수량 수정 변경시 페이징처리
 		$(document).ready(function(){
 			$('#modifyBtn').click(function(){
 				location.href="/kokonutStationery/cart/goods_cart.do";
@@ -276,7 +275,7 @@ $(function(){
 			}
 		});
    
-//장바구니 선택삭제
+		//장바구니 선택삭제
 		$('.selectDelete').click(function() {
 			var productCode = '';
 			var optionContent = '';
@@ -324,13 +323,13 @@ $(function(){
 		
 		//숫자가 아닌경우  유효성검사 필요
 
-		$('#' + ${status.index}).focusout(function() {
+		/* $('#' + ${status.index}).focusout(function() {
 			var input = $('#' + ${status.index}).val();
 			if (isNaN(input)) {
 				alert("구매수량은 숫자만 가능합니다");
 			}
 			$('#' + ${status.index}).val("1");
-		});
+		}); */
 		
 		/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
 		$('.optionButton').click(function(){
