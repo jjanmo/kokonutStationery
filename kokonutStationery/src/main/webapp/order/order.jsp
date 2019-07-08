@@ -4,7 +4,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
-<div class="indiv"><!-- Start indiv -->
+<div class="indiv2" style="width:1000px; margin-top:135px;"><!-- Start indiv -->
 	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222;">
 		주문하기
 	</div>
