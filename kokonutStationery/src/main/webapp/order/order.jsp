@@ -588,7 +588,7 @@ $('#orderWriteBtn').click(function(){
 					'userName' 		: '${memName}',
 					'thumbImg' 		: '${goodsDTO.thumbImg}',
 					'productCode' 	: '${goodsDTO.productCode}',
-					'discountPrice' : '${goodsDTO.discountPrice}'
+					'discountPrice' : '${goodsDTO.discountPrice}',
 					'purchaseQty' 	: '${productQty}',
 					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
@@ -646,3 +646,4 @@ $('#orderWriteBtn').click(function(){
 	location.href = "/kokonutStationery/order/order_settle.do";	
 		
 });
+</script>
