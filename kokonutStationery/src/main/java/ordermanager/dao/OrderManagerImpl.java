@@ -47,6 +47,16 @@ public class OrderManagerImpl implements OrderManagerDAO {
 		return sqlSession.update("orderManagerSQL.orderStateChange", map);
 	}
 
+	@Override
+	public List<OrderDTO> orderSearchList(Map<String, String> map) {
+		return sqlSession.selectList("orderManagerSQL.orderSearchList", map);
+	}
+
+	@Override
+	public int getSearchTotalA(Map<String, String> map) {
+		return sqlSession.selectOne("orderManagerSQL.getSearchTotalA", map);
+	}
+
 	
 
 	

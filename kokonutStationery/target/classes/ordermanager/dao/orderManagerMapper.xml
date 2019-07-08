@@ -48,4 +48,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		end;
 	</update>
+	
+	<!-- 검색 총 글 수 -->
+	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="int">
+		select count(*) from TBL_ORDERLIST where
+		<if test="searchText!=''">
+			<choose>
+				<when test="categorie.equals('orderCode')">
+					orderCode like '%'||#{searchText}||'%'
+				</when>
+				<when test="categorie.equals('userName')">
+					userName like '%'||#{searchText}||'%'
+				</when>
+				<when test="categorie.equals('userId')">
+					userId like #{searchText}
+				</when>
+			</choose>
+		</if>
+		<if test="dateText1!=''and dataText2!=''">
+			<if test="searchText!=''">
+				and 
+			</if>
+			orderdate >= to_date(#{dateText1},'YYYYMMDD') and orderdate <![CDATA[<]]> to_date(#{dateText2},'YYYYMMDD') + 1
+		</if>	
+	</select>
+	
+	<!-- 검색 리스트 뿌리기 -->
+	<select id="orderSearchList" parameterType="java.util.Map" resultType="orderlist">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_ORDERLIST where 
+		<if test="searchText!=''">
+			<choose>
+				<when test="categorie.equals('orderCode')">
+					orderCode like '%'||#{searchText}||'%'
+				</when>
+				<when test="categorie.equals('userName')">
+					userName like '%'||#{searchText}||'%'
+				</when>
+				<when test="categorie.equals('userId')">
+					userId like #{searchText}
+				</when>
+			</choose>
+		</if>
+		<if test="dateText1!=''and dataText2!=''">
+			<if test="searchText!=''">
+				and 
+			</if>
+			orderdate >= to_date(#{dateText1},'YYYYMMDD') and orderdate <![CDATA[<]]> to_date(#{dateText2},'YYYYMMDD') + 1
+		</if>	
+		
+		order by orderdate desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
 </mapper>
