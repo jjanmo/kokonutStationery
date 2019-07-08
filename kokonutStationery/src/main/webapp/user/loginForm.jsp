@@ -15,17 +15,17 @@
 					<p>
 						<label style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">아이디</label>
 						<input type="text" name="userId" placeholder="아이디" id="userId"  
-						style="position:relative; border:1px solid #DDD;width:450px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;">
+						style="position:relative; border:1px solid #DDD;width:450px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none; border-radius:0;" tabindex="1">
 					</p>
 					<p>
 						<label style="display: block; position:absolute; top:16px; left:15px; z-index:8; font-size:15px; color:#999; line-height:16px">비밀번호</label>
 						<input type="password" name="userPwd" tabindex="2" placeholder="비밀번호" id="userPwd" 
-						style="position:relative; border:1px solid #DDD; width:450px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none;border-radius:0;">
+						style="position:relative; border:1px solid #DDD; width:450px; height:50px; padding-left: 20px; font-size:15px; color: #333; background-color:#fff; -webkit-appearance:none;border-radius:0;" tabindex="2">
 					</p>
 				</div>
 				<div style="width:100%" >
 					<div style="width: 470px; display: inline-block;">
-						<input type="button" id="loginBtn" class="main-button" style="border:0; text-align:center; height:64px; background-color:#444; width:470px; line-height:64px; -webkit-appearance: none; border-radius:0;" value="로그인">
+						<input type="button" id="loginBtn" class="main-button" style="border:0; text-align:center; height:64px; background-color:#444; width:470px; line-height:64px; -webkit-appearance: none; border-radius:0;" tabindex="3" value="로그인">
 					</div>
 				</div>
 			</div>
