@@ -241,7 +241,7 @@ var paymentType = 0;
 	$.ajax({
 		type: 'POST',
 		async: false,
-		url: '/kokonutStationery/order/getOrderList.do',
+		url: '/kokonutStationery/order/getOrder.do',
 		dataType: 'json',
 		success: function(data){
 			alert("데이터출력");
