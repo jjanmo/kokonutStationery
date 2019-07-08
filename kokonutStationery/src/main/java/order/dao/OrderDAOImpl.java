@@ -51,7 +51,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.insert("orderSQL.setOrderInfoOption", orderDTO);
 	}
 	
-	//오더정보 가져오기
+	//주문정보 가져오기
 	@Override
 	public List<OrderDTO> getOrderInfo(String userId) {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);

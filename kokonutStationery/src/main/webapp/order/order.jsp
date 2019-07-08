@@ -521,7 +521,7 @@ function usePoint(){
 	var totalPoint = ${userDTO.userPoint};
 	var totalP = stringNumberToInt($('#goodsPrice').text())
 				+ stringNumberToInt($('#paper_delivery').text());  //포인트사용전의 결제금액
-	
+
 	//숫자만 들어오게 유효성 검사
 	if(isNaN(usePoint)){
 		alert("1000원 단위의 숫자를 입력해주세요");
@@ -540,12 +540,13 @@ function usePoint(){
 		totalP = totalP - usePoint;
 		$('#totalP').text(AddComma(totalP));
 	}
-	
 }
+
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
 }
+
 //콤마찍힌 숫자 정수형으로 변환
 function stringNumberToInt(stringNumber){
     return parseInt(stringNumber.replace(/,/g , ''));
@@ -588,6 +589,7 @@ $('#orderWriteBtn').click(function(){
 					'userName' 		: '${memName}',
 					'thumbImg' 		: '${goodsDTO.thumbImg}',
 					'productCode' 	: '${goodsDTO.productCode}',
+					'productName'	: '${goodsDTO.productName}',
 					'discountPrice' : '${goodsDTO.discountPrice}',
 					'purchaseQty' 	: '${productQty}',
 					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
@@ -598,7 +600,7 @@ $('#orderWriteBtn').click(function(){
 			success : function(data){
 				if(data == "success"){
 					alert("주문정보보내기 성공");
-				}
+				} 
 				else {
 					alert("실패!!");
 				}
@@ -610,7 +612,7 @@ $('#orderWriteBtn').click(function(){
 	
 	else { //옵션이 있는 경우(option = 1)
 		var qtyStr = '${pdQtyValue}';
-		var productQty = qtyStr.split(",");
+		var purchaseQty = qtyStr.split(",");
 		var optionStr = '${selValue}';
 		var optionContent = optionStr.split(",");
 
@@ -622,9 +624,10 @@ $('#orderWriteBtn').click(function(){
 						'userName' 		: '${memName}',
 						'thumbImg' 		: '${goodsDTO.thumbImg}',
 						'productCode' 	: '${goodsDTO.productCode}',
+						'productName'	: '${goodsDTO.productName}',
 						'discountPrice' : '${goodsDTO.discountPrice}',
-						'purchaseQty' 	: productQty[i],
-						'totalPrice'	: '${goodsDTO.discountPrice}' * productQty[i],
+						'purchaseQty' 	: purchaseQty[i],
+						'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
 						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 						'productOption' : '${goodsDTO.productOption}',
