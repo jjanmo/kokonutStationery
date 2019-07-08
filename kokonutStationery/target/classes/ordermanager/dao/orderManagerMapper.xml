@@ -102,4 +102,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where rn between #{startNum} and #{endNum}
 	</select>
 	
+	<!-- 주문관리페이지 체크된 주문상태 변경 -->
+	<update id="selectedOrderStateChange" parameterType="java.util.Map">
+		begin
+			<!-- tbl_order -->
+			update TBL_ORDER set orderState = #{orderState[0]}
+								, cancel = 0
+								, exchange = 0
+								, refund = 0
+			where orderCode in
+			<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			
+			<!-- tbl_orderlist -->
+			update TBL_ORDERLIST set orderState = ${orderState[0]}
+			where orderCode in 
+			<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			
+			<!-- 주문취소시 컬럼 업데이트 -->
+			<if test="orderState[0] == 0">
+				update TBL_ORDER set cancel = 1 where orderCode in
+				<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			</if>
+		end;
+	</update>
+	<!-- 주문내역 삭제 -->
+	<delete id="selectedOrderDelete" parameterType="java.util.Map">
+		begin
+			delete TBL_ORDERLIST where orderCode in 
+			<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			
+			delete TBL_ORDER where orderCode in
+			<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+		end;
+	</delete>
 </mapper>
+
+
+
+

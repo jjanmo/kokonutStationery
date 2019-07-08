@@ -56,7 +56,16 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	public int getSearchTotalA(Map<String, String> map) {
 		return sqlSession.selectOne("orderManagerSQL.getSearchTotalA", map);
 	}
+	
+	@Override
+	public void selectedOrderStateChange(Map<String, String[]> map) {
+		sqlSession.update("orderManagerSQL.selectedOrderStateChange", map);
+	}
 
+	@Override
+	public void selectedOrderDelete(Map<String, String[]> map) {
+		sqlSession.delete("orderManagerSQL.selectedOrderDelete", map);
+	}
 	
 
 	
