@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import contentmanager.bean.QnaboardManagerPaging;
-import contentmanager.bean.ReviewboardPaging;
+import contentmanager.bean.ReviewboardManagerPaging;
 import contentmanager.dao.ContentManagerDAO;
 import goods.bean.GoodsDTO;
 import noticeboard.bean.NoticeboardDTO;
 import qnaboard.bean.QnaboardDTO;
 import reviewboard.bean.ReviewboardDTO;
-import user.bean.UserDTO;
+
 
 @Controller
 public class ContentManagerController {
@@ -33,7 +33,7 @@ public class ContentManagerController {
 	private QnaboardManagerPaging qnaboardManagerPaging;
 	
 	@Autowired
-	private ReviewboardPaging reviewboardPaging;
+	private ReviewboardManagerPaging reviewboardManagerPaging;
 
 	//상품문의 - 리스트불러오기
 	@RequestMapping(value="/admin/qnaboardList.do",method = RequestMethod.POST)
@@ -96,16 +96,16 @@ public class ContentManagerController {
 		
 		int totalA = contentManagerDAO.reviewboardTotalA();
 		
-		reviewboardPaging.setCurrentPage(Integer.parseInt(pg));
-		reviewboardPaging.setPageBlock(3);
-		reviewboardPaging.setPageSize(5);
-		reviewboardPaging.setTotalA(totalA);
-		reviewboardPaging.makePagingHTML();
+		reviewboardManagerPaging.setCurrentPage(Integer.parseInt(pg));
+		reviewboardManagerPaging.setPageBlock(3);
+		reviewboardManagerPaging.setPageSize(5);
+		reviewboardManagerPaging.setTotalA(totalA);
+		reviewboardManagerPaging.makePagingHTML();
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pg", pg);
 		mav.addObject("list", list);
-		mav.addObject("reviewboardPaging", reviewboardPaging);
+		mav.addObject("reviewboardManagerPaging", reviewboardManagerPaging);
 		mav.setViewName("jsonView");
 		return mav;
 	}
@@ -243,15 +243,15 @@ public class ContentManagerController {
 			
 			int totalA = contentManagerDAO.reviewboardTotalAS(map2);
 			
-			reviewboardPaging.setCurrentPage(Integer.parseInt(pg));
-			reviewboardPaging.setPageBlock(3);
-			reviewboardPaging.setPageSize(10);
-			reviewboardPaging.setTotalA(totalA);
-			reviewboardPaging.makeSearchPagingHTML();
+			reviewboardManagerPaging.setCurrentPage(Integer.parseInt(pg));
+			reviewboardManagerPaging.setPageBlock(3);
+			reviewboardManagerPaging.setPageSize(10);
+			reviewboardManagerPaging.setTotalA(totalA);
+			reviewboardManagerPaging.makeSearchPagingHTML();
 			
 			mav.addObject("pg", pg);
 			mav.addObject("list", list);
-			mav.addObject("reviewboardPaging", reviewboardPaging);
+			mav.addObject("reviewboardManagerPaging", reviewboardManagerPaging);
 			mav.setViewName("jsonView");
 		}//if 상품후기	
 		

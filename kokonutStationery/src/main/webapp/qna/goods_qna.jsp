@@ -114,7 +114,7 @@ $(document).ready(function(){
 									style:'font-weight:700; color:#a0a0a0; padding:10px;',
 									text: '질문 : '
 								
-								})).append($('<sapn/>',{
+								})).append($('<span/>',{
 									text:item.qnaboardSubject
 								
 							}))).append($('<td/>',{
