@@ -31,7 +31,7 @@ public class CartController {
 	@Autowired
 	private CartDAO cartDAO;
 
-	//장바구니에 담기
+	// 장바구니에 담기
 	@RequestMapping(value = "/goods_cart_insert.do", method = RequestMethod.POST)
 	public void cartInsert(@ModelAttribute CartDTO cartDTO) {
 		System.out.println(cartDTO);
@@ -43,7 +43,7 @@ public class CartController {
 		}
 	}
 
-	//장바구니페이지
+	// 장바구니페이지
 	@RequestMapping(value = "/goods_cart.do", method = RequestMethod.GET)
 	public ModelAndView cart(HttpSession session) { // 들고갈파라미터 필요함 + 회원일때와 비회원일때를 구분지어야함!
 
@@ -60,7 +60,7 @@ public class CartController {
 		return mav;
 	}
 
-	//장바구니 선택삭제
+	// 장바구니 선택삭제
 	@RequestMapping(value = "/deleteCart.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void deleteCart(@RequestParam String userId, @RequestParam String productCode,
@@ -72,8 +72,8 @@ public class CartController {
 
 		cartDAO.deleteCart(map);
 	}
-	
-	//전체삭제
+
+	// 전체삭제
 	@RequestMapping(value = "/allDeleteCart.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void allDeleteCart(@RequestParam String userId) {
@@ -81,57 +81,73 @@ public class CartController {
 		cartDAO.allDeleteCart(userId);
 
 	}
-	
-	//선택옵션 수정 페이지
-	@RequestMapping(value="/goods_cart_edit.do", method=RequestMethod.GET)
+
+	// 선택옵션 수정 페이지
+	@RequestMapping(value = "/goods_cart_edit.do", method = RequestMethod.GET)
 	public ModelAndView goodsCartEdit(@RequestParam String cartCode) {
-		
-		//상품한개받아오기
+
+		// 상품한개받아오기
 		CartDTO cartDTO = cartDAO.goodsCartEdit(Integer.parseInt(cartCode));
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("cartDTO", cartDTO);
 		mav.setViewName("/cart/goods_cart_edit");
 		return mav;
-		
+
 	}
-	
-	//수량변경 수정
+
+	// 수량변경 수정
 	@RequestMapping(value = "/goods_cart_modify.do", method = RequestMethod.POST)
-	public ModelAndView cartUpdate(@RequestParam int[] productQty, @RequestParam int[] productCode ,HttpSession session ) {
-		for(int i=0; i<productCode.length; i++) {
+	public ModelAndView cartUpdate(@RequestParam int[] productQty, @RequestParam int[] cartCode,
+			HttpSession session) {
+		for (int i = 0; i < cartCode.length; i++) {
 			CartDTO cartDTO = new CartDTO();
 			cartDTO.setProductQty(productQty[i]);
-			cartDTO.setProductCode(productCode[i]);
+			cartDTO.setCartCode(cartCode[i]);
 			cartDAO.cartUpdate(cartDTO);
 		}
 		String userId = (String) session.getAttribute("memId");
 		List<CartDTO> list = cartDAO.getCart(userId);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("display", "/cart/goods_cart.jsp");
 		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
-	
-	//상세페이지에서 option가져오기
-		@RequestMapping(value="/getOption.do", method=RequestMethod.GET)
-		public ModelAndView getOption(@RequestParam String productCode) {
-			
-			List<ProductOptionDTO> list = cartDAO.getOption(Integer.parseInt(productCode));
-			//System.out.println(list.size());
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("list", list);
-			mav.setViewName("jsonView");
-			return mav;
-		}
-		
-		@RequestMapping(value = "/option_content_modify.do", method = RequestMethod.POST)
-		@ResponseBody
-		public void cartOptionModify(@RequestParam Map<String, String> map) {
-							
-			cartDAO.cartOptionModify(map);
 
-		}
+	// 상세페이지에서 option가져오기
+	@RequestMapping(value = "/getOption.do", method = RequestMethod.GET)
+	public ModelAndView getOption(@RequestParam String productCode) {
+
+		List<ProductOptionDTO> list = cartDAO.getOption(Integer.parseInt(productCode));
+		// System.out.println(list.size());
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+
+	@RequestMapping(value = "/option_content_modify.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void cartOptionModify(@RequestParam Map<String, String> map) {
+
+		cartDAO.cartOptionModify(map);
+
+	}
+	
+	/*
+	 * //선택주문
+	 * 
+	 * @RequestMapping(value = "/select_order.do", method = RequestMethod.GET)
+	 * 
+	 * @ResponseBody public ModelAndView cartOrder(HttpSession session) { String
+	 * userId = (String) session.getAttribute("memId");
+	 * 
+	 * List<CartDTO> list = cartDAO.cartOrder(userId);
+	 * 
+	 * System.out.println(list); System.out.println(userId); ModelAndView mav = new
+	 * ModelAndView(); mav.addObject("list", list); mav.addObject("display",
+	 * "/order/order_cart.jsp"); mav.setViewName("/main/nosIndex"); return mav; }
+	 */
 }

@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 장바구니 수량수정 -->
 	<update id="cartUpdate">
-		update tbl_cart set productQty = #{productQty} where productCode = #{productCode}
+		update tbl_cart set productQty = #{productQty} where cartCode = #{cartCode}
 	</update>
 	
 	<!-- 선택옵션수정  -->
@@ -65,4 +65,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="cartOptionModify" parameterType="java.util.Map" >
 		update tbl_cart set optionContent = #{optionContent} where cartCode = #{cartCode}
 	</update>
+	
+	<!-- <select id="cartOrder" parameterType="String" resultType="cart">
+		select * from tbl_cart where userId = #{userId}
+	</select> -->
 </mapper>

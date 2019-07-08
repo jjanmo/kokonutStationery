@@ -36,6 +36,8 @@
 				<c:if test="${list.size()!=0}"> 
 					<c:forEach var="cartDTO" items="${list }" varStatus="status">
 							<c:set var="cnt" value="${cnt+1}" />
+							<input type="hidden" id="cartCode${cnt}" name="cartCode"
+								value="${cartDTO.cartCode}">
 							<input type="hidden" id="productCode${cnt}" name="productCode"
 								value="${cartDTO.productCode}">
 							<input type="hidden" id="productOption${cnt}"
@@ -194,7 +196,7 @@
 								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="#"><li class="main-button-s">선택 주문하기</li></a>
+								<a href="/kokonutStationery/cart/order_cart.do"><li class="main-button-s">선택 주문하기</li></a>
 							</div>
 						</div>
 					</td>
@@ -394,6 +396,25 @@ $('.selectLike').click(function(){
 		} //if; 체크 유무 확인
 	} //for
 });
+		
+/* //선택주문
+$('.main-button-s').click(function(){
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/cart/select_order.do',
+		data: {'userId': '${memId}',
+			   'productCode': productCode,
+			   'productName': productName,
+			   'productOption': productOption,
+			   'thumbImg': thumbImg,
+			   'discountPrice': discountPrice,
+			   'optionContent': optionContent},
+	 	success: function(){
+			location.href='/kokonutStationery/order/order_cart.do';
+		}
+	});
+	
+}); */
 </script>
 
 
