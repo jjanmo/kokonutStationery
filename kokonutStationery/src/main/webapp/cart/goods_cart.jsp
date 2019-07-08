@@ -194,7 +194,7 @@
 								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="/kokonutStationery/order/order_cart.do"><li id="" class="main-button-s">선택 주문하기</li></a>
+								<a href="#"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
 							</div>
 						</div>
 					</td>
@@ -257,10 +257,23 @@ $(function(){
 			});
 		})
 		
+				
+		//숫자가 아닌경우  유효성검사 필요
+		$('input[name=productQty]').focusout(function() {
+			var input = $(this).val();
+			//alert(input);
+			if (isNaN(input)==true) {
+				$(this).val("1");
+				
+			}else if(isNaN(input)==false){
+				$(this).val(input);
+			}
+			
+		});	
 		
 		//수량 변경
 		$('.up').click(function() {
-			var id_check = $(this).attr("id");
+			var id_check = $(this).attr("id");//status.index
 			var qty = $('#' + id_check).val();
 			qty++;
 			$('#' + id_check).val(qty);
@@ -394,6 +407,8 @@ $('.selectLike').click(function(){
 		} //if; 체크 유무 확인
 	} //for
 });
+		
+
 </script>
 
 

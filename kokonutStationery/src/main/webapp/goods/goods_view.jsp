@@ -469,10 +469,14 @@ $(document).on('click','.down', function() {
 //숫자가 아닌경우  유효성검사 필요
 $('#productQty').focusout(function() {
 	var input = $('#productQty').val();
-	if (isNaN(input)) {
-		alert("구매수량은 숫자만 가능합니다");
+	
+	if (isNaN(input)==true) {
+		$('#productQty').val("1");
+		
+	}else if(isNaN(input)==false){
+		$('#productQty').val(input);
 	}
-	$('#productQty').val("1");
+	
 });
 
 //수량 변경 : 증가
