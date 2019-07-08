@@ -144,7 +144,7 @@ $(document).ready(function(){
 										visibility:'hidden',
 										text:"삭제"
 										
-									})).append($('<div/>',{
+								})).append($('<div/>',{
 										class:'white_btn btn_size_xs',
 										id:'qna_modifyBtn_'+index,
 										style:'display:inline;',
