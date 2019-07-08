@@ -449,40 +449,40 @@ function createTabOption(optionContent, productQty){
 	for(var i = 0; i< optionContent.length-1; i++ ){
 		$('<tr/>').append($('<td/>',{
 			style: "vertical-align:top; padding: 30px 0;"
-		}).append($('<a/>',{
-			href : "#",
-			style : "margin-bottom:0;"		
-		}).append($('<img>',{
-			src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
-			width : "70"
+			}).append($('<a/>',{
+				href : "#",
+				style : "margin-bottom:0;"		
+				}).append($('<img>',{
+					src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+					width : "70"
 		})))).append($('<td>',{
 			class : "order_option",
-			style : "text-align:left;vertical-align:top; padding: 30px 0;"
-		}).append($('<div/>',{
-			text : '${goodsDTO.productName}',
-			style : "color: #222; font-weight: 700; font-size: 14px;",
-		})).append($('<div>', {
-			text : '선택옵션 : ',
-		})).append($('<div/>',{
-			text : optionContent[i] +'/'
+			style : "text-align:left;vertical-align:middle; padding: 30px 0;"
+			}).append($('<div/>',{
+				text : '${goodsDTO.productName}',
+				style : "color: #222; font-weight: 700; font-size: 14px; ",
+			})).append($('<div>', {
+				text : '선택옵션 : ',
+			})).append($('<div/>',{
+				text : optionContent[i] +'/'
 		}))).append($('<td>',{
 			text : '${goodsDTO.discountPrice}',
-			style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-		}).append($('<span/>',{
-			text : '원'
+			style : "color: #222; vertical-align: middle; padding: 30px 50px 30px 0; text-align:right;"
+			}).append($('<span/>',{
+				text : '원'
 		}))).append($('<td/>',{
-			style : "vertical-align:top; padding: 22px 0 30px 0;"
-		}).append($('<div/>',{
-			style : "padding-top: 8px; vertical-align: top; color:#222;",
-			text : productQty[i]
-		}).append($('<span>',{
-			text : '개'
+			style : "vertical-align:middle; padding: 22px 0 30px 0;"
+			}).append($('<div/>',{
+				style : "padding-top: 8px; vertical-align: middle; color:#222;",
+				text : productQty[i]
+				}).append($('<span>',{
+					text : '개'
 		})))).append($('<td>',{
 			class : 'totalPrice',
-			tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+			tyle : "vertical-align:middle; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
 			text : '${goodsDTO.discountPrice}' * productQty[i]
-		}).append($('<span/>', {
-			text : '원'
+			}).append($('<span/>', {
+				text : '원'
 		}))).appendTo($('#tbody'));
 	
 	}  
