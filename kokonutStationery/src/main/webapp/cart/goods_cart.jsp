@@ -271,6 +271,7 @@ $(function(){
 			
 		});	
 		
+		
 		//수량 변경
 		$('.up').click(function() {
 			var id_check = $(this).attr("id");//status.index
