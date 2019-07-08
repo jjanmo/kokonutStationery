@@ -24,6 +24,10 @@ public interface OrderManagerDAO {
 	public List<OrderDTO> orderSearchList(Map<String, String> map);
 
 	public int getSearchTotalA(Map<String, String> map);
+	
+	public void selectedOrderStateChange(Map<String, String[]> map);
+
+	public void selectedOrderDelete(Map<String, String[]> map);
 
 	
 
