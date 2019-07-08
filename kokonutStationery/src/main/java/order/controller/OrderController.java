@@ -45,13 +45,20 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		//제품정보가져오기
 		GoodsDTO goodsDTO = orderDAO.getProduct(productCode);
-		//유저정보가져오기
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-
+	
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("productQty", productQty);
 		mav.addObject("goodsDTO", goodsDTO);
-		mav.addObject("userDTO", userDTO);
+		//유저정보가져오기
+		if(userId!=null) {
+			UserDTO userDTO = userDAO.getUserInfo(userId);	
+			mav.addObject("userDTO", userDTO);
+		}else {
+			int seq = userDAO.IncreaseKokonutSeq();
+			userDAO.createKokonutId(seq);
+			UserDTO userDTO = userDAO.getKokonutId(seq);
+			mav.addObject("userDTO", userDTO);
+		}
 		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -68,8 +75,7 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		//제품정보가져오기
 		GoodsDTO goodsDTO = orderDAO.getProduct(productCode);
-		//유저정보가져오기
-		UserDTO userDTO = userDAO.getUserInfo(userId);
+		
 		String selValue = "";
 		String pdQtyValue = "";
 		for(int i = 0; i < selArray.length; i++) {
@@ -83,7 +89,16 @@ public class OrderController {
 		mav.addObject("pdQtyValue", pdQtyValue); //선택한 옵션 
 		mav.addObject("selValue", selValue);	 //선택한 옵션의 상품의 수량
 		mav.addObject("goodsDTO", goodsDTO);
-		mav.addObject("userDTO", userDTO);
+		//유저정보가져오기
+		if(userId!=null) {
+			UserDTO userDTO = userDAO.getUserInfo(userId);	
+			mav.addObject("userDTO", userDTO);
+		}else {
+			int seq = userDAO.IncreaseKokonutSeq();
+			userDAO.createKokonutId(seq);
+			UserDTO userDTO = userDAO.getKokonutId(seq);
+			mav.addObject("userDTO", userDTO);
+		}
 		mav.addObject("display", "/order/order.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -175,6 +190,17 @@ public class OrderController {
 		}
 		else {
 			return "success";
+		}
+	}
+	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String kokonutIdCancel(@RequestParam String userId) {
+		int su = userDAO.kokonutIdCancel(userId);
+		
+		if(su==1) {
+			return "success";
+		}else {
+			return "fail";
 		}
 	}
 }

@@ -190,11 +190,17 @@ var showDiv = 0;
 //alert("productCode : "+ productCode);
 
 //구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
-$('#orderBtn').click(function(){
+$('#orderBtn').click(function(){	
 	if(option == 0){ //옵션이 없는 경우
-		location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
+		if(userId==""){
+			if(confirm("로그인하지 않으셨습니다. 비회원으로 진행하시겠습니까?")){
+				location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
+				+"&productQty="+productQty;
+			}
+		}else{
+			location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
 																	+"&productQty="+productQty;
-																	
+		}													
 	}
 	else { //옵션이 있는 경우
 		if(selArray.length == 0){
@@ -208,10 +214,17 @@ $('#orderBtn').click(function(){
 				ct = ct*1;
 				productQtyArray.push(ct);
 			}
-			location.href="/kokonutStationery/order/orderOption.do?productCode="+productCode
-																	+"&selArray="+selArray
-																	+"&productQtyArray="+productQtyArray;
-																	
+			if(userId==""){
+				if(confirm("로그인하지 않으셨습니다. 비회원으로 진행하시겠습니까?")){
+					location.href="/kokonutStationery/order/orderOption.do?productCode="+productCode
+																+"&selArray="+selArray
+																+"&productQtyArray="+productQtyArray;
+				}
+			}else{
+				location.href="/kokonutStationery/order/orderOption.do?productCode="+productCode
+																		+"&selArray="+selArray
+																		+"&productQtyArray="+productQtyArray;
+			}												
 		}	
 	}
 });
