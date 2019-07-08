@@ -1,7 +1,9 @@
 package cart.controller;
 
 import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +25,16 @@ import cart.bean.CartDTO;
 import cart.dao.CartDAO;
 import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
+import order.bean.OrderDTO;
+import user.bean.UserDTO;
+import user.dao.UserDAO;
 
 @Controller
 @RequestMapping("/cart/*")
 public class CartController {
-
+	@Autowired
+	private UserDAO userDAO;
+	
 	@Autowired
 	private CartDAO cartDAO;
 
@@ -51,8 +58,8 @@ public class CartController {
 
 		List<CartDTO> list = cartDAO.getCart(userId);
 
-		System.out.println(list);
-		System.out.println(userId);
+		//System.out.println(list);
+		//System.out.println(userId);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.addObject("display", "/cart/goods_cart.jsp");
@@ -150,4 +157,27 @@ public class CartController {
 	 * ModelAndView(); mav.addObject("list", list); mav.addObject("display",
 	 * "/order/order_cart.jsp"); mav.setViewName("/main/nosIndex"); return mav; }
 	 */
+	
+	//선택주문하기 페이지 이동테스트
+	@RequestMapping(value="/order_cart.do",method=RequestMethod.POST)
+	public ModelAndView orderCart(HttpSession session,@RequestParam(value="cartCode[]") List<String> cartCodeVal) {		
+		List<CartDTO> list = new ArrayList<CartDTO>();
+		
+		//선택주문 리스트에 담기
+		for(String cartCode : cartCodeVal) {
+			list.add(cartDAO.getSelectCart(cartCode));
+			System.out.println(cartDAO.getSelectCart(cartCode));
+		}
+			
+		//세션아이디
+		String userId = (String) session.getAttribute("memId");
+		UserDTO userDTO = userDAO.getUserInfo(userId);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("userDTO", userDTO);
+		mav.addObject("display", "/order/order_cart.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
 }

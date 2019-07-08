@@ -27,6 +27,8 @@ public interface CartDAO {
 
 	public void cartOptionModify(Map<String, String> map);
 
+	public CartDTO getSelectCart(String cartCode);
+
 	/* public List<CartDTO> cartOrder(String userId); */
 
 	
