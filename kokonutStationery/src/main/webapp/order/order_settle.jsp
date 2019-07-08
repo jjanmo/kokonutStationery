@@ -30,7 +30,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"></font>
+									<font id="totalPurchase" style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"></font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
@@ -59,18 +59,18 @@
 						<tbody>
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">주문자 이름:</td>
-						      <td class="box_sub_tit" style=" font-size: 13px; color: #666; padding-top: 5px; ">ㅁㅁㅁ </td>
+						      <td id="userName" class="box_sub_tit" style=" font-size: 13px; color: #666; padding-top: 5px; "></td>
 						    </tr>
 				   
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666;">주문자 핸드폰 :</td>
-								<td class="box_sub_tit" style="font-size: 13px;color: #666; padding-top: 5px; ">ㅁㅁㅁ-ㅁㅁㅁ-ㅁㅁㅁ</td>
+								<td id="userPhone" class="box_sub_tit" style="font-size: 13px;color: #666; padding-top: 5px; "></td>
 							</tr>
 							
 							
 							<tr>
 					            <td class="box_sub_tit" style="font-size: 13px; color: #666;">이메일 :</td>
-					            <td class="box_sub_tit" style=" font-size: 13px; color: #666;" >ㅁㅁ@ㅁㅁ.ㅁㅁ</td>
+					            <td id="userEmail" class="box_sub_tit" style=" font-size: 13px; color: #666;" ></td>
 				          	</tr>
 			           </tbody>
 			        </table>
@@ -92,22 +92,22 @@
 			          <tbody>
 				          <tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">받는 분 이름:</td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ</td>
+				            <td id="receiverName" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				          </tr>
 				          
 				           <tr>
 				             <td class="box_sub_tit" style="font-size: 13px; color: #666;">핸드폰번호 :</td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ-ㅁㅁㅁ-ㅁㅁㅁ</td>
+				            <td id="receiverPhone" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				          </tr>
 				          
 				          <tr>
 				             <td class="box_sub_tit" style="font-size: 13px; color: #666;">우편번호 :</td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁㅁㅁ</td>
+				            <td id="receiverZipcode" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				            
 				          </tr>
 				          <tr>
 				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">주소 : </td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">어디어디</td>
+				            <td id="receiverAddr" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				          </tr>
 				          
 			          	</tbody>
@@ -131,20 +131,29 @@
 		        	<tbody>
 			        	<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">총 주문 금액 : </td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ</td>
+				            <td>
+				            <span id="totalAmount" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+				            <span>원</span>
+				            </td>
 				          </tr>
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">배송비 : </td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ</td>
+				            <td id="deliveryFee" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				        </tr>
 						
 						<tr>
-				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">회원할인 : </td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ</td>
+				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">사용한 포인트 : </td>
+				            <td>
+							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+				            <span>원</span>
+							</td>
 				       </tr>
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">결제금액 : </td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">ㅁㅁㅁ</td>
+				            <td>
+				            <span id="totalPayment1" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+				            <span>원</span>
+				            </td>
 				       </tr>		        
 		        	</tbody>
 		        </table>
@@ -167,14 +176,14 @@
 			          
 			          <tbody>
 				          <tr>
-				           <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">카드결제 :</td>
-				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">결제방법내용</td>
+				           <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">결제방법 :</td>
+				            <td id="paymentType" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				          </tr>
 				          <tr>
 				          	<td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">결제금액 :</td>
 				          	<td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-					            <span style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
-					            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">총 가격</span>
+					            <span id="totalPayment2" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
+					            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;"></span>
 					            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
 				            </td>
 				          </tr>
@@ -209,7 +218,7 @@
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">뒤로</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
-							<input id="paymentBtn" type="button" id="payBtn" class="main-button-s" 
+							<input type="button" id="payBtn" class="main-button-s" 
 							style="border:0px; text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;" value="결제하기">			
 						</div>					
 			          </div>
@@ -226,37 +235,147 @@
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
 $(function(){
-	var list = ${list}; x
-	$.each(list, function(index, item) {
-		$('<tr/>').append($('<td/>', {
-			align: 'center',
-			text: item.seq
-		})).append($('<td/>', {
-			}).append($('<a/>', {
-				href: 'javascript:void(0)',
-				id: 'subjectA',
-				class: item.seq+"",
-				text: item.subject		
-		}))).append($('<td/>', {
-			align: 'center',
-			text: item.id
-		})).append($('<td/>', {
-			align: 'center',
-			text: item.hit
-		})).append($('<td/>', {
-			align: 'center',
-			text: item.logtime
-		})).appendTo($('#tbody'));
+var totalP = 0;	
+var paymentType = 0;
+	//orderlist 뿌리기
+	$.ajax({
+		type: 'POST',
+		async: false,
+		url: '/kokonutStationery/order/getOrderList.do',
+		dataType: 'json',
+		success: function(data){
+			alert("데이터출력");
+			$.each(data.list, function(index, item) {
+				$('<tr/>').append($('<td/>',{
+					style: "vertical-align:top; padding: 30px 0;"
+				}).append($('<a/>',{
+					href : "#",
+					style : "margin-bottom:0;"		
+				}).append($('<img>',{
+					src : '../image/thumb/'+ item.thumbImg,
+					width : "70"
+				})))).append($('<td>',{
+					class : 'order_option',
+					style : "text-align:left;vertical-align:top; padding: 30px 0;"
+				}).append($('<div/>',{
+					text : item.productName,
+					style : "color: #222; font-weight: 700; font-size: 14px;",
+				})).append($('<div>', {
+					class : 'optionDiv1'+index,
+					text : '선택옵션 : ',
+				})).append($('<div/>',{
+					class : 'optionDiv2'+index,
+					text : item.optionContent +'/'
+				}))).append($('<td>',{
+					text : item.discountPrice,
+					style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
+				}).append($('<span/>',{
+					text : '원'
+				}))).append($('<td/>',{
+					style : "vertical-align:top; padding: 22px 0 30px 0;"
+				}).append($('<div/>',{
+					style : "padding-top: 8px; vertical-align: top; color:#222;",
+					text : item.purchaseQty,
+				}).append($('<span>',{
+					text : '개'
+				})))).append($('<td>',{
+					class : 'totalPrice',
+					tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+					text : item.discountPrice * item.purchaseQty 
+				}).append($('<span/>', {
+					text : '원'
+				}))).appendTo($('#tbody'));
+				
+				if(item.productOption == 0){
+					$('.optionDiv1'+index).css('display','none');
+					$('.optionDiv2'+index).css('display','none');
+				}
+				totalP += (item.discountPrice * item.purchaseQty);
+				paymentType = item.paymentType;
+			});
+		}//success
+	});//ajax orderlist
+		
+	$('#totalPurchase').text(totalP);
+		
+	$.ajax({
+		type: 'POST',
+		url: '/kokonutStationery/order/getOrderUserInfo.do',
+		dataType: 'json',
+		success: function(data){
+			$('#userName').text(data.userDTO.userName);
+			var userPhone = data.userDTO.userPhone1 + '-' + data.userDTO.userPhone2 + '-' + data.userDTO.userPhone3;
+			$('#userPhone').text(userPhone);
+			$('#userEmail').text(data.userDTO.userEmail);
+			$('#receiverName').text(data.userDTO.receiverName);
+			var receiverPhone = data.userDTO.receiverPhone1 + '-' + data.userDTO.receiverPhone2 + '-' + data.userDTO.receiverPhone3;
+			$('#receiverPhone').text(receiverPhone);			
+			$('#receiverZipcode').text(data.userDTO.receiverZipcode);
+			var addr = data.userDTO.receiverAddr1 + " " + data.userDTO.receiverAddr2;
+			$('#receiverAddr').text(addr);
+		}
+	});
+	
+	//총주문금액
+	$('#totalAmount').text(AddComma(totalP));
+	
+	//포인트
+	var point =	$('#usePoint').text(); //사용한포인트
+	
+	
+	//배송비 및 총 결제 금액
+	var totalPayment = 0;
+	if(totalP > 30000) { //배송비 없음
+		$('#deliveryFee').text("+ 0 원(조건부 무료)");
+		totalPayment = totalP - point;
+		$('#totalPayment1').text(AddComma(totalPayment));
+		$('#totalPayment2').text(AddComma(totalPayment));
+		
+	}
+	else { //배송비 2500원
+		$('#deliveryFee').text("+2,500원");
+		totalPayment = totalP - point + 2500;
+		$('#totalPayment1').text(AddComma(totalPayment));
+		$('#totalPayment2').text(AddComma(totalPayment));
+	}
+		
+	//결제수단
+	if(paymentType == 1){
+		$('#paymentType').text("신용카드");
+	}
+	else {
+		$('#paymentType').text("핸드폰");
+	}
 });
+
 $('#payBtn').click(function(){
 	var payAgreeVal = $('input[name="payAgree"]:checked').val();
 	if(payAgreeVal!='yes'){
 		alert("구매 내용에 동의하셔야 결제가 가능합니다.");
 		return false;
-	}else{
+	}
+	else{
 		alert("결제완료~");
+		$.ajax({
+			type : 'POST',
+			url  : '/kokonutStationery/order/pay.do',
+			//data : {} 
+			dataType: 'json',
+			success: function(data){
+			
+			}
+		});
 		location.href="/kokonutStationery/main/index.do";
 	}
 });
 
+//숫자 3자리당 쉼표찍기
+function AddComma(number) {
+	return Number(number).toLocaleString('en');
+}
+
+//콤마찍힌 숫자 정수형으로 변환
+function stringNumberToInt(stringNumber){
+    return parseInt(stringNumber.replace(/,/g , ''));
+}
 </script>
