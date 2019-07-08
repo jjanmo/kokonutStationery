@@ -41,7 +41,7 @@
 							href="#"><img
 								src="../image/thumb/${cartDTO.thumbImg }"
 								width="80" id="cartEditImg"
-								onerror="this.src='/shop/data/skin/mdelight_C/img/common/noimg_100.gif'"></a>
+								></a>
 						</td>
 					</tr>
 					<tr>
@@ -68,7 +68,7 @@
 			</div>
 
 			<!-- 옵션 div 추가-->
-			<div class="option_wrap"></div>
+			<div class="option_wrap" ></div>
 
 			<!-- 수량 -->
 
@@ -172,8 +172,9 @@
 	
 	//수정버튼 클릭
 	$('.main-button').click(function() {
-		var optionContent = $("#optionBox option:selected").val();
+		var optionContent = $('#optionBox option:selected').val();
 		var cartCode = ${cartDTO.cartCode};
+		alert(optionContent);
 		alert(cartCode);
 		$.ajax({
 			type :'post',
@@ -185,7 +186,7 @@
 	});
 
 	function modifyOptionClose(optionContent){
-		alert("optionContent");
+		alert(optionContent);
 		opener.document.getElementById('${cartDTO.cartCode }').value = optionContent;
 		opener.parent.location.reload();
 		/* opener.parent.location = '/kokonutStationery/cart/goods_cart.do'; */
