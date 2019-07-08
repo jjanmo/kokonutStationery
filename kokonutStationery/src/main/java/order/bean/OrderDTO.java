@@ -11,8 +11,7 @@ import lombok.Data;
 @Component
 @Data
 public class OrderDTO {
-	
-	private String orderCode; 
+	private String orderCode;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd")
 	private Date orderDate;
 	private String userId; 
