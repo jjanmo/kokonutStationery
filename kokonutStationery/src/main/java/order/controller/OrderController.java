@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
 import order.bean.PostDTO;

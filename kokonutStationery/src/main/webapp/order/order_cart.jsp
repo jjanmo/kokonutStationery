@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
@@ -23,6 +25,9 @@
 				<th style="border-top: 1px solid #999; font-size: 12px; color: #999; text-align: right; padding-right:20px; font-weight:500;">합계</th>
 			</tr>
 		</thead>
+		
+		<c:set var="total" value="0" />
+		<c:set var="total" value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
 		<tbody>		
 			<tr>
 				<td style="vertical-align:top; padding: 30px 0;">
@@ -30,15 +35,15 @@
 				</td>
 			
 				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
-					<div style="color: #222; font-weight: 700; font-size: 14px;">2080 X 배달의민족. 이빨청춘 치약</div>						
+					<div style="color: #222; font-weight: 700; font-size: 14px;">${cartDTO.productName}</div>						
 				</td>
-				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;">3,500원
+				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice }" />원
 				</td>
 				<td style="vertical-align:top; padding: 22px 0 30px 0;">
-					<div style="padding-top: 8px; vertical-align: top; color:#222;">1개</div>
+					<div style="padding-top: 8px; vertical-align: top; color:#222;">${cartDTO.productQty }개</div>
 				</td>
 			
-				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;">3,500원</td>
+				<td style="vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice * cartDTO.productQty }" />원</td>
 			</tr>			
 		</tbody>
 		
@@ -50,7 +55,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">15,500</font>
+									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice * cartDTO.productQty }" />원</font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
