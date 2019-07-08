@@ -128,7 +128,7 @@
 		<div id="salesSeach_list" style="margin-top: 50px;  margin-bottom: 100px;">
 			<table id="sales_search_table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
-					<th style="width: 165px;">주문번호<br>(상품코드)</th>
+					<th style="width: 165px;">주문번호</th>
 					<th style="width: 180px;">상품이미지</th>
 					<th style="width: 400px;">상품명</th>
 					<th style="width: 200px;">주문자</th>
@@ -179,8 +179,7 @@ $(document).ready(function(){
 				$('<tr/>').append($('<td/>',{
 					align : 'center',
 					text : items.orderCode
-				}).append($('<br/>')).append($('<span/>').text("("+items.productCode+")")
-				)).append($('<td/>',{
+				})).append($('<td/>',{
 					align : 'center'
 				}).append($('<img/>',{
 					src : '../image/thumb/'+ items.thumbImg
@@ -239,8 +238,7 @@ $('#sales_searchBtn').click(function(){
 				$('<tr/>').append($('<td/>',{
 					align : 'center',
 					text : items.orderCode
-				}).append($('<br/>')).append($('<span/>').text("("+items.productCode+")")
-				)).append($('<td/>',{
+				})).append($('<td/>',{
 					align : 'center'
 				}).append($('<img/>',{
 					src : '../image/thumb/'+ items.thumbImg

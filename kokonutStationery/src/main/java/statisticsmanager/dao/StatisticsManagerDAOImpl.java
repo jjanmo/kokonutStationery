@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import order.bean.OrderDTO;
+import statisticsmanager.bean.StatisticsDTO;
 
 @Transactional
 @Repository
@@ -34,5 +35,15 @@ public class StatisticsManagerDAOImpl implements StatisticsManagerDAO {
 	@Override
 	public int getSearchTotalA(Map<String, String> map) {
 		return sqlsession.selectOne("statisticsSQL.getSearchTotalA", map);
+	}
+
+	@Override
+	public List<StatisticsDTO> dayStatisticsArray(String month) {
+		return sqlsession.selectList("statisticsSQL.dayStatisticsArray", month);
+	}
+
+	@Override
+	public List<StatisticsDTO> monthStatisticsArray() {
+		return sqlsession.selectList("statisticsSQL.monthStatisticsArray");
 	}
 }
