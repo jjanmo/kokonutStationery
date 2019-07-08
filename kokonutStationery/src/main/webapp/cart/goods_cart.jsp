@@ -182,10 +182,10 @@
 								<a href="javascript:history.back();"><li class="subButton subButton-xs">이전으로</li></a>
 							</div>
 							<div class="selectDelete" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="/kokonutStationery/cart/deleteCart.do" onfocus="blur()"><li class="subButton subButton-xs">선택 삭제</li></a>
+								<a href="#" onfocus="blur()"><li class="subButton subButton-xs">선택 삭제</li></a>
 							</div>
 							<div class="allDelete" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="/kokonutStationery/cart/allDeleteCart.do"><li class="subButton subButton-xs">비우기</li></a>
+								<a href="#"><li class="subButton subButton-xs">비우기</li></a>
 							</div>
 							<div class="" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="/kokonutStationery/main/index.do" ><li class="subButton subButton-xs">쇼핑 계속하기</li></a>
@@ -250,7 +250,7 @@ $(function(){
 	}); 
 });
 
-//수량 수정 변경시 페이징처리
+		//수량 수정 변경시 페이징처리
 		$(document).ready(function(){
 			$('#modifyBtn').click(function(){
 				location.href="/kokonutStationery/cart/goods_cart.do";
@@ -275,7 +275,7 @@ $(function(){
 			}
 		});
    
-//장바구니 선택삭제
+		//장바구니 선택삭제
 		$('.selectDelete').click(function() {
 			var productCode = '';
 			var optionContent = '';
