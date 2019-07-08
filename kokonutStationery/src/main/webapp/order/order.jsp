@@ -370,7 +370,6 @@ var userPhone3 = ${userDTO.userPhone3 };
 var userEmail = '${userDTO.userEmail }';
 
 $(function(){
-	alert("aa");
 	
 	//페이지 자동으로 출력되는 것들
 	$('#userName').val(userName);
@@ -388,7 +387,6 @@ $(function(){
 	}
 	//옵션이 있는 경우
 	else{
-		alert("option");
 		var optionStr = '${selValue}';
 		var optionContent = optionStr.split(",");
 		var qtyStr = '${pdQtyValue}';
@@ -396,7 +394,6 @@ $(function(){
 		
 		createTabOption(optionContent, productQty);
 		totalP();
-		alert("end");
 	}
 
 
@@ -608,10 +605,10 @@ $('#orderWriteBtn').click(function(){
 			data : {'userId' 		: '${memId}',
 					'userName' 		: '${memName}',
 					'thumbImg' 		: '${goodsDTO.thumbImg}',
-					'productCode' 	: ${goodsDTO.productCode},
-					'discountPrice' : ${goodsDTO.discountPrice},
-					'purchaseQty' 	: ${productQty},
-					'totalPrice'	: ${goodsDTO.discountPrice} * ${productQty},
+					'productCode' 	: '${goodsDTO.productCode}',
+					'discountPrice' : '${goodsDTO.discountPrice}'
+					'purchaseQty' 	: '${productQty}',
+					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },
@@ -643,13 +640,13 @@ $('#orderWriteBtn').click(function(){
 				data : {'userId' 		: '${memId}',
 						'userName' 		: '${memName}',
 						'thumbImg' 		: '${goodsDTO.thumbImg}',
-						'productCode' 	: ${goodsDTO.productCode},
-						'discountPrice' : ${goodsDTO.discountPrice},
+						'productCode' 	: '${goodsDTO.productCode}',
+						'discountPrice' : '${goodsDTO.discountPrice}',
 						'purchaseQty' 	: productQty[i],
-						'totalPrice'	: ${goodsDTO.discountPrice} * productQty[i],
+						'totalPrice'	: '${goodsDTO.discountPrice}' * productQty[i],
 						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-						'productOption' : ${goodsDTO.productOption},
+						'productOption' : '${goodsDTO.productOption}',
 						'optionContent' : optionContent[i] },
 				dataType : 'text',
 				success : function(data){
@@ -668,6 +665,3 @@ $('#orderWriteBtn').click(function(){
 	location.href = "/kokonutStationery/order/order_settle.do";	
 		
 });
-
-
-</script>

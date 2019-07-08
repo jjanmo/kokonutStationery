@@ -554,6 +554,7 @@ $('#cartBtn').click(function(){
 			}); //ajax
 		} //for
 	} //if~else
+	//페이지 이동
 	location.href = "/kokonutStationery/cart/goods_cart.do";
 });
 
