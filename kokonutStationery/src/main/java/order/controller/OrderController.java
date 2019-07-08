@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
 
@@ -162,8 +163,20 @@ public class OrderController {
 		return mav;
 	}
 	
-	
-	
+	//ORDERLIST 생성 및 ORDER 수정
+	@RequestMapping(value="/insertOrderlist.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String insertOrderlist(@ModelAttribute OrderlistDTO orderlistDTO) {
+		//ORDERLIST 생성
+		System.out.println(orderlistDTO);
+		int su = orderDAO.insertOrderlist(orderlistDTO);
+		if(su == 0) {
+			return "fail";
+		}
+		else {
+			return "success";
+		}
+	}
 }
 
 

@@ -619,6 +619,9 @@ $('#orderWriteBtn').click(function(){
 	
 	//상품정보 : orderDB
 	if(option == 0){ //옵션이 없는 경우
+		var purchaseQty = '${productQty}';
+		alert(typeof purchaseQty);
+		
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/setOrderInfo.do',
@@ -628,8 +631,13 @@ $('#orderWriteBtn').click(function(){
 					'productCode' 	: '${goodsDTO.productCode}',
 					'productName'	: '${goodsDTO.productName}',
 					'discountPrice' : '${goodsDTO.discountPrice}',
+<<<<<<< HEAD
 					'purchaseQty' 	: '${productQty}',
 					'totalPrice'	: '${goodsDTO.discountPrice* productQty}',
+=======
+					'purchaseQty' 	: purchaseQty,
+					'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
+>>>>>>> refs/heads/jjanmo
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },
