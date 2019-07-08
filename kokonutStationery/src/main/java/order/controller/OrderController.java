@@ -162,22 +162,7 @@ public class OrderController {
 		return mav;
 	}
 	
-	//선택주문하기
-	@GetMapping("/order_cart.do")
-	public ModelAndView orderCart(HttpSession session) {
-		
-		//세션아이디
-		String userId = (String) session.getAttribute("memId");
-		
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list); 			//상품정보
-		mav.addObject("userDTO", userDTO);		//유저정보
-		mav.addObject("display", "/order/order_cart.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
+	
 	
 }
 

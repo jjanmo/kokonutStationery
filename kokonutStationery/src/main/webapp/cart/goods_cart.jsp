@@ -9,7 +9,7 @@
 	<!-- indiv start -->
 	<div class="indiv" style="margin: 135px 10px 0 20px;">
 		<div class="cart_title">장바구니</div>
-		<form name="CartForm" method="post" action="/kokonutStationery/cart/goods_cart_modify.do">
+		<form id="cartForm" name="CartForm" method="post" action="/kokonutStationery/cart/goods_cart_modify.do">
 			<input type="hidden" name="mode" value="modItem">
 			
 			<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cartTable" style="margin-top: 15px;">
@@ -48,7 +48,7 @@
 								value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
 							<tr>
 							<td id="cart_checkbox" style="vertical-align: top; padding: 30px 17px;">
-								<input type="checkbox" name="cartCheckbox" class="checkbox${cnt}" checked>
+								<input type="checkbox" name="cartCheckbox" value="${cartDTO.cartCode }" class="checkbox${cnt}" checked>
 							</td>
 
 							<td style="vertical-align: top; padding: 30px 17px;">
@@ -156,7 +156,9 @@
 				<!-- 상품합계 부분 끝 -->					
 			</table>
 		</form>
-
+		<form id="selectForm" method="post" action="../cart/order_cart.do">
+			
+		</form>
 
 		<!-- 버튼 부분 -->
 		<!-- 장바구니 리스트가 없을 때 -->
@@ -196,7 +198,7 @@
 								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="/kokonutStationery/cart/order_cart.do"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
+								<a href="#"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
 							</div>
 						</div>
 					</td>
@@ -411,7 +413,31 @@ $('.selectLike').click(function(){
 	} //for
 });
 		
-
+//선택주문하기
+$('#selectOrderBtn').click(function(){
+	var cartCode=[];
+	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
+		//cartCode.push($(this).val());
+		
+		$('#selectForm').append($('<input/>',{
+			type:'hidden',
+			name:'cartCode[]',
+			value:$(this).val()
+		}));
+	});
+	$('#selectForm').submit();
+	console.log(cartCode);
+	
+	
+	
+	/* $.ajax({
+		type:'post',
+		url:'../cart/order_cart.do',
+		data:{'cartCode':cartCode}
+		
+	}); */
+	
+});
 </script>
 
 
