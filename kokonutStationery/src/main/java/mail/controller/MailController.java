@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,9 @@ public class MailController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Inject
+	PasswordEncoder passwordEncoder;
 	 
 	    // 회원가입 이메일 인증
 	    @RequestMapping(value = "/auth", method = RequestMethod.POST)
@@ -89,9 +94,10 @@ public class MailController {
 	    @ResponseBody
 	    public void changePwd(@RequestParam String userPwd,@RequestParam String userEmail) {
 	    	System.out.println(userEmail+"의 변경할 pwd="+userPwd);
-	    	Map<String,String> map = new HashMap<String,String>();
+	    	String encPassword = passwordEncoder.encode(userPwd);
 	    	
-	    	map.put("userPwd", userPwd);
+	    	Map<String,String> map = new HashMap<String,String>(); 	
+	    	map.put("userPwd", encPassword);
 	    	map.put("userEmail",userEmail);
 	    	
 	    	userDAO.changePwd(map);

@@ -512,7 +512,9 @@ function changePwd(){
 		success:function(data){
 			
 			if(data=='exist'){
-				$('#chkPwd').val($('#originalPwd').val());	
+				$('#chkPwd').val('exist');	
+			}else{
+				$('#chkPwd').val('not_exist');	
 			}
 			
 		}				
@@ -600,7 +602,7 @@ $('#modifyBtn').click(function(){
 		}else if(pwdChkClass!='pwdOk')	{
 			alert("[새 비밀번호] 입력형식오류");
 			return false;
-		}else if($('#originalPwd').val()!=$('#chkPwd').val()){
+		}else if($('#chkPwd').val()!='exist'){
 			alert('현재 비밀번호를 정확하게 입력하여 주세요.');						
 			return false;
 		}
