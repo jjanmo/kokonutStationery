@@ -107,8 +107,7 @@ public class OrderController {
 	@RequestMapping(value="/updateUserInfo.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String setUserInfo(@ModelAttribute UserDTO userDTO) {
-		int su = orderDAO.updateUserInfo(userDTO);
-		System.out.println(su);
+		orderDAO.updateUserInfo(userDTO);
 		return "success";
 	}
 	
@@ -117,18 +116,15 @@ public class OrderController {
 	@ResponseBody
 	public String setOrderInfo(@ModelAttribute OrderDTO orderDTO) {
 		int su = orderDAO.setOrderInfo(orderDTO);
-		System.out.println(su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
 	
-	//배송 정보 추가 : 옵션이 있는 경우
+	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
-		
 		int su = orderDAO.setOrderInfoOption(orderDTO);
-		System.out.println(su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
@@ -136,17 +132,32 @@ public class OrderController {
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
 	public ModelAndView orderSettle(HttpSession session) {
-		
-		//세션아이디
-		String userId = (String) session.getAttribute("memId");
-		
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list); 			//상품정보
-		mav.addObject("userDTO", userDTO);		//유저정보
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//주문 정보 받아오기
+	@RequestMapping(value="/getOrder.do", method=RequestMethod.POST)
+	public ModelAndView getOrderList(HttpSession session) {
+		String userId = (String) session.getAttribute("memId");
+		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list); 							//상품정보
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//주문자 정보 받아오기
+	@RequestMapping(value="/getOrderUserInfo.do",method=RequestMethod.POST)
+	public ModelAndView getOrderUserInfo(HttpSession session) {
+		
+		String userId = (String) session.getAttribute("memId");
+		UserDTO userDTO = userDAO.getUserInfo(userId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("userDTO", userDTO);						//유저정보
+		mav.setViewName("jsonView");
 		return mav;
 	}
 	
