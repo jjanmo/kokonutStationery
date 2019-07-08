@@ -60,7 +60,6 @@
 }
 
 </style>
-</head>
 
 <div class="footer_menu">
 	

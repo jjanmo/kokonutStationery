@@ -6,6 +6,7 @@ import lombok.Data;
 @Component
 @Data
 public class CartDTO {
+	private int cartCode;//카트번호
 	private String userId; 
 	private String userEmail;
 	private int productCode;

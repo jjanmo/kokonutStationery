@@ -106,7 +106,7 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						          <input type="text" name="userName" id="userName" value="" 
+						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" 
 						         readonly required>
 						     </td>
 						    </tr>
@@ -114,13 +114,13 @@
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
 								<td style="padding:5px 0">
-								   <input type="text" name="userPhone1" id="userPhone1" value="" size="3" maxlength="3" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone1" id="userPhone1" value="${userDTO.userPhone1 }" size="3" maxlength="3" label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								    &nbsp;-&nbsp;
-								   <input type="text" name="userPhone2" id="userPhone2" value="" size="4" maxlength="4" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone2" id="userPhone2" value="${userDTO.userPhone2 }" size="4" maxlength="4" label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								    &nbsp;-&nbsp;
-								   <input type="text" name="userPhone3" id="userPhone3" value="" size="4" maxlength="4" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone3" id="userPhone3" value="${userDTO.userPhone3 }" size="4" maxlength="4" label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								</td>
 							</tr>
@@ -129,7 +129,7 @@
 							<tr>
 					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">이메일 :</td>
 					            <td style="padding:5px 0">
-					              <input type="text" name="userEmail" id="userEmail" value="" required
+					              <input type="text" name="userEmail" id="userEmail" value="${userDTO.userEmail }" 
 					              style="width:211px;">
 					            </td>
 				          	</tr>
@@ -367,14 +367,12 @@ var userName = '${userDTO.userName }';
 var userPhone1 = ${userDTO.userPhone1 };
 var userPhone2 = ${userDTO.userPhone2 };
 var userPhone3 = ${userDTO.userPhone3 };
-var userEmail = '${userDTO.userEmail }';
-
-
+var option = ${goodsDTO.productOption};
 
 $(function(){
 	//구매하기버튼 : 상품1개에 대한 구매
 	//옵션이 없는 경우
-	if(${goodsDTO.productOption} == 0){
+	if(option == 0){
 		createTabNoOption();
 		totalP();		
 	}
@@ -384,35 +382,26 @@ $(function(){
 		var optionContent = optionStr.split(",");
 		var qtyStr = '${pdQtyValue}';
 		var productQty = qtyStr.split(",");
+		
 		createTabOption(optionContent, productQty);
 		totalP();
 	}
-
-	//페이지 자동으로 출력되는 것들
-	$('#userName').val(userName);
-	$('#userPhone1').val(userPhone1);
-	$('#userPhone2').val(userPhone2);
-	$('#userPhone3').val(userPhone3);
-	$('#userEmail').val(userEmail);
-	
-	//배송지 확인 클릭
-	$('#sameInfo').click(function(){
-		
-		if($('#sameInfo').prop('checked')){
-			$('#receiverName').val(userName);
-			$('#receiverPhone1').val(userPhone1);
-			$('#receiverPhone2').val(userPhone2);
-			$('#receiverPhone3').val(userPhone3);
-		}else{
-			$('#receiverName').val('');
-			$('#receiverPhone1').val('');
-			$('#receiverPhone2').val('');
-			$('#receiverPhone3').val('');
-		}
-	});
-
 });
 
+//배송지 확인 클릭
+$('#sameInfo').click(function(){
+	if($('#sameInfo').prop('checked')){
+		$('#receiverName').val(userName);
+		$('#receiverPhone1').val(userPhone1);
+		$('#receiverPhone2').val(userPhone2);
+		$('#receiverPhone3').val(userPhone3);
+	}else{
+		$('#receiverName').val('');
+		$('#receiverPhone1').val('');
+		$('#receiverPhone2').val('');
+		$('#receiverPhone3').val('');
+	}
+});
 
 //제품 1개에 대한 table 생성 : 옵션없음
 function createTabNoOption(){
@@ -453,7 +442,6 @@ function createTabNoOption(){
 
 //제품 1개에 대한 table 생성 : 옵션있음
 function createTabOption(optionContent, productQty){
-
 	for(var i = 0; i< optionContent.length-1; i++ ){
 		$('<tr/>').append($('<td/>',{
 			style: "vertical-align:top; padding: 30px 0;"
@@ -494,7 +482,6 @@ function createTabOption(optionContent, productQty){
 		}))).appendTo($('#tbody'));
 	
 	}  
-
 }
 	
 //상품합계금액과 포인트 
@@ -526,8 +513,6 @@ function totalP(){
 		$('#paper_delivery').text(AddComma(2500));
 		$('#totalP').text(AddComma(totalP+2500))
 	}
-	
-	
 }
 
 //포인트 사용
@@ -570,7 +555,6 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do
 $('#orderWriteBtn').click(function(){
-	alert("btn click");
 	//user정보 및 배송정보 
 	$.ajax({
 		type : 'POST',
@@ -596,19 +580,17 @@ $('#orderWriteBtn').click(function(){
 	});
 	
 	//상품정보 : orderDB
-	var option = ${goodsDTO.productOption};
 	if(option == 0){ //옵션이 없는 경우
-		alert("option == 0");
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/setOrderInfo.do',
 			data : {'userId' 		: '${memId}',
 					'userName' 		: '${memName}',
 					'thumbImg' 		: '${goodsDTO.thumbImg}',
-					'productCode' 	: ${goodsDTO.productCode},
-					'discountPrice' : ${goodsDTO.discountPrice},
-					'purchaseQty' 	: ${productQty},
-					'totalPrice'	: ${goodsDTO.discountPrice} * ${productQty},
+					'productCode' 	: '${goodsDTO.productCode}',
+					'discountPrice' : '${goodsDTO.discountPrice}',
+					'purchaseQty' 	: '${productQty}',
+					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },
@@ -631,8 +613,7 @@ $('#orderWriteBtn').click(function(){
 		var productQty = qtyStr.split(",");
 		var optionStr = '${selValue}';
 		var optionContent = optionStr.split(",");
-	
-		alert("option == 1");
+
 		for(i = 0 ; i < optionContent.length ; i++){
 			$.ajax({
 				type : 'POST',
@@ -640,13 +621,13 @@ $('#orderWriteBtn').click(function(){
 				data : {'userId' 		: '${memId}',
 						'userName' 		: '${memName}',
 						'thumbImg' 		: '${goodsDTO.thumbImg}',
-						'productCode' 	: ${goodsDTO.productCode},
-						'discountPrice' : ${goodsDTO.discountPrice},
+						'productCode' 	: '${goodsDTO.productCode}',
+						'discountPrice' : '${goodsDTO.discountPrice}',
 						'purchaseQty' 	: productQty[i],
-						'totalPrice'	: ${goodsDTO.discountPrice} * productQty[i],
+						'totalPrice'	: '${goodsDTO.discountPrice}' * productQty[i],
 						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-						'productOption' : ${goodsDTO.productOption},
+						'productOption' : '${goodsDTO.productOption}',
 						'optionContent' : optionContent[i] },
 				dataType : 'text',
 				success : function(data){
@@ -665,6 +646,4 @@ $('#orderWriteBtn').click(function(){
 	location.href = "/kokonutStationery/order/order_settle.do";	
 		
 });
-
-
 </script>

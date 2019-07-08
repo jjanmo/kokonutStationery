@@ -34,17 +34,17 @@
 
 				<c:set var="total" value="0" />
 				<c:if test="${list.size()!=0}"> 
-					<c:forEach var="cartDTO" items="${list }">
-					<c:set var="total" value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
-					<c:set var="cnt" value="${cnt+1}" />
-					<input type="hidden" id="productCode${cnt}" value="${cartDTO.productCode}">
-					<input type="hidden" id="productName${cnt}" value="${cartDTO.productName}">
-					<input type="hidden" id="productOption${cnt}" value="${cartDTO.productOption}">
-					<input type="hidden" id="thumbImg${cnt}" value="${cartDTO.thumbImg}">
-					<input type="hidden" id="discountPrice${cnt}" value="${cartDTO.discountPrice}">
-					<input type="hidden" id="optionContent${cnt}" value="${cartDTO.optionContent}">
-
-						<tr>
+					<c:forEach var="cartDTO" items="${list }" varStatus="status">
+							<c:set var="cnt" value="${cnt+1}" />
+							<input type="hidden" id="productCode${cnt}" name="productCode"
+								value="${cartDTO.productCode}">
+							<input type="hidden" id="productOption${cnt}"
+								value="${cartDTO.productOption}">
+							<input type="hidden" id="optionContent${cnt}"
+								value="${cartDTO.optionContent}">
+							<c:set var="total"
+								value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
+							<tr>
 							<td id="cart_checkbox" style="vertical-align: top; padding: 30px 17px;">
 								<input type="checkbox" name="cartCheckbox" class="checkbox${cnt}" checked>
 							</td>
@@ -84,20 +84,22 @@
 									<tr>
 										<td style="padding: 0; height: 0px; border: 0">
 											<div style="float: left;">
-												<input type="text" name="productQty" id="productQty" step="1" min="1" max="0" size="2" 
+												<input type="text" name="productQty" id="${status.index}" step="1" min="1" max="0" size="2" 
 													   value="${cartDTO.productQty }" class="line" 
 													   style="border: 1px solid #DDD; width: 40px; text-align: right; 
 													   		  height: 38px; padding-right: 5px; font-weight: 500;"/>
 											</div>
 											<div style="float: left; padding-left: 3px;">
-												<div style="padding: 1px 0 3px 0;">
-													<img id="up" src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png" 
-														 style="cursor: pointer; width: 14px;">
-												</div>
-												<div>
-													<img id="down" src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png" 
-														 style="cursor: pointer; width: 14px;">
-												</div>
+													<div style="padding: 1px 0 3px 0;">
+														<img class="up" id="${status.index}"
+															src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_up.png"
+															style="cursor: pointer; width: 14px;">
+													</div>
+													<div>
+														<img class="down" id="${status.index}"
+															src="http://store.baemin.com/shop/data/exskin/btn_multioption_ea_down.png"
+															style="cursor: pointer; width: 14px;">
+													</div>
 											</div>
 										</td>
 									</tr>
@@ -249,52 +251,107 @@ $(function(){
 	}); 
 });
 
-
-//수량 변경
-var qty = $('#productQty').val();
-
-$('#up').click(function() {
-	qty++;
-	$('#productQty').val(qty);
-});
-   
-$('#down').click(function(){
-	if(qty > 1) {
-		qty--;
-		$('#productQty').val(qty);
-	}
-});
-   
-   
-//장바구니 삭제
-$('.selectDelete').click(function(){
-	var productCode = '';
-	var optionContent = '';
-	
-	alert("삭제");
-	for(var i=1; i<=$('input[name=cartCheckbox]').length; i++) {
-		if($('.checkbox'+i).is(':checked')) {
-			productCode = $('#productCode'+i).val();
-		
-			if($('#productOption'+i).val()==0) { //옵션이 없을 때
-				optionContent = 'none';
-			} else { //옵션이 있을 때
-				optionContent = $('#optionContent'+i).val();
-			}
-					
-			$.ajax({
-				type: 'post',
-				url: '/kokonutStationery/cart/deleteCart.do',
-				data: {'userId': '${memId}', 
-					   'productCode' : productCode,
-					   'optionContent' : optionContent}
+//수량 수정 변경시 페이징처리
+		$(document).ready(function(){
+			$('#modifyBtn').click(function(){
+				location.href="/kokonutStationery/cart/goods_cart.do";
 			});
-		} //if; 체크 유무 확인
-	} //for
-	
-	//새로고침
-	location.href='/kokonutStationery/cart/goods_cart.do';
-});
+		})
+		
+		
+		//수량 변경
+		$('.up').click(function() {
+			var id_check = $(this).attr("id");
+			var qty = $('#' + id_check).val();
+			qty++;
+			$('#' + id_check).val(qty);
+		});
+
+		$('.down').click(function() {
+			var id_check = $(this).attr("id");
+			var qty = $('#' + id_check).val();
+			if (qty > 1) {
+				qty--;
+				$('#' + id_check).val(qty);
+			}
+		});
+   
+//장바구니 선택삭제
+		$('.selectDelete').click(function() {
+			var productCode = '';
+			var optionContent = '';
+
+			alert("삭제");
+			for (var i = 1; i <= $('input[name=cartCheckbox]').length; i++) {
+				if ($('.checkbox' + i).is(':checked')) {
+					productCode = $('#productCode' + i).val();
+
+					if ($('#productOption' + i).val() == 0) { //옵션이 없을 때
+						optionContent = 'none';
+					} else { //옵션이 있을 때
+						optionContent = $('#optionContent' + i).val();
+					}
+
+					$.ajax({
+						type : 'post',
+						url : '/kokonutStationery/cart/deleteCart.do',
+						data : {
+							'userId' : '${memId}',
+							'productCode' : productCode,
+							'optionContent' : optionContent
+						}
+					});
+				} //if; 체크 유무 확인
+			} //for
+
+			//새로고침
+			location.href = '/kokonutStationery/cart/goods_cart.do';
+		});
+		
+		//장바구니 전체삭제
+		$('.allDelete').click(function() {
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/cart/allDeleteCart.do',
+				data : {
+					'userId' : '${memId}'
+				},
+				success : function() {
+					location.href = '/kokonutStationery/cart/goods_cart.do';
+				}
+			});
+		});
+		
+		//숫자가 아닌경우  유효성검사 필요
+
+		$('#' + ${status.index}).focusout(function() {
+			var input = $('#' + ${status.index}).val();
+			if (isNaN(input)) {
+				alert("구매수량은 숫자만 가능합니다");
+			}
+			$('#' + ${status.index}).val("1");
+		});
+		
+		/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
+		$('.optionButton').click(function(){
+			$.ajax({
+				type:'GET',
+				url: '/kokonutStationery/cart/goods_cart_edit.do',
+				data :{
+					'userId': '${memId}',
+					'userEmail' : '${memEmail}',
+					'thumbImg' : '${cartDTO.thumbImg}',
+					'productCode' : '${cartDTO.productCode}',
+					'productName' : '${cartDTO.productName}',
+					'productOption' : '${cartDTO.productOption}',
+					'optionContent' : '${cartDTO.optionContent}',
+					'productQty' : '${cartDTO.productQty}',
+				},
+				success : function() {
+				
+				}
+			});
+		}); */
 
 
 //선택 찜하기
