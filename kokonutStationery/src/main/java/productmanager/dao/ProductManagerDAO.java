@@ -53,6 +53,8 @@ public interface ProductManagerDAO {
 
 	public void productOptionDelete(Map<String, String[]> map);
 
+	public int checkStock(Map<String, String> map);
+
 
 
 
