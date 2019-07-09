@@ -427,7 +427,17 @@ $('.selectLike').click(function(){
 //선택주문하기
 $('#selectOrderBtn').click(function(){
 	var cartCode=[];
-	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
+	var checkedValue = $('input:checkbox[name=cartCheckbox]:checked'); 
+	var checkedValueStr = "";
+
+	for(i = 0; i<checkedValue.length; i++){
+		checkedValueStr += (checkedValue[i].value +",");	
+	}
+	
+	location.href="/kokonutStationery/order/order_cart.do?checkedValueStr="+checkedValueStr;
+	
+	
+/* 	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
 		//cartCode.push($(this).val());
 		
 		$('#selectForm').append($('<input/>',{
@@ -437,7 +447,7 @@ $('#selectOrderBtn').click(function(){
 		}));
 	});
 	$('#selectForm').submit();
-	console.log(cartCode);
+	console.log(cartCode); */
 	
 	
 	

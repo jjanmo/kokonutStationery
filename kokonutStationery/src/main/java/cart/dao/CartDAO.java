@@ -31,8 +31,9 @@ public interface CartDAO {
 
 	/* public List<CartDTO> cartOrder(String userId); */
 
+	public CartDTO getCartDTO(int cartCode);
 	
-
+	
 	
 
 }
