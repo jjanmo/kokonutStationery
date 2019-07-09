@@ -431,14 +431,12 @@
 </div>
 
 
-
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
 
 
 $(document).ready(function(){
-	
  	var thumbImg = '${thumbImgList}';
  	var thumbImgArray = thumbImg.split(",");
 	var productCode = '${productCodeList}';
@@ -568,7 +566,7 @@ $('#orderWriteBtn').click(function(){
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : productOptionArray[i], 
-					'optionContent' : optionContentArray[i]  
+					'optionContent' : optionContentArray[i]
 					},
 			dataType : 'text',
 			success : function(data){
@@ -584,7 +582,7 @@ $('#orderWriteBtn').click(function(){
 		});
 	}
 	
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";	
 			
 	});	
 	

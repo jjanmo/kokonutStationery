@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cart.bean.CartDTO;
-import goods.bean.GoodsDTO;
 import goods.bean.ProductOptionDTO;
 
 @Transactional
@@ -74,6 +73,11 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public CartDTO getCartDTO(int cartCode) {
 		return sqlSession.selectOne("cartSQL.getCartDTO", cartCode);
+	}
+
+	@Override
+	public void deleteCartAfterPay(int cartCode) {
+		sqlSession.delete("cartSQL.deleteCartAfterPay", cartCode);
 	}
 
 	/*

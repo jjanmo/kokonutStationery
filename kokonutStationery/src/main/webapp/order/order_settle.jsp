@@ -386,6 +386,10 @@ var prdOption = new Array();
 			var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
 			var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
 			var deliveryFee = stringNumberToInt($('#deliveryFee').text());
+			var checkedValueStr = '${checkedValueStr}';
+			var cartCodeArray = checkedValueStr.split(",");
+			//alert(cartCodeArray.length);
+			
 			if('${kokonutId}' == ''){
 				$.ajax({
 					type : 'POST',
@@ -412,6 +416,16 @@ var prdOption = new Array();
 					}
 					
 				});//ajax orderlist/order수정
+				
+				//장바구니 삭제
+				for(var i=0; i<cartCodeArray.length-1; i++) {
+					$.ajax({
+						type : 'POST',
+						url  : '/kokonutStationery/cart/deleteCartAfterPay.do',
+						data : {'userId': '${memId}',
+								'cartCode': cartCodeArray[i]}
+					});
+				}
 			}else if('${memId}' == ''){
 				$.ajax({
 					type : 'POST',
