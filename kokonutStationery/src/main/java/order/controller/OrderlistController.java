@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import order.bean.OrderManagerPaging;
@@ -51,6 +52,21 @@ public class OrderlistController {
 		mav.setViewName("jsonView");
 		
 		return mav;
+	}
+	
+	@RequestMapping(value="/order/orderCancel.do",method=RequestMethod.POST)
+	public void orderCancel(@RequestParam Map<String,String> map) {
+		orderlistDAO.orderCancel(map);
+	}
+	
+	@RequestMapping(value="/order/orderChange.do",method=RequestMethod.POST)
+	public void orderChange(@RequestParam String orderCode) {
+		orderlistDAO.orderChange(orderCode);
+	}
+	
+	@RequestMapping(value="/order/orderRefund.do",method=RequestMethod.POST)
+	public void orderRefund(@RequestParam String orderCode) {
+		orderlistDAO.orderRefund(orderCode);
 	}
 	
 }
