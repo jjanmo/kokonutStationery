@@ -5,6 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="pointSQL">
 	<!-- 포인트 리스트 -->
 	<select id="getPointList" parameterType="String" resultType="point">
-		select * from tbl_point where userId = #{userId} order by logdate desc
+		select * from tbl_point where userId = #{userId} order by logdate desc, contents desc
 	</select>
 </mapper>
