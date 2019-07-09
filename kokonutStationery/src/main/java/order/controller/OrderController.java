@@ -221,8 +221,11 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
-	public void orderCancel(@RequestParam String userId) {
+	@ResponseBody
+	public String orderCancel(@RequestParam String userId) {
 		orderDAO.orderCancel(userId);
+		
+		return "success";
 	}
 }
 

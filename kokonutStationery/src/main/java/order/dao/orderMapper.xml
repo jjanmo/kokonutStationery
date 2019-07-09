@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>		
 	<!-- 결제취소시 주문번호 0인 주문 삭제 -->
 	<delete id="orderCancel" parameterType="String">
-		delete TBL_ORDER where userId = #{userId} and orderCode = 0;
+		delete TBL_ORDER where userId = #{userId} and orderCode = 0
 	</delete>
 	
 </mapper>

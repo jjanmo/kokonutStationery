@@ -418,24 +418,35 @@ $('#payBtn').click(function(){
 	}
 });
 $('#order_backBtn').click(function(){
+	//회원
 	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'get',
 			url : '/kokonutStationery/order/orderCancel.do',
-			data : 'userId=' + '${memId}',
-			success : function(){
-				window.history.back();
+			data : {'userId' : '${memId}'},
+			dataType : 'text',
+			success : function(data){
+				if(data=='success'){
+					alert("확인");
+					window.history.back();
+				}
 			}
 		});
 	}
+	//비회원
 	else if('${memId}' == ''){
 		$.ajax({
 			type : 'get',
 			url : '/kokonutStationery/order/orderCancel.do',
-			data : 'userId=' + '${kokonutId}',
-			success : function(){
-				window.history.back();
+			data : {'userId' : '${memId}'},
+			dataType : 'text',
+			success : function(data){
+				if(data=='success'){
+					alert("확인");
+					window.history.back();
+				}
 			}
+			
 		});
 	}
 });
