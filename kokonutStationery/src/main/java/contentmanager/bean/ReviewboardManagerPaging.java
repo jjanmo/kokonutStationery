@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Component
 @Data
-public class QnaboardManagerPaging {
+public class ReviewboardManagerPaging {
 	private int currentPage;
 	private int pageBlock;
 	private int pageSize;
@@ -22,19 +22,19 @@ public class QnaboardManagerPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='qnaboardPaging("+(startPage-1)+")'>이전</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='qnaboardPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='currentPaging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='qnaboardPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+i+")'>"+i+"</span>]");
 			}//if~else
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='qnaboardPaging("+(endPage+1)+")'>다음</span>]");
+			pagingHTML.append("[<span id='paging' onclick='reviewboardPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}
@@ -49,21 +49,22 @@ public class QnaboardManagerPaging {
 		if(endPage > totalPage) endPage = totalPage;
 
 		if(startPage>pageBlock) {
-			pagingHTML.append("[<span id='paging' onclick='qnaboardSearchPaging("+(startPage-1)+")'>이전</span>]"); 
+			pagingHTML.append("[<span id='paging' onclick='reviewboardSearchPaging("+(startPage-1)+")'>이전</span>]"); 
 		}//if
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='qnaboardSearchPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='currentPaging' onclick='reviewboardSearchPaging("+i+")'>"+i+"</span>]");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='qnaboardSearchPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("[<span id='paging' onclick='reviewboardSearchPaging("+i+")'>"+i+"</span>]");
 			}//if~else
 		}//for
 		
 		if(endPage<totalPage) {
-			pagingHTML.append("[<span id='paging' onclick='qnaboardSearchPaging("+(endPage+1)+")'>다음</span>]");
+			pagingHTML.append("[<span id='paging' onclick='reviewboardSearchPaging("+(endPage+1)+")'>다음</span>]");
 		}//if
 		
 	}
 	
 }
+

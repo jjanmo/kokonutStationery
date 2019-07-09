@@ -746,7 +746,7 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 		               $(this).toggle();
 		            });
 		         });
-				$('#pagingDiv').html(data.reviewboardPaging.pagingHTML);
+				$('#pagingDiv').html(data.reviewboardManagerPaging.pagingHTML);
 			}//if
 			$('#pg').val(1);
 		}//success
@@ -1062,7 +1062,7 @@ $('.contentList_searchBtn').click(function(event, str){
 				               $(this).toggle();
 				            });
 				         });
-						$('#pagingDiv').html(data.reviewboardPaging.pagingHTML);
+						$('#pagingDiv').html(data.reviewboardManagerPaging.pagingHTML);
 					}//if
 					$('#pg').val(1);
 				}//if 
