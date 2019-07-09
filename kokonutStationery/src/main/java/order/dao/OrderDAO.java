@@ -36,4 +36,7 @@ public interface OrderDAO {
 	public OrderDTO kokonutOrder(Map<String, String> map);
 
 	public OrderlistDTO kokonutOrderlist(Map<String, String> map);
+
+	public List<OrderDTO> getOrder(String orderCode);
+
 }
