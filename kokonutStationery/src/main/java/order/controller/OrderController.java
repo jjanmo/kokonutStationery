@@ -1,5 +1,6 @@
 package order.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -207,6 +208,27 @@ public class OrderController {
 		else {
 			return "success";
 		}
+	}
+	
+	//재고처리
+	@RequestMapping(value="/reduceSaleProduct.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String reduceSaleProduct(@RequestParam int productCode
+			, @RequestParam int purchaseQty, @RequestParam(required=false, defaultValue="noneOption") String optionContent) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		//System.out.println(optionContent);
+		if(optionContent.equals("noneOption")) {//옵션 없음
+			map.put("productCode", productCode);
+			map.put("purchaseQty", purchaseQty);
+			orderDAO.reduceSaleProduct(map);
+		}else {// 옵션 있음
+			map.put("productCode", productCode);
+			map.put("purchaseQty", purchaseQty);
+			map.put("optionContent", optionContent);
+			orderDAO.reduceSaleProductOption(map);
+		}
+		
+		return "success";
 	}
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody

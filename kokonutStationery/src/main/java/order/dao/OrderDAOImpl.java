@@ -63,9 +63,24 @@ public class OrderDAOImpl implements OrderDAO {
 	public int insertOrderlist(OrderlistDTO orderlistDTO) {
 		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
 	}
-
+	
+	//재고처리
+	@Override
+	public void reduceSaleProduct(Map<String, Object> map) {
+		sqlSession.update("orderSQL.reduceSaleProduct", map);
+	}
+	
+	@Override
+	public void reduceSaleProductOption(Map<String, Object> map) {
+		sqlSession.update("orderSQL.reduceSaleProductOption", map);
+	}
+	
 	@Override
 	public void orderCancel(String userId) {
 		sqlSession.delete("orderSQL.orderCancel", userId);
 	}
+
+	
+
+	
 }

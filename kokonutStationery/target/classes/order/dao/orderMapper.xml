@@ -123,6 +123,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							  where userId = #{userId} and orderCode = 0;
 		end;
 	</insert>		
+	<!-- 재고처리 옵션없음 -->
+	<update id="reduceSaleProduct" parameterType="java.util.Map">
+		update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
+							, saleQty = saleQty + ${purchaseQty}
+		where productCode = #{productCode}
+	</update>
+	<!-- 재고처리 옵션 있음 -->
+	<update id="reduceSaleProductOption" parameterType="java.util.Map">
+		begin
+			update TBL_PRODUCTOPTION set subStockQty = subStockQty - ${purchaseQty}
+									, subSaleQty = subSaleQty + ${purchaseQty}
+			where productCode = #{productCode} and optionContent = #{optionContent};
+			
+			update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
+								, saleQty = saleQty + ${purchaseQty}
+			where productCode = #{productCode}; 
+		end;
+	</update>
 	<!-- 결제취소시 주문번호 0인 주문 삭제 -->
 	<delete id="orderCancel" parameterType="String">
 		delete TBL_ORDER where userId = #{userId} and orderCode = 0

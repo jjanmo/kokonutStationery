@@ -85,7 +85,7 @@
 			</div>
 		
 			<div align="right" style="margin-top:15px; text-align:center;" >
-				<input type="radio" name="private1" value="yes">
+				<input type="radio" name="private1" value="yes" required>
 					<label style="font-size:13px; color:#333;"><b>동의합니다</b></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio" name="private1" value="no">
 					<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
@@ -124,13 +124,13 @@
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
 								<td style="padding:5px 0">
 								   <input type="text" name="userPhone1" id="userPhone1" value="${userDTO.userPhone1 }" size="3" maxlength="3" label="주문자 핸드폰번호" 
-								   style="width:60px;">
+								   style="width:60px;" required>
 								    &nbsp;-&nbsp;
 								   <input type="text" name="userPhone2" id="userPhone2" value="${userDTO.userPhone2 }" size="4" maxlength="4" label="주문자 핸드폰번호" 
-								   style="width:60px;">
+								   style="width:60px;" required>
 								    &nbsp;-&nbsp;
 								   <input type="text" name="userPhone3" id="userPhone3" value="${userDTO.userPhone3 }" size="4" maxlength="4" label="주문자 핸드폰번호" 
-								   style="width:60px;">
+								   style="width:60px;" required>
 								</td>
 							</tr>
 							
@@ -499,7 +499,6 @@ function createTabOption(optionContent, productQty){
 	}  
 }
 
-
 //상품합계금액과 포인트 
 function totalP(){
 	var totalPriceArray = new Array();
@@ -585,15 +584,42 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do
 $('#orderWriteBtn').click(function(){
-	
+	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
+	var chkEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+	var receiverName = $('#receiverName').val();
+	var paywayVal = $('input[name="payType"]:checked').val();
+	var kId = 'Kokonut';
+	
+	alert('${kokonutId}'.indexOf(kId));
 	
 	//유효성검사
-	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#receiverName').val())){
-			alert("올바른 이름 형식이 아닙니다.");
-			$('#receiverName').focus();
-			return false;
+	if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
+		alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
+		return false;		
+	}
+	else if( !chkPhone.test($('#userPhone1').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone1').focus();
+		return false;
+	}else if( !chkPhone2.test($('#userPhone2').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone2').focus();
+		return false;
+	}else if( !chkPhone2.test($('#userPhone3').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone3').focus();
+		return false;
+	}else if( !chkEmail.test($('#userEmail').val()) ){
+		alert("올바른 이메일 형식이 아닙니다.");
+		$('#userEmail').focus();
+		return false;
+	}else if(!/^(?=.*[가-힣]).{2,20}$/.test($('#receiverName').val())){
+		alert("올바른 이름 형식이 아닙니다.");
+		$('#receiverName').focus();
+		return false;
 	}else if($('#receiverZipcode').val()==''){
 		alert("주소를 입력해주세요");
 		$('#receiverZipcode').focus();
@@ -844,4 +870,5 @@ $('#order_cancelBtn').click(function(){
 		location.href='/kokonutStationery/main/index.do';
 	}	
 });
+
 </script>

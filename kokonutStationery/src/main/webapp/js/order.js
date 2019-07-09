@@ -1,4 +1,4 @@
-function chkOrder(id){
+/*function chkOrder(id){
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
@@ -58,7 +58,7 @@ function chkOrder(id){
 		
 	}
 }
-
+*/
 
 function checkPost(){
 	window.open("/kokonutStationery/order/checkPost.do","","width=550 height=500 left=500 top=300 scrollbars=yes");

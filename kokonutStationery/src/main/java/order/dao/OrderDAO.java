@@ -27,4 +27,8 @@ public interface OrderDAO {
 	public int insertOrderlist(OrderlistDTO orderlistDTO);
 	
 	public void orderCancel(String userId);
+
+	public void reduceSaleProduct(Map<String, Object> map);
+
+	public void reduceSaleProductOption(Map<String, Object> map);
 }
