@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							  ,#{totalPrice}
 							  ,#{paymentType}
 							  ,#{totalPayment}
-							  ,#{productOption})
+							  ,#{productOption} )
 	</insert>
 	
 	<!-- 주문정보 추가 : 옵션 있을떄 -->
