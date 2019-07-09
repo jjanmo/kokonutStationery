@@ -68,7 +68,12 @@ public class CartDAOImpl implements CartDAO {
 
 	@Override
 	public CartDTO getSelectCart(String cartCode) {
-		return sqlSession.selectOne("cartSQL.getSelectCart",cartCode);
+		return sqlSession.selectOne("cartSQL.getSelectCart", cartCode);
+	}
+
+	@Override
+	public CartDTO getCartDTO(int cartCode) {
+		return sqlSession.selectOne("cartSQL.getCartDTO", cartCode);
 	}
 
 	/*

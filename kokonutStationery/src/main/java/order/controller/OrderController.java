@@ -1,6 +1,10 @@
 package order.controller;
 
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+import java.util.ArrayList;
+>>>>>>> refs/heads/hwajong0709
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cart.bean.CartDTO;
+import cart.dao.CartDAO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
@@ -34,7 +39,8 @@ public class OrderController {
 	private OrderDAO orderDAO;
 	@Autowired
 	private UserDAO userDAO;
-	
+	@Autowired
+	private CartDAO cartDAO;
 		
 	//상세페이지에서 구매하기 버튼 클릭 : 옵션 없는 제품의 order페이지 
 	//제품1개에 대한 정보
@@ -242,6 +248,7 @@ public class OrderController {
 		}
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String orderCancel(@RequestParam String userId) {
@@ -249,6 +256,78 @@ public class OrderController {
 		
 		return "success";
 	}
+=======
+	
+	//주문 정보 추가 : 옵션이 있는 경우
+	@RequestMapping(value="/cartOrderInfo.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String setcartOrderInfo(@ModelAttribute OrderDTO orderDTO) {
+		System.out.println(orderDTO);
+		int su = orderDAO.setOrderInfoOption(orderDTO);
+	
+		if(su == 1)	return "success";
+		else return "fail";
+	}
+
+	//order_cart 페이지 : 장바구니에서 선택주문에서 이동하는 페이지
+	@GetMapping("/order_cart.do")
+	public ModelAndView orderCart(@RequestParam String checkedValueStr, HttpSession session ) {
+		
+		List<CartDTO> list = new ArrayList<CartDTO>();
+		String[] cartCodeStr = checkedValueStr.split(",");
+		int[] cartCode = new int[(cartCodeStr.length)-1];
+		for(int i = 0; i<cartCodeStr.length-1; i++) {
+			cartCode[i] = Integer.parseInt(cartCodeStr[i]);
+			CartDTO cartDTO = cartDAO.getCartDTO(cartCode[i]);
+			list.add(cartDTO);
+		}
+		
+		
+	 	String thumbImgList = "";
+		String productCodeList = "";
+		String productNameList = "";
+		String discountPriceList = "";
+		String purchaseQtyList = "";
+		String productOptionList ="";
+		String optionContentList = "";
+		
+		for(int i= 0 ; i<list.size(); i++) {
+			thumbImgList += (list.get(i).getThumbImg() + ",");
+			productCodeList += (list.get(i).getProductCode() + ",");
+			productNameList += (list.get(i).getProductName() + ",");
+			discountPriceList += (list.get(i).getDiscountPrice() + ",");
+			purchaseQtyList += (list.get(i).getProductQty() + ",");
+			productOptionList += (list.get(i).getProductOption() + ",");
+			optionContentList += (list.get(i).getOptionContent() + ",");
+		}
+		System.out.println(thumbImgList);
+		System.out.println(productCodeList);
+		System.out.println(productNameList);
+		System.out.println(discountPriceList);
+		System.out.println(purchaseQtyList);
+		System.out.println(productOptionList);
+		System.out.println(optionContentList);
+		
+		String userId = (String) session.getAttribute("memId");
+		UserDTO userDTO = userDAO.getUserInfo(userId);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("thumbImgList", thumbImgList);
+		mav.addObject("productCodeList", productCodeList);
+		mav.addObject("productNameList", productNameList);
+		mav.addObject("discountPriceList", discountPriceList);
+		mav.addObject("purchaseQtyList", purchaseQtyList);
+		mav.addObject("productOptionList", productOptionList);
+		mav.addObject("optionContentList", optionContentList);
+		mav.addObject("userDTO", userDTO);
+		mav.addObject("list", list);
+		mav.addObject("display", "/order/order_cart.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	
+>>>>>>> refs/heads/hwajong0709
 }
 
 

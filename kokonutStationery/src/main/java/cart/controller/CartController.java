@@ -164,27 +164,29 @@ public class CartController {
 	}
 	
 	//선택주문하기 페이지 이동
-	@RequestMapping(value="/order_cart.do",method=RequestMethod.POST)
-	public ModelAndView orderCart(HttpSession session,@RequestParam(value="cartCode[]") List<String> cartCodeVal) {		
-		List<CartDTO> list = new ArrayList<CartDTO>();
-		
-		//선택주문 리스트에 담기
-		for(String cartCode : cartCodeVal) {
-			list.add(cartDAO.getSelectCart(cartCode));
-			System.out.println(cartDAO.getSelectCart(cartCode));
-		}
-			
-		//세션아이디
-		String userId = (String) session.getAttribute("memId");
-		UserDTO userDTO = userDAO.getUserInfo(userId);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.addObject("userDTO", userDTO);
-		mav.addObject("display", "/order/order_cart.jsp");
-		mav.setViewName("/main/nosIndex");
-		return mav;
-	}
+//	@RequestMapping(value="/order_cart.do",method=RequestMethod.POST)
+//	public ModelAndView orderCart(HttpSession session,@RequestParam(value="cartCode[]") List<String> cartCodeVal) {		
+//		System.out.println("aaaaaa");
+//		List<CartDTO> list = new ArrayList<CartDTO>();
+//		
+//		//선택주문 리스트에 담기
+//		for(String cartCode : cartCodeVal) {
+//			list.add(cartDAO.getSelectCart(cartCode));
+//			System.out.println(cartDAO.getSelectCart(cartCode));
+//		}
+//			
+//		//세션아이디
+//		String userId = (String) session.getAttribute("memId");
+//		UserDTO userDTO = userDAO.getUserInfo(userId);
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("list", list);
+//		mav.addObject("userDTO", userDTO);
+//		mav.addObject("display", "/order/order_cart.jsp");
+//		mav.setViewName("/main/nosIndex");
+//		return mav;
+//	}
 	
 	
+
 }
