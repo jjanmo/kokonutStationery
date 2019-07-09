@@ -273,7 +273,7 @@ $(function(){
 			var optionContent = $('#optionContent'+cnt).val();
 			var productName = $('#productName'+cnt).text();
 			var cartCode = $('#cartCode'+cnt).val();
-			alert("cartCode= "+cartCode+" productCode="+productCode+" productName="+productName+" productQty="+input+" optionContent="+optionContent);
+			//alert("cartCode= "+cartCode+" productCode="+productCode+" productName="+productName+" productQty="+input+" optionContent="+optionContent);
 			
 			if(optionContent=="none"){//옵션이 없을 때
 				$.ajax({
@@ -283,7 +283,7 @@ $(function(){
 						'input':input},
 					dataType:'json',
 					success:function(data){
-						alert(JSON.stringify(data));
+						//alert(JSON.stringify(data));
 						if(data.result=='ok'){
 							//재고 안에서 수정
 							//$('#cartForm').submit();
@@ -315,7 +315,7 @@ $(function(){
 						'input':input},
 					dataType:'json',
 					success:function(data){
-						alert(JSON.stringify(data));
+						//alert(JSON.stringify(data));
 						if(data.result=='ok'){
 							//재고 안에서 수정
 							//$('#cartForm').submit();
