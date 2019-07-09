@@ -33,6 +33,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								cancelAmount=totalPrice,
 								cancelQty=purchaseQty
 				where orderCode=#{orderCode};
+			
+			<!-- 총구매금액 변경 -->
+			update tbl_user set totalPayment = #{x_totalPayment} - #{crPayment} where userId = #{userId};
+			
+			<!-- 현재 포인트 금액 변경 -->
+			update tbl_user set userPoint = #{x_userPoint}
+			+ (select usePoint from tbl_point where orderCode = #{orderCode})
+			- (select savePoint from tbl_point where orderCode = #{orderCode})
+			where userId = #{userId};
+			
+			<!-- 포인트 내역 변경 -->
+			delete tbl_point where userId = #{userId} and orderCode = #{orderCode};
 		end;
 	</update>
 	

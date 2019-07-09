@@ -107,7 +107,7 @@ $(document).ready(function(){
 						text : AddComma(items.totalPayment) 
 					
 					})).append($('<td/>',{//취소금액
-						text : items.crPayment	
+						text : AddComma(items.crPayment)
 					
 					})).append($('<td/>',{//주문상태
 						class : items.orderCode+"_orderState",
@@ -162,7 +162,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderCancel.do',
 								data : {'orderCode' : items.orderCode,
-										'crPayment' : items.totalPayment},
+										'crPayment' : items.totalPayment,
+										'x_totalPayment' : $('#x_totalPayment').val(),
+										'x_userPoint' : $('#x_userPoint').val(),
+										'userId' : '${memId}'},
 								success : function(data){}//success
 							});//ajax - 주문취소
 							alert("주문취소가 완료되었습니다!");
