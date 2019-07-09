@@ -84,10 +84,16 @@ public class OrderDAOImpl implements OrderDAO {
 	public OrderDTO kokonutOrder(Map<String, String> map) {
 		return sqlSession.selectOne("orderSQL.kokonutOrder", map);
 	}
-
+	
 	@Override
 	public OrderlistDTO kokonutOrderlist(Map<String, String> map) {
 		return sqlSession.selectOne("orderSQL.kokonutOrderlist", map);
+	}
+	
+	@Override
+	public List<OrderDTO> getOrder(String orderCode) {
+		return sqlSession.selectList("orderSQL.getOrder",orderCode);
+
 	}
 
 	
