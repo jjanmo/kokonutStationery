@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								  ,orderDate = sysdate
 								  where userId = #{userId} and orderCode = 0;
 			
-			<if test="usePoint != 0">			  
+			<if test="usePoint!=0 and members==1">			  
 				insert into tbl_point (userId
 									  ,logdate
 									  ,contents
@@ -139,7 +139,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,1);
 			</if>
 			
-			<if test="savePoint != 0">
+			<if test="savePoint!=0 and members==1">
 				insert into tbl_point (userId
 									  ,logdate
 									  ,contents
@@ -156,7 +156,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,0);
 			</if>
 			
-			update tbl_user set userPoint = #{totalPoint} - #{usePoint} + #{savePoint} where userId = #{userId};
+			<if test="members==1">
+				update tbl_user set userPoint = #{totalPoint} - #{usePoint} + #{savePoint} where userId = #{userId};
+			</if>
+			
 		end;
 	</insert>
 		
