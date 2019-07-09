@@ -1,10 +1,8 @@
 package order.controller;
 
-<<<<<<< HEAD
+
 import java.util.HashMap;
-=======
 import java.util.ArrayList;
->>>>>>> refs/heads/hwajong0709
 import java.util.List;
 import java.util.Map;
 
@@ -248,7 +246,7 @@ public class OrderController {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String orderCancel(@RequestParam String userId) {
@@ -256,8 +254,7 @@ public class OrderController {
 		
 		return "success";
 	}
-=======
-	
+
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/cartOrderInfo.do", method=RequestMethod.POST)
 	@ResponseBody
@@ -327,7 +324,7 @@ public class OrderController {
 	}
 	
 	
->>>>>>> refs/heads/hwajong0709
+
 }
 
 
