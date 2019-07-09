@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import onetoone.bean.OneToOneDTO;
+import onetoone.dao.OneToOneDAO;
 import point.bean.PointDTO;
 import point.dao.PointDAO;
 import user.bean.UserDTO;
@@ -32,6 +34,9 @@ public class MypageController {
 	private PointDAO pointDAO;
 	@Autowired
 	private WishlistDAO wishlistDAO;
+	@Autowired
+	private OneToOneDAO onetooneDAO;
+	
 	
 	//포인트
 	@GetMapping("/mypage_pointlist.do")
@@ -79,8 +84,12 @@ public class MypageController {
 	
 	//1:1문의페이지
 	@GetMapping("/mypage_onetoone.do")
-	public ModelAndView onetoone() {
+	public ModelAndView onetoone(HttpSession session) {
+		String userId = (String) session.getAttribute("memId");
+		List<OneToOneDTO> list = onetooneDAO.onetooneList(userId);
+		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
 		mav.addObject("contents", "/mypage/mypage_onetoone.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");
