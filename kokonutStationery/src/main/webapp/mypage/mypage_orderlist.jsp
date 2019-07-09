@@ -96,7 +96,7 @@ $(document).ready(function(){
 						}).append($('<a/>',{
 							class : items.orderCode,
 							text : items.orderCode,
-							src : '#'//상세 하게 되면 상세페이지 띄울 것
+							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode//상세 하게 되면 상세페이지 띄울 것
 						
 					}))).append($('<td/>',{//결제방법
 						text : paymentType

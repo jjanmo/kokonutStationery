@@ -22,7 +22,7 @@ public class OrderDTO {
 	private int discountPrice;
 	private int purchaseQty; 		// 상품구매수량
 	private int totalPrice;			// discountPrice*purchaseQty
-	private int paymentType; 		// 1:신용카드 / 2:핸드폰
+	private int paymentType; 		// 0:신용카드 / 1:핸드폰
 	private int totalPayment; 		// 해당주문번호에 대한 총 결제금액
 	private int productOption;		// 0:없음 / 1:있음
 	private String optionContent;	// 옵션내용

@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import onetoone.bean.OneToOneDTO;
 import onetoone.dao.OneToOneDAO;
+import order.bean.OrderDTO;
+import order.dao.OrderDAO;
 import point.bean.PointDTO;
 import point.dao.PointDAO;
 import user.bean.UserDTO;
@@ -36,7 +38,8 @@ public class MypageController {
 	private WishlistDAO wishlistDAO;
 	@Autowired
 	private OneToOneDAO onetooneDAO;
-	
+	@Autowired
+	private OrderDAO orderDAO;
 	
 	//포인트
 	@GetMapping("/mypage_pointlist.do")
@@ -78,6 +81,23 @@ public class MypageController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("contents", "/mypage/mypage_orderlist.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//주문내역 상세보기
+	@GetMapping("/mypage_orderview.do")
+	public ModelAndView orderview(HttpSession session ,@RequestParam String orderCode) {
+		//userDTO 받아서 주문내역뿌려주기
+		String userId = (String) session.getAttribute("memId");
+		UserDTO userDTO = userDAO.getUserInfo(userId);
+		List<OrderDTO> list = orderDAO.getOrder(orderCode);
+		ModelAndView mav = new ModelAndView();		
+		
+		mav.addObject("contents", "/mypage/mypage_orderview.jsp");
+		mav.addObject("display", "/mypage/mypageIndex.jsp");
+		mav.addObject("userDTO", userDTO);
+		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}

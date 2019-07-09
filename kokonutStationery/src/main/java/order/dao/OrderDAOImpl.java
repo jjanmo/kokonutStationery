@@ -80,6 +80,11 @@ public class OrderDAOImpl implements OrderDAO {
 		sqlSession.delete("orderSQL.orderCancel", userId);
 	}
 
+	@Override
+	public List<OrderDTO> getOrder(String orderCode) {
+		return sqlSession.selectList("orderSQL.getOrder",orderCode);
+	}
+
 	
 
 	

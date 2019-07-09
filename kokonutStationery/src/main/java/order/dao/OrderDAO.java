@@ -31,4 +31,6 @@ public interface OrderDAO {
 	public void reduceSaleProduct(Map<String, Object> map);
 
 	public void reduceSaleProductOption(Map<String, Object> map);
+
+	public List<OrderDTO> getOrder(String orderCode);
 }
