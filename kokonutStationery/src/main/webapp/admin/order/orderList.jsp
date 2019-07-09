@@ -558,7 +558,8 @@ $('#order_searchBtn').click(function(){
 				$('<tr/>',{
 					class : 'orderList_tr'
 				}).append($('<td/>',{
-					align : 'center'
+					align : 'center',
+					onclick : 'event.cancelBubble=true'
 				}).append($('<input/>',{ //체크박스
 					type : 'checkbox',
 					value : items.orderCode,
