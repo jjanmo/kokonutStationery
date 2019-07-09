@@ -439,21 +439,32 @@ $(document).on('click','.close', function(){
 ////숫자가 아닌경우  유효성검사 필요
 $(document).on('focusout','.option_productQty',function() {
 	
-	var idText = $(this).attr('id');
+	var idText = $(this).attr('id');	
+	
 	var optionNum = idText.charAt(idText.length-1); 
 	//alert(optionNum);
+	
+	//옵션한개의 가격
+	var OnepriceSpan = $(this).parent().next().next().children('#priceSpan'+optionNum);	
 	var input = $('#option_productQty'+optionNum).val();
 	
 	if (isNaN(input)==true) {
 		alert("구매 수량은 숫자만 가능합니다.");
 		$('#option_productQty'+optionNum).val("1");
-		
+		OnepriceSpan.text(discountPrice*1);
 		
 	}else if(isNaN(input)==false){
 		$('#option_productQty'+optionNum).val(input);
+		OnepriceSpan.text(discountPrice*input);
 		
 	}
-	
+	//토탈가격
+	var total = 0;
+	for(i=0; i<selArray.length; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total += num;
+	}
+	$('#priceSpan').text(total);
 });
 
 //수량 변경 : 증가
@@ -464,6 +475,7 @@ $(document).on('click','.up', function() {
 	option_productQty++;
 	$('#option_productQty'+ optionNum).val(option_productQty);
 	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
+	
 	var total = 0;
 	for(i=0; i<selArray.length; i++){
 		var num = $('#priceSpan'+i).text()*1
