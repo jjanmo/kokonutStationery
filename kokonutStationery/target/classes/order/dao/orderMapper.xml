@@ -89,7 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_ORDER where userId = #{userId} and orderCode = 0
 	</select>
 	
-<<<<<<< HEAD
 	<!-- orderlist 생성 및 order 수정 -->
 	<insert id="insertOrderlist" parameterType="orderlist">
 		begin
@@ -116,37 +115,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							  where userId = #{userId} and orderCode = 0;
 		end;
 	</insert>		
-
-	
-
-=======
-	<!--  -->
-	<insert id="cartOrderInfo" parameterType="order">
-		insert int tbl_order(userId
-							,userName
-							,thumbImg
-							,productCode
-							,productName
-							,discountPrice
-							,purchaseQty
-							,totalPrice
-							,paymentType
-							,totalPayment
-							,productOption
-							,optionContent) values(
-							#{userId}
-							,#{userName}
-							,#{thumbImg}
-							,#{productCode}
-							,#{productName}
-							,#{discountPrice}
-							,#{purchaseQty}
-							,#{totalPrice}
-							,#{paymentType}
-							,#{totalPayment}
-							,#{productOption}
-							,#{optionContent})
-							
-	</insert>
->>>>>>> refs/heads/hwajong0708_03
 </mapper>

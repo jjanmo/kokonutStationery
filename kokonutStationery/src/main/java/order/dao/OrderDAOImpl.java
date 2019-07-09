@@ -58,20 +58,9 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);
 	}
 
-<<<<<<< HEAD
 	//TBL_ORDERLIST 생성 및 TBL_ORDER 수정
 	@Override
 	public int insertOrderlist(OrderlistDTO orderlistDTO) {
 		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
 	}
-=======
-	@Override
-	public int cartOrderInfo(OrderDTO orderDTO) {
-		return sqlSession.insert("orderSQL.cartOrderInfo", orderDTO);
-	}
-
-	
-	
-	
->>>>>>> refs/heads/hwajong0708_03
 }
