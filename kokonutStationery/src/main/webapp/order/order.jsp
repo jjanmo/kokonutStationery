@@ -158,12 +158,14 @@
 			      <td>
 			        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top:10px;">
 			          <tbody>
+			          	<c:if test="${memId != null }">
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">배송지 확인 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding-top: 10px;">
 				              <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
 				            </td>
 				          </tr>
+				        </c:if>
 				          <tr>
 				            <td style="font-size: 13px; color: #666; font-weight:normal;padding: 15px 0 5px 0;">받으실분 :</td>
 				            <td style="padding: 15px 0 5px 0;">
@@ -702,6 +704,7 @@ $('#orderWriteBtn').click(function(){
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${kokonutId}',
+					'userName'			: $('#userName').val(),
 					'receiverName' 		: $('#receiverName').val(),
 					'receiverAddr1' 	: $('#receiverAddr1').val(),
 					'receiverAddr2' 	: $('#receiverAddr2').val(),
