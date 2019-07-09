@@ -18,7 +18,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
-		update TBL_USER set  receiverName 	= #{receiverName}
+		update TBL_USER set  userName = #{userName}
+							,userPhone1 = #{userPhone1}
+							,userPhone2 = #{userPhone2}
+							,userPhone3 = #{userPhone3}
+							,userEmail = #{userEmail}
+							,receiverName 	= #{receiverName}
 							,receiverAddr1 	= #{receiverAddr1}
 							,receiverAddr2 	= #{receiverAddr2}
 							,receiverZipcode = #{receiverZipcode}
@@ -31,7 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!--주문정보 추가 : 옵션 없을때  -->
 	<insert id="setOrderInfo" parameterType="order">
-		insert into TBL_ORDER(userId
+		insert into TBL_ORDER(orderCode
+							  ,userId
 							  ,userName
 							  ,thumbImg
 							  ,productCode
@@ -42,7 +48,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							  ,paymentType
 							  ,totalPayment
 							  ,productOption) values(
-							  #{userId}
+							  0
+							  ,#{userId}
 							  ,#{userName}
 							  ,#{thumbImg}
 							  ,#{productCode}
@@ -57,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 주문정보 추가 : 옵션 있을떄 -->
 	<insert id="setOrderInfoOption" parameterType="order">
-		insert into TBL_ORDER(userId
+		insert into TBL_ORDER(orderCode
+					  ,userId
 					  ,userName
 					  ,thumbImg
 					  ,productCode
@@ -69,7 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,totalPayment
 					  ,productOption
 					  ,optionContent) values(
-					  #{userId}
+					  0
+					  ,#{userId}
 					  ,#{userName}
 					  ,#{thumbImg}
 					  ,#{productCode}
@@ -80,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,#{paymentType}
 					  ,#{totalPayment}
 					  ,#{productOption} 
-					  ,#{optionContent} )
+					  ,#{optionContent})
 	</insert>
 	
 	<!--주문정보 가져오기 -->
@@ -92,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOrderlist" parameterType="orderlist">
 		begin
 		insert into TBL_ORDERLIST(orderCode 
-								,ordreDate
+								,orderDate
 								,userId 
 								,userName 
 								,totalProductPayment
@@ -110,11 +119,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								,#{totalPayment} );
 								
 		update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
-							  ,ordreDate = sysdate
+							  ,orderDate = sysdate
 							  where userId = #{userId} and orderCode = 0;
 		end;
 	</insert>		
-
+	<!-- 결제취소시 주문번호 0인 주문 삭제 -->
+	<delete id="orderCancel" parameterType="String">
+		delete TBL_ORDER where userId = #{userId} and orderCode = 0
+	</delete>
 	
-
 </mapper>

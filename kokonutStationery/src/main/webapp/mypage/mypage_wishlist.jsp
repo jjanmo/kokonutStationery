@@ -28,7 +28,10 @@
 		<c:forEach var="list" items="${list}">
 			<c:set var="cnt" value="${cnt+1}" />
 			<input type="hidden" id="productCode${cnt}" value="${list.productCode}">
+			<input type="hidden" id="productName${cnt}" value="${list.productName}">
 			<input type="hidden" id="productOption${cnt}" value="${list.productOption}">
+			<input type="hidden" id="thumbImg${cnt}" value="${list.thumbImg}">
+			<input type="hidden" id="discountPrice${cnt}" value="${list.discountPrice}">
 			<input type="hidden" id="optionContent${cnt}" value="${list.optionContent}">
 			
 			<tr id="wishlist_middle">
@@ -78,6 +81,15 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+var productCode = '';
+var productName = '';
+var productOption = '';
+var thumbImg = '';
+var discountPrice = '';
+var productQty = 1;
+var optionContent = '';
+
+
 //전체 선택/해제
 $('#wishlist_select').click(function(){
 	if($('#wishlist_select').hasClass('checkedAll')) {
@@ -91,34 +103,78 @@ $('#wishlist_select').click(function(){
 	
 });
 
+
 //선택 삭제
 $('#wishlistDeleteBtn').click(function(){
-	var productCode = '';
-	var optionContent = '';
-	
-	for(var i=1; i<=$('input[name=wishCheckbox]').length; i++) {
-		if($('.checkbox'+i).is(':checked')) {
-			productCode = $('#productCode'+i).val();
-			
-			if($('#productOption'+i).val()==0) { //옵션이 없을 때
-				optionContent = 'none';
-			} else { //옵션이 있을 때
-				optionContent = $('#optionContent'+i).val();
-			}
-			
-			$.ajax({
-				type: 'post',
-				url: '/kokonutStationery/mypage/deleteWishList.do',
-				data: {'userId': '${memId}', 
-					   'productCode' : productCode,
-					   'optionContent' : optionContent
-					  },
-				success: function(){
-					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+	if($('input[name=wishCheckbox]:checked').length==0) {
+		alert('선택된 사항이 없습니다.');
+	} else {
+		for(var i=1; i<=$('input[name=wishCheckbox]').length; i++) {
+			if($('.checkbox'+i).is(':checked')) {
+				productCode = $('#productCode'+i).val();
+				
+				if($('#productOption'+i).val()==0) { //옵션이 없을 때
+					optionContent = 'none';
+				} else { //옵션이 있을 때
+					optionContent = $('#optionContent'+i).val();
 				}
-			});
-		} //if; 체크 유무 확인
-	} //for
+				
+				$.ajax({
+					type: 'post',
+					url: '/kokonutStationery/mypage/deleteWishList.do',
+					data: {'userId': '${memId}', 
+						   'productCode' : productCode,
+						   'optionContent' : optionContent
+						  },
+					success: function(){
+						location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+					}
+				});
+			} //if
+		} //for
+	} //if
+});
+
+
+//장바구니 추가
+$('#cartBtn').click(function(){
+	if($('input[name=wishCheckbox]:checked').length==0) {
+		alert('선택된 사항이 없습니다.');
+	} else {
+		for(var i=1; i<=$('input[name=wishCheckbox]').length; i++) {
+			if($('.checkbox'+i).is(':checked')) {
+				productCode = $('#productCode'+i).val();
+				productName = $('#productName'+i).val();
+				productOption = $('#productOption'+i).val();
+				thumbImg = $('#thumbImg'+i).val();
+				discountPrice = $('#discountPrice'+i).val();
+				
+				if($('#productOption'+i).val()==0) { //옵션이 없을 때
+					optionContent = 'none';
+				} else { //옵션이 있을 때
+					optionContent = $('#optionContent'+i).val();
+				} //if~else
+					
+				$.ajax({	
+					type: 'post',
+					url: '/kokonutStationery/cart/goods_cart_insert.do',
+					data: {'userId': '${memId}',
+						   'userEmail' : '${memEmail}',
+						   'productCode': productCode,
+						   'productName': productName,
+						   'productOption': productOption,
+						   'thumbImg': thumbImg,
+						   'discountPrice': discountPrice,
+						   'productQty' : productQty,
+						   'optionContent': optionContent
+						   },
+					success: function(){
+						location.href = '/kokonutStationery/cart/goods_cart.do';	
+					}
+				}); //ajax
+			} //if
+		} //for
+	} //if
 });
 </script>
 

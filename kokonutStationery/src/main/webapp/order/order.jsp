@@ -47,7 +47,7 @@
 			</tr>
 		</tfoot>
 	</table>
-	<c:if test="${kokonutId == null }">
+	<c:if test="${memId != null }">
 	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
 	</c:if>
 	<c:if test="${kokonutId != null }">
@@ -110,10 +110,10 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						      <c:if test="${kokonutId == null }">
+						      <c:if test="${memId != null }">
 						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" readonly required>
 						      </c:if>
-						      <c:if test="${kokonutId != null }">
+						      <c:if test="${memId == null }">
 						          <input type="text" name="userName" id="userName" value="" required>
 						      </c:if>
 						     </td>
@@ -158,12 +158,14 @@
 			      <td>
 			        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top:10px;">
 			          <tbody>
+			          	<c:if test="${memId != null }">
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">배송지 확인 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding-top: 10px;">
 				              <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
 				            </td>
 				          </tr>
+				        </c:if>
 				          <tr>
 				            <td style="font-size: 13px; color: #666; font-weight:normal;padding: 15px 0 5px 0;">받으실분 :</td>
 				            <td style="padding: 15px 0 5px 0;">
@@ -332,8 +334,8 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">일반결제 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
-				              <input type="radio" name="payType" value="2" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="0" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
 				            </td>
 				          </tr>
 		       	 	  </tbody>
@@ -496,7 +498,8 @@ function createTabOption(optionContent, productQty){
 	
 	}  
 }
-	
+
+
 //상품합계금액과 포인트 
 function totalP(){
 	var totalPriceArray = new Array();
@@ -540,12 +543,25 @@ function usePoint(){
 		alert("1000원 단위의 숫자를 입력해주세요");
 		$('#usingPoint').val(0);
 	}
-	
+				
+	//1000단위로 사용
 	else if( usePoint < 1000 && usePoint > 0){
 		alert("1000원 이상부터 사용가능합니다")
 		$('#usingPoint').val(0);
 	}
-	
+				
+	//사용 가능한 포인트보다 큰 숫자 제한		
+	else if(totalPoint < usePoint) {
+		alert("사용 가능한 포인트보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}
+				
+	//총 결제금액보다 큰 숫자 제한		
+	else if(totalP < usePoint) {
+		alert("총 결제금액보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}		
+
 	else {
 		var remainPoint = totalPoint*1 - usePoint*1;
 		var usePoint = $('#usingPoint').val();
@@ -604,11 +620,16 @@ $('#orderWriteBtn').click(function(){
 	
 	//user정보 및 배송정보
 	//회원
-	if('${kokonutId}' == null){
+	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${memId}',
+					'userName'			: '${memName}',
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
 					'receiverName' 		: $('#receiverName').val(),
 					'receiverAddr1' 	: $('#receiverAddr1').val(),
 					'receiverAddr2' 	: $('#receiverAddr2').val(),
@@ -672,7 +693,7 @@ $('#orderWriteBtn').click(function(){
 					type : 'POST',
 					url : '/kokonutStationery/order/setOrderInfoOption.do',
 					data : {'userId' 		: '${memId}',
-							'userName' 		: '${memName}',
+							'userName' 		: '${memName}',							
 							'thumbImg' 		: '${goodsDTO.thumbImg}',
 							'productCode' 	: '${goodsDTO.productCode}',
 							'productName'	: '${goodsDTO.productName}',
@@ -697,11 +718,17 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
-	else if('${memId}' == null){
+	//비회원일때
+	else if('${memId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${kokonutId}',
+					'userName'			: $('#userName').val(),
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
 					'receiverName' 		: $('#receiverName').val(),
 					'receiverAddr1' 	: $('#receiverAddr1').val(),
 					'receiverAddr2' 	: $('#receiverAddr2').val(),

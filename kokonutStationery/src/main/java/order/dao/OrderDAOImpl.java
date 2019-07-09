@@ -63,4 +63,9 @@ public class OrderDAOImpl implements OrderDAO {
 	public int insertOrderlist(OrderlistDTO orderlistDTO) {
 		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
 	}
+
+	@Override
+	public void orderCancel(String userId) {
+		sqlSession.delete("orderSQL.orderCancel", userId);
+	}
 }

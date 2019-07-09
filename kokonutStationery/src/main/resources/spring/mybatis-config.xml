@@ -20,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="wishlist.bean.WishlistDTO" alias="wishlist" />
 		<typeAlias type="order.bean.PostDTO" alias="post"/>
 		<typeAlias type="statisticsmanager.bean.StatisticsDTO" alias="statistics" />
+		<typeAlias type="onetoone.bean.OneToOneDTO" alias="onetoone" />
 	</typeAliases>
 
 </configuration>

@@ -161,9 +161,16 @@ public class OrderController {
 	@RequestMapping(value="/getOrder.do", method=RequestMethod.POST)
 	public ModelAndView getOrderList(HttpSession session) {
 		String userId = (String) session.getAttribute("memId");
-		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
+		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list); 							//상품정보
+		if(userId!=null) {
+			List<OrderDTO> list = orderDAO.getOrderInfo(userId);
+			mav.addObject("list", list); 						
+		}else {
+			userId = (String) session.getAttribute("kokonutId");
+			List<OrderDTO> list = orderDAO.getOrderInfo(userId);
+			mav.addObject("list", list); 
+		}                            //상품정보
 		mav.setViewName("jsonView");
 		return mav;
 	}
@@ -173,9 +180,16 @@ public class OrderController {
 	public ModelAndView getOrderUserInfo(HttpSession session) {
 		
 		String userId = (String) session.getAttribute("memId");
-		UserDTO userDTO = userDAO.getUserInfo(userId);
+		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("userDTO", userDTO);						//유저정보
+		if(userId!=null) {
+			UserDTO userDTO = userDAO.getUserInfo(userId);
+			mav.addObject("userDTO", userDTO);						//유저정보
+		}else {
+			userId = (String) session.getAttribute("kokonutId");
+			UserDTO userDTO = userDAO.getUserInfo(userId);
+			mav.addObject("userDTO", userDTO);
+		}
 		mav.setViewName("jsonView");
 		return mav;
 	}
@@ -204,6 +218,14 @@ public class OrderController {
 		}else {
 			return "fail";
 		}
+	}
+	
+	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String orderCancel(@RequestParam String userId) {
+		orderDAO.orderCancel(userId);
+		
+		return "success";
 	}
 }
 
