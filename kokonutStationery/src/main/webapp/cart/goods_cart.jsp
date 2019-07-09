@@ -195,7 +195,7 @@
 								<a href="/kokonutStationery/main/index.do" ><li class="subButton subButton-xs">쇼핑 계속하기</li></a>
 							</div>
 							<div class="selectLike" style="width: 140px; display: inline-block; padding-left: 5px;">
-								<a href="/kokonutStationery/mypage/mypage_wishlist.do" ><li class="subButton subButton-xs">선택 찜하기</li></a>
+								<a href="#" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="#"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
@@ -343,6 +343,7 @@ $('.allDelete').click(function() {
 	});
 });
 
+
 //숫자가 아닌경우  유효성검사 필요
 
 /* $('#' + ${status.index}).focusout(function() {
@@ -377,6 +378,7 @@ $('.optionButton').click(function(){
 
 //선택 찜하기
 $('.selectLike').click(function(){
+	alert('aa');
 	var productCode = '';
 	var productName = '';
 	var productOption = '';
