@@ -392,7 +392,9 @@ $('.selectDelete').click(function() {
 				optionContent = 'none';
 			} else { //옵션이 있을 때
 				optionContent = $('#optionContent' + i).val();
-				$.ajax({
+			}
+			
+			$.ajax({
 				type : 'post',
 				url : '/kokonutStationery/cart/deleteCart.do',
 				data : {
@@ -401,8 +403,7 @@ $('.selectDelete').click(function() {
 					'optionContent' : optionContent
 				}
 			});
-			} //if; 체크 유무 확인
-		}
+		} //if; 체크 유무 확인
 	} //for
 
 	//새로고침

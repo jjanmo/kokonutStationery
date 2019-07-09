@@ -38,6 +38,12 @@ public interface UserDAO {
 
 	public int kokonutIdCancel(String userId);
 
+	public void addCartCount(String userId);
+
+	public void subCartCount(String userId);
+
+	public void allDeleteCartCount(String userId);
+
 	
 
 
