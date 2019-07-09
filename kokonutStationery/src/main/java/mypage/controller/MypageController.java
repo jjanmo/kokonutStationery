@@ -85,11 +85,11 @@ public class MypageController {
 	//1:1문의페이지
 	@GetMapping("/mypage_onetoone.do")
 	public ModelAndView onetoone(HttpSession session) {
-		String userId = (String) session.getAttribute("memId");
-		List<OneToOneDTO> list = onetooneDAO.onetooneList(userId);
+//		String userId = (String) session.getAttribute("memId");
+//		List<OneToOneDTO> list = onetooneDAO.onetooneList(userId);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
+//		mav.addObject("list", list);
 		mav.addObject("contents", "/mypage/mypage_onetoone.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.setViewName("/main/nosIndex");

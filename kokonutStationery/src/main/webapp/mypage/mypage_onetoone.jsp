@@ -18,7 +18,7 @@
 			<th id="onetoone_Date">작성일</th>
 		</tr>
 		
-		<c:forEach var="list" items="${list}">
+		<%-- <c:forEach var="list" items="${list}">
 			<tr id="onetoone_content">
 				<td id="question_type"><b>${list.type}</b></td>
 				<td id="question_content">${list.subject}</td>
@@ -43,7 +43,7 @@
 					</div>
 				</td>
 			</tr>
-		</c:forEach>
+		</c:forEach> --%>
 	</table>
 </div>
 
