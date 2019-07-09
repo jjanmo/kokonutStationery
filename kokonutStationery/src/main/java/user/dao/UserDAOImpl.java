@@ -104,6 +104,21 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.delete("userSQL.kokonutIdCancel", userId);
 	}
 
+	@Override
+	public void addCartCount(String userId) {
+		sqlSession.update("userSQL.addCartCount", userId);	
+	}
+
+	@Override
+	public void subCartCount(String userId) {
+		sqlSession.update("userSQL.subCartCount", userId);	
+	}
+
+	@Override
+	public void allDeleteCartCount(String userId) {
+		sqlSession.update("userSQL.allDeleteCartCount", userId);
+	}
+
 	
 
 }

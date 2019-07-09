@@ -60,8 +60,8 @@ public class OrderDAOImpl implements OrderDAO {
 
 	//TBL_ORDERLIST 생성 및 TBL_ORDER 수정
 	@Override
-	public int insertOrderlist(OrderlistDTO orderlistDTO) {
-		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
+	public int insertOrderlist(Map<String, Object> map) {
+		return sqlSession.insert("orderSQL.insertOrderlist", map);
 	}
 	
 	//재고처리
@@ -78,6 +78,22 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public void orderCancel(String userId) {
 		sqlSession.delete("orderSQL.orderCancel", userId);
+	}
+
+	@Override
+	public OrderDTO kokonutOrder(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.kokonutOrder", map);
+	}
+	
+	@Override
+	public OrderlistDTO kokonutOrderlist(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.kokonutOrderlist", map);
+	}
+	
+	@Override
+	public List<OrderDTO> getOrder(String orderCode) {
+		return sqlSession.selectList("orderSQL.getOrder",orderCode);
+
 	}
 
 	

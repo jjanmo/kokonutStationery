@@ -48,6 +48,9 @@ public class CartController {
 		if (checkCart == 0) { // 장바구니에 없는 상품일 경우
 			// 장바구니에 추가
 			cartDAO.cartInsert(cartDTO);
+			
+			//유저 장바구니 목록수 + 1
+			userDAO.addCartCount(cartDTO.getUserId());
 		}
 	}
 
@@ -79,6 +82,9 @@ public class CartController {
 		map.put("optionContent", optionContent);
 
 		cartDAO.deleteCart(map);
+		
+		//유저 장바구니 목록수 + 1
+		userDAO.subCartCount(userId);
 	}
 
 	// 전체삭제
@@ -88,6 +94,8 @@ public class CartController {
 
 		cartDAO.allDeleteCart(userId);
 
+		//유저 장바구니 목록수 0
+		userDAO.allDeleteCartCount(userId);
 	}
 
 	// 선택옵션 수정 페이지

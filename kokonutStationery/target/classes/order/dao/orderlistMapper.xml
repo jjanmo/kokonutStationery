@@ -17,5 +17,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTotalAS" parameterType="java.util.Map" resultType="Integer">
 		select count(*) from TBL_ORDERLIST where userId=#{userId}
 	</select>
-
+	
+	
+	<!-- 주문취소 - 상태 변경 및 crPayment 업데이트 -->
+	<update id="orderCancel" parameterType="java.util.Map">
+		begin
+			<!-- tbl_orderlist -->
+			update TBL_ORDERLIST set crPayment=#{crPayment}, 
+										orderState=0 
+				where orderCode=#{orderCode};
+			
+			<!-- tbl_order -->
+			update TBL_ORDER set orderState=0,
+								cancel=1,
+								cancelAmount=totalPrice,
+								cancelQty=purchaseQty
+				where orderCode=#{orderCode};
+		end;
+	</update>
+	
+	<!-- 교환접수 - 상태 변경 업데이트 -->
+	<update id="orderChange" parameterType="String">
+		begin	
+			<!-- tbl_orderlist -->
+			update TBL_ORDERLIST set orderState=5 
+				where orderCode=#{orderCode};
+			<!-- tbl_order -->
+			update TBL_ORDER set orderState=5
+				where orderCode=#{orderCode};
+		end;
+	</update>
+	
+	<!-- 환불접수 - 상태 변경 업데이트 -->
+	<update id="orderRefund" parameterType="String">
+		begin	
+			<!-- tbl_orderlist -->
+			update TBL_ORDERLIST set orderState=7 
+				where orderCode=#{orderCode};
+				
+			<!-- tbl_order -->
+			update TBL_ORDER set orderState=7 
+				where orderCode=#{orderCode};
+		end;
+	</update>
+	
+	
+	
 </mapper>

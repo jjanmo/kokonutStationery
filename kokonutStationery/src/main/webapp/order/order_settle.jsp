@@ -148,8 +148,9 @@
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">사용한 포인트 : </td>
 				            <td>
-							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;">${usePoint }</span>
 				            <span style="font-size: 13px; color: #666;">원</span>
+				            <input type="hidden" id="totalPoint">
 							</td>
 				       </tr>
 						<tr>
@@ -157,6 +158,7 @@
 				            <td>
 				            <span id="totalPayment1" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
 				            <span style="font-size: 13px; color: #666;">원</span>
+				            <input type="hidden" id="x_totalPayment">
 				            </td>
 				       </tr>		        
 		        	</tbody>
@@ -218,7 +220,7 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div id="order_backBtn" class="sub-button-s" 
+			            	<div id="order_backBtn" class="sub-button-s" onclick="javascript:history.back()" 
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">뒤로</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
@@ -331,6 +333,8 @@ var prdOption = new Array();
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
+			$('#totalPoint').val(data.userDTO.userPoint); //tbl_user의 totalPoint 값
+			$('#x_totalPayment').val(data.userDTO.totalPayment); //tbl_user의 totalPayment 값
 		}
 	});
 	
@@ -391,7 +395,12 @@ var prdOption = new Array();
 							 'totalProductPayment' 	: totalProductPayment,
 							 'paymentType' 			: 1, 
 							 'deliveryFee' 			: deliveryFee,
-							 'totalPayment' 		: totalPayment },
+							 'totalPayment' 		: totalPayment,
+							 'usePoint'				: point,
+							 'savePoint'			: totalProductPayment/10,
+							 'totalPoint'			: $('#totalPoint').val(),
+							 'x_totalPayment'		: $('#x_totalPayment').val(),
+							 'members'				: 1 },
 					dataType: 'text',
 					success: function(data){
 						if(data == "success"){
@@ -412,7 +421,8 @@ var prdOption = new Array();
 							 'totalProductPayment' 	: totalProductPayment,
 							 'paymentType' 			: 1, 
 							 'deliveryFee' 			: deliveryFee,
-							 'totalPayment' 		: totalPayment },
+							 'totalPayment' 		: totalPayment,
+							 'members'				: 0 },
 					dataType: 'text',
 					success: function(data){
 						if(data == "success"){

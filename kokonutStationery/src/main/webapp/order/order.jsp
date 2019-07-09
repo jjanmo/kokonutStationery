@@ -499,6 +499,7 @@ function createTabOption(optionContent, productQty){
 	}  
 }
 
+
 //상품합계금액과 포인트 
 function totalP(){
 	var totalPriceArray = new Array();
@@ -746,6 +747,7 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
+	
 	//비회원일때
 	else if('${memId}' == ''){
 		$.ajax({
@@ -845,7 +847,8 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	
+	location.href = "/kokonutStationery/order/order_settle.do?usePoint="+$('#usingPoint').val();	
 		
 });
 var kId = 'Kokonut';

@@ -90,26 +90,29 @@ $(document).ready(function(){
 						text : '일반'
 					
 					})).append($('<td/>',{//주문일시
-						text : items.orderDate
+						text : items.orderDate,
+						style : "width:100px;"
 						
 					})).append($('<td/>',{//주문번호
 						}).append($('<a/>',{
+							id : 'mypage_orderCode',
 							class : items.orderCode,
 							text : items.orderCode,
-							src : '#'//상세 하게 되면 상세페이지 띄울 것
+							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode//상세 하게 되면 상세페이지 띄울 것
 						
 					}))).append($('<td/>',{//결제방법
 						text : paymentType
 					
 					})).append($('<td/>',{//주문금액
-						text : items.totalPayment
+						text : AddComma(items.totalPayment) 
 					
 					})).append($('<td/>',{//취소금액
 						text : items.crPayment	
 					
 					})).append($('<td/>',{//주문상태
 						class : items.orderCode+"_orderState",
-						text : orderState
+						text : orderState,
+						style : "color:#2ac1bc;"
 						 
 						}).append($('<div/>',{ //주문취소버튼
 							value : items.orderCode,
@@ -120,24 +123,25 @@ $(document).ready(function(){
 						})).append($('<div/>',{ // 교환버튼
 							class : items.orderCode+"_changeBtn",
 							text : '교환',
-							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;',
-							onclick : 'orderChange('+items.orderCode+')'
+							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						})).append($('<div/>',{ // 환불 버튼
 							class : items.orderCode+"_refundBtn",
 							text : '환불',
-							style : 'cursor:pointer; color:grey; margin-top:3px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;',
-							onclick : 'orderRefund('+items.orderCode+')'
+							style : 'cursor:pointer; color:grey; margin-top:3px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						}))).append($('<td/>',{//수령확인칸
 						class : items.orderCode+"_delivery"
 						//주문상태 배송 완료 시 수령확인 뜨게
 					
 					})).append($('<td/>',{ // 상세 페이지 띄우는 거
-						}).append($('<div/>',{
-							style : 'cursor:pointer; width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;',
-							text : '보기' 
-					}))));
+						}).append($('<a/>',{
+							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
+							style : "width:40px; height:30px;" 
+							}).append($('<div/>',{
+								text : '보기', 
+								style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
+					})))));
 					
 					//주문접수 상태 시 주문취소 버튼 활성화
 					if(orderState=='주문접수'){
@@ -157,13 +161,12 @@ $(document).ready(function(){
 							$.ajax({
 								type : 'post',
 								url : '../order/orderCancel.do',
-								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("주문취소가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								data : {'orderCode' : items.orderCode,
+										'crPayment' : items.totalPayment},
+								success : function(data){}//success
 							});//ajax - 주문취소
+							alert("주문취소가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 					
@@ -176,12 +179,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderChange.do',
 								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("교환접수가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								success : function(data){}//success
 							});//ajax - 교환접수
+							alert("교환접수가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 					
@@ -194,12 +195,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderRefund.do',
 								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("환불접수가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								success : function(data){}//success
 							});//ajax - 환불접수
+							alert("환불접수가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 				
@@ -221,6 +220,10 @@ function orderManagerPaging(pg){
 	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
 }
 
+//숫자 3자리당 쉼표찍기
+function AddComma(number) {
+	return Number(number).toLocaleString('en');
+}
 
 </script>
 
