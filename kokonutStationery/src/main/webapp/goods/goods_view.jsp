@@ -498,17 +498,19 @@ $('#productQty').focusout(function() {
 
 //수량 변경 : 증가
 $('#up').click(function() {
-	productQty++;
-	$('#productQty').val(productQty);
-	$('#priceSpan').text(discountPrice*productQty);
+	var input = $('#productQty').val();
+	input++;
+	$('#productQty').val(input);
+	$('#priceSpan').text(discountPrice*input);
 }); 
 
 //수량 변경 : 감소   
 $('#down').click(function() {
-	if (productQty > 1) {
-		productQty--;
-		$('#productQty').val(productQty);
-		$('#priceSpan').text(discountPrice * productQty);
+	var input = $('#productQty').val();
+	if (input > 1) {
+		input--;
+		$('#productQty').val(input);
+		$('#priceSpan').text(discountPrice * input);
 	}
 });
 
