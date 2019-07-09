@@ -18,12 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
-		update TBL_USER set  userName = #{userName}
-							,userPhone1 = #{userPhone1}
-							,userPhone2 = #{userPhone2}
-							,userPhone3 = #{userPhone3}
-							,userEmail = #{userEmail}
-							,receiverName 	= #{receiverName}
+		update TBL_USER set  receiverName 	= #{receiverName}
 							,receiverAddr1 	= #{receiverAddr1}
 							,receiverAddr2 	= #{receiverAddr2}
 							,receiverZipcode = #{receiverZipcode}
@@ -76,7 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,paymentType
 					  ,totalPayment
 					  ,productOption
-					  ,optionContent) values(
+					  ,optionContent 
+					  ) values(
 					  0
 					  ,#{userId}
 					  ,#{userName}
@@ -89,7 +85,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,#{paymentType}
 					  ,#{totalPayment}
 					  ,#{productOption} 
-					  ,#{optionContent})
+					  ,#{optionContent}
+					  )
 	</insert>
 	
 	<!--주문정보 가져오기 -->
