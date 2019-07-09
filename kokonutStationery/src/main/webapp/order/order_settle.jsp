@@ -158,6 +158,7 @@
 				            <td>
 				            <span id="totalPayment1" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
 				            <span style="font-size: 13px; color: #666;">원</span>
+				            <input type="hidden" id="x_totalPayment">
 				            </td>
 				       </tr>		        
 		        	</tbody>
@@ -332,7 +333,8 @@ var prdOption = new Array();
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
-			$('#totalPoint').val(data.userDTO.userPoint);
+			$('#totalPoint').val(data.userDTO.userPoint); //tbl_user의 totalPoint 값
+			$('#x_totalPayment').val(data.userDTO.totalPayment); //tbl_user의 totalPayment 값
 		}
 	});
 	
@@ -397,6 +399,7 @@ var prdOption = new Array();
 							 'usePoint'				: point,
 							 'savePoint'			: totalProductPayment/10,
 							 'totalPoint'			: $('#totalPoint').val(),
+							 'x_totalPayment'		: $('#x_totalPayment').val(),
 							 'members'				: 1 },
 					dataType: 'text',
 					success: function(data){
