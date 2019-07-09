@@ -241,6 +241,9 @@
 $(function(){
 var totalP = 0;	
 var paymentType = 0;
+var prdArray = new Array();
+var prdQtyArray = new Array();
+var prdOption = new Array();
 	//order 뿌리기
 	$.ajax({
 		type: 'POST',
@@ -296,9 +299,16 @@ var paymentType = 0;
 				}
 				totalP += (item.discountPrice * item.purchaseQty);
 				paymentType = item.paymentType;
-			});
+				
+				//재고 배열				
+				prdArray[index] = item.productCode;
+				prdQtyArray[index] = item.purchaseQty;
+				prdOption[index] = item.optionContent;
+				
+			});//each
 		}//success
 	});//ajax order
+	
 	$('#totalPurchase').text(totalP);
 		
 	$.ajax({
@@ -358,97 +368,120 @@ var paymentType = 0;
 	else {
 		$('#paymentType').text("핸드폰");
 	}
-});
 
-$('#payBtn').click(function(){
-	var payAgreeVal = $('input[name="payAgree"]:checked').val();
-	if(payAgreeVal!='yes'){
-		alert("구매 내용에 동의하셔야 결제가 가능합니다.");
-	}
-	else{
-		//orderlist생성
-		var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
-		var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
-		var deliveryFee = stringNumberToInt($('#deliveryFee').text());
+
+	$('#payBtn').click(function(){
+		var payAgreeVal = $('input[name="payAgree"]:checked').val();
+		
+		if(payAgreeVal!='yes'){
+			alert("구매 내용에 동의하셔야 결제가 가능합니다.");
+		}
+		
+		else{
+			//orderlist생성
+			var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
+			var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
+			var deliveryFee = stringNumberToInt($('#deliveryFee').text());
+			if('${kokonutId}' == ''){
+				$.ajax({
+					type : 'POST',
+					url  : '/kokonutStationery/order/insertOrderlist.do',
+					data : { 'userId' 				: '${memId}',
+							 'userName' 		 	: '${memName}',
+							 'totalProductPayment' 	: totalProductPayment,
+							 'paymentType' 			: 1, 
+							 'deliveryFee' 			: deliveryFee,
+							 'totalPayment' 		: totalPayment },
+					dataType: 'text',
+					success: function(data){
+						if(data == "success"){
+							alert("orderlist 생성 및 order 수정 완료");
+						}
+						else{
+							alert("orderlist 생성  실패 및 order 수정 ");
+						}
+					}
+					
+				});//ajax orderlist/order수정
+			}else if('${memId}' == ''){
+				$.ajax({
+					type : 'POST',
+					url  : '/kokonutStationery/order/insertOrderlist.do',
+					data : { 'userId' 				: '${kokonutId}',
+							 'userName' 		 	: $('#userName').text(),
+							 'totalProductPayment' 	: totalProductPayment,
+							 'paymentType' 			: 1, 
+							 'deliveryFee' 			: deliveryFee,
+							 'totalPayment' 		: totalPayment },
+					dataType: 'text',
+					success: function(data){
+						if(data == "success"){
+							alert("orderlist 생성 및 order 수정 완료");
+						}
+						else{
+							alert("orderlist 생성  실패 및 order 수정 ");
+						}
+					}
+					
+				});
+			}
+			
+			for(var i=0; i<prdArray.length; i++){
+				alert(prdArray[i] + '//' + prdOption[i]);
+				$.ajax({
+					type : 'POST',
+					url : '/kokonutStationery/order/reduceSaleProduct.do',
+					data : { 'productCode' : prdArray[i],
+							 'purchaseQty' : prdQtyArray[i],
+							 'optionContent' : prdOption[i]
+							},
+					dataType : 'text',
+					success : function(data){
+						if(data == "success"){
+							alert("상품 재고 수정완료");
+						}
+						else{
+							alert("상품 재고 수정실패 ");
+						}
+					}
+				}); 
+			} 
+			location.href="/kokonutStationery/main/index.do";
+		}
+	});
+	$('#order_backBtn').click(function(){
+		//회원
 		if('${kokonutId}' == ''){
 			$.ajax({
-				type : 'POST',
-				url  : '/kokonutStationery/order/insertOrderlist.do',
-				data : { 'userId' 				: '${memId}',
-						 'userName' 		 	: '${memName}',
-						 'totalProductPayment' 	: totalProductPayment,
-						 'paymentType' 			: 1, 
-						 'deliveryFee' 			: deliveryFee,
-						 'totalPayment' 		: totalPayment },
-				dataType: 'text',
-				success: function(data){
-					if(data == "success"){
-						alert("orderlist 생성 및 order 수정 완료");
-					}
-					else{
-						alert("orderlist 생성  실패 및 order 수정 ");
+				type : 'get',
+				url : '/kokonutStationery/order/orderCancel.do',
+				data : {'userId' : '${memId}'},
+				dataType : 'text',
+				success : function(data){
+					if(data=='success'){
+						alert("확인");
+						window.history.back();
 					}
 				}
-				
-			});//ajax orderlist/order수정
-		}else if('${memId}' == ''){
+			});
+		}
+		//비회원
+		else if('${memId}' == ''){
 			$.ajax({
-				type : 'POST',
-				url  : '/kokonutStationery/order/insertOrderlist.do',
-				data : { 'userId' 				: '${kokonutId}',
-						 'userName' 		 	: $('#userName').text(),
-						 'totalProductPayment' 	: totalProductPayment,
-						 'paymentType' 			: 1, 
-						 'deliveryFee' 			: deliveryFee,
-						 'totalPayment' 		: totalPayment },
-				dataType: 'text',
-				success: function(data){
-					if(data == "success"){
-						alert("orderlist 생성 및 order 수정 완료");
-					}
-					else{
-						alert("orderlist 생성  실패 및 order 수정 ");
+				type : 'get',
+				url : '/kokonutStationery/order/orderCancel.do',
+				data : {'userId' : '${memId}'},
+				dataType : 'text',
+				success : function(data){
+					if(data=='success'){
+						alert("확인");
+						window.history.back();
 					}
 				}
 				
 			});
 		}
-		
-		location.href="/kokonutStationery/main/index.do";
-	}
-});
-$('#order_backBtn').click(function(){
-	//회원
-	if('${kokonutId}' == ''){
-		$.ajax({
-			type : 'get',
-			url : '/kokonutStationery/order/orderCancel.do',
-			data : {'userId' : '${memId}'},
-			dataType : 'text',
-			success : function(data){
-				if(data=='success'){
-					alert("확인");
-					window.history.back();
-				}
-			}
-		});
-	}
-	//비회원
-	else if('${memId}' == ''){
-		$.ajax({
-			type : 'get',
-			url : '/kokonutStationery/order/orderCancel.do',
-			data : {'userId' : '${memId}'},
-			dataType : 'text',
-			success : function(data){
-				if(data=='success'){
-					alert("확인");
-					window.history.back();
-				}
-			}
-			
-		});
-	}
+	});
 });
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
