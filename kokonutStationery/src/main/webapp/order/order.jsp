@@ -649,6 +649,7 @@ $('#orderWriteBtn').click(function(){
 	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'POST',
+<<<<<<< HEAD
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${memId}',
 					'userName'			: '${memName}',
@@ -664,6 +665,7 @@ $('#orderWriteBtn').click(function(){
 					'receiverPhone2' 	: $('#receiverPhone2').val(),
 					'receiverPhone3' 	: $('#receiverPhone3').val(),
 					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			dataType : 'text',
 			success : function(data){
 				if(data == "success"){
 					alert("고객배송정보보내기 성공");
