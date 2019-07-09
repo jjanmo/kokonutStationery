@@ -44,9 +44,9 @@
             <a href="../mypage/mypage_orderlist.do">주문내역 · 배송조회</a>
           </td>
         </tr>
-        <tr>
+<!--         <tr>
           <th><a href="../mypage/mypage_onetoone.do">1:1 문의게시판</a></th>
-        </tr>
+        </tr> -->
         <tr>
           <th><a href="../mypage/mypage_review.do">나의 상품후기<a></th>
         </tr>
