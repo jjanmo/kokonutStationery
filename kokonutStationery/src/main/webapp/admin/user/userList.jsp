@@ -390,7 +390,9 @@ $().ready(function(){
 							align : 'center'
 						}).append($('<input/>',{ //체크박스
 							type : 'checkbox',
-							class : items.userId+""
+							value : items.userId+"",
+							name : 'check',
+							class : 'check'
 							
 						}))).append($('<td/>',{ // 이름
 							align : 'center',

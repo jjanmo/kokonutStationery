@@ -606,7 +606,7 @@ $('#orderWriteBtn').click(function(){
 	
 	//user정보 및 배송정보
 	//회원
-	if('${kokonutId}' == null){
+	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
@@ -699,7 +699,7 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
-	else if('${memId}' == null){
+	else if('${memId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
