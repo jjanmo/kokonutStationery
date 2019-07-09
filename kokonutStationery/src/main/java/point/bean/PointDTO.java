@@ -19,6 +19,6 @@ public class PointDTO {
 	private int usePoint;
 	private int savePoint;
 	private int totalPoint;
-	private int pointType;
+	private int pointType;		// 0: 적립, 1: 사용
 }
 

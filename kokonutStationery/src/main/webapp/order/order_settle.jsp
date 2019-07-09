@@ -148,7 +148,7 @@
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">사용한 포인트 : </td>
 				            <td>
-							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
+							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;">${usePoint }</span>
 				            <span style="font-size: 13px; color: #666;">원</span>
 							</td>
 				       </tr>
@@ -218,7 +218,7 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div id="order_backBtn" class="sub-button-s" 
+			            	<div id="order_backBtn" class="sub-button-s" onclick="javascript:history.back()" 
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">뒤로</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
@@ -296,6 +296,7 @@ var paymentType = 0;
 				}
 				totalP += (item.discountPrice * item.purchaseQty);
 				paymentType = item.paymentType;
+				
 			});
 		}//success
 	});//ajax order
@@ -370,7 +371,7 @@ $('#payBtn').click(function(){
 		var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
 		var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
 		var deliveryFee = stringNumberToInt($('#deliveryFee').text());
-		if('${kokonutId}' == ''){
+		if('${kokonutId}' == ''){ //회원
 			$.ajax({
 				type : 'POST',
 				url  : '/kokonutStationery/order/insertOrderlist.do',
@@ -379,7 +380,9 @@ $('#payBtn').click(function(){
 						 'totalProductPayment' 	: totalProductPayment,
 						 'paymentType' 			: 1, 
 						 'deliveryFee' 			: deliveryFee,
-						 'totalPayment' 		: totalPayment },
+						 'totalPayment' 		: totalPayment,
+						 'usePoint'				: $('#usePoint').text(),
+						 'savePoint'			: totalProductPayment/10 },
 				dataType: 'text',
 				success: function(data){
 					if(data == "success"){
@@ -391,7 +394,8 @@ $('#payBtn').click(function(){
 				}
 				
 			});//ajax orderlist/order수정
-		}else if('${memId}' == ''){
+			
+		}else if('${memId}' == ''){ //비회원
 			$.ajax({
 				type : 'POST',
 				url  : '/kokonutStationery/order/insertOrderlist.do',

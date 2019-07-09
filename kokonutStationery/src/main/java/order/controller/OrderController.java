@@ -7,8 +7,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,7 @@ import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
-
+import point.bean.PointDTO;
 import user.bean.UserDTO;
 import user.dao.UserDAO;
 
@@ -150,8 +152,9 @@ public class OrderController {
 
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
-	public ModelAndView orderSettle(HttpSession session) {
+	public ModelAndView orderSettle(@RequestParam String usePoint) {
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("usePoint", usePoint); //사용한 포인트
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -197,10 +200,10 @@ public class OrderController {
 	//ORDERLIST 생성 및 ORDER 수정
 	@RequestMapping(value="/insertOrderlist.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String insertOrderlist(@ModelAttribute OrderlistDTO orderlistDTO) {
+	public String insertOrderlist(@RequestParam Map<String, Object> map) {
 		//ORDERLIST 생성
-		System.out.println(orderlistDTO);
-		int su = orderDAO.insertOrderlist(orderlistDTO);
+		System.out.println(map);
+		int su = orderDAO.insertOrderlist(map);
 		if(su == 0) {
 			return "fail";
 		}
@@ -208,6 +211,19 @@ public class OrderController {
 			return "success";
 		}
 	}
+	
+//	public String insertOrderlist(@ModelAttribute OrderlistDTO orderlistDTO) {
+//	//ORDERLIST 생성
+//	System.out.println(orderlistDTO);
+//	int su = orderDAO.insertOrderlist(orderlistDTO);
+//	if(su == 0) {
+//		return "fail";
+//	}
+//	else {
+//		return "success";
+//	}
+//}
+	
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String kokonutIdCancel(@RequestParam String userId) {
@@ -224,6 +240,7 @@ public class OrderController {
 	public void orderCancel(@RequestParam String userId) {
 		orderDAO.orderCancel(userId);
 	}
+	
 }
 
 

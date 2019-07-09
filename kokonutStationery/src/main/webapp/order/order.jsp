@@ -585,7 +585,7 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do
 $('#orderWriteBtn').click(function(){
-	
+
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
 	
@@ -716,8 +716,9 @@ $('#orderWriteBtn').click(function(){
 					}
 				});
 			}
-		}//else
+		}//else		
 	}
+	
 	//비회원일때
 	else if('${memId}' == ''){
 		$.ajax({
@@ -817,7 +818,8 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	
+	location.href = "/kokonutStationery/order/order_settle.do?usePoint="+$('#usingPoint').val();	
 		
 });
 var kId = 'Kokonut';
