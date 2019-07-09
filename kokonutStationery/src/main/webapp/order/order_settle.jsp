@@ -218,7 +218,7 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div onclick="javascript:history.go(-1);" class="sub-button-s" 
+			            	<div id="order_backBtn" class="sub-button-s" 
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">뒤로</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
@@ -370,33 +370,75 @@ $('#payBtn').click(function(){
 		var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
 		var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
 		var deliveryFee = stringNumberToInt($('#deliveryFee').text());
-		
-		$.ajax({
-			type : 'POST',
-			url  : '/kokonutStationery/order/insertOrderlist.do',
-			data : { 'userId' 				: '${memId}',
-					 'userName' 		 	: '${memName}',
-					 'totalProductPayment' 	: totalProductPayment,
-					 'paymentType' 			: 1, 
-					 'deliveryFee' 			: deliveryFee,
-					 'totalPayment' 		: totalPayment },
-			dataType: 'text',
-			success: function(data){
-				if(data == "success"){
-					alert("orderlist 생성 및 order 수정 완료");
+		if('${kokonutId}' == ''){
+			$.ajax({
+				type : 'POST',
+				url  : '/kokonutStationery/order/insertOrderlist.do',
+				data : { 'userId' 				: '${memId}',
+						 'userName' 		 	: '${memName}',
+						 'totalProductPayment' 	: totalProductPayment,
+						 'paymentType' 			: 1, 
+						 'deliveryFee' 			: deliveryFee,
+						 'totalPayment' 		: totalPayment },
+				dataType: 'text',
+				success: function(data){
+					if(data == "success"){
+						alert("orderlist 생성 및 order 수정 완료");
+					}
+					else{
+						alert("orderlist 생성  실패 및 order 수정 ");
+					}
 				}
-				else{
-					alert("orderlist 생성  실패 및 order 수정 ");
+				
+			});//ajax orderlist/order수정
+		}else if('${memId}' == ''){
+			$.ajax({
+				type : 'POST',
+				url  : '/kokonutStationery/order/insertOrderlist.do',
+				data : { 'userId' 				: '${kokonutId}',
+						 'userName' 		 	: $('#userName').text(),
+						 'totalProductPayment' 	: totalProductPayment,
+						 'paymentType' 			: 1, 
+						 'deliveryFee' 			: deliveryFee,
+						 'totalPayment' 		: totalPayment },
+				dataType: 'text',
+				success: function(data){
+					if(data == "success"){
+						alert("orderlist 생성 및 order 수정 완료");
+					}
+					else{
+						alert("orderlist 생성  실패 및 order 수정 ");
+					}
 				}
-			}
-			
-		});//ajax orderlist/order수정
-		
+				
+			});
+		}
 		
 		location.href="/kokonutStationery/main/index.do";
 	}
 });
-
+$('#order_backBtn').click(function(){
+	if('${kokonutId}' == ''){
+		$.ajax({
+			type : 'get',
+			url : '/kokonutStationery/order/orderCancel.do',
+			data : 'userId=' + '${memId}',
+			success : function(){
+				window.history.back();
+			}
+		});
+	}
+	else if('${memId}' == ''){
+		$.ajax({
+			type : 'get',
+			url : '/kokonutStationery/order/orderCancel.do',
+			data : 'userId=' + '${kokonutId}',
+			success : function(){
+				window.history.back();
+			}
+		});
+	}
+});
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
