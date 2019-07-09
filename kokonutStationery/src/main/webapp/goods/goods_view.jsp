@@ -289,7 +289,7 @@ var sel = $('#optionBox option:selected').val();
 $('#optionBox').change(function(){
 	var length = $('#optionBox option').length - 1 ; //option의 개수
 	var sel = $('#optionBox option:selected').val();
-	var optionCode = $('#optionBox option:selected').attr('class');
+	//var optionCode = $('#optionBox option:selected').attr('class');
 	
 	if(showDiv == 0){ //옵션이 있을때 합계금액이 떠오르게 하는것
 		$('#totalPriceDiv').css('display','block');
@@ -307,7 +307,7 @@ $('#optionBox').change(function(){
 		}
 		if(selArray.length == 0 ) {//옵션을 처음 선택한 경우
 		    selArray.push(sel);
-		    createDiv(sel,optionCode);
+		    createDiv(sel);
 		    
 		  	//옵션div가 생성될때 총합변화	
 			changeTotalPrice();		
@@ -323,7 +323,7 @@ $('#optionBox').change(function(){
 	    }
 		if(cnt == selArray.length){
 	        selArray.push(sel);
-	        createDiv(sel,optionCode);
+	        createDiv(sel);
 	    }
 	} //else
 	
@@ -333,7 +333,7 @@ $('#optionBox').change(function(){
 }); //function
 
 var optionCnt = 0;
-function createDiv(sel,optionCode){
+function createDiv(sel){
 	$('.option_wrap').append($('<div/>',{
 	  class : 'option_selectedDiv',
 	  id : optionCnt
@@ -356,13 +356,13 @@ function createDiv(sel,optionCode){
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
-	
+	/* 
 	//옵션코드
 	$('#inputDiv'+ optionCnt).append($('<input>',{
 	  type : 'hidden',
 	  class : 'optionCode',
 	  id : 'optionCode'+ optionCnt,
-	  value : optionCode}));
+	  value : optionCode})); */
 	
 	$('#'+optionCnt).append($('<div/>',{
 	  id : 'updownDiv'+ optionCnt,
@@ -457,7 +457,8 @@ $(document).on('focusout','.option_productQty',function() {
 	//alert(optionNum);
 	
 	//옵션코드값
-	var optionCode = $(this).siblings('.optionCode').val();
+	var optionContent = $(this).parent().siblings('#option_contentDiv').text();
+	//alert(optionContent);
 	//옵션한개의 가격
 	var OnepriceSpan = $(this).parent().siblings('#priceDiv'+optionNum).children('#priceSpan'+optionNum);
 	
@@ -471,7 +472,7 @@ $(document).on('focusout','.option_productQty',function() {
 	}else if(isNaN(input)==false){
 		$('#option_productQty'+optionNum).val(input);
 		//OnepriceSpan.text(discountPrice*input);		
-		checkOptionStock(optionCode,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
+		checkOptionStock(optionContent,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
 	}
 	//토탈가격
 	var total = 0;
@@ -492,10 +493,11 @@ $(document).on('click','.up', function() {
 	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
 	
 	//옵션코드값
-	var optionCode = $(this).siblings('.optionCode').val();
+	var optionContent = $(this).parent().parent().siblings('#option_contentDiv').text();
+	//alert(optionContent);
 	//옵션한개의 가격
 	var OnepriceSpan = $(this).parent().siblings('#priceDiv'+optionNum).children('#priceSpan'+optionNum);
-	checkOptionStock(optionCode,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
+	checkOptionStock(optionContent,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
 	
 	/* var total = 0;
 	for(i=0; i<selArray.length; i++){
@@ -522,11 +524,11 @@ $(document).on('click','.down', function() {
 });
 
 //옵션있는 상품 재고파악 
-function checkOptionStock(optionCode,productCode,input,OnepriceSpan){
+function checkOptionStock(optionContent,productCode,input,OnepriceSpan){
 	$.ajax({
 		type:'POST',
 		url:'../admin/checkOptionStock.do',
-		data:{'optionCode':optionCode,
+		data:{'optionContent':optionContent,
 			'productCode':productCode,
 			'input':input.val()},
 		dataType:'json',

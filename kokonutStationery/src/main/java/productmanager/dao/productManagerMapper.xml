@@ -276,8 +276,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 옵션있는 상품 재고파악 -->
 	<select id="checkOptionStock" parameterType="java.util.Map" resultType="Integer">
-		select substockQty from TBL_PRODUCTOPTION where productCode=#{productCode} and optionCode=#{optionCode}
+		select substockQty from TBL_PRODUCTOPTION where productCode=#{productCode} and optionContent=#{optionContent}
 	</select>
+	
+	
 </mapper>
 
 

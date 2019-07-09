@@ -328,21 +328,26 @@ $('#checkIdBtn').on('click', function(){
 
 //이메일 중복체크
 $('#checkEmailBtn').on('click', function(){
-	$.ajax({
-		type : 'post',
-		url  : '/kokonutStationery/user/checkEmail.do',
-		data : "userEmail=" + $('#userEmail').val(),
-		dataType : 'text',
-		success : function(data){
-			if(data == 'exist'){
-				alert("이미 등록된 이메일입니다. 다시 작성해 주십시요!");
+	
+	if($('#userEmail').val()==''){
+		alert("이메일을 입력해주세요.");
+	}else{
+		$.ajax({
+			type : 'post',
+			url  : '/kokonutStationery/user/checkEmail.do',
+			data : "userEmail=" + $('#userEmail').val(),
+			dataType : 'text',
+			success : function(data){
+				if(data == 'exist'){
+					alert("이미 등록된 이메일입니다. 다시 작성해 주십시요!");
+				}
+				else if(data == 'not_exist'){
+					alert("사용 가능합니다");
+					$('#chkEmail').val($('#userEmail').val());
+				}
 			}
-			else if(data == 'not_exist'){
-				alert("사용 가능합니다");
-				$('#chkEmail').val($('#userEmail').val());
-			}
-		}
-	});
+		});
+	}
 });
 
 </script>
