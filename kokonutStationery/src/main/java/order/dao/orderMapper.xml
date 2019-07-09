@@ -145,5 +145,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="orderCancel" parameterType="String">
 		delete TBL_ORDER where userId = #{userId} and orderCode = 0
 	</delete>
-	
+	<!-- 비회원 주문조회 -->
+	<select id="kokonutOrder" parameterType="java.util.Map" resultType="order">
+		select * from TBL_ORDER where userName = #{userName} and orderCode = #{orderCode}
+	</select>
+	<select id="kokonutOrderlist" parameterType="java.util.Map" resultType="orderlist">
+		select * from TBL_ORDERLIST where userName = #{userName} and orderCode = #{orderCode}
+	</select>
 </mapper>

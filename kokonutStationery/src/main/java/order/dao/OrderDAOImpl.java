@@ -80,6 +80,16 @@ public class OrderDAOImpl implements OrderDAO {
 		sqlSession.delete("orderSQL.orderCancel", userId);
 	}
 
+	@Override
+	public OrderDTO kokonutOrder(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.kokonutOrder", map);
+	}
+
+	@Override
+	public OrderlistDTO kokonutOrderlist(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.kokonutOrderlist", map);
+	}
+
 	
 
 	
