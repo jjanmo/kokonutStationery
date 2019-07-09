@@ -118,4 +118,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="kokonutIdCancel" parameterType="String">
 		delete tbl_user where userId = #{userId}
 	</delete>
+	
+	<!-- 장바구니 수 + 1 -->
+	<update id="addCartCount" parameterType="String">
+		update tbl_user set productInCart = productInCart+1
+	</update>
+	
+	<!-- 장바구니 수 - 1 -->
+	<update id="subCartCount" parameterType="String">
+		update tbl_user set productInCart = productInCart-1
+	</update>
+	
+	<!-- 장바구니 수 비우기 -->
+	<update id="subCartCount" parameterType="String">
+		update tbl_user set productInCart = 0
+	</update>
+	
+	
 </mapper>
