@@ -96,12 +96,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 찜목록수 + 1 -->
 	<update id="addWishListCount" parameterType="String">
-		update tbl_user set productInWishList = productInWishList+1
+		update tbl_user set productInWishList = productInWishList+1 where userId = #{userId}
 	</update>
 	
 	<!-- 찜목록수 - 1 -->
 	<update id="subWishListCount" parameterType="String">
-		update tbl_user set productInWishList = productInWishList-1
+		update tbl_user set productInWishList = productInWishList-1 where userId = #{userId}
 	</update>
 	
 	<!-- 비회원 아이디 -->
@@ -121,17 +121,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 장바구니 수 + 1 -->
 	<update id="addCartCount" parameterType="String">
-		update tbl_user set productInCart = productInCart+1
+		update tbl_user set productInCart = productInCart+1 where userId = #{userId}
 	</update>
 	
 	<!-- 장바구니 수 - 1 -->
 	<update id="subCartCount" parameterType="String">
-		update tbl_user set productInCart = productInCart-1
+		update tbl_user set productInCart = productInCart-1 where userId = #{userId}
 	</update>
 	
 	<!-- 장바구니 수 비우기 -->
-	<update id="subCartCount" parameterType="String">
-		update tbl_user set productInCart = 0
+	<update id="allDeleteCartCount" parameterType="String">
+		update tbl_user set productInCart = 0 where userId = #{userId}
 	</update>
 	
 	
