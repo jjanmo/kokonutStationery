@@ -163,10 +163,10 @@ $(document).ready(function(){
 		dataType: 'json',
 		success: function(data) {
  			$.each(data.count, function(index, items) {
- 				alert('stationery'+items.stationery);
+/*  				alert('stationery'+items.stationery);
  				alert('living'+items.living);
  				alert('travel'+items.travel);
- 				alert('collabo'+items.collabo);
+ 				alert('collabo'+items.collabo); */
  				
  				$('#stationery_cnt').text(items.stationery);
  				$('#living_cnt').text(items.living);
