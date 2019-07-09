@@ -155,12 +155,9 @@ public class OrderController {
 
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
-	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
-									@RequestParam String checkedValueStr) {
-		System.out.println(checkedValueStr);
+	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
-		mav.addObject("checkedValueStr", checkedValueStr);
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -325,8 +322,7 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		ModelAndView mav = new ModelAndView();
-		System.out.println(checkedValueStr);
-		mav.addObject("checkedValueStr", checkedValueStr);
+		
 		mav.addObject("thumbImgList", thumbImgList);
 		mav.addObject("productCodeList", productCodeList);
 		mav.addObject("productNameList", productNameList);

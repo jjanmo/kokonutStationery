@@ -44,12 +44,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 장바구니 전체지우기 -->
-	<delete id="allDeleteCart" parameterType="String">
+	<delete id="allDeleteCart" >
 		delete from tbl_cart where userId=#{userId}
 	</delete>
 	
 	<!-- 장바구니 수량수정 -->
-	<update id="cartUpdate" parameterType="cart">
+	<update id="cartUpdate">
 		update tbl_cart set productQty = #{productQty} where cartCode = #{cartCode}
 	</update>
 	
@@ -80,9 +80,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getCartDTO" parameterType="Integer" resultType="cart">
 		select * from TBL_CART where cartCode=#{cartCode}
 	</select>
-	
-	<!-- 주문 후 장바구니 삭제 -->
-	<delete id="deleteCartAfterPay" parameterType="Integer">
-		delete from tbl_cart where cartCode = #{cartCode}
-	</delete>
 </mapper>

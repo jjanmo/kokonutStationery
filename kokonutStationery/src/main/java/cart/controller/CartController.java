@@ -195,12 +195,6 @@ public class CartController {
 //		return mav;
 //	}
 	
-	//주문완료 후 장바구니 삭제
-	@PostMapping("/deleteCartAfterPay.do")
-	@ResponseBody
-	public void deleteCartAfterPay(@RequestParam String cartCode, @RequestParam String userId) {
-		cartDAO.deleteCartAfterPay(Integer.parseInt(cartCode));
-		userDAO.subCartCount(userId);
-	}
+	
 
 }
