@@ -13,12 +13,6 @@
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <link href="../css/goods_cart_edit.css" rel="stylesheet">
 
-<!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
-<!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body style="margin: 0px" cz-shortcut-listen="true">
 
@@ -63,7 +57,7 @@
 			<div id="optionDiv" style="margin-top: 3px;">
 				<div class="items" style="padding: 5px 0; " class="optionSelect">옵션명 (종류)</div>
 				<select id="optionBox" style="height:37.4px;" class="item_contents_select" name="option">
-					<option>옵션을 선택하세요</option>
+					<option value="">옵션을 선택하세요</option>
 				</select>
 			</div>
 
@@ -176,13 +170,21 @@
 		var cartCode = ${cartDTO.cartCode};
 		alert(optionContent);
 		alert(cartCode);
-		$.ajax({
-			type :'post',
-			url :'/kokonutStationery/cart/option_content_modify.do',
-			data : {'optionContent' : optionContent,
-					'cartCode' : cartCode	}
-		});
-		modifyOptionClose(optionContent);
+		
+		if(optionContent=='') {
+			alert('종류를 선택하세요.');
+			return;
+			
+		} else {
+			$.ajax({
+				type :'post',
+				url :'/kokonutStationery/cart/option_content_modify.do',
+				data : {'optionContent' : optionContent,
+						'cartCode' : cartCode	}
+			});
+			
+			modifyOptionClose(optionContent);
+		}
 	});
 
 	function modifyOptionClose(optionContent){
