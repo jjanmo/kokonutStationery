@@ -1,4 +1,4 @@
-function chkOrder(memId){
+function chkOrder(id){
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
@@ -6,12 +6,17 @@ function chkOrder(memId){
 	
 	var receiverName = $('#receiverName').val();
 	var paywayVal = $('input[name="payType"]:checked').val();
+	var kId = 'Kokonut';
+	//alert(privateVal);
+	//alert(id.indexOf(kId));
 	
-	if(privateVal!='yes' && memId == null){
+	
+	if(privateVal!='yes' && id.indexOf(kId) != -1){
 		alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
 		return false;
 		
-	}else if( !chkPhone.test($('#userPhone1').val())){
+	}
+	else if( !chkPhone.test($('#userPhone1').val())){
 		alert("올바른 전화번호 형식이 아닙니다.");
 		$('#userPhone1').focus();
 		return false;

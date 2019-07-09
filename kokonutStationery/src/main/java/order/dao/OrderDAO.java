@@ -24,7 +24,7 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getOrderInfo(String userId);
 
-
 	public int insertOrderlist(OrderlistDTO orderlistDTO);
-
+	
+	public void orderCancel(String userId);
 }

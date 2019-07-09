@@ -47,7 +47,7 @@
 			</tr>
 		</tfoot>
 	</table>
-	<c:if test="${kokonutId == null }">
+	<c:if test="${memId != null }">
 	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
 	</c:if>
 	<c:if test="${kokonutId != null }">
@@ -110,10 +110,10 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						      <c:if test="${kokonutId == null }">
+						      <c:if test="${memId != null }">
 						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" readonly required>
 						      </c:if>
-						      <c:if test="${kokonutId != null }">
+						      <c:if test="${memId == null }">
 						          <input type="text" name="userName" id="userName" value="" required>
 						      </c:if>
 						     </td>
@@ -625,6 +625,11 @@ $('#orderWriteBtn').click(function(){
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${memId}',
+					'userName'			: '${memName}',
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
 					'receiverName' 		: $('#receiverName').val(),
 					'receiverAddr1' 	: $('#receiverAddr1').val(),
 					'receiverAddr2' 	: $('#receiverAddr2').val(),
@@ -688,7 +693,7 @@ $('#orderWriteBtn').click(function(){
 					type : 'POST',
 					url : '/kokonutStationery/order/setOrderInfoOption.do',
 					data : {'userId' 		: '${memId}',
-							'userName' 		: '${memName}',
+							'userName' 		: '${memName}',							
 							'thumbImg' 		: '${goodsDTO.thumbImg}',
 							'productCode' 	: '${goodsDTO.productCode}',
 							'productName'	: '${goodsDTO.productName}',
@@ -713,12 +718,17 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
+	//비회원일때
 	else if('${memId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${kokonutId}',
 					'userName'			: $('#userName').val(),
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
 					'receiverName' 		: $('#receiverName').val(),
 					'receiverAddr1' 	: $('#receiverAddr1').val(),
 					'receiverAddr2' 	: $('#receiverAddr2').val(),
