@@ -98,33 +98,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- orderlist 생성 및 order 수정 -->
-<!-- 	<insert id="insertOrderlist" parameterType="orderlist">
-		begin
-		insert into TBL_ORDERLIST(orderCode 
-								,orderDate
-								,userId 
-								,userName 
-								,totalProductPayment
-								,paymentType 
-								,deliveryFee
-								,totalPayment ) 
-								values
-								(to_char(sysdate,'yymmdd')||orderCode_seq.nextval
-                    			,sysdate
-								,#{userId}
-								,#{userName}
-								,#{totalProductPayment}
-								,#{paymentType}
-								,#{deliveryFee}
-								,#{totalPayment} );
-								
-		update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
-							  ,orderDate = sysdate
-							  where userId = #{userId} and orderCode = 0;
-		end;
-	</insert> -->
-	
-		<!-- orderlist 생성 및 order 수정 -->
 	<insert id="insertOrderlist" parameterType="java.util.Map">
 		begin
 			insert into TBL_ORDERLIST(orderCode 
@@ -156,7 +129,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 									  ,orderCode
 									  ,usePoint
 									  ,savePoint
-									  ,totalPoint
 									  ,pointType)
 							values (#{userId}
 								   ,sysdate
@@ -164,7 +136,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,to_char(sysdate,'yymmdd')||orderCode_seq.currval
 								   ,#{usePoint}
 								   ,0
-								   ,totalPoint - #{usePoint}
 								   ,1);
 			</if>
 			
@@ -175,7 +146,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 									  ,orderCode
 									  ,usePoint
 									  ,savePoint
-									  ,totalPoint
 									  ,pointType)
 							values (#{userId}
 								   ,sysdate
@@ -183,9 +153,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,to_char(sysdate,'yymmdd')||orderCode_seq.currval
 								   ,0
 								   ,#{savePoint}
-								   ,totalPoint + #{savePoint}
 								   ,0);
 			</if>
+			
+			update tbl_user set userPoint = #{totalPoint} - #{usePoint} + #{savePoint} where userId = #{userId};
 		end;
 	</insert>
 		

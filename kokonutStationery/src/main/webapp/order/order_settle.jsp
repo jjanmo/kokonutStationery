@@ -150,6 +150,7 @@
 				            <td>
 							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;">${usePoint }</span>
 				            <span style="font-size: 13px; color: #666;">원</span>
+				            <input type="hidden" id="totalPoint">
 							</td>
 				       </tr>
 						<tr>
@@ -322,6 +323,7 @@ var paymentType = 0;
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
+			$('#totalPoint').val(data.userDTO.userPoint);
 		}
 	});
 	
@@ -382,7 +384,8 @@ $('#payBtn').click(function(){
 						 'deliveryFee' 			: deliveryFee,
 						 'totalPayment' 		: totalPayment,
 						 'usePoint'				: $('#usePoint').text(),
-						 'savePoint'			: totalProductPayment/10 },
+						 'savePoint'			: totalProductPayment/10,
+						 'totalPoint'			: $('#totalPoint').val() },
 				dataType: 'text',
 				success: function(data){
 					if(data == "success"){
