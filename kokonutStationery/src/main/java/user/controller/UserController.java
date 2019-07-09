@@ -319,12 +319,12 @@ public class UserController {
 
 	//회원탈퇴
 	@RequestMapping(value="/memberDelete.do",method=RequestMethod.POST)
-	public ModelAndView memberDelete(HttpSession session,@RequestParam Map<String,String> map) {
+	public String memberDelete(HttpSession session,@RequestParam Map<String,String> map) {
 		//id,pwd전달
 		userDAO.memberDelete(map);
 		
 		//세션 종료
 		session.invalidate();
-		return new ModelAndView("redirect:/main/index.do");
+		return "redirect:/main/index.do";
 	}
 }
