@@ -704,7 +704,7 @@ $('#product_review').click(function(){ // 상품 후기 탭 누를 경우
 					
 					
 					//후기 선택 내용 생성
-					if(items.reviewboardImg!=0){//후기 이미지 첨부 있을 시
+					if(items.reviewboardImg!=null){//후기 이미지 첨부 있을 시
 						$('<tr/>').append($('<td/>',{
 							colspan : 6,
 							style : 'padding: 30px 0 10px 130px; border-bottom:none;',
@@ -1020,7 +1020,7 @@ $('.contentList_searchBtn').click(function(event, str){
 							
 							
 							//후기 선택 내용 생성
-							if(items.reviewboardImg!=0){//후기 이미지 첨부 있을 시
+							if(items.reviewboardImg!=null){//후기 이미지 첨부 있을 시
 								$('<tr/>').append($('<td/>',{
 									colspan : 6,
 									style : 'padding: 30px 0 10px 130px; border-bottom:none;',
