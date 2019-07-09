@@ -1,6 +1,10 @@
 Manifest-Version: 1.0
 <<<<<<< HEAD
+<<<<<<< HEAD
 Built-By: hjlee
+=======
+Built-By: SEENEW
+>>>>>>> refs/heads/seenew
 Build-Jdk: 1.8.0_191
 =======
 Built-By: Jun
