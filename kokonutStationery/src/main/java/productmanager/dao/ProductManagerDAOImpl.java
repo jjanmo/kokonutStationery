@@ -127,6 +127,11 @@ public class ProductManagerDAOImpl implements ProductManagerDAO{
 		return sqlSession.selectOne("productSQL.checkStock",map);
 	}
 
+	@Override
+	public int checkOptionStock(Map<String, String> map) {
+		return sqlSession.selectOne("productSQL.checkOptionStock",map);
+	}
+
 
 
 		

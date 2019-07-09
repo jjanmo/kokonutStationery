@@ -350,7 +350,7 @@ public class ProductManagerController {
 	}
 	
 	
-	//재고파악
+	//옵션없는 재고파악
 	@RequestMapping(value="/admin/checkStock.do",method=RequestMethod.POST)
 	public ModelAndView checkStock(@RequestParam Map<String,String> map) {
 		
@@ -371,6 +371,26 @@ public class ProductManagerController {
 		return mav;
 	}
 	
+	//옵션있는 상품 재고파악
+	@RequestMapping(value="/admin/checkOptionStock.do",method=RequestMethod.POST)
+	public ModelAndView checkOptionStock(@RequestParam Map<String,String> map) {
+		
+		int stock = productManagerDAO.checkOptionStock(map);
+		String result="";
+		
+		if(stock >= Integer.parseInt(map.get("input")))
+			result="ok";
+		else if(stock < Integer.parseInt(map.get("input")))
+			result="fail";
+		
+		System.out.println("재고는 "+stock+" 입력한 수량은 "+map.get("input")+" result="+result);
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("result", result);
+		mav.addObject("stock", stock);
+		mav.setViewName("jsonView");
+		return mav;
+	}
 }
 
 

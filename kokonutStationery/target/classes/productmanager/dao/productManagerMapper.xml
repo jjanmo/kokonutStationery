@@ -269,9 +269,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<foreach close=")" open="(" separator="," index="i" collection="array">${array[i]} </foreach>
 	</delete>
 	
-	<!-- 재고파악 -->
+	<!-- 옵션없는 상품 재고파악 -->
 	<select id="checkStock" parameterType="java.util.Map" resultType="Integer">
 		select stockQty from TBL_PRODUCT where productCode=#{productCode}
+	</select>
+	
+	<!-- 옵션있는 상품 재고파악 -->
+	<select id="checkOptionStock" parameterType="java.util.Map" resultType="Integer">
+		select substockQty from TBL_PRODUCTOPTION where productCode=#{productCode} and optionCode=#{optionCode}
 	</select>
 </mapper>
 
