@@ -98,31 +98,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- orderlist 생성 및 order 수정 -->
-	<insert id="insertOrderlist" parameterType="orderlist">
+	<insert id="insertOrderlist" parameterType="java.util.Map">
 		begin
-		insert into TBL_ORDERLIST(orderCode 
-								,orderDate
-								,userId 
-								,userName 
-								,totalProductPayment
-								,paymentType 
-								,deliveryFee
-								,totalPayment ) 
-								values
-								(to_char(sysdate,'yymmdd')||orderCode_seq.nextval
-                    			,sysdate
-								,#{userId}
-								,#{userName}
-								,#{totalProductPayment}
-								,#{paymentType}
-								,#{deliveryFee}
-								,#{totalPayment} );
-								
-		update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
-							  ,orderDate = sysdate
-							  where userId = #{userId} and orderCode = 0;
+			insert into TBL_ORDERLIST(orderCode 
+									,orderDate
+									,userId 
+									,userName 
+									,totalProductPayment
+									,paymentType 
+									,deliveryFee
+									,totalPayment ) 
+									values
+									(to_char(sysdate,'yymmdd')||orderCode_seq.nextval
+	                    			,sysdate
+									,#{userId}
+									,#{userName}
+									,#{totalProductPayment}
+									,#{paymentType}
+									,#{deliveryFee}
+									,#{totalPayment} );
+									
+			update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
+								  ,orderDate = sysdate
+								  where userId = #{userId} and orderCode = 0;
+			
+			<if test="usePoint != 0">			  
+				insert into tbl_point (userId
+									  ,logdate
+									  ,contents
+									  ,orderCode
+									  ,usePoint
+									  ,savePoint
+									  ,pointType)
+							values (#{userId}
+								   ,sysdate
+								   ,'포인트 사용'
+								   ,to_char(sysdate,'yymmdd')||orderCode_seq.currval
+								   ,#{usePoint}
+								   ,0
+								   ,1);
+			</if>
+			
+			<if test="savePoint != 0">
+				insert into tbl_point (userId
+									  ,logdate
+									  ,contents
+									  ,orderCode
+									  ,usePoint
+									  ,savePoint
+									  ,pointType)
+							values (#{userId}
+								   ,sysdate
+								   ,'포인트 적립'
+								   ,to_char(sysdate,'yymmdd')||orderCode_seq.currval
+								   ,0
+								   ,#{savePoint}
+								   ,0);
+			</if>
+			
+			update tbl_user set userPoint = #{totalPoint} - #{usePoint} + #{savePoint} where userId = #{userId};
 		end;
-	</insert>		
+	</insert>
+		
 	<!-- 재고처리 옵션없음 -->
 	<update id="reduceSaleProduct" parameterType="java.util.Map">
 		update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}

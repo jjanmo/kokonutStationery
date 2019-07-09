@@ -60,8 +60,8 @@ public class OrderDAOImpl implements OrderDAO {
 
 	//TBL_ORDERLIST 생성 및 TBL_ORDER 수정
 	@Override
-	public int insertOrderlist(OrderlistDTO orderlistDTO) {
-		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
+	public int insertOrderlist(Map<String, Object> map) {
+		return sqlSession.insert("orderSQL.insertOrderlist", map);
 	}
 	
 	//재고처리
