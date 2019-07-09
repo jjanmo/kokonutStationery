@@ -263,14 +263,6 @@ $(function(){
 	}); 
 });
 
-<<<<<<< HEAD
-
-//수량 수정 변경시 페이징처리
-$(document).ready(function(){
-	$('#modifyBtn').click(function(){
-		location.href="/kokonutStationery/cart/goods_cart.do";
-	});
-})
 
 
 //숫자가 아닌경우  유효성검사 필요
@@ -304,7 +296,88 @@ $('.down').click(function() {
 	}
 });
 
- 
+//재고파악 및 수정
+$('.modifyBtn').off('click').on('click',function(){
+	var idName = $(this).attr('id');
+	var cnt = idName.substring(10,idName.length);
+	
+	 
+	var productCode = $('#productCode'+cnt).val();
+	var input = $('.productQty'+cnt).val();
+	var optionContent = $('#optionContent'+cnt).val();
+	var productName = $('#productName'+cnt).text();
+	var cartCode = $('#cartCode'+cnt).val();
+	//alert("cartCode= "+cartCode+" productCode="+productCode+" productName="+productName+" productQty="+input+" optionContent="+optionContent);
+	
+	if(optionContent=="none"){//옵션이 없을 때
+		$.ajax({
+			type:'POST',
+			url:'../admin/checkStock.do',
+			data:{'productCode':productCode,
+				'input':input},
+			dataType:'json',
+			success:function(data){
+				//alert(JSON.stringify(data));
+				if(data.result=='ok'){
+					//재고 안에서 수정
+					//$('#cartForm').submit();
+					$.ajax({
+						type:'post',
+						url:'../cart/goods_cart_modify.do',
+						data:{'cartCode':cartCode,
+							'productQty':input},
+							success:function(){
+								location.href="../cart/goods_cart.do";
+							}
+					});//수정 ajax
+					
+				}else if(data.result=='fail'){
+					//재고 오버했을시에
+					alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
+					$('.productQty'+cnt).val("1");
+					return false;
+				}
+				
+			}
+		});//재고파악ajax
+	}else{//옵션이 있을 때
+		
+		$.ajax({
+			type:'POST',
+			url:'../admin/checkStock.do',
+			data:{'productCode':productCode,
+				'input':input},
+			dataType:'json',
+			success:function(data){
+				//alert(JSON.stringify(data));
+				if(data.result=='ok'){
+					//재고 안에서 수정
+					//$('#cartForm').submit();
+					$.ajax({
+						type:'post',
+						url:'../cart/goods_cart_modify.do',
+						data:{'cartCode':cartCode,
+							'productQty':input,
+							'optionContent':optionContent},
+							success:function(){
+								location.href="../cart/goods_cart.do";
+							}
+					});//수정ajax
+					
+				}else if(data.result=='fail'){
+					//재고 오버했을시에
+					alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
+					$('.productQty'+cnt).val("1");
+					return false;
+				}
+				
+			}
+		});//재고파악 ajax
+		
+	}
+	
+});
+
 //장바구니 선택삭제
 $('.selectDelete').click(function() {
 	var productCode = '';
@@ -319,106 +392,7 @@ $('.selectDelete').click(function() {
 				optionContent = 'none';
 			} else { //옵션이 있을 때
 				optionContent = $('#optionContent' + i).val();
-=======
-		//재고파악 및 수정
-		$('.modifyBtn').off('click').on('click',function(){
-			var idName = $(this).attr('id');
-			var cnt = idName.substring(10,idName.length);
-			
-			 
-			var productCode = $('#productCode'+cnt).val();
-			var input = $('.productQty'+cnt).val();
-			var optionContent = $('#optionContent'+cnt).val();
-			var productName = $('#productName'+cnt).text();
-			var cartCode = $('#cartCode'+cnt).val();
-			//alert("cartCode= "+cartCode+" productCode="+productCode+" productName="+productName+" productQty="+input+" optionContent="+optionContent);
-			
-			if(optionContent=="none"){//옵션이 없을 때
 				$.ajax({
-					type:'POST',
-					url:'../admin/checkStock.do',
-					data:{'productCode':productCode,
-						'input':input},
-					dataType:'json',
-					success:function(data){
-						//alert(JSON.stringify(data));
-						if(data.result=='ok'){
-							//재고 안에서 수정
-							//$('#cartForm').submit();
-							$.ajax({
-								type:'post',
-								url:'../cart/goods_cart_modify.do',
-								data:{'cartCode':cartCode,
-									'productQty':input},
-									success:function(){
-										location.href="../cart/goods_cart.do";
-									}
-							});//수정 ajax
-							
-						}else if(data.result=='fail'){
-							//재고 오버했을시에
-							alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
-							$('.productQty'+cnt).val("1");
-							return false;
-						}
-						
-					}
-				});//재고파악ajax
-			}else{//옵션이 있을 때
-				
-				$.ajax({
-					type:'POST',
-					url:'../admin/checkStock.do',
-					data:{'productCode':productCode,
-						'input':input},
-					dataType:'json',
-					success:function(data){
-						//alert(JSON.stringify(data));
-						if(data.result=='ok'){
-							//재고 안에서 수정
-							//$('#cartForm').submit();
-							$.ajax({
-								type:'post',
-								url:'../cart/goods_cart_modify.do',
-								data:{'cartCode':cartCode,
-									'productQty':input,
-									'optionContent':optionContent},
-									success:function(){
-										location.href="../cart/goods_cart.do";
-									}
-							});//수정ajax
-							
-						}else if(data.result=='fail'){
-							//재고 오버했을시에
-							alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
-							$('.productQty'+cnt).val("1");
-							return false;
-						}
-						
-					}
-				});//재고파악 ajax
-				
-			}
-				
-			 
-			
-		});
-		
-		//숫자가 아닌경우  유효성검사 필요
-		$('input[name=productQty]').focusout(function() {
-			var input = $(this).val();
-			//alert(input);
-			if (isNaN(input)==true) {
-				//숫자가 아닐때
-				$(this).val("1");
-				
-			}else if(isNaN(input)==false){
-				//숫자일때
-				$(this).val(input);
->>>>>>> refs/heads/ssong
-			}
-
-			$.ajax({
 				type : 'post',
 				url : '/kokonutStationery/cart/deleteCart.do',
 				data : {
@@ -427,7 +401,8 @@ $('.selectDelete').click(function() {
 					'optionContent' : optionContent
 				}
 			});
-		} //if; 체크 유무 확인
+			} //if; 체크 유무 확인
+		}
 	} //for
 
 	//새로고침
