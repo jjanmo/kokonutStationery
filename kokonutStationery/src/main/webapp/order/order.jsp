@@ -498,7 +498,8 @@ function createTabOption(optionContent, productQty){
 	
 	}  
 }
-	
+
+
 //상품합계금액과 포인트 
 function totalP(){
 	var totalPriceArray = new Array();
@@ -542,12 +543,25 @@ function usePoint(){
 		alert("1000원 단위의 숫자를 입력해주세요");
 		$('#usingPoint').val(0);
 	}
-	
+				
+	//1000단위로 사용
 	else if( usePoint < 1000 && usePoint > 0){
 		alert("1000원 이상부터 사용가능합니다")
 		$('#usingPoint').val(0);
 	}
-	
+				
+	//사용 가능한 포인트보다 큰 숫자 제한		
+	else if(totalPoint < usePoint) {
+		alert("사용 가능한 포인트보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}
+				
+	//총 결제금액보다 큰 숫자 제한		
+	else if(totalP < usePoint) {
+		alert("총 결제금액보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}		
+
 	else {
 		var remainPoint = totalPoint*1 - usePoint*1;
 		var usePoint = $('#usingPoint').val();
@@ -606,7 +620,7 @@ $('#orderWriteBtn').click(function(){
 	
 	//user정보 및 배송정보
 	//회원
-	if('${kokonutId}' == null){
+	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
@@ -699,7 +713,7 @@ $('#orderWriteBtn').click(function(){
 			}
 		}//else
 	}
-	else if('${memId}' == null){
+	else if('${memId}' == ''){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/updateUserInfo.do',
