@@ -332,6 +332,7 @@ var prdOption = new Array();
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
+			$('#totalPoint').val(data.userDTO.userPoint);
 		}
 	});
 	
@@ -393,6 +394,9 @@ var prdOption = new Array();
 							 'paymentType' 			: 1, 
 							 'deliveryFee' 			: deliveryFee,
 							 'totalPayment' 		: totalPayment,
+							 'usePoint'				: point,
+							 'savePoint'			: totalProductPayment/10,
+							 'totalPoint'			: $('#totalPoint').val(),
 							 'members'				: 1 },
 					dataType: 'text',
 					success: function(data){
