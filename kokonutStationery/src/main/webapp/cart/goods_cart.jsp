@@ -227,6 +227,7 @@
 	}
 }; */
 
+
 $('.cart_select').click(function() {
 	if($('.cart_select').hasClass('checkedAll')) {
 		$('input[name=cartCheckbox]').prop('checked', false);
@@ -254,121 +255,124 @@ $(function(){
 	}); 
 });
 
-		//수량 수정 변경시 페이징처리
-		$(document).ready(function(){
-			$('#modifyBtn').click(function(){
-				location.href="/kokonutStationery/cart/goods_cart.do";
-			});
-		})
+
+//수량 수정 변경시 페이징처리
+$(document).ready(function(){
+	$('#modifyBtn').click(function(){
+		location.href="/kokonutStationery/cart/goods_cart.do";
+	});
+})
+
 		
-				
-		//숫자가 아닌경우  유효성검사 필요
-		$('input[name=productQty]').focusout(function() {
-			var input = $(this).val();
-			//alert(input);
-			if (isNaN(input)==true) {
-				$(this).val("1");
-				
-			}else if(isNaN(input)==false){
-				$(this).val(input);
+//숫자가 아닌경우  유효성검사 필요
+$('input[name=productQty]').focusout(function() {
+	var input = $(this).val();
+	//alert(input);
+	if (isNaN(input)==true) {
+		$(this).val("1");
+		
+	}else if(isNaN(input)==false){
+		$(this).val(input);
+	}
+	
+});	
+
+
+//수량 변경
+$('.up').click(function() {
+	var id_check = $(this).attr("id");//status.index
+	var qty = $('#' + id_check).val();
+	qty++;
+	$('#' + id_check).val(qty);
+});
+
+$('.down').click(function() {
+	var id_check = $(this).attr("id");
+	var qty = $('#' + id_check).val();
+	if (qty > 1) {
+		qty--;
+		$('#' + id_check).val(qty);
+	}
+});
+
+ 
+//장바구니 선택삭제
+$('.selectDelete').click(function() {
+	var productCode = '';
+	var optionContent = '';
+
+	alert("삭제");
+	for (var i = 1; i <= $('input[name=cartCheckbox]').length; i++) {
+		if ($('.checkbox' + i).is(':checked')) {
+			productCode = $('#productCode' + i).val();
+
+			if ($('#productOption' + i).val() == 0) { //옵션이 없을 때
+				optionContent = 'none';
+			} else { //옵션이 있을 때
+				optionContent = $('#optionContent' + i).val();
 			}
-			
-		});	
-		
-		
-		//수량 변경
-		$('.up').click(function() {
-			var id_check = $(this).attr("id");//status.index
-			var qty = $('#' + id_check).val();
-			qty++;
-			$('#' + id_check).val(qty);
-		});
 
-		$('.down').click(function() {
-			var id_check = $(this).attr("id");
-			var qty = $('#' + id_check).val();
-			if (qty > 1) {
-				qty--;
-				$('#' + id_check).val(qty);
-			}
-		});
-   
-		//장바구니 선택삭제
-		$('.selectDelete').click(function() {
-			var productCode = '';
-			var optionContent = '';
-
-			alert("삭제");
-			for (var i = 1; i <= $('input[name=cartCheckbox]').length; i++) {
-				if ($('.checkbox' + i).is(':checked')) {
-					productCode = $('#productCode' + i).val();
-
-					if ($('#productOption' + i).val() == 0) { //옵션이 없을 때
-						optionContent = 'none';
-					} else { //옵션이 있을 때
-						optionContent = $('#optionContent' + i).val();
-					}
-
-					$.ajax({
-						type : 'post',
-						url : '/kokonutStationery/cart/deleteCart.do',
-						data : {
-							'userId' : '${memId}',
-							'productCode' : productCode,
-							'optionContent' : optionContent
-						}
-					});
-				} //if; 체크 유무 확인
-			} //for
-
-			//새로고침
-			location.href = '/kokonutStationery/cart/goods_cart.do';
-		});
-		
-		//장바구니 전체삭제
-		$('.allDelete').click(function() {
 			$.ajax({
-				type : 'POST',
-				url : '/kokonutStationery/cart/allDeleteCart.do',
+				type : 'post',
+				url : '/kokonutStationery/cart/deleteCart.do',
 				data : {
-					'userId' : '${memId}'
-				},
-				success : function() {
-					location.href = '/kokonutStationery/cart/goods_cart.do';
+					'userId' : '${memId}',
+					'productCode' : productCode,
+					'optionContent' : optionContent
 				}
 			});
-		});
-		
-		//숫자가 아닌경우  유효성검사 필요
+		} //if; 체크 유무 확인
+	} //for
 
-		/* $('#' + ${status.index}).focusout(function() {
-			var input = $('#' + ${status.index}).val();
-			if (isNaN(input)) {
-				alert("구매수량은 숫자만 가능합니다");
-			}
-			$('#' + ${status.index}).val("1");
-		}); */
+	//새로고침
+	location.href = '/kokonutStationery/cart/goods_cart.do';
+});
+
+
+//장바구니 전체삭제
+$('.allDelete').click(function() {
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/cart/allDeleteCart.do',
+		data : {
+			'userId' : '${memId}'
+		},
+		success : function() {
+			location.href = '/kokonutStationery/cart/goods_cart.do';
+		}
+	});
+});
+
+//숫자가 아닌경우  유효성검사 필요
+
+/* $('#' + ${status.index}).focusout(function() {
+	var input = $('#' + ${status.index}).val();
+	if (isNaN(input)) {
+		alert("구매수량은 숫자만 가능합니다");
+	}
+	$('#' + ${status.index}).val("1");
+}); */
+
+/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
+$('.optionButton').click(function(){
+	$.ajax({
+		type:'GET',
+		url: '/kokonutStationery/cart/goods_cart_edit.do',
+		data :{
+			'userId': '${memId}',
+			'userEmail' : '${memEmail}',
+			'thumbImg' : '${cartDTO.thumbImg}',
+			'productCode' : '${cartDTO.productCode}',
+			'productName' : '${cartDTO.productName}',
+			'productOption' : '${cartDTO.productOption}',
+			'optionContent' : '${cartDTO.optionContent}',
+			'productQty' : '${cartDTO.productQty}',
+		},
+		success : function() {
 		
-		/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
-		$('.optionButton').click(function(){
-			$.ajax({
-				type:'GET',
-				url: '/kokonutStationery/cart/goods_cart_edit.do',
-				data :{
-					'userId': '${memId}',
-					'userEmail' : '${memEmail}',
-					'thumbImg' : '${cartDTO.thumbImg}',
-					'productCode' : '${cartDTO.productCode}',
-					'productName' : '${cartDTO.productName}',
-					'productOption' : '${cartDTO.productOption}',
-					'optionContent' : '${cartDTO.optionContent}',
-					'productQty' : '${cartDTO.productQty}',
-				},
-				success : function() {
-				
-				}
-			});
-		}); */
+		}
+	});
+}); */
 
 
 //선택 찜하기
