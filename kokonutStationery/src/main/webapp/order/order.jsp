@@ -323,8 +323,8 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">일반결제 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
-				              <input type="radio" name="payType" value="2" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="0" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
 				            </td>
 				          </tr>
 		       	 	  </tbody>
@@ -631,13 +631,8 @@ $('#orderWriteBtn').click(function(){
 					'productCode' 	: '${goodsDTO.productCode}',
 					'productName'	: '${goodsDTO.productName}',
 					'discountPrice' : '${goodsDTO.discountPrice}',
-<<<<<<< HEAD
-					'purchaseQty' 	: '${productQty}',
-					'totalPrice'	: '${goodsDTO.discountPrice* productQty}',
-=======
 					'purchaseQty' 	: purchaseQty,
 					'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
->>>>>>> refs/heads/jjanmo
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
 					'productOption' : '${goodsDTO.productOption}' },

@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertOrderlist" parameterType="orderlist">
 		begin
 		insert into TBL_ORDERLIST(orderCode 
-								,ordreDate
+								,orderDate
 								,userId 
 								,userName 
 								,totalProductPayment
@@ -110,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								,#{totalPayment} );
 								
 		update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
-							  ,ordreDate = sysdate
+							  ,orderDate = sysdate
 							  where userId = #{userId} and orderCode = 0;
 		end;
 	</insert>		
