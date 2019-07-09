@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
-		update TBL_USER set  receiverName 	= #{receiverName}
+		update TBL_USER set  userName = #{userName}
+							,receiverName 	= #{receiverName}
 							,receiverAddr1 	= #{receiverAddr1}
 							,receiverAddr2 	= #{receiverAddr2}
 							,receiverZipcode = #{receiverZipcode}

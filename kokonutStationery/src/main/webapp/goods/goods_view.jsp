@@ -241,7 +241,7 @@ $('#review_regist_btn').click(function(){
 //옵션 tag 생성 및 옵션 div 생성
 $(function() {
 
-	alert(option);
+	//alert(option);
 	//세일상품과 세일아닌상품 가격표시
 	if(originalPrice == discountPrice){
 		$('#originalPrice').css('display','none');
@@ -396,7 +396,7 @@ function createDiv(sel){
 //옵션div가 생성될때 총합변화	
 function changeTotalPrice(){
 	var total1 = 0;
-	alert('optionCnt : ' + optionCnt);
+	//alert('optionCnt : ' + optionCnt);
 	for(i=0; i<optionCnt; i++){
 		var num = $('#priceSpan'+i).text()*1
 		total1 += num;
@@ -409,7 +409,7 @@ function changeTotalPrice(){
 $(document).on('click','.close', function(){
 	var number = $(this).attr('id');
 	var text = $('#'+number).children().first().text();
-	alert(text);
+	//alert(text);
 	//옵션div가 지워질때 총합변화
 	var total2 = $('#priceSpan').text();
 	var pp = $('#priceSpan'+number).text()*1;
@@ -475,7 +475,7 @@ $(document).on('click','.down', function() {
 		$('#option_productQty'+ optionNum).val(option_productQty);
 		$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
 		var total = $('#priceSpan').text()*1;
-		alert(total);
+		//alert(total);
 		total -= discountPrice;
 		$('#priceSpan').text(total);
 	}
@@ -514,7 +514,7 @@ $('#down').click(function() {
 
 //장바구니 추가
 $('#cartBtn').click(function(){
-	alert("cart");
+	//alert("cart");
 	if(option==0) { //옵션이 없을 때
 		$.ajax({	
 			type: 'post',
