@@ -57,6 +57,13 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderDTO> getOrderInfo(String userId) {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);
 	}
+
+	@Override
+	public int cartOrderInfo(OrderDTO orderDTO) {
+		return sqlSession.insert("orderSQL.cartOrderInfo", orderDTO);
+	}
+
+	
 	
 	
 }

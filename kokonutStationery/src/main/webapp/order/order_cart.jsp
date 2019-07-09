@@ -27,15 +27,21 @@
 		</thead>
 		
 		<c:set var="total" value="0" />
+		<c:forEach var="cartDTO" items="${list }" varStatus="status">
 		<c:set var="total" value="${total + cartDTO.discountPrice * cartDTO.productQty }" />
 		<tbody>		
 			<tr>
 				<td style="vertical-align:top; padding: 30px 0;">
-					<a href="#" style="margin-bottom:0;"><img src="" width="70"></a>
+					<a href="#" style="margin-bottom:0;"><img src="../image/thumbImg/${cartDTO.thumbImg }" width="70"></a>
 				</td>
 			
 				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
-					<div style="color: #222; font-weight: 700; font-size: 14px;">${cartDTO.productName}</div>						
+					<div style="color: #222; font-weight: 700; font-size: 14px;">${cartDTO.productName}</div>
+					<c:if test="${cartDTO.productOption==1}">
+					<div>선택옵션 : <font id="${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0px -14px 0px;">
+										&emsp;[&nbsp;${cartDTO.optionContent}&nbsp;]
+									</font></div>		
+					</c:if>		
 				</td>
 				<td style="color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice }" />원
 				</td>
@@ -47,6 +53,8 @@
 			</tr>			
 		</tbody>
 		
+		</c:forEach>
+		
 		<tfoot>
 			<tr>
 				<td colspan="10" style="padding: 30px 0;">
@@ -55,18 +63,23 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;"><f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice * cartDTO.productQty }" />원</font>
+									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
+											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
 								</td>
 							</tr>
 						</tbody>
+					
+					
 					</table>
 				</td>
 			</tr>
 		</tfoot>
 	</table>
 	
-	<form id="orderForm" method="post" action="../order/order_settle" onsubmit="return chkOrder();">
+	
+	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
+	<c:if test="${memId == null }" >
 		<!-- 개인정보취급방침 -->
 		<div id="agreementDiv" style="position:relative; visibility:visible;">
 					<!-- 회원 시 style="position:absolute; visibility:hidden;" -->
@@ -106,7 +119,9 @@
 					<label style="font-size:13px; color:#333;">동의하지 않습니다</label>
 			</div>
 		</div>
-	
+		
+		</c:if>
+		
 		<div style="margin: 30px 0 0 0;">
 			<h5 class="order_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">주문서 작성</h5>
 		</div>
@@ -124,30 +139,30 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						          <input type="text" name="userName" id="userName" value="" 
+						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" 
 						         readonly required>
 						     </td>
 						    </tr>
 				   
-				          	<tr>
+				          	<!-- <tr>
 					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">주소 :</td>
 					            
 					            <td style="padding:10px 0; color:#333">	
-					            	<!-- 주문자 주소 빈칸 -->	
+					            	주문자 주소 빈칸	
 					            		               
 					            </td>
-					        </tr>
+					        </tr> -->
 								 
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
 								<td style="padding:5px 0">
-								   <input type="text" name="userPhone1" id="userPhone1" value="" size="3" maxlength="3" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone1" id="userPhone1" value="${userDTO.userPhone1 }" size="3" maxlength="3" required label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								    &nbsp;-&nbsp;
-								   <input type="text" name="userPhone2" id="userPhone2" value="" size="4" maxlength="4" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone2" id="userPhone2" value="${userDTO.userPhone2 }" size="4" maxlength="4" required label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								    &nbsp;-&nbsp;
-								   <input type="text" name="userPhone3" id="userPhone3" value="" size="4" maxlength="4" required label="주문자 핸드폰번호" 
+								   <input type="text" name="userPhone3" id="userPhone3" value="${userDTO.userPhone3 }" size="4" maxlength="4" required label="주문자 핸드폰번호" 
 								   style="width:60px;">
 								</td>
 							</tr>
@@ -156,7 +171,7 @@
 							<tr>
 					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">이메일 :</td>
 					            <td style="padding:5px 0">
-					              <input type="text" name="userEmail" id="userEmail" value="" required
+					              <input type="text" name="userEmail" id="userEmail" value="${userDTO.userEmail }" required
 					              style="width:211px;">
 					            </td>
 				          	</tr>
@@ -279,14 +294,21 @@
 			        	<tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">상품합계금액 :</td>
 				            <td class="noline" style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">
-				              <span id="paper_goodsprice" style="font-weight:normal; color:#333;">가격 원</span>
+				              <span id="goodsPrice"></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;"><f:formatNumber pattern="###,###,###" value="${total}"/>원</span>
 				            </td>
 			          	</tr>
 						<tr>
+							<c:if test="${total < 30000 }">
 							<td style="font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">배송비 :</td>
 							<td class="noline" style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">배송비</span> 원</div>
+								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">2,500</span> 원</div>
 								
+							</td>
+							</c:if>
+							
+							<td style="font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">배송비 :</td>
+							<td class="noline" style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
+								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">0</span> 원</div>
 							</td>
 						</tr>
 						
@@ -299,7 +321,7 @@
 							  <tr>
 							    <td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용가능 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" readonly
+								<input type="text" id="totalPoint" name="coupon" size="12" readonly
 								style="text-align:right;"> 원
 							
 								</td>								
@@ -308,7 +330,7 @@
 							  <tr>
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 할 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" value="0 " 
+								<input type="text" id="usingPoint" name="coupon" size="12" value="0 " 
 								style="text-align:right;"> 원
 							
 								</td>	
@@ -317,7 +339,7 @@
 							  <tr>
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 후 남은 포인트</td>
 								<td style="padding: 0 0 10px 0;">
-								<input type="text" name="coupon" size="12" readonly
+								<input type="text" id="remainingPoint" name="coupon" size="12" readonly
 								style="text-align:right;"> 원
 							
 								</td>	
@@ -331,8 +353,20 @@
 		          <tr>
 		            <td style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">총 결제금액 :</td>
 		            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-			            <span style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
-			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">총 가격</span>
+			            <c:if test="${total < 30000 }">
+			            <span id="totalP" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
+			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">
+			            
+			            <f:formatNumber pattern="###,###,###" value="${total+2500}"/></span>
+			            
+			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
+		            	</c:if>
+		            	
+		            	<span id="totalP" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
+			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">
+			            
+			            <f:formatNumber pattern="###,###,###" value="${total}"/></span>
+			            
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
 		            </td>
 		          </tr>
@@ -359,8 +393,8 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">일반결제 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
-				              <input type="radio" name="payType" value="credit" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
-				              <input type="radio" name="payType" value="phone" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="0" style="height: 14px; border-color: #fff;" checked> 신용카드&nbsp;&nbsp;&nbsp;&nbsp;
+				              <input type="radio" name="payType" value="1" style="height: 14px; border-color: #fff;"> 핸드폰&nbsp;&nbsp;&nbsp;&nbsp;
 				            </td>
 				          </tr>
 		       	 	  </tbody>
@@ -378,7 +412,7 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div onclick="location.href='../index'" class="sub-button-s" 
+			            	<div onclick="location.href='../cart/goods_cart.do'" class="sub-button-s" 
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
@@ -423,4 +457,98 @@ $(document).ready(function(){
 	});
 	
 });
+
+	/* //포인트
+	var totalPoint = ${userDTO.userPoint};
+	var usingPoint = $('#usingPoint').val(0);
+	var remainingPoint = $('#remainingPoint').val(totalPoint);	
+	$('#totalPoint').val(totalPoint);
+	
+	if(totalP > 30000){
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(0);
+		$('#totalP').text(AddComma(totalP))
+	}
+	
+	else {
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(AddComma(2500));
+		$('#totalP').text(AddComma(totalP+2500))
+	} */
+
+
+//배송지 확인 클릭
+$('#sameInfo').click(function(){
+	if($('#sameInfo').prop('checked')){
+		$('#receiverName').val(userName);
+		$('#receiverPhone1').val(userPhone1);
+		$('#receiverPhone2').val(userPhone2);
+		$('#receiverPhone3').val(userPhone3);
+	}else{
+		$('#receiverName').val('');
+		$('#receiverPhone1').val('');
+		$('#receiverPhone2').val('');
+		$('#receiverPhone3').val('');
+	}
+});
+		
+	$('#orderWriteBtn').click(function(){
+		//user정보 및 배송정보 
+		$.ajax({
+			type : 'POST',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${memId}',
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			success : function(data){
+				if(data == "success"){
+					alert("고객배송정보보내기 성공");
+				}
+				else {
+					alert("실패!!");
+				}
+			}
+			
+		});
+		
+		//상품정보 : orderDB
+		for(i = 0 ; i < list.size ; i++){
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/cartOrderInfo.do',
+				data : {'userId' 		: '${memId}',
+						'userName' 		: '${memName}',
+						'cartCode'      : '${cartDTO.cartCode}',
+						'thumbImg' 		: '${cartDTO.thumbImg}',
+						'productCode' 	: '${cartDTO.productCode}',
+						'productName'	: '${cartDTO.productName}',
+						'discountPrice' : '${cartDTO.discountPrice}',
+						'purchaseQty' 	: '${cartDTO.productQty}',
+						'totalPrice'	: '${cartDTO.discountPrice} * ${cartDTO.productQty}',
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : '${cartDTO.productOption}', 
+						'optionContent' : '${cartDTO.optionContent}'},
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						alert("주문정보보내기 성공");
+					} 
+					else {
+						alert("실패!!");
+					}
+					
+				}
+				
+			});
+		}
+		location.href = "/kokonutStationery/order/order_settle.do";	
+			
+	});	
 </script>

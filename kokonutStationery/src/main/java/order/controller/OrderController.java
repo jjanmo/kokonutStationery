@@ -145,7 +145,7 @@ public class OrderController {
 		String userId = (String) session.getAttribute("memId");
 		List<OrderDTO> list = orderDAO.getOrderInfo(userId);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list); 							//상품정보
+		mav.addObject("list", list);                             //상품정보
 		mav.setViewName("jsonView");
 		return mav;
 	}
@@ -162,7 +162,13 @@ public class OrderController {
 		return mav;
 	}
 	
-	
+	//장바구니 품목 
+	@RequestMapping(value = "/cartOrderInfo.do", method=RequestMethod.POST)
+	public String cartOrderInfo(@ModelAttribute OrderDTO orderDTO) {
+		int su = orderDAO.cartOrderInfo(orderDTO);
+		if(su == 1)	return "success";
+		else return "fail";
+	}
 	
 }
 

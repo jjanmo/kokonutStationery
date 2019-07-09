@@ -87,4 +87,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOrderInfo" parameterType="String" resultType="order">
 		select * from TBL_ORDER where userId = #{userId} and orderCode = 0
 	</select>
+	
+	<!--  -->
+	<insert id="cartOrderInfo" parameterType="order">
+		insert int tbl_order(userId
+							,userName
+							,thumbImg
+							,productCode
+							,productName
+							,discountPrice
+							,purchaseQty
+							,totalPrice
+							,paymentType
+							,totalPayment
+							,productOption
+							,optionContent) values(
+							#{userId}
+							,#{userName}
+							,#{thumbImg}
+							,#{productCode}
+							,#{productName}
+							,#{discountPrice}
+							,#{purchaseQty}
+							,#{totalPrice}
+							,#{paymentType}
+							,#{totalPayment}
+							,#{productOption}
+							,#{optionContent})
+							
+	</insert>
 </mapper>

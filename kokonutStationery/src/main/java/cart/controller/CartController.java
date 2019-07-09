@@ -138,27 +138,11 @@ public class CartController {
 	@RequestMapping(value = "/option_content_modify.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void cartOptionModify(@RequestParam Map<String, String> map) {
-
 		cartDAO.cartOptionModify(map);
 
 	}
 	
-	/*
-	 * //선택주문
-	 * 
-	 * @RequestMapping(value = "/select_order.do", method = RequestMethod.GET)
-	 * 
-	 * @ResponseBody public ModelAndView cartOrder(HttpSession session) { String
-	 * userId = (String) session.getAttribute("memId");
-	 * 
-	 * List<CartDTO> list = cartDAO.cartOrder(userId);
-	 * 
-	 * System.out.println(list); System.out.println(userId); ModelAndView mav = new
-	 * ModelAndView(); mav.addObject("list", list); mav.addObject("display",
-	 * "/order/order_cart.jsp"); mav.setViewName("/main/nosIndex"); return mav; }
-	 */
-	
-	//선택주문하기 페이지 이동테스트
+	//선택주문하기 페이지 이동
 	@RequestMapping(value="/order_cart.do",method=RequestMethod.POST)
 	public ModelAndView orderCart(HttpSession session,@RequestParam(value="cartCode[]") List<String> cartCodeVal) {		
 		List<CartDTO> list = new ArrayList<CartDTO>();
@@ -180,4 +164,6 @@ public class CartController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	
+	
 }

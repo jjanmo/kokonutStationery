@@ -24,6 +24,10 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getOrderInfo(String userId);
 
+	public int cartOrderInfo(OrderDTO orderDTO);
+
+	
+
 	
 
 }
