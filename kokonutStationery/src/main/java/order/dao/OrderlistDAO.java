@@ -11,4 +11,10 @@ public interface OrderlistDAO {
 
 	public int getTotalAS(Map<String, String> map);
 
+	public void orderCancel(Map<String,String> map);
+
+	public void orderChange(String orderCode);
+
+	public void orderRefund(String orderCode);
+
 }

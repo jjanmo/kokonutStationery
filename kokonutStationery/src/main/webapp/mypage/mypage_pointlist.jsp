@@ -37,16 +37,12 @@
 			<td>${list.contents }</td>
 			<td><a id="order_code">${list.orderCode}</a></td>
 			
-			<c:if test="${list.pointType==0}">
-				<td style="color: #2ac1bc;">
-				 	-${list.usePoint} 원
-				 </td>
+			<c:if test="${list.pointType==0}"> <!-- 적립 -->
+				<td>${list.savePoint} 원</td>
 			</c:if>
 			
-			<c:if test="${list.pointType==1}">
-				<td>
-				 	${list.savePoint} 원
-				 </td>
+			<c:if test="${list.pointType==1}"> <!-- 사용 -->
+				<td style="color: #2ac1bc;">-${list.usePoint} 원</td>
 			</c:if>
 		</tr>
 		</c:forEach>

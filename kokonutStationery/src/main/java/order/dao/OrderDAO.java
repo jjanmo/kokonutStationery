@@ -24,11 +24,16 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getOrderInfo(String userId);
 
-	public int insertOrderlist(OrderlistDTO orderlistDTO);
+	public int insertOrderlist(Map<String, Object> map);
+	//public int insertOrderlist(OrderlistDTO orderlistDTO);
 	
 	public void orderCancel(String userId);
 
 	public void reduceSaleProduct(Map<String, Object> map);
 
 	public void reduceSaleProductOption(Map<String, Object> map);
+
+	public OrderDTO kokonutOrder(Map<String, String> map);
+
+	public OrderlistDTO kokonutOrderlist(Map<String, String> map);
 }

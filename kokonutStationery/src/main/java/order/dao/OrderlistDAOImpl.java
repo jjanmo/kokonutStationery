@@ -25,6 +25,21 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 	@Override
 	public int getTotalAS(Map<String, String> map) {
 		return sqlSession.selectOne("orderlistSQL.getTotalAS", map);
+	}
+
+	@Override
+	public void orderCancel(Map<String,String> map) {
+		sqlSession.update("orderlistSQL.orderCancel",map);	
+	}
+
+	@Override
+	public void orderChange(String orderCode) {
+		sqlSession.update("orderlistSQL.orderChange",orderCode);
+	}
+
+	@Override
+	public void orderRefund(String orderCode) {
+		sqlSession.update("orderlistSQL.orderRefund",orderCode);	
 	} 
 	
 	

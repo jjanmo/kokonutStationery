@@ -19,5 +19,4 @@ public class PointDAOImpl implements PointDAO {
 		return sqlSession.selectList("pointSQL.getPointList", userId);
 	}
 
-
 }

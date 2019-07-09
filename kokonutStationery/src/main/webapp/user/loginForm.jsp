@@ -48,7 +48,7 @@
 
 
 	<div class="hundred no_mem_area" style="background:#efefef; margin:60px 0 0 0;">
-		<form name="noUserLoginForm" id="noUserLoginForm" method="post" action="" onsubmit="return chkForm">
+		<form name="noUserLoginForm" id="noUserLoginForm">
 			<p style="color:#666; line-height: 23px;padding: 20px 0 10px 0;">비회원으로 상품을 구매하셨거나 구입을 원하시면<br>아래에 주문자명과 주문번호를 입력해 주시기 바랍니다.</p>
 			<div width="100%" style="text-align:center;padding-bottom: 40px;">
 				<table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
@@ -58,16 +58,16 @@
 							<label for="order_name" style="text-align: right; width: 60px;">주문자명</label>
 						</td>
 						<td style="width: 18%; text-align: left;">
-							<input type="text"  class="member_input01" style="width:200px;" required>	
+							<input type="text" id="kokonut_name"  class="member_input01" style="width:200px;">	
 						</td>
 						<td style="width: 8%; text-align: right; padding-right: 10px;">
 							<label style="text-align: right; width: 60px;">주문번호</label>
 						</td>
 						<td style="width: 18%; text-align: left;">
-							<input type="text"  class="member_input01" style="width:200px;" required>	
+							<input type="text" id="kokonut_orderCode" class="member_input01" style="width:200px;">	
 						</td>
 						<td style="width: 10%;">
-							<input type="submit" value="확인" id="order_num" class="main-button-s" 
+							<input type="button" value="확인" id="order_num" class="main-button-s" 
 							style="text-align:center;height: 35px; background-color:#444;width: 85px;margin-left: 10px;border: none;line-height: 35px; -webkit-appearance: none; border-radius:0;">
 						</td>
 						
@@ -84,7 +84,6 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-	
 $('#loginBtn').on('click', function(){
 
 	var userId = $('#userId').val();
@@ -114,6 +113,17 @@ $('#loginBtn').on('click', function(){
 	}	
 });	
 
-
+$('#order_num').click(function(){
+	var kokonutName = $('#kokonut_name').val();
+	var kokonutOC = $('#kokonut_orderCode').val();
+	if(kokonutName == ''){
+		alert('주문자명을 입력해주세요');
+	}else if(kokonutOC == ''){
+		alert('주문번호를 입력해주세요');
+	}else{
+		window.open('/kokonutStationery/order/kokonutOrder.do?userName='+kokonutName+'&orderCode='+kokonutOC
+				,'','width=1100, height=500, top=200,left=200, resizable=no, toolbar=no','true');
+	}
+});
 </script>
 
