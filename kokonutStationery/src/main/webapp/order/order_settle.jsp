@@ -392,7 +392,8 @@ var prdOption = new Array();
 							 'totalProductPayment' 	: totalProductPayment,
 							 'paymentType' 			: 1, 
 							 'deliveryFee' 			: deliveryFee,
-							 'totalPayment' 		: totalPayment },
+							 'totalPayment' 		: totalPayment,
+							 'members'				: 1 },
 					dataType: 'text',
 					success: function(data){
 						if(data == "success"){
@@ -413,7 +414,8 @@ var prdOption = new Array();
 							 'totalProductPayment' 	: totalProductPayment,
 							 'paymentType' 			: 1, 
 							 'deliveryFee' 			: deliveryFee,
-							 'totalPayment' 		: totalPayment },
+							 'totalPayment' 		: totalPayment,
+							 'members'				: 0 },
 					dataType: 'text',
 					success: function(data){
 						if(data == "success"){
