@@ -120,14 +120,12 @@ $(document).ready(function(){
 						})).append($('<div/>',{ // 교환버튼
 							class : items.orderCode+"_changeBtn",
 							text : '교환',
-							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;',
-							onclick : 'orderChange('+items.orderCode+')'
+							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						})).append($('<div/>',{ // 환불 버튼
 							class : items.orderCode+"_refundBtn",
 							text : '환불',
-							style : 'cursor:pointer; color:grey; margin-top:3px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;',
-							onclick : 'orderRefund('+items.orderCode+')'
+							style : 'cursor:pointer; color:grey; margin-top:3px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						}))).append($('<td/>',{//수령확인칸
 						class : items.orderCode+"_delivery"
@@ -157,13 +155,12 @@ $(document).ready(function(){
 							$.ajax({
 								type : 'post',
 								url : '../order/orderCancel.do',
-								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("주문취소가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								data : {'orderCode' : items.orderCode,
+										'crPayment' : items.totalPayment},
+								success : function(data){}//success
 							});//ajax - 주문취소
+							alert("주문취소가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 					
@@ -176,12 +173,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderChange.do',
 								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("교환접수가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								success : function(data){}//success
 							});//ajax - 교환접수
+							alert("교환접수가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 					
@@ -194,12 +189,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderRefund.do',
 								data : {'orderCode' : items.orderCode},
-								success : function(){
-									alert("환불접수가 완료되었습니다!");
-									location.href="../mypage/mypage_orderlist.do";
-								}//success
-								
+								success : function(data){}//success
 							});//ajax - 환불접수
+							alert("환불접수가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
 				

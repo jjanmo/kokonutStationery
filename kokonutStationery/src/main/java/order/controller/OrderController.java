@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -235,6 +236,7 @@ public class OrderController {
 		
 		return "success";
 	}
+	//주문확인 전에 취소하면 비회원 아이디 삭제
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String kokonutIdCancel(@RequestParam String userId) {
@@ -247,13 +249,24 @@ public class OrderController {
 		}
 	}
 	
-
+	//결제 전에 취소하면 주문정보 삭제
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String orderCancel(@RequestParam String userId) {
 		orderDAO.orderCancel(userId);
 		
 		return "success";
+	}
+	
+	//비회원 주문조회
+	@RequestMapping(value="/kokonutOrder.do", method=RequestMethod.GET)
+	public String kokonutOrder(@RequestParam Map<String, String> map, Model model) {
+		OrderDTO orderDTO = orderDAO.kokonutOrder(map);
+		OrderlistDTO orderlistDTO = orderDAO.kokonutOrderlist(map);
+		
+		model.addAttribute("orderDTO", orderDTO);
+		model.addAttribute("orderlistDTO", orderlistDTO);
+		return "/order/kokonutOrder";
 	}
 
 	//주문 정보 추가 : 옵션이 있는 경우

@@ -32,4 +32,8 @@ public interface OrderDAO {
 	public void reduceSaleProduct(Map<String, Object> map);
 
 	public void reduceSaleProductOption(Map<String, Object> map);
+
+	public OrderDTO kokonutOrder(Map<String, String> map);
+
+	public OrderlistDTO kokonutOrderlist(Map<String, String> map);
 }
