@@ -1,10 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Built-By: hjlee
-Build-Jdk: 1.8.0_191
-=======
-Built-By: Jun
-Build-Jdk: 1.8.0_211
->>>>>>> refs/heads/jun
+Built-By: user
+Build-Jdk: 1.8.0_181
 Created-By: Maven Integration for Eclipse
 
