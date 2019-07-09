@@ -189,7 +189,8 @@ var showDiv = 0;
 //alert("productCode : "+ productCode);
 
 //구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
-$('#orderBtn').click(function(){	
+$('#orderBtn').click(function(){
+	var orderProductQty = $('#productQty').val();
 	if(option == 0){ //옵션이 없는 경우
 		if(userId==""){
 			if(confirm("로그인하지 않으셨습니다. 비회원으로 진행하시겠습니까?")){
@@ -198,7 +199,7 @@ $('#orderBtn').click(function(){
 			}
 		}else{
 			location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
-																	+"&productQty="+productQty;
+																	+"&productQty="+orderProductQty;
 		}													
 	}
 	else { //옵션이 있는 경우

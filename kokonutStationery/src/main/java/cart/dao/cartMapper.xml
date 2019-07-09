@@ -66,12 +66,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update tbl_cart set optionContent = #{optionContent} where cartCode = #{cartCode}
 	</update>
 	
-	<!-- <select id="cartOrder" parameterType="String" resultType="cart">
+	<!-- cart정보  1개씩 가져오기 -->
+	<select id="cartOrder" parameterType="String" resultType="cart">
 		select * from tbl_cart where userId = #{userId}
-	</select> -->
+	</select>
 	
 	<!-- 선택한 주문가져오기 -->
 	<select id="getSelectCart" parameterType="String" resultType="cart">
 		select * from tbl_cart where cartCode=#{cartCode}
+	</select>
+	
+	<!-- getCartDTO -->
+	<select id="getCartDTO" parameterType="Integer" resultType="cart">
+		select * from TBL_CART where cartCode=#{cartCode}
 	</select>
 </mapper>
