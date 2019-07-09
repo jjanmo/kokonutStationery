@@ -31,7 +31,7 @@
 					<th class="sellDelivery">배송비</th>
 					<th class="Total">합계</th>
 				</tr>
-
+	
 				<c:set var="total" value="0" />
 				<c:if test="${list.size()!=0}"> 
 					<c:forEach var="cartDTO" items="${list }" varStatus="status">
@@ -40,8 +40,14 @@
 								value="${cartDTO.cartCode}">
 							<input type="hidden" id="productCode${cnt}" name="productCode"
 								value="${cartDTO.productCode}">
+							<input type="hidden" id="productName${cnt}" name="productName"
+								value="${cartDTO.productName}">
 							<input type="hidden" id="productOption${cnt}"
 								value="${cartDTO.productOption}">
+							<input type="hidden" id="thumbImg${cnt}"
+								value="${cartDTO.thumbImg}">
+							<input type="hidden" id="discountPrice${cnt}"
+								value="${cartDTO.discountPrice}">	
 							<input type="hidden" id="optionContent${cnt}"
 								value="${cartDTO.optionContent}">
 							<c:set var="total"
@@ -378,7 +384,6 @@ $('.optionButton').click(function(){
 
 //선택 찜하기
 $('.selectLike').click(function(){
-	alert('aa');
 	var productCode = '';
 	var productName = '';
 	var productOption = '';
