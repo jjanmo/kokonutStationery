@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,6 @@ import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
-import point.bean.PointDTO;
 import user.bean.UserDTO;
 import user.dao.UserDAO;
 
@@ -132,6 +130,7 @@ public class OrderController {
 	@RequestMapping(value="/updateUserInfo.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String setUserInfo(@ModelAttribute UserDTO userDTO) {
+		System.out.println(userDTO);
 		orderDAO.updateUserInfo(userDTO);
 		return "success";
 	}
@@ -147,8 +146,8 @@ public class OrderController {
 	
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
-	@ResponseBody
-	public String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
+	public @ResponseBody String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
+		System.out.println(orderDTO);
 		int su = orderDAO.setOrderInfoOption(orderDTO);
 		if(su == 1)	return "success";
 		else return "fail";
@@ -249,6 +248,7 @@ public class OrderController {
 		}
 	}
 
+
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
 	public String orderCancel(@RequestParam String userId) {
@@ -279,19 +279,20 @@ public class OrderController {
 		else return "fail";
 	}
 
+
 	//order_cart 페이지 : 장바구니에서 선택주문에서 이동하는 페이지
 	@GetMapping("/order_cart.do")
 	public ModelAndView orderCart(@RequestParam String checkedValueStr, HttpSession session ) {
 		
 		List<CartDTO> list = new ArrayList<CartDTO>();
 		String[] cartCodeStr = checkedValueStr.split(",");
-		int[] cartCode = new int[(cartCodeStr.length)-1];
-		for(int i = 0; i<cartCodeStr.length-1; i++) {
+		System.out.println(cartCodeStr.length);
+		int[] cartCode = new int[cartCodeStr.length];
+		for(int i = 0; i<cartCodeStr.length; i++) {
 			cartCode[i] = Integer.parseInt(cartCodeStr[i]);
 			CartDTO cartDTO = cartDAO.getCartDTO(cartCode[i]);
 			list.add(cartDTO);
 		}
-		
 		
 	 	String thumbImgList = "";
 		String productCodeList = "";
@@ -310,13 +311,13 @@ public class OrderController {
 			productOptionList += (list.get(i).getProductOption() + ",");
 			optionContentList += (list.get(i).getOptionContent() + ",");
 		}
-		System.out.println(thumbImgList);
-		System.out.println(productCodeList);
-		System.out.println(productNameList);
-		System.out.println(discountPriceList);
-		System.out.println(purchaseQtyList);
-		System.out.println(productOptionList);
-		System.out.println(optionContentList);
+//		System.out.println(thumbImgList);
+//		System.out.println(productCodeList);
+//		System.out.println(productNameList);
+//		System.out.println(discountPriceList);
+//		System.out.println(purchaseQtyList);
+//		System.out.println(productOptionList);
+//		System.out.println(optionContentList);
 		
 		String userId = (String) session.getAttribute("memId");
 		UserDTO userDTO = userDAO.getUserInfo(userId);

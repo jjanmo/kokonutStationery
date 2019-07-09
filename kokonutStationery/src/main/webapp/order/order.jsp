@@ -650,7 +650,6 @@ $('#orderWriteBtn').click(function(){
 	if('${kokonutId}' == ''){
 		$.ajax({
 			type : 'POST',
-<<<<<<< HEAD
 			url : '/kokonutStationery/order/updateUserInfo.do',
 			data : {'userId'			: '${memId}',
 					'userName'			: '${memName}',

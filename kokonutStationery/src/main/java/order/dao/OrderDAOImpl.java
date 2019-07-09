@@ -46,7 +46,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.insert("orderSQL.setOrderInfo", orderDTO);
 	}
 
-	//주문정보 추가 : 옵션 있는 경우
+	//주문정보 추가 : 옵션 있는 경우 + 장바구니에서 order로 넘어와서 다시 settle로 넘어가는 경우
 	@Override
 	public int setOrderInfoOption(OrderDTO orderDTO) {
 		return sqlSession.insert("orderSQL.setOrderInfoOption", orderDTO);
