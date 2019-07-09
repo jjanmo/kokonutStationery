@@ -47,8 +47,12 @@
 			</tr>
 		</tfoot>
 	</table>
-	
+	<c:if test="${kokonutId == null }">
 	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
+	</c:if>
+	<c:if test="${kokonutId != null }">
+	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${kokonutId}');">
+	</c:if>
 		<c:if test="${memId == null }" >
 		<!-- 개인정보취급방침 -->
 		<div id="agreementDiv" style="position:relative; visibility:visible;">
@@ -106,9 +110,14 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" 
-						         readonly required>
+						      <c:if test="${kokonutId == null }">
+						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" readonly required>
+						      </c:if>
+						      <c:if test="${kokonutId != null }">
+						          <input type="text" name="userName" id="userName" value="" required>
+						      </c:if>
 						     </td>
+						     
 						    </tr>
 								 
 							<tr>
@@ -593,99 +602,194 @@ $('#orderWriteBtn').click(function(){
 		return false;
 	}
 	
-	//user정보 및 배송정보 
-	$.ajax({
-		type : 'POST',
-		url : '/kokonutStationery/order/updateUserInfo.do',
-		data : {'userId'			: '${memId}',
-				'receiverName' 		: $('#receiverName').val(),
-				'receiverAddr1' 	: $('#receiverAddr1').val(),
-				'receiverAddr2' 	: $('#receiverAddr2').val(),
-				'receiverZipcode' 	: $('#receiverZipcode').val(),
-				'receiverPhone1' 	: $('#receiverPhone1').val(),
-				'receiverPhone2' 	: $('#receiverPhone2').val(),
-				'receiverPhone3' 	: $('#receiverPhone3').val(),
-				'deliveryMsg' 		: $('#deliveryMsg').val() },
-		success : function(data){
-			if(data == "success"){
-				alert("고객배송정보보내기 성공");
-			}
-			else {
-				alert("실패!!");
-			}
-		}
-		
-	});
-	
-	//상품정보 : orderDB
-	if(option == 0){ //옵션이 없는 경우
-		var purchaseQty = '${productQty}';
-		alert(typeof purchaseQty);
-		
+	//user정보 및 배송정보
+	//회원
+	if('${kokonutId}' == null){
 		$.ajax({
 			type : 'POST',
-			url : '/kokonutStationery/order/setOrderInfo.do',
-			data : {'userId' 		: '${memId}',
-					'userName' 		: '${memName}',
-					'thumbImg' 		: '${goodsDTO.thumbImg}',
-					'productCode' 	: '${goodsDTO.productCode}',
-					'productName'	: '${goodsDTO.productName}',
-					'discountPrice' : '${goodsDTO.discountPrice}',
-					'purchaseQty' 	: purchaseQty,
-					'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
-					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
-					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-					'productOption' : '${goodsDTO.productOption}' },
-			dataType : 'text',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${memId}',
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
 			success : function(data){
 				if(data == "success"){
-					alert("주문정보보내기 성공");
-				} 
+					alert("고객배송정보보내기 성공");
+				}
 				else {
 					alert("실패!!");
 				}
-				
 			}
 			
 		});
-	}//if
-	
-	else { //옵션이 있는 경우(option = 1)
-		var qtyStr = '${pdQtyValue}';
-		var purchaseQty = qtyStr.split(",");
-		var optionStr = '${selValue}';
-		var optionContent = optionStr.split(",");
-
-		for(i = 0 ; i < optionContent.length ; i++){
+		
+		//상품정보 : orderDB
+		if(option == 0){ //옵션이 없는 경우
+			var purchaseQty = '${productQty}';
+			alert(typeof purchaseQty);
+			
 			$.ajax({
 				type : 'POST',
-				url : '/kokonutStationery/order/setOrderInfoOption.do',
+				url : '/kokonutStationery/order/setOrderInfo.do',
 				data : {'userId' 		: '${memId}',
 						'userName' 		: '${memName}',
 						'thumbImg' 		: '${goodsDTO.thumbImg}',
 						'productCode' 	: '${goodsDTO.productCode}',
 						'productName'	: '${goodsDTO.productName}',
 						'discountPrice' : '${goodsDTO.discountPrice}',
-						'purchaseQty' 	: purchaseQty[i],
-						'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+						'purchaseQty' 	: purchaseQty,
+						'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
 						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-						'productOption' : '${goodsDTO.productOption}',
-						'optionContent' : optionContent[i] },
+						'productOption' : '${goodsDTO.productOption}' },
 				dataType : 'text',
 				success : function(data){
 					if(data == "success"){
 						alert("주문정보보내기 성공");
-					}
+					} 
 					else {
 						alert("실패!!");
 					}
-
+					
 				}
+				
 			});
-		}
-	}//else
+		}//if
+		
+		else { //옵션이 있는 경우(option = 1)
+			var qtyStr = '${pdQtyValue}';
+			var purchaseQty = qtyStr.split(",");
+			var optionStr = '${selValue}';
+			var optionContent = optionStr.split(",");
 	
+			for(i = 0 ; i < optionContent.length ; i++){
+				$.ajax({
+					type : 'POST',
+					url : '/kokonutStationery/order/setOrderInfoOption.do',
+					data : {'userId' 		: '${memId}',
+							'userName' 		: '${memName}',
+							'thumbImg' 		: '${goodsDTO.thumbImg}',
+							'productCode' 	: '${goodsDTO.productCode}',
+							'productName'	: '${goodsDTO.productName}',
+							'discountPrice' : '${goodsDTO.discountPrice}',
+							'purchaseQty' 	: purchaseQty[i],
+							'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+							'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+							'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+							'productOption' : '${goodsDTO.productOption}',
+							'optionContent' : optionContent[i] },
+					dataType : 'text',
+					success : function(data){
+						if(data == "success"){
+							alert("주문정보보내기 성공");
+						}
+						else {
+							alert("실패!!");
+						}
+	
+					}
+				});
+			}
+		}//else
+	}
+	else if('${memId}' == null){
+		$.ajax({
+			type : 'POST',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${kokonutId}',
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			success : function(data){
+				if(data == "success"){
+					alert("고객배송정보보내기 성공");
+				}
+				else {
+					alert("실패!!");
+				}
+			}
+			
+		});
+		
+		//상품정보 : orderDB
+		if(option == 0){ //옵션이 없는 경우
+			var purchaseQty = '${productQty}';
+			alert(typeof purchaseQty);
+			
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/setOrderInfo.do',
+				data : {'userId' 		: '${kokonutId}',
+						'userName' 		: $('#userName').val(),
+						'thumbImg' 		: '${goodsDTO.thumbImg}',
+						'productCode' 	: '${goodsDTO.productCode}',
+						'productName'	: '${goodsDTO.productName}',
+						'discountPrice' : '${goodsDTO.discountPrice}',
+						'purchaseQty' 	: purchaseQty,
+						'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : '${goodsDTO.productOption}' },
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						alert("주문정보보내기 성공");
+					} 
+					else {
+						alert("실패!!");
+					}
+					
+				}
+				
+			});
+		}//if
+		
+		else { //옵션이 있는 경우(option = 1)
+			var qtyStr = '${pdQtyValue}';
+			var purchaseQty = qtyStr.split(",");
+			var optionStr = '${selValue}';
+			var optionContent = optionStr.split(",");
+	
+			for(i = 0 ; i < optionContent.length ; i++){
+				$.ajax({
+					type : 'POST',
+					url : '/kokonutStationery/order/setOrderInfoOption.do',
+					data : {'userId' 		: '${kokonutId}',
+							'userName' 		: $('#userName').val(),
+							'thumbImg' 		: '${goodsDTO.thumbImg}',
+							'productCode' 	: '${goodsDTO.productCode}',
+							'productName'	: '${goodsDTO.productName}',
+							'discountPrice' : '${goodsDTO.discountPrice}',
+							'purchaseQty' 	: purchaseQty[i],
+							'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+							'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+							'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+							'productOption' : '${goodsDTO.productOption}',
+							'optionContent' : optionContent[i] },
+					dataType : 'text',
+					success : function(data){
+						if(data == "success"){
+							alert("주문정보보내기 성공");
+						}
+						else {
+							alert("실패!!");
+						}
+	
+					}
+				});
+			}
+		}//else
+	}
 	location.href = "/kokonutStationery/order/order_settle.do";	
 		
 });

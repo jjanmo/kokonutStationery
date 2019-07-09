@@ -57,6 +57,7 @@ public class OrderController {
 			int seq = userDAO.IncreaseKokonutSeq();
 			userDAO.createKokonutId(seq);
 			UserDTO userDTO = userDAO.getKokonutId(seq);
+			session.setAttribute("kokonutId", userDTO.getUserId());
 			mav.addObject("userDTO", userDTO);
 		}
 		mav.addObject("display", "/order/order.jsp");
@@ -97,6 +98,7 @@ public class OrderController {
 			int seq = userDAO.IncreaseKokonutSeq();
 			userDAO.createKokonutId(seq);
 			UserDTO userDTO = userDAO.getKokonutId(seq);
+			session.setAttribute("kokonutId", userDTO.getUserId());
 			mav.addObject("userDTO", userDTO);
 		}
 		mav.addObject("display", "/order/order.jsp");
