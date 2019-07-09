@@ -781,7 +781,8 @@ $('#orderWriteBtn').click(function(){
 		if(option == 0){ //옵션이 없는 경우
 			var purchaseQty = '${productQty}';
 			alert(typeof purchaseQty);
-			
+			var  a = $('input[name="payType"]:checked').val();
+			alert("a : "+a);
 			$.ajax({
 				type : 'POST',
 				url : '/kokonutStationery/order/setOrderInfo.do',
