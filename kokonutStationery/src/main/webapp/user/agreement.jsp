@@ -250,6 +250,17 @@ $(document).ready(function(){
 		}
 	});
 	
+	//약관2개 체크시 전체선택도 체크
+	$('input[name="agree"]').change(function(){
+		if($('input[name="private1"]:checked').val()=='yes')
+			$('#all').prop('checked',true);
+	});
+	$('input[name="private1"]').change(function(){
+		if($('input[name="agree"]:checked').val()=='yes')
+			$('#all').prop('checked',true);
+	});
+		
+	
 	$('#nextBtn').click(function(){
 		var agreeVal = $('input[name="agree"]:checked').val();
 		var privateVal = $('input[name="private1"]:checked').val();

@@ -265,7 +265,11 @@ $(function() {
 			dataType : 'json',
 			success : function(data) {
 				$.each(data.list, function(index, item) {
-					$('select').append($('<option>' + item.optionContent + '</option>'));
+					//$('select').append($('<option>' + item.optionContent + '</option>'));
+					$('select').append($('<option>',{
+						class:item.optionCode,
+						text:item.optionContent
+					}));
 				});
 			}
 		});
@@ -285,6 +289,7 @@ var sel = $('#optionBox option:selected').val();
 $('#optionBox').change(function(){
 	var length = $('#optionBox option').length - 1 ; //option의 개수
 	var sel = $('#optionBox option:selected').val();
+	//var optionCode = $('#optionBox option:selected').attr('class');
 	
 	if(showDiv == 0){ //옵션이 있을때 합계금액이 떠오르게 하는것
 		$('#totalPriceDiv').css('display','block');
@@ -351,6 +356,13 @@ function createDiv(sel){
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
+	/* 
+	//옵션코드
+	$('#inputDiv'+ optionCnt).append($('<input>',{
+	  type : 'hidden',
+	  class : 'optionCode',
+	  id : 'optionCode'+ optionCnt,
+	  value : optionCode})); */
 	
 	$('#'+optionCnt).append($('<div/>',{
 	  id : 'updownDiv'+ optionCnt,
@@ -439,14 +451,36 @@ $(document).on('click','.close', function(){
 ////숫자가 아닌경우  유효성검사 필요
 $(document).on('focusout','.option_productQty',function() {
 	
-	var idText = $(this).attr('id');
+	var idText = $(this).attr('id');	
+	
 	var optionNum = idText.charAt(idText.length-1); 
 	//alert(optionNum);
+	
+	//옵션코드값
+	var optionContent = $(this).parent().siblings('#option_contentDiv').text();
+	//alert(optionContent);
+	//옵션한개의 가격
+	var OnepriceSpan = $(this).parent().siblings('#priceDiv'+optionNum).children('#priceSpan'+optionNum);
+	
 	var input = $('#option_productQty'+optionNum).val();
-	if (isNaN(input)) {
-		alert("구매수량은 숫자만 가능합니다");
+	
+	if (isNaN(input)==true) {
+		alert("구매 수량은 숫자만 가능합니다.");
+		$('#option_productQty'+optionNum).val("1");
+		OnepriceSpan.text(discountPrice*1);
+		
+	}else if(isNaN(input)==false){
+		$('#option_productQty'+optionNum).val(input);
+		//OnepriceSpan.text(discountPrice*input);		
+		checkOptionStock(optionContent,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
 	}
-	$('#option_productQty'+optionNum).val("1");
+	//토탈가격
+	var total = 0;
+	for(i=0; i<selArray.length; i++){
+		var num = $('#priceSpan'+i).text()*1
+		total += num;
+	}
+	$('#priceSpan').text(total);
 });
 
 //수량 변경 : 증가
@@ -457,12 +491,20 @@ $(document).on('click','.up', function() {
 	option_productQty++;
 	$('#option_productQty'+ optionNum).val(option_productQty);
 	$('#priceSpan'+ optionNum).text(discountPrice * option_productQty);
-	var total = 0;
+	
+	//옵션코드값
+	var optionContent = $(this).parent().parent().siblings('#option_contentDiv').text();
+	//alert(optionContent);
+	//옵션한개의 가격
+	var OnepriceSpan = $(this).parent().siblings('#priceDiv'+optionNum).children('#priceSpan'+optionNum);
+	checkOptionStock(optionContent,productCode,$('#option_productQty'+ optionNum),OnepriceSpan);
+	
+	/* var total = 0;
 	for(i=0; i<selArray.length; i++){
 		var num = $('#priceSpan'+i).text()*1
 		total += num;
 	}
-	$('#priceSpan').text(total);
+	$('#priceSpan').text(total); */
 }); 
 
 //수량 변경 : 감소   
@@ -481,6 +523,38 @@ $(document).on('click','.down', function() {
 	}
 });
 
+//옵션있는 상품 재고파악 
+function checkOptionStock(optionContent,productCode,input,OnepriceSpan){
+	$.ajax({
+		type:'POST',
+		url:'../admin/checkOptionStock.do',
+		data:{'optionContent':optionContent,
+			'productCode':productCode,
+			'input':input.val()},
+		dataType:'json',
+		success:function(data){
+			//alert(JSON.stringify(data));
+			if(data.result=='ok'){
+				//개별가격입력
+				OnepriceSpan.text(discountPrice*input.val());	
+				
+			}else if(data.result=='fail'){
+				alert("${goodsDTO.productName} 상품의 잔여 재고는 "+data.stock+"개입니다");
+				input.val(1);
+				OnepriceSpan.text(discountPrice*1);	
+			}
+			//토탈가격
+			var total = 0;
+			for(i=0; i<selArray.length; i++){
+				var num = $('#priceSpan'+i).text()*1
+				total += num;
+			}
+			$('#priceSpan').text(total);
+		}
+	});
+	
+}
+
 //---------------------
 //옵션없을때
 //숫자가 아닌경우  유효성검사 필요
@@ -488,29 +562,59 @@ $('#productQty').focusout(function() {
 	var input = $('#productQty').val();
 	
 	if (isNaN(input)==true) {
+		alert("구매 수량은 숫자만 가능합니다.");
 		$('#productQty').val("1");
-		
+		$('#priceSpan').text(discountPrice*1);
 	}else if(isNaN(input)==false){
 		$('#productQty').val(input);
+		checkStock(productCode,$('#productQty'));
+				
 	}
 	
 });
 
 //수량 변경 : 증가
 $('#up').click(function() {
-	productQty++;
-	$('#productQty').val(productQty);
-	$('#priceSpan').text(discountPrice*productQty);
+	var input = $('#productQty').val();
+	input++;
+	$('#productQty').val(input);
+	//$('#priceSpan').text(discountPrice*input);
+	checkStock(productCode,$('#productQty'));
 }); 
 
 //수량 변경 : 감소   
 $('#down').click(function() {
-	if (productQty > 1) {
-		productQty--;
-		$('#productQty').val(productQty);
-		$('#priceSpan').text(discountPrice * productQty);
+	var input = $('#productQty').val();
+	if (input > 1) {
+		input--;
+		$('#productQty').val(input);
+		$('#priceSpan').text(discountPrice * input);
+		//checkStock(productCode,input);
 	}
 });
+
+//옵션없는 상품 재고파악 
+function checkStock(productCode,input){
+	$.ajax({
+		type:'POST',
+		url:'../admin/checkStock.do',
+		data:{'productCode':productCode,
+			'input':input.val()},
+		dataType:'json',
+		success:function(data){
+			//alert(JSON.stringify(data));
+			if(data.result=='ok'){
+				$('#priceSpan').text(discountPrice*input.val());
+				
+			}else if(data.result=='fail'){
+				alert("${goodsDTO.productName} 상품의 잔여 재고는 "+data.stock+"개입니다");
+				input.val(1);
+				$('#priceSpan').text(discountPrice*1);
+			}
+		}
+	});
+	
+}
 
 //장바구니 추가
 $('#cartBtn').click(function(){

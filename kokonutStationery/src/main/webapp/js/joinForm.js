@@ -60,12 +60,12 @@ function chkForm(){
 		$('#userBirthYear').focus();
 		return false;
 		
-	}else if(!/^(?=.*[0-9]).{1,3}$/.test(userBirthMonth)){
+	}else if(!/^(?=.*[0-9]).{1,2}$/.test(userBirthMonth)){
 		alert("올바른 생일형식이 아닙니다.");
 		$('#userBirthMonth').focus();
 		return false;
 		
-	}else if(!/^(?=.*[0-9]).{2,3}$/.test(userBirthDay)){
+	}else if(!/^(?=.*[0-9]).{1,2}$/.test(userBirthDay)){
 		alert("올바른 생일형식이 아닙니다.");
 		$('#userBirthDay').focus();
 		return false;

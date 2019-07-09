@@ -9,7 +9,7 @@
 	<!-- indiv start -->
 	<div class="indiv" style="margin: 135px 10px 0 20px;">
 		<div class="cart_title">장바구니</div>
-		<form id="cartForm" name="CartForm" method="post" action="/kokonutStationery/cart/goods_cart_modify.do">
+		<form id="cartForm" name="CartForm" method="post" action="/kokonutStationery/cart/goods_cart_modify.do" >
 			<input type="hidden" name="mode" value="modItem">
 			
 			<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cartTable" style="margin-top: 15px;">
@@ -63,7 +63,7 @@
 							</td>
 
 							<td class="orderOption" style="text-align: left; vertical-align: top; padding: 30px 0;">
-								<div class="thumbImg">${cartDTO.productName}</div>
+								<div class="thumbImg" id="productName${cnt}" >${cartDTO.productName}</div>
 							
 								<!-- 선택옵션 내용 시작 -->
 								<c:if test="${cartDTO.productOption==1}">
@@ -93,7 +93,7 @@
 										<td style="padding: 0; height: 0px; border: 0">
 											<div style="float: left;">
 												<input type="text" name="productQty" id="${status.index}" step="1" min="1" max="0" size="2" 
-													   value="${cartDTO.productQty }" class="line" 
+													   value="${cartDTO.productQty }" class="line productQty${cnt}" 
 													   style="border: 1px solid #DDD; width: 40px; text-align: right; 
 													   		  height: 38px; padding-right: 5px; font-weight: 500;"/>
 											</div>
@@ -114,7 +114,9 @@
 									
 									<tr>
 										<td style="padding: 10px 0 0 0; height: 0px; border: 0">
-											<input type="submit" value="수정" class="sub-button-xs" id="modifyBtn" 
+											
+											
+											<input type="button" value="수정" class="sub-button-xs modifyBtn" id="modifyBtn_${cnt }" 
 												   style="text-align:center; font-weight:bold; width:65px; height:30px; line-height:30px; padding:0; float:right; font-weight:500;">
 										</td>
 									</tr>
@@ -126,7 +128,7 @@
 								<div id="deliveryState">기본배송</div>
 							</td>
 							
-							<td style="vertical-align: top; color: #333; text-align: right; padding: 30px 0; font-weight: 700; padding-right: 20px;">
+							<td id="eachCost" style="vertical-align: top; color: #333; text-align: right; padding: 30px 0; font-weight: 700; padding-right: 20px;">
 								<f:formatNumber pattern="###,###,###" value="${cartDTO.discountPrice * cartDTO.productQty }" />원
 							</td>	
 						</tr>
@@ -143,7 +145,7 @@
 										상품합계금액 (배송비 별도)
 									</font>
 									&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+									<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
 										<c:if test="${list.size()==0}">
 											0
 										</c:if>
@@ -261,6 +263,7 @@ $(function(){
 	}); 
 });
 
+<<<<<<< HEAD
 
 //수량 수정 변경시 페이징처리
 $(document).ready(function(){
@@ -269,7 +272,7 @@ $(document).ready(function(){
 	});
 })
 
-		
+
 //숫자가 아닌경우  유효성검사 필요
 $('input[name=productQty]').focusout(function() {
 	var input = $(this).val();
@@ -316,6 +319,103 @@ $('.selectDelete').click(function() {
 				optionContent = 'none';
 			} else { //옵션이 있을 때
 				optionContent = $('#optionContent' + i).val();
+=======
+		//재고파악 및 수정
+		$('.modifyBtn').off('click').on('click',function(){
+			var idName = $(this).attr('id');
+			var cnt = idName.substring(10,idName.length);
+			
+			 
+			var productCode = $('#productCode'+cnt).val();
+			var input = $('.productQty'+cnt).val();
+			var optionContent = $('#optionContent'+cnt).val();
+			var productName = $('#productName'+cnt).text();
+			var cartCode = $('#cartCode'+cnt).val();
+			//alert("cartCode= "+cartCode+" productCode="+productCode+" productName="+productName+" productQty="+input+" optionContent="+optionContent);
+			
+			if(optionContent=="none"){//옵션이 없을 때
+				$.ajax({
+					type:'POST',
+					url:'../admin/checkStock.do',
+					data:{'productCode':productCode,
+						'input':input},
+					dataType:'json',
+					success:function(data){
+						//alert(JSON.stringify(data));
+						if(data.result=='ok'){
+							//재고 안에서 수정
+							//$('#cartForm').submit();
+							$.ajax({
+								type:'post',
+								url:'../cart/goods_cart_modify.do',
+								data:{'cartCode':cartCode,
+									'productQty':input},
+									success:function(){
+										location.href="../cart/goods_cart.do";
+									}
+							});//수정 ajax
+							
+						}else if(data.result=='fail'){
+							//재고 오버했을시에
+							alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
+							$('.productQty'+cnt).val("1");
+							return false;
+						}
+						
+					}
+				});//재고파악ajax
+			}else{//옵션이 있을 때
+				
+				$.ajax({
+					type:'POST',
+					url:'../admin/checkStock.do',
+					data:{'productCode':productCode,
+						'input':input},
+					dataType:'json',
+					success:function(data){
+						//alert(JSON.stringify(data));
+						if(data.result=='ok'){
+							//재고 안에서 수정
+							//$('#cartForm').submit();
+							$.ajax({
+								type:'post',
+								url:'../cart/goods_cart_modify.do',
+								data:{'cartCode':cartCode,
+									'productQty':input,
+									'optionContent':optionContent},
+									success:function(){
+										location.href="../cart/goods_cart.do";
+									}
+							});//수정ajax
+							
+						}else if(data.result=='fail'){
+							//재고 오버했을시에
+							alert(productName+" 상품의 잔여 재고는 "+data.stock+"개입니다");
+							$('.productQty'+cnt).val("1");
+							return false;
+						}
+						
+					}
+				});//재고파악 ajax
+				
+			}
+				
+			 
+			
+		});
+		
+		//숫자가 아닌경우  유효성검사 필요
+		$('input[name=productQty]').focusout(function() {
+			var input = $(this).val();
+			//alert(input);
+			if (isNaN(input)==true) {
+				//숫자가 아닐때
+				$(this).val("1");
+				
+			}else if(isNaN(input)==false){
+				//숫자일때
+				$(this).val(input);
+>>>>>>> refs/heads/ssong
 			}
 
 			$.ajax({

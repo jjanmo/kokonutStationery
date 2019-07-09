@@ -104,7 +104,8 @@ public class CartController {
 
 	}
 
-	// 수량변경 수정
+	// 수량변경 수정 (form 태그사용)
+	/*
 	@RequestMapping(value = "/goods_cart_modify.do", method = RequestMethod.POST)
 	public ModelAndView cartUpdate(@RequestParam int[] productQty, @RequestParam int[] cartCode,
 			HttpSession session) {
@@ -123,7 +124,26 @@ public class CartController {
 		mav.setViewName("/main/nosIndex");
 		return mav;
 	}
+	*/
+	// 수량변경 수정 (button 사용)
+	@RequestMapping(value = "/goods_cart_modify.do", method = RequestMethod.POST)
+	public ModelAndView cartUpdate(@RequestParam int productQty, @RequestParam int cartCode,
+			HttpSession session) {
+		CartDTO cartDTO = new CartDTO();
+		cartDTO.setProductQty(productQty);
+		cartDTO.setCartCode(cartCode);
+		cartDAO.cartUpdate(cartDTO);
+		
+		String userId = (String) session.getAttribute("memId");
+		List<CartDTO> list = cartDAO.getCart(userId);
 
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/cart/goods_cart.jsp");
+		mav.addObject("list", list);
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
 	// 상세페이지에서 option가져오기
 	@RequestMapping(value = "/getOption.do", method = RequestMethod.GET)
 	public ModelAndView getOption(@RequestParam String productCode) {
