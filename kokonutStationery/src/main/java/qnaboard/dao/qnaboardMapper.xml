@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 
-	<!-- 상품후기 작성 -->
+	<!-- 상품문의 작성 -->
 	<insert id="qnaboardWrite" parameterType="qnaboard">
 		insert into TBL_QNABOARD (USERID,
 							 USEREMAIL,
@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode}
 	</select>
 	
-	<!-- 상품후기 수정 -->
+	<!-- 상품문의 수정 -->
 	<update id="qnaboardModify" parameterType="qnaboard">
 		update TBL_QNABOARD set 
 							 
@@ -136,7 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
-	<!-- 상품후기삭제 -->
+	<!-- 상품문의삭제 -->
 	<delete id="qnaboardDelete" parameterType="Integer">
 		delete from TBL_QNABOARD where QNABOARDCODE =#{qnaboardCode} 
 	</delete>

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import cart.bean.CartDTO;
 import goods.bean.GoodsDTO;
 import order.bean.OrderDTO;
+import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import user.bean.UserDTO;
 
@@ -57,6 +57,10 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<OrderDTO> getOrderInfo(String userId) {
 		return sqlSession.selectList("orderSQL.getOrderInfo", userId);
 	}
-	
-	
+
+	//TBL_ORDERLIST 생성 및 TBL_ORDER 수정
+	@Override
+	public int insertOrderlist(OrderlistDTO orderlistDTO) {
+		return sqlSession.insert("orderSQL.insertOrderlist", orderlistDTO);
+	}
 }

@@ -83,5 +83,27 @@ public class UserDAOImpl implements UserDAO {
 	public void subWishListCount(String userId) {
 		sqlSession.update("userSQL.subWishListCount", userId);	
 	}
+	
+	@Override
+	public int IncreaseKokonutSeq() {
+		return sqlSession.selectOne("userSQL.IncreaseKokonutSeq");
+	}
+	
+	@Override
+	public void createKokonutId(int seq) {
+		sqlSession.insert("userSQL.createKokonutId", seq);
+	}
+
+	@Override
+	public UserDTO getKokonutId(int seq) {
+		return sqlSession.selectOne("userSQL.getKokonutId", seq);
+	}
+
+	@Override
+	public int kokonutIdCancel(String userId) {
+		return sqlSession.delete("userSQL.kokonutIdCancel", userId);
+	}
+
+	
 
 }

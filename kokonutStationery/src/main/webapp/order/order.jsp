@@ -4,7 +4,7 @@
     
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
-<div class="indiv"><!-- Start indiv -->
+<div class="indiv2" style="width:1000px; margin-top:135px;"><!-- Start indiv -->
 	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222;">
 		주문하기
 	</div>
@@ -47,8 +47,12 @@
 			</tr>
 		</tfoot>
 	</table>
-	
+	<c:if test="${kokonutId == null }">
 	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${memId}');">
+	</c:if>
+	<c:if test="${kokonutId != null }">
+	<form id="orderForm" method="post" action="" onsubmit="return chkOrder('${kokonutId}');">
+	</c:if>
 		<c:if test="${memId == null }" >
 		<!-- 개인정보취급방침 -->
 		<div id="agreementDiv" style="position:relative; visibility:visible;">
@@ -106,9 +110,14 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" 
-						         readonly required>
+						      <c:if test="${kokonutId == null }">
+						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" readonly required>
+						      </c:if>
+						      <c:if test="${kokonutId != null }">
+						          <input type="text" name="userName" id="userName" value="" required>
+						      </c:if>
 						     </td>
+						     
 						    </tr>
 								 
 							<tr>
@@ -149,12 +158,14 @@
 			      <td>
 			        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top:10px;">
 			          <tbody>
+			          	<c:if test="${memId != null }">
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">배송지 확인 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding-top: 10px;">
 				              <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
 				            </td>
 				          </tr>
+				        </c:if>
 				          <tr>
 				            <td style="font-size: 13px; color: #666; font-weight:normal;padding: 15px 0 5px 0;">받으실분 :</td>
 				            <td style="padding: 15px 0 5px 0;">
@@ -342,8 +353,8 @@
 			        <td align="center" height="100">
 			          <div style="width:100%" class="noline">
 			            <div style="width: 180px; display: inline-block;">
-			            	<div onclick="location.href='/kokonutStationery.main/index.do'" class="sub-button-s" 
-							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
+			            	<div id="order_cancelBtn" class="sub-button-s" 
+			            	style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
 							<input type="button" id="orderWriteBtn" class="main-button-s" 
@@ -407,36 +418,40 @@ $('#sameInfo').click(function(){
 function createTabNoOption(){
 	$('<tr/>').append($('<td/>',{
 		style: "vertical-align:top; padding: 30px 0;"
-	}).append($('<a/>',{
-		href : "#",
-		style : "margin-bottom:0;"		
-	}).append($('<img>',{
-		src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
-		width : "70"
+		}).append($('<a/>',{
+			href : "#",
+			style : "margin-bottom:0;"		
+			}).append($('<img>',{
+				src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+				width : "70"
+				
 	})))).append($('<td>',{
 		class : "order_option",
-		style : "text-align:left;vertical-align:top; padding: 30px 0;"
-	}).append($('<div/>',{
-		text : '${goodsDTO.productName}',
-		style : "color: #222; font-weight: 700; font-size: 14px;",
+		style : "text-align:left;vertical-align:top; "
+		}).append($('<div/>',{
+			text : '${goodsDTO.productName}',
+			style : "color: #222; height:auto; font-weight: 700; font-size: 14px; padding: 30px 0; margin:20px 0 20px 0;"
+			
 	}))).append($('<td>',{
 		text : '${goodsDTO.discountPrice}',
-		style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-	}).append($('<span/>',{
-		text : '원'
+		style : "color: #222; vertical-align:middle; padding: 30px 50px 30px 0; text-align:right;"
+		}).append($('<span/>',{
+			text : '원'
+			
 	}))).append($('<td/>',{
-		style : "vertical-align:top; padding: 22px 0 30px 0;"
-	}).append($('<div/>',{
-		style : "padding-top: 8px; vertical-align: top; color:#222;",
-		text : '${productQty}'
-	}).append($('<span>',{
-		text : '개'
+		style : "vertical-align: middle; padding: 22px 0 30px 0;"
+		}).append($('<div/>',{
+			style : "padding-top: 8px; vertical-align: middle; color:#222;",
+			text : '${productQty}'
+			}).append($('<span>',{
+				text : '개'
+				
 	})))).append($('<td>',{
 		class : 'totalPrice',
-		tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+		tyle : "vertical-align: middle; color:#333; text-align:right; padding: 30px 20px 0 0; font-weight:700; ",
 		text : '${goodsDTO.discountPrice * productQty}'
-	}).append($('<span/>', {
-		text : '원'
+		}).append($('<span/>', {
+			text : '원'
 	}))).appendTo($('#tbody'));
 }
 
@@ -445,40 +460,40 @@ function createTabOption(optionContent, productQty){
 	for(var i = 0; i< optionContent.length-1; i++ ){
 		$('<tr/>').append($('<td/>',{
 			style: "vertical-align:top; padding: 30px 0;"
-		}).append($('<a/>',{
-			href : "#",
-			style : "margin-bottom:0;"		
-		}).append($('<img>',{
-			src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
-			width : "70"
+			}).append($('<a/>',{
+				href : "#",
+				style : "margin-bottom:0;"		
+				}).append($('<img>',{
+					src : '../image/thumb/'+ '${goodsDTO.thumbImg}',
+					width : "70"
 		})))).append($('<td>',{
 			class : "order_option",
-			style : "text-align:left;vertical-align:top; padding: 30px 0;"
-		}).append($('<div/>',{
-			text : '${goodsDTO.productName}',
-			style : "color: #222; font-weight: 700; font-size: 14px;",
-		})).append($('<div>', {
-			text : '선택옵션 : ',
-		})).append($('<div/>',{
-			text : optionContent[i] +'/'
+			style : "text-align:left;vertical-align:middle; padding: 30px 0;"
+			}).append($('<div/>',{
+				text : '${goodsDTO.productName}',
+				style : "color: #222; font-weight: 700; font-size: 14px; ",
+			})).append($('<div>', {
+				text : '선택옵션 : ',
+			})).append($('<div/>',{
+				text : optionContent[i] +'/'
 		}))).append($('<td>',{
 			text : '${goodsDTO.discountPrice}',
-			style : "color: #222; vertical-align:top; padding: 30px 50px 30px 0; text-align:right;"
-		}).append($('<span/>',{
-			text : '원'
+			style : "color: #222; vertical-align: middle; padding: 30px 50px 30px 0; text-align:right;"
+			}).append($('<span/>',{
+				text : '원'
 		}))).append($('<td/>',{
-			style : "vertical-align:top; padding: 22px 0 30px 0;"
-		}).append($('<div/>',{
-			style : "padding-top: 8px; vertical-align: top; color:#222;",
-			text : productQty[i]
-		}).append($('<span>',{
-			text : '개'
+			style : "vertical-align:middle; padding: 22px 0 30px 0;"
+			}).append($('<div/>',{
+				style : "padding-top: 8px; vertical-align: middle; color:#222;",
+				text : productQty[i]
+				}).append($('<span>',{
+					text : '개'
 		})))).append($('<td>',{
 			class : 'totalPrice',
-			tyle : "vertical-align:top; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
+			tyle : "vertical-align:middle; color:#333; text-align:right; padding: 30px 0; font-weight:700; padding-right:20px;",
 			text : '${goodsDTO.discountPrice}' * productQty[i]
-		}).append($('<span/>', {
-			text : '원'
+			}).append($('<span/>', {
+				text : '원'
 		}))).appendTo($('#tbody'));
 	
 	}  
@@ -556,97 +571,253 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do
 $('#orderWriteBtn').click(function(){
-	//user정보 및 배송정보 
-	$.ajax({
-		type : 'POST',
-		url : '/kokonutStationery/order/updateUserInfo.do',
-		data : {'userId'			: '${memId}',
-				'receiverName' 		: $('#receiverName').val(),
-				'receiverAddr1' 	: $('#receiverAddr1').val(),
-				'receiverAddr2' 	: $('#receiverAddr2').val(),
-				'receiverZipcode' 	: $('#receiverZipcode').val(),
-				'receiverPhone1' 	: $('#receiverPhone1').val(),
-				'receiverPhone2' 	: $('#receiverPhone2').val(),
-				'receiverPhone3' 	: $('#receiverPhone3').val(),
-				'deliveryMsg' 		: $('#deliveryMsg').val() },
-		success : function(data){
-			if(data == "success"){
-				alert("고객배송정보보내기 성공");
-			}
-			else {
-				alert("실패!!");
-			}
-		}
-		
-	});
 	
-	//상품정보 : orderDB
-	if(option == 0){ //옵션이 없는 경우
+	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
+	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
+	
+	//유효성검사
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#receiverName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#receiverName').focus();
+			return false;
+	}else if($('#receiverZipcode').val()==''){
+		alert("주소를 입력해주세요");
+		$('#receiverZipcode').focus();
+		return false;
+	}else if($('#receiverAddr2').val()==''){
+		alert("세부주소를 입력해주세요.");
+		$('#receiverAddr2').focus();
+		return false;
+	}else if( !chkPhone.test($('#receiverPhone1').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone1').focus();
+		return false;
+		
+	}else if( !chkPhone2.test($('#receiverPhone2').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone2').focus();
+		return false;
+		
+	}else if( !chkPhone2.test($('#receiverPhone3').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone3').focus();
+		return false;
+	}
+	
+	//user정보 및 배송정보
+	//회원
+	if('${kokonutId}' == null){
 		$.ajax({
 			type : 'POST',
-			url : '/kokonutStationery/order/setOrderInfo.do',
-			data : {'userId' 		: '${memId}',
-					'userName' 		: '${memName}',
-					'thumbImg' 		: '${goodsDTO.thumbImg}',
-					'productCode' 	: '${goodsDTO.productCode}',
-					'productName'	: '${goodsDTO.productName}',
-					'discountPrice' : '${goodsDTO.discountPrice}',
-					'purchaseQty' 	: '${productQty}',
-					'totalPrice'	: '${goodsDTO.discountPrice} * ${productQty}',
-					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
-					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-					'productOption' : '${goodsDTO.productOption}' },
-			dataType : 'text',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${memId}',
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
 			success : function(data){
 				if(data == "success"){
-					alert("주문정보보내기 성공");
-				} 
+					alert("고객배송정보보내기 성공");
+				}
 				else {
 					alert("실패!!");
 				}
-				
 			}
 			
 		});
-	}//if
-	
-	else { //옵션이 있는 경우(option = 1)
-		var qtyStr = '${pdQtyValue}';
-		var purchaseQty = qtyStr.split(",");
-		var optionStr = '${selValue}';
-		var optionContent = optionStr.split(",");
-
-		for(i = 0 ; i < optionContent.length ; i++){
+		
+		//상품정보 : orderDB
+		if(option == 0){ //옵션이 없는 경우
+			var purchaseQty = '${productQty}';
+			alert(typeof purchaseQty);
+			
 			$.ajax({
 				type : 'POST',
-				url : '/kokonutStationery/order/setOrderInfoOption.do',
+				url : '/kokonutStationery/order/setOrderInfo.do',
 				data : {'userId' 		: '${memId}',
 						'userName' 		: '${memName}',
 						'thumbImg' 		: '${goodsDTO.thumbImg}',
 						'productCode' 	: '${goodsDTO.productCode}',
 						'productName'	: '${goodsDTO.productName}',
 						'discountPrice' : '${goodsDTO.discountPrice}',
-						'purchaseQty' 	: purchaseQty[i],
-						'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+						'purchaseQty' 	: purchaseQty,
+						'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
 						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-						'productOption' : '${goodsDTO.productOption}',
-						'optionContent' : optionContent[i] },
+						'productOption' : '${goodsDTO.productOption}' },
 				dataType : 'text',
 				success : function(data){
 					if(data == "success"){
 						alert("주문정보보내기 성공");
-					}
+					} 
 					else {
 						alert("실패!!");
 					}
+					
+				}
+				
+			});
+		}//if
+		
+		else { //옵션이 있는 경우(option = 1)
+			var qtyStr = '${pdQtyValue}';
+			var purchaseQty = qtyStr.split(",");
+			var optionStr = '${selValue}';
+			var optionContent = optionStr.split(",");
+	
+			for(i = 0 ; i < optionContent.length ; i++){
+				$.ajax({
+					type : 'POST',
+					url : '/kokonutStationery/order/setOrderInfoOption.do',
+					data : {'userId' 		: '${memId}',
+							'userName' 		: '${memName}',
+							'thumbImg' 		: '${goodsDTO.thumbImg}',
+							'productCode' 	: '${goodsDTO.productCode}',
+							'productName'	: '${goodsDTO.productName}',
+							'discountPrice' : '${goodsDTO.discountPrice}',
+							'purchaseQty' 	: purchaseQty[i],
+							'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+							'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+							'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+							'productOption' : '${goodsDTO.productOption}',
+							'optionContent' : optionContent[i] },
+					dataType : 'text',
+					success : function(data){
+						if(data == "success"){
+							alert("주문정보보내기 성공");
+						}
+						else {
+							alert("실패!!");
+						}
+	
+					}
+				});
+			}
+		}//else
+	}
+	else if('${memId}' == null){
+		$.ajax({
+			type : 'POST',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${kokonutId}',
+					'userName'			: $('#userName').val(),
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			success : function(data){
+				if(data == "success"){
+					alert("고객배송정보보내기 성공");
+				}
+				else {
+					alert("실패!!");
+				}
+			}
+			
+		});
+		
+		//상품정보 : orderDB
+		if(option == 0){ //옵션이 없는 경우
+			var purchaseQty = '${productQty}';
+			alert(typeof purchaseQty);
+			
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/setOrderInfo.do',
+				data : {'userId' 		: '${kokonutId}',
+						'userName' 		: $('#userName').val(),
+						'thumbImg' 		: '${goodsDTO.thumbImg}',
+						'productCode' 	: '${goodsDTO.productCode}',
+						'productName'	: '${goodsDTO.productName}',
+						'discountPrice' : '${goodsDTO.discountPrice}',
+						'purchaseQty' 	: purchaseQty,
+						'totalPrice'	: '${goodsDTO.discountPrice*productQty}',
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : '${goodsDTO.productOption}' },
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						alert("주문정보보내기 성공");
+					} 
+					else {
+						alert("실패!!");
+					}
+					
+				}
+				
+			});
+		}//if
+		
+		else { //옵션이 있는 경우(option = 1)
+			var qtyStr = '${pdQtyValue}';
+			var purchaseQty = qtyStr.split(",");
+			var optionStr = '${selValue}';
+			var optionContent = optionStr.split(",");
+	
+			for(i = 0 ; i < optionContent.length ; i++){
+				$.ajax({
+					type : 'POST',
+					url : '/kokonutStationery/order/setOrderInfoOption.do',
+					data : {'userId' 		: '${kokonutId}',
+							'userName' 		: $('#userName').val(),
+							'thumbImg' 		: '${goodsDTO.thumbImg}',
+							'productCode' 	: '${goodsDTO.productCode}',
+							'productName'	: '${goodsDTO.productName}',
+							'discountPrice' : '${goodsDTO.discountPrice}',
+							'purchaseQty' 	: purchaseQty[i],
+							'totalPrice'	: '${goodsDTO.discountPrice}' * purchaseQty[i],
+							'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+							'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+							'productOption' : '${goodsDTO.productOption}',
+							'optionContent' : optionContent[i] },
+					dataType : 'text',
+					success : function(data){
+						if(data == "success"){
+							alert("주문정보보내기 성공");
+						}
+						else {
+							alert("실패!!");
+						}
+	
+					}
+				});
+			}
+		}//else
+	}
+	location.href = "/kokonutStationery/order/order_settle.do";	
+		
+});
+var kId = 'Kokonut';
 
+$('#order_cancelBtn').click(function(){
+	//alert('${userDTO.userId}'.indexOf(kId));
+	if('${userDTO.userId}'.indexOf(kId) == 0){
+		if(confirm("상품 구매를 중단하시고 돌아가시겠습니까?")){
+			$.ajax({
+				type : 'get',
+				url : '/kokonutStationery/order/kokonutIdCancel.do',
+				data : 'userId=' + '${userDTO.userId}',
+				dataTye : 'text',
+				success : function(result){
+					if(result=='success'){
+						location.href='/kokonutStationery/main/index.do';
+					}else if(result=='fail'){
+						alert("주문취소 실패! 다시 시도해주세요");
+					}
 				}
 			});
 		}
-	}//else
-	
-	location.href = "/kokonutStationery/order/order_settle.do";	
-		
+	}else{
+		location.href='/kokonutStationery/main/index.do';
+	}	
 });
 </script>

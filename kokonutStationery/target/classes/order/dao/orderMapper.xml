@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
-		update TBL_USER set  receiverName 	= #{receiverName}
+		update TBL_USER set  userName = #{userName}
+							,receiverName 	= #{receiverName}
 							,receiverAddr1 	= #{receiverAddr1}
 							,receiverAddr2 	= #{receiverAddr2}
 							,receiverZipcode = #{receiverZipcode}
@@ -87,4 +88,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOrderInfo" parameterType="String" resultType="order">
 		select * from TBL_ORDER where userId = #{userId} and orderCode = 0
 	</select>
+	
+	<!-- orderlist 생성 및 order 수정 -->
+	<insert id="insertOrderlist" parameterType="orderlist">
+		begin
+		insert into TBL_ORDERLIST(orderCode 
+								,ordreDate
+								,userId 
+								,userName 
+								,totalProductPayment
+								,paymentType 
+								,deliveryFee
+								,totalPayment ) 
+								values
+								(to_char(sysdate,'yymmdd')||orderCode_seq.nextval
+                    			,sysdate
+								,#{userId}
+								,#{userName}
+								,#{totalProductPayment}
+								,#{paymentType}
+								,#{deliveryFee}
+								,#{totalPayment} );
+								
+		update TBL_ORDER set  orderCode  = to_char(sysdate,'yymmdd')||orderCode_seq.currval
+							  ,ordreDate = sysdate
+							  where userId = #{userId} and orderCode = 0;
+		end;
+	</insert>		
+
+	
+
 </mapper>

@@ -40,6 +40,7 @@ public class CartController {
 
 	// 장바구니에 담기
 	@RequestMapping(value = "/goods_cart_insert.do", method = RequestMethod.POST)
+	@ResponseBody
 	public void cartInsert(@ModelAttribute CartDTO cartDTO) {
 		System.out.println(cartDTO);
 

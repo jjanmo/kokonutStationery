@@ -4,4 +4,124 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="reviewSQL">
+	
+	<!-- 특정상품 후기 개수 -->
+	<select id="getTotalR"  parameterType="Integer" resultType="Integer">
+		select count(*) from TBL_reviewboard where productcode=#{productCode}
+	</select>
+	
+	<!-- 모든상품 후기 개수 -->
+	<select id="getTotalAllR"  resultType="Integer">
+		select count(*) from TBL_reviewboard
+	</select>
+	
+	<!-- 검색한 후기 개수 -->
+	<select id="getTotalSearchR" parameterType="java.util.Map" resultType="Integer">
+		select count(*) from TBL_reviewboard where ${searchOption} like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 검색한 후기 개수 - 총 개수  -->
+	<select id="getTotalAllSearchR" parameterType="String" resultType="Integer">
+		select count(*) from TBL_reviewboard 
+		where userId like '%'||#{searchContent}||'%' or reviewboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+	</select>
+	
+	<!-- 내 상품 후기 개수 -->
+	<select id="getTotalMyR" parameterType="String" resultType="Integer">
+		select count(*) from TBL_reviewboard where userId=#{userId}
+	</select>
+	
+	<!-- 내 상품 후기 -->
+	<select id="getMyReviewList" parameterType="String" resultType="reviewboard">
+		select * from
+		(select rownum rn,tt.*from       
+		(select * from TBL_reviewboard 
+		where userId=#{userId}
+        order by regDate desc) tt)
+        where rn between #{startNum} and #{endNum}
+	</select>
+
+	<!-- 특정상품 후기리스트 최신2개만 가져오기 -->
+	<select id="getReviewList" parameterType="java.util.Map" resultType="reviewboard">		
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_reviewboard where productcode=#{productCode} order by regDate desc) tt)
+		where rn<![CDATA[<=]]>2	
+	</select>
+
+	<!-- 상품후기 작성 -->
+	<insert id="reviewboardWrite" parameterType="reviewboard">
+		insert into TBL_REVIEWBOARD (USERID,
+							 USEREMAIL,
+							 REVIEWBOARDCODE,
+							 REVIEWBOARDSUBJECT,
+							 REVIEWBOARDCONTENT,
+							 THUMBIMG,
+							 PRODUCTCODE,
+							 PRODUCTNAME,
+							 DISCOUNTPRICE
+							 ) 
+					values (#{userId} 
+							,#{userEmail} 
+							,reviewboardcode_seq.nextval
+							,#{reviewboardSubject}
+							,#{reviewboardContent}
+							,#{thumbImg}
+							,#{productCode}
+							,#{productName}
+							,#{discountPrice}
+							)
+	</insert>
+	
+	<!-- 모든상품문의리스트 가져오기 -->
+	<select id="getAllReviewList" parameterType="java.util.Map" resultType="reviewboard">
+		select * from
+		(select rownum rn,tt.*from
+		(select * from TBL_reviewboard order by regDate desc) tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 특정 검색후기리스트 가져오기 -->
+	<select id="reviewboardSearch" parameterType="java.util.Map" resultType="reviewboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_reviewboard 
+		where ${searchOption} like '%'||#{searchContent}||'%'
+		order by regDate desc)tt)
+		where rn between #{startNum} and #{endNum}
+	</select>
+	
+	<!-- 모든검색문의리스트 -->
+	<select id="reviewboardAllSearch" parameterType="String" resultType="reviewboard">
+		select * from
+		(select rownum rn, tt.* from
+		(select * from TBL_reviewboard 
+		where userId like '%'||#{searchContent}||'%' or reviewboardSubject like '%'||#{searchContent}||'%' or productName like '%'||#{searchContent}||'%'
+		order by regDate desc)tt)
+        where rn between #{startNum} and #{endNum}
+	</select>
+	
+	
+	<!-- 해당후기받아오기 -->
+	<select id="getReviewboard" parameterType="Integer" resultType="reviewboard">
+		select * from TBL_REVIEWBOARD where REVIEWBOARDCODE = #{reviewboardCode}
+	</select>
+	
+	<!-- 상품후기 수정 -->
+	<update id="reviewboardModify" parameterType="reviewboard">
+		update TBL_REVIEWBOARD set 
+							 
+							 USEREMAIL=#{userEmail},						 
+							 REVIEWBOARDSUBJECT=#{reviewboardSubject},
+							 REVIEWBOARDCONTENT=#{reviewboardContent}
+						 		 
+							where REVIEWBOARDCODE =#{reviewboardCode}
+	</update>
+
+	<!-- 상품후기삭제 -->
+	<delete id="reviewboardDelete" parameterType="Integer">
+		delete from TBL_REVIEWBOARD where REVIEWBOARDCODE =#{reviewboardCode} 
+	</delete>
+
+
 </mapper>
