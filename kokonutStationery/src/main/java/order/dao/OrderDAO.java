@@ -24,7 +24,15 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getOrderInfo(String userId);
 
+<<<<<<< HEAD
 	public int insertOrderlist(OrderlistDTO orderlistDTO);
 
+=======
+	public int cartOrderInfo(OrderDTO orderDTO);
+
+	
+
+	
+>>>>>>> refs/heads/hwajong0708_03
 
 }
