@@ -65,11 +65,31 @@ function chkForm(){
 		$('#userBirthMonth').focus();
 		return false;
 		
+	}else if(userBirthMonth>13 || userBirthMonth<0){
+		alert("올바른 생일형식이 아닙니다.");
+		$('#userBirthMonth').focus();
+		return false;
+		
 	}else if(!/^(?=.*[0-9]).{1,2}$/.test(userBirthDay)){
 		alert("올바른 생일형식이 아닙니다.");
 		$('#userBirthDay').focus();
 		return false;
 		
+	}else if(userBirthDay>32 || userBirthDat<1){
+		alert("올바른 생일형식이 아닙니다.");
+		$('#userBirthDay').focus();
+		return false;
+			
+	}else if(userBirthMonth=='1'||userBirthMonth=='3'||userBirthMonth=='5'||userBirthMonth=='7'||
+			userBirthMonth=='8'||userBirthMonth=='10'||userBirthMonth=='12'){
+		alert("올바른 생일형식이 아닙니다.");
+		$('#userBirthDay').focus();
+		return false;
+	}else if(userBirthMonth=='2'||userBirthMonth=='4'||userBirthMonth=='6'||
+			userBirthMonth=='9'||userBirthMonth=='11'){
+		alert("올바른 생일형식이 아닙니다.");
+		$('#userBirthDay').focus();
+		return false;
 	}else if(parseInt(dif/cYear)<14){
 		//14세 이상만 가입가능
 		alert("[오류] 14세 이상만 가입가능");
