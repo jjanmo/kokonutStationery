@@ -33,7 +33,7 @@
 			<tr>
 				<td style="vertical-align:top; padding: 30px 0;">
 					<a href="#" style="margin-bottom:0;">
-					<img src="../image/thumbImg/${cartDTO.thumbImg }" width="70"></a>
+					<img src="../image/thumb/${cartDTO.thumbImg }" width="70"></a>
 				</td>
 			
 				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
