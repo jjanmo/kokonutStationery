@@ -19,7 +19,6 @@ public class CartDAOImpl implements CartDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	
 	@Override
 	public void cartInsert(CartDTO cartDTO) {
 		sqlSession.insert("cartSQL.cartInsert", cartDTO);
@@ -74,6 +73,12 @@ public class CartDAOImpl implements CartDAO {
 	@Override
 	public CartDTO getCartDTO(int cartCode) {
 		return sqlSession.selectOne("cartSQL.getCartDTO", cartCode);
+	}
+
+	@Override
+	public void deleteCartAfterPay(int cartCode) {
+		// TODO Auto-generated method stub 
+		
 	}
 
 	/*
