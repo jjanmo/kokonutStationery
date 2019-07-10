@@ -156,7 +156,7 @@ public class OrderController {
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
 	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
-									@RequestParam String checkedValueStr) {
+									@RequestParam(required=false, defaultValue="") String checkedValueStr) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
 		mav.addObject("checkedValueStr", checkedValueStr); //cartCode
@@ -333,7 +333,7 @@ public class OrderController {
 
 	//order_cart 페이지 : 장바구니에서 선택주문에서 이동하는 페이지
 	@GetMapping("/order_cart.do")
-	public ModelAndView orderCart(@RequestParam String checkedValueStr, HttpSession session ) {
+	public ModelAndView orderCart(@RequestParam(required=false, defaultValue="") String checkedValueStr, HttpSession session ) {
 		
 		List<CartDTO> list = new ArrayList<CartDTO>();
 		String[] cartCodeStr = checkedValueStr.split(",");
