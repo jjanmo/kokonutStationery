@@ -269,7 +269,7 @@ action="contentDelete.do">
 	       		</div>
  		 	</div>
 		</div>
-  		<!--End Modal-->	
+  		<!--End Modal-->
         	
 		<!-- 체크박스 선택 X / Modal -->
 		<div id="open_nonCheckModal" class="modal">
