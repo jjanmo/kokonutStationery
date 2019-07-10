@@ -158,6 +158,7 @@
 				            <td>
 				            <span id="totalPayment1" class="box_sub_tit" style="font-size: 13px; color: #666;"></span>
 				            <span style="font-size: 13px; color: #666;">원</span>
+				            <input type="hidden" id="x_totalPayment">
 				            </td>
 				       </tr>		        
 		        	</tbody>
@@ -241,10 +242,13 @@
 <script>
 $(function(){
 var totalP = 0;	
-var paymentType = 0;
 var prdArray = new Array();
 var prdQtyArray = new Array();
 var prdOption = new Array();
+
+
+
+
 	//order 뿌리기
 	$.ajax({
 		type: 'POST',
@@ -332,6 +336,8 @@ var prdOption = new Array();
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
+			$('#totalPoint').val(data.userDTO.userPoint); //tbl_user의 totalPoint 값
+			$('#x_totalPayment').val(data.userDTO.totalPayment); //tbl_user의 totalPayment 값
 		}
 	});
 	
@@ -379,6 +385,16 @@ var prdOption = new Array();
 		}
 		
 		else{
+			
+			var paymentType = $('#paymentType').text();
+			var pt = 0;
+			if(paymentType == "카드결제"){
+				pt = 0;
+			}
+			else{
+				pt = 1;
+			}
+						
 			//orderlist생성
 			var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
 			var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
@@ -390,9 +406,13 @@ var prdOption = new Array();
 					data : { 'userId' 				: '${memId}',
 							 'userName' 		 	: '${memName}',
 							 'totalProductPayment' 	: totalProductPayment,
-							 'paymentType' 			: 1, 
+							 'paymentType' 			: pt, 
 							 'deliveryFee' 			: deliveryFee,
 							 'totalPayment' 		: totalPayment,
+							 'usePoint'				: point,
+							 'savePoint'			: totalProductPayment/10,
+							 'totalPoint'			: $('#totalPoint').val(),
+							 'x_totalPayment'		: $('#x_totalPayment').val(),
 							 'members'				: 1 },
 					dataType: 'text',
 					success: function(data){

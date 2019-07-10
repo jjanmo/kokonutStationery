@@ -46,7 +46,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.insert("orderSQL.setOrderInfo", orderDTO);
 	}
 
-	//주문정보 추가 : 옵션 있는 경우
+	//주문정보 추가 : 옵션 있는 경우 + 장바구니에서 order로 넘어와서 다시 settle로 넘어가는 경우
 	@Override
 	public int setOrderInfoOption(OrderDTO orderDTO) {
 		return sqlSession.insert("orderSQL.setOrderInfoOption", orderDTO);
@@ -81,20 +81,22 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public OrderDTO kokonutOrder(Map<String, String> map) {
-		return sqlSession.selectOne("orderSQL.kokonutOrder", map);
-	}
-	
-	@Override
-	public OrderlistDTO kokonutOrderlist(Map<String, String> map) {
-		return sqlSession.selectOne("orderSQL.kokonutOrderlist", map);
-	}
+	public List<OrderDTO> getKokonutOrder(Map<String, String> map) {
+		return sqlSession.selectList("orderSQL.getKokonutOrder", map);
+	}	
 	
 	@Override
 	public List<OrderDTO> getOrder(String orderCode) {
 		return sqlSession.selectList("orderSQL.getOrder",orderCode);
 
 	}
+
+	@Override
+	public UserDTO getKokonutInform(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.getKokonutInform", map);
+	}
+
+	
 
 	
 

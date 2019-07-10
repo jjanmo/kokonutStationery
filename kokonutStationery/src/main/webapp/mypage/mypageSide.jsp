@@ -17,11 +17,17 @@
         </tr>
         <tr>
           <td class="mem_menu">총구매액</td>
-          <td class="mem_val_td"><span class="mam_val" id="totalPayment"></span> 원</td>
+          <td class="mem_val_td">
+	          <span class="mam_val" id="totalPayment"></span> 원
+	          <input type="hidden" id="x_totalPayment">
+          </td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../mypage/mypage_pointlist.do">포인트</a></td>
-          <td class="mem_val_td"><span class="mam_val" id="userPoint"></span> 원</td>
+          <td class="mem_val_td">
+          	<span class="mam_val" id="userPoint"></span> 원
+          	<input type="hidden" id="x_userPoint">
+          </td>
         </tr>
         <tr>
           <td class="mem_menu"><a href="../cart/goods_cart.do">장바구니</a></td>
@@ -80,6 +86,9 @@ $(function(){
 			$('#userPoint').text(Number(data.userDTO.userPoint).toLocaleString('en').split(".")[0]);
 			$('#productInCart').text(data.userDTO.productInCart);
 			$('#productInWishList').text(data.userDTO.productInWishList);
+			
+			$('#x_totalPayment').val(data.userDTO.totalPayment); //총 구매금액
+			$('#x_userPoint').val(data.userDTO.userPoint); //현재 포인트 금액
 		}
 	});
 });

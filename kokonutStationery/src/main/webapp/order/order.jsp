@@ -665,6 +665,7 @@ $('#orderWriteBtn').click(function(){
 					'receiverPhone2' 	: $('#receiverPhone2').val(),
 					'receiverPhone3' 	: $('#receiverPhone3').val(),
 					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			dataType : 'text',
 			success : function(data){
 				if(data == "success"){
 					alert("고객배송정보보내기 성공");
@@ -780,7 +781,8 @@ $('#orderWriteBtn').click(function(){
 		if(option == 0){ //옵션이 없는 경우
 			var purchaseQty = '${productQty}';
 			alert(typeof purchaseQty);
-			
+			var  a = $('input[name="payType"]:checked').val();
+			alert("a : "+a);
 			$.ajax({
 				type : 'POST',
 				url : '/kokonutStationery/order/setOrderInfo.do',

@@ -9,9 +9,9 @@
 			<th><a href="/kokonutStationery/service/noticeboard.do" >공지사항</a></th>
 		</tr>
 		<tr>
-			<th>
+			<%-- <th>
 				<a onclick="checkLogin('${memId}')" id="onettone" style="cursor:pointer">1:1문의게시판</a>
-			</th>
+			</th> --%>
 		</tr>
 		<tr>
 			<th><a href="/kokonutStationery/user/find_id.do" >ID찾기</a></th>

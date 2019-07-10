@@ -90,10 +90,12 @@ $(document).ready(function(){
 						text : '일반'
 					
 					})).append($('<td/>',{//주문일시
-						text : items.orderDate
+						text : items.orderDate,
+						style : "width:100px;"
 						
 					})).append($('<td/>',{//주문번호
 						}).append($('<a/>',{
+							id : 'mypage_orderCode',
 							class : items.orderCode,
 							text : items.orderCode,
 							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode//상세 하게 되면 상세페이지 띄울 것
@@ -102,14 +104,15 @@ $(document).ready(function(){
 						text : paymentType
 					
 					})).append($('<td/>',{//주문금액
-						text : items.totalPayment
+						text : AddComma(items.totalPayment) 
 					
 					})).append($('<td/>',{//취소금액
-						text : items.crPayment	
+						text : AddComma(items.crPayment)
 					
 					})).append($('<td/>',{//주문상태
 						class : items.orderCode+"_orderState",
-						text : orderState
+						text : orderState,
+						style : "color:#2ac1bc;"
 						 
 						}).append($('<div/>',{ //주문취소버튼
 							value : items.orderCode,
@@ -132,10 +135,13 @@ $(document).ready(function(){
 						//주문상태 배송 완료 시 수령확인 뜨게
 					
 					})).append($('<td/>',{ // 상세 페이지 띄우는 거
-						}).append($('<div/>',{
-							style : 'cursor:pointer; width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;',
-							text : '보기' 
-					}))));
+						}).append($('<a/>',{
+							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
+							style : "width:40px; height:30px;" 
+							}).append($('<div/>',{
+								text : '보기', 
+								style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
+					})))));
 					
 					//주문접수 상태 시 주문취소 버튼 활성화
 					if(orderState=='주문접수'){
@@ -156,7 +162,10 @@ $(document).ready(function(){
 								type : 'post',
 								url : '../order/orderCancel.do',
 								data : {'orderCode' : items.orderCode,
-										'crPayment' : items.totalPayment},
+										'crPayment' : items.totalPayment,
+										'x_totalPayment' : $('#x_totalPayment').val(),
+										'x_userPoint' : $('#x_userPoint').val(),
+										'userId' : '${memId}'},
 								success : function(data){}//success
 							});//ajax - 주문취소
 							alert("주문취소가 완료되었습니다!");
@@ -214,6 +223,10 @@ function orderManagerPaging(pg){
 	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
 }
 
+//숫자 3자리당 쉼표찍기
+function AddComma(number) {
+	return Number(number).toLocaleString('en');
+}
 
 </script>
 

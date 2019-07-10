@@ -145,15 +145,6 @@
 						     </td>
 						    </tr>
 				   
-				          	<!-- <tr>
-					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">주소 :</td>
-					            
-					            <td style="padding:10px 0; color:#333">	
-					            	주문자 주소 빈칸	
-					            		               
-					            </td>
-					        </tr> -->
-								 
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
 								<td style="padding:5px 0">
@@ -306,11 +297,12 @@
 								
 							</td>
 							</c:if>
-							
+							<c:if test="${total >= 30000 }">
 							<td style="font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">배송비 :</td>
 							<td class="noline" style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
 								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">0</span> 원</div>
 							</td>
+							</c:if>
 						</tr>
 						
 						<tr>
@@ -362,13 +354,14 @@
 			            
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
 		            	</c:if>
-		            	
+		            	<c:if test="${total >= 30000 }">
 		            	<span id="totalP" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
 			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">
 			            
 			            <f:formatNumber pattern="###,###,###" value="${total}"/></span>
 			            
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
+			            </c:if>
 		            </td>
 		          </tr>
 		        </tbody>
@@ -417,7 +410,7 @@
 							style="text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;">취소</div>			            
 			            </div>
 			            <div style="width: 180px; display: inline-block; padding-left: 5px;">
-							<input type="submit" id="orderWriteBtn" class="main-button-s" 
+							<input type="button" id="orderWriteBtn" class="main-button-s" 
 							style="border:0px; text-align:center; height:60px; width:150px; line-height:55px; font-size: 14px; font-weight:700;" value="다음">			
 						</div>					
 			          </div>
@@ -438,31 +431,24 @@
 
 
 $(document).ready(function(){
-	//변수
- 	var thumbImg
-	var productCode
-	var productName
-	var discountPrice
-	var purchaseQty
-	var totalPrice
-	var paymentType
-	var totalPayment
-	var productOption
-	var optionContent
 	
-	var qtyStr = '${pdQtyValue}';
-	var purchaseQty = qtyStr.split(",");
-	var optionStr = '${selValue}';
-	var optionContent = optionStr.split(",");
-	
-	
-	
-	
-	
-	
+ 	var thumbImg = '${thumbImgList}';
+ 	var thumbImgArray = thumbImg.split(",");
+	var productCode = '${productCodeList}';
+	var productCodeArray = productCode.split(",");
+	var productName = '${productNameList}';
+	var productNameArray = productName.split(",");
+	var discountPrice = '${discountPriceList}';
+	var discountPriceArray = discountPrice.split(",");
+	var purchaseQty = '${purchaseQtyList}';
+	var purchaseQtyArray = purchaseQty.split(",");
+	var productOption = '${productOptionList}';
+	var productOptionArray = productOption.split(",");
+	var optionContent = '${optionContentList}';
+	var optionContentArray = optionContent.split(",");
+		
 
 	$('#sameInfo').click(function(){
-		
 		var userName = $('#userName').val();
 		var userPhone1 = $('#userPhone1').val();
 		var userPhone2 = $('#userPhone2').val();
@@ -500,11 +486,11 @@ $(document).ready(function(){
 		$('#paper_delivery').text(AddComma(2500));
 		$('#totalP').text(AddComma(totalP+2500))
 	} */
-
+ 
 
 		
 $('#orderWriteBtn').click(function(){
-	alert("aaa");
+	alert("order cart aaa");
 	//user정보 및 배송정보 
 	$.ajax({
 		type : 'POST',
@@ -529,25 +515,54 @@ $('#orderWriteBtn').click(function(){
 		
 	});
 	
+	var thumbImg = '${thumbImgList}';
+ 	var thumbImgArray = thumbImg.split(",");
+	var productCode = '${productCodeList}';
+	var productCodeArray = productCode.split(",");
+	var productName = '${productNameList}';
+	var productNameArray = productName.split(",");
+	var discountPrice = '${discountPriceList}';
+	var discountPriceArray = discountPrice.split(",");
+	var purchaseQty = '${purchaseQtyList}';
+	var purchaseQtyArray = purchaseQty.split(",");
+	var productOption = '${productOptionList}';
+	var productOptionArray = productOption.split(",");
+	var optionContent = '${optionContentList}';
+	var optionContentArray = optionContent.split(","); 
+	
+/* 	for(i=0;i<thumbImgArray.length; i++){
+		alert("thumbImgArray : " + thumbImgArray[i]);
+		alert("productCodeArray : " + productCodeArray[i]);
+		alert("productNameArray : " + productNameArray[i]);
+		alert("discountPriceArray : " + discountPriceArray[i]);
+		alert("purchaseQtyArray : " + purchaseQtyArray[i]);
+		alert("productOptionArray : " + productOptionArray[i]);
+		alert("optionContentArray : " + optionContentArray[i]);
+	} */
+	
+	
+	
+	
+	
 	//상품정보 : orderDB
-	for(i = 0 ; i < list.size ; i++){
-		alert(list.cartCode);
-		alert
+	for(i = 0 ; i < thumbImgArray.length-1 ; i++){
+		alert($('input[name="payType"]:checked').val());
 		$.ajax({
 			type : 'POST',
-			url : '/kokonutStationery/order/cartOrderInfo.do',
+			url : '/kokonutStationery/order/setOrderInfoOption.do',
 			data : {'userId' 		: '${userDTO.userId}',
 					'userName' 		: '${userDTO.userName}',
-					'thumbImg' 		: list.thumbImg,
-					'productCode' 	: list.productCode,
-					'productName'	: list.productName,
-					'discountPrice' : list.discountPrice,
-					'purchaseQty' 	: list.productQty,
-					'totalPrice'	: list.discountPrice * list.productQty,
+					'thumbImg' 		: thumbImgArray[i],
+					'productCode' 	: productCodeArray[i],
+					'productName'	: productNameArray[i],
+					'discountPrice' : discountPriceArray[i],
+					'purchaseQty' 	: purchaseQtyArray[i],
+					'totalPrice'	: discountPriceArray[i] * purchaseQtyArray[i],
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-					'productOption' : list.productOption, 
-					'optionContent' : list.optionContent },
+					'productOption' : productOptionArray[i], 
+					'optionContent' : optionContentArray[i]  
+					},
 			dataType : 'text',
 			success : function(data){
 				if(data == "success"){
@@ -561,7 +576,13 @@ $('#orderWriteBtn').click(function(){
 		
 		});
 	}
+	
 	location.href = "/kokonutStationery/order/order_settle.do";	
 			
 	});	
+	
+	//콤마찍힌 숫자 정수형으로 변환
+	function stringNumberToInt(stringNumber){
+	    return parseInt(stringNumber.replace(/,/g , ''));
+	}	
 </script>

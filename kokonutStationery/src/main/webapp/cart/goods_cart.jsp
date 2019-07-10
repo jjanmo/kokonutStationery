@@ -392,7 +392,9 @@ $('.selectDelete').click(function() {
 				optionContent = 'none';
 			} else { //옵션이 있을 때
 				optionContent = $('#optionContent' + i).val();
-				$.ajax({
+			}
+			
+			$.ajax({
 				type : 'post',
 				url : '/kokonutStationery/cart/deleteCart.do',
 				data : {
@@ -401,8 +403,7 @@ $('.selectDelete').click(function() {
 					'optionContent' : optionContent
 				}
 			});
-			} //if; 체크 유무 확인
-		}
+		} //if; 체크 유무 확인
 	} //for
 
 	//새로고침
@@ -501,18 +502,19 @@ $('.selectLike').click(function(){
 		
 //선택주문하기
 $('#selectOrderBtn').click(function(){
-	var cartCode=[];
+	
 	var checkedValue = $('input:checkbox[name=cartCheckbox]:checked'); 
 	var checkedValueStr = "";
-
+	
 	for(i = 0; i<checkedValue.length; i++){
-		checkedValueStr += (checkedValue[i].value +",");	
+		checkedValueStr += checkedValue[i].value;		//checkbox value값 = cartCode
+		checkedValueStr += ",";
 	}
 	
 	location.href="/kokonutStationery/order/order_cart.do?checkedValueStr="+checkedValueStr;
 	
-	
-/* 	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
+/* 	var cartCode=[];
+	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
 		//cartCode.push($(this).val());
 		
 		$('#selectForm').append($('<input/>',{
