@@ -142,7 +142,7 @@ $(document).ready(function(){
 					userRequest = "주문취소";
 				else if(items.exchange==1)
 					userRequest = "교환요청";
-				else if(items.refunt==1)
+				else if(items.refund==1)
 					userRequest = "환불요청";
 				else
 					userRequest = "요청없음";			
