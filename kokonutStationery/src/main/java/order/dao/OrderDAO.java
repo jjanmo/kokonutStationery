@@ -35,10 +35,13 @@ public interface OrderDAO {
 
 	public List<OrderDTO> getKokonutOrder(Map<String, String> map);	
 
-	public List<OrderDTO> getOrder(String orderCode);
-
 	public UserDTO getKokonutInform(Map<String, String> map);
 
+	public void kokonutOrderStateChange(Map<String, Object> map);
+	
+	public List<OrderDTO> getOrder(String orderCode);
+
+	
 	
 
 }
