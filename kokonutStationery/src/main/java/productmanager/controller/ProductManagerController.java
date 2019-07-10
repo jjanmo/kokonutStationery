@@ -53,8 +53,10 @@ public class ProductManagerController {
 		
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
 
-		String thumbImgPath = "C:\\Users\\hjlee1811\\git\\kokonutStationery\\kokonutStationery2\\src\\main\\webapp\\image\\thumb"; 
-		String detailedImgPath = "C:\\Users\\hjlee1811\\git\\kokonutStationery\\kokonutStationery2\\src\\main\\webapp\\image\\detailed";
+
+		String thumbImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
+		String detailedImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+
 
 		//파일 이름 지정
 		String thumbImgName = seq+".jpg";
