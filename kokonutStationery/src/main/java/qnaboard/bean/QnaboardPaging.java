@@ -24,7 +24,7 @@ public class QnaboardPaging {
 		if(endPage>totalP) endPage=totalP;//총페이지보다 endPage가 크면 totalP를 덮어씌운다
 		
 		if(startPage>pageBlock)
-			pagingHTML.append("[<span id='paging' onclick='boardPaging("+(startPage-1)+")'>이전</span>]");
+			pagingHTML.append("[<span id='paging' onclick='boardPaging("+(startPage-1)+")'>이전]</span>");
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage)
@@ -34,7 +34,7 @@ public class QnaboardPaging {
 		}
 		
 		if(endPage<totalP)
-			pagingHTML.append("[<span id='paging' onclick='boardPaging("+(endPage+1)+")'>다음</span>]");
+			pagingHTML.append("[<span id='paging' onclick='boardPaging("+(endPage+1)+")'>다음]</span>");
 		
 	}
 	

@@ -83,10 +83,14 @@
 			<option value="2">배송준비</option>
 			<option value="3">배송중</option>
 			<option value="4">배송완료</option>
+			<option value="5">교환접수</option>
+			<option value="6">교환완료</option>
+			<option value="7">환불접수</option>
+			<option value="8">환불완료</option>
 			<option value="9">주문완료</option>
 		</select>
 		<input type="button" id="order_state_change" value="주문상태 갱신">
-		<span style="width: 127px; float: right;">주문일 : ${orderDate }</span>
+		<span style="width: 186px; float: right;">주문일 : ${orderDate }</span>
 	</div>
 	<div id="order_info" style="overflow: auto;">
 		<table id="orderView_info_table" border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 10px;">
@@ -138,7 +142,7 @@ $(document).ready(function(){
 					userRequest = "주문취소";
 				else if(items.exchange==1)
 					userRequest = "교환요청";
-				else if(items.refunt==1)
+				else if(items.refund==1)
 					userRequest = "환불요청";
 				else
 					userRequest = "요청없음";			

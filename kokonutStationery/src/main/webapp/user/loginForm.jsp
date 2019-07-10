@@ -121,8 +121,23 @@ $('#order_num').click(function(){
 	}else if(kokonutOC == ''){
 		alert('주문번호를 입력해주세요');
 	}else{
-		window.open('/kokonutStationery/order/kokonutOrder.do?userName='+kokonutName+'&orderCode='+kokonutOC
-				,'','width=1100, height=500, top=200,left=200, resizable=no, toolbar=no','true');
+		$.ajax({
+			type : 'GET',
+			url : '/kokonutStationery/order/kokonutOrderSearch.do',
+			data : {'userName' : kokonutName,
+					'orderCode' : kokonutOC
+					},
+			dataType : 'text',
+			success : function(data){
+				if(data == 'success'){
+					window.open('/kokonutStationery/order/kokonutOrder.do?userName='+kokonutName+'&orderCode='+kokonutOC
+							,'','width=1100, height=500, top=200,left=200, resizable=no, toolbar=no','true');
+				}else if(data=='fail'){
+					alert("주문자명 혹은 주문번호가 맞지 않습니다.");
+				}
+			}
+		});
+		
 	}
 });
 </script>

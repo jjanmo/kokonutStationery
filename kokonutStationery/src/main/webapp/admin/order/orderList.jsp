@@ -75,7 +75,7 @@
 	width: 80px;
 	height: 27px;
 }
-}#order_selectDiv{
+#order_selectDiv{
 	width: 100%;
 	padding-bottom: 10px;
 	overflow: auto;

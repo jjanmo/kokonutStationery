@@ -93,33 +93,67 @@ $(document).ready(function(){
 							text:item.qnaboardCode
 							
 						})).append($('<td/>',{
-							id:'product_thumb'+index
-							
-							}).append($('<img/>',{
-								
-								class:'product_thumb',
-								src:'../image/thumb/'+item.thumbImg						
-						}))).append($('<td/>',{
-							id:'pName_td',
-							align: 'left'
-							
-							}).append($('<span/>',{
-								
-								}).append($('<strong/>',{
-									text:item.productName
-									
-							}))).append("<br>").append($('<span/>',{
-								text:item.qnaboardSubject
-							
-						}))).append($('<td/>',{
-							text: item.regDate
+							id:'product_thumb'+index,
+							align:'center'
+							//문의일땐 그림/ 답변일땐 답변마크
 						})).append($('<td/>',{
+							id:'pName_td'+index,
+							style:"text-align: left;"
+							//문의일땐 상품명,제목 / 답변일땐 제목만
+						})).append($('<td/>',{
+							text: item.regDate
+						
+						})).append($('<td/>',{
+								id:'productViewBtn'+index
+						
+						})));
+						
+					//문의일때
+					if(item.admin==0){
+						
+						$('#product_thumb'+index).append($('<img/>',{
+							
+							class:'product_thumb',
+							src:'../image/thumb/'+item.thumbImg	
+							
+						}));
+						
+						$('#pName_td'+index).append($('<span/>',{
+							
+							}).append($('<strong/>',{
+								text:item.productName
 								
-							}).append($('<li/>',{
+								})).append("<br>").append($('<span/>',{
+									text:item.qnaboardSubject
+				
+						})));
+						
+						$('#productViewBtn'+index).append($('<li/>',{
 								class:'white_btn product_view_btn'
 								,text:"제품보기"
 								,onclick:"goodsView("+item.productCode+")"
-						}))));
+						}))
+					}else if(item.admin==1){
+					//답변일때
+												
+						$('#product_thumb'+index).append($('<span/>',{
+							style:'font-weight:700; color:#2AC1BC; padding:10px;',
+							text: '답변 : '
+							
+						}));
+					
+						$('#pName_td'+index).append($('<span/>',{
+							
+							}).append($('<strong/>',{
+								text:item.qnaboardSubject
+							
+						})));
+						
+						$('#productViewBtn'+index).append($('<img/>',{
+							src:'../image/admin.gif'
+						}));
+					}
+					
 					
 					//내용
 					
@@ -278,33 +312,66 @@ function boardPaging(pg){
 							text:item.qnaboardCode
 							
 						})).append($('<td/>',{
-							id:'product_thumb'+index
-							
-							}).append($('<img/>',{
-								
-								class:'product_thumb',
-								src:'../image/thumb/'+item.thumbImg						
-						}))).append($('<td/>',{
-							id:'pName_td',
-							align: 'left'
-							
-							}).append($('<span/>',{
-								
-								}).append($('<strong/>',{
-									text:item.productName
-									
-							}))).append("<br>").append($('<span/>',{
-								text:item.qnaboardSubject
-							
-						}))).append($('<td/>',{
-							text: item.regDate
+							id:'product_thumb'+index,
+							align:'center'
+							//문의일땐 그림/ 답변일땐 답변마크
 						})).append($('<td/>',{
+							id:'pName_td'+index,
+							style:"text-align: left;"
+							//문의일땐 상품명,제목 / 답변일땐 제목만
+						})).append($('<td/>',{
+							text: item.regDate
+						
+						})).append($('<td/>',{
+								id:'productViewBtn'+index
+						
+						})));
+						
+					//문의일때
+					if(item.admin==0){
+						
+						$('#product_thumb'+index).append($('<img/>',{
+							
+							class:'product_thumb',
+							src:'../image/thumb/'+item.thumbImg	
+							
+						}));
+						
+						$('#pName_td'+index).append($('<span/>',{
+							
+							}).append($('<strong/>',{
+								text:item.productName
 								
-							}).append($('<li/>',{
+								})).append("<br>").append($('<span/>',{
+									text:item.qnaboardSubject
+				
+						})));
+						
+						$('#productViewBtn'+index).append($('<li/>',{
 								class:'white_btn product_view_btn'
 								,text:"제품보기"
 								,onclick:"goodsView("+item.productCode+")"
-						}))));
+						}))
+					}else if(item.admin==1){
+					//답변일때
+												
+						$('#product_thumb'+index).append($('<span/>',{
+							style:'font-weight:700; color:#2AC1BC; padding:10px;',
+							text: '답변 : '
+							
+						}));
+					
+						$('#pName_td'+index).append($('<span/>',{
+							
+							}).append($('<strong/>',{
+								text:item.qnaboardSubject
+							
+						})));
+						
+						$('#productViewBtn'+index).append($('<img/>',{
+							src:'../image/admin.gif'
+						}));
+					}
 					
 					//내용
 					

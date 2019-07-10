@@ -22,7 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 내 상품문의갯수 -->
 	<select id="getTotalMyQ" parameterType="String" resultType="Integer">
-		select count(*) from TBL_qnaboard where userId=#{userId}
+		select count(*) from TBL_qnaboard 
+		where ref in(
+		            select ref from TBL_qnaboard 
+		            where userId=#{userId}) 
+		            order by ref desc, admin asc, qnaboardcode desc
+		<!-- select count(*) from TBL_qnaboard where userId=#{userId} -->
 	</select>
 	
 	<!-- 검색한 문의갯수 -->

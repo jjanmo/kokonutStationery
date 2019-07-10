@@ -155,9 +155,11 @@ public class OrderController {
 
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
-	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint) {
+	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
+									@RequestParam String checkedValueStr) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
+		mav.addObject("checkedValueStr", checkedValueStr); //cartCode
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -238,9 +240,9 @@ public class OrderController {
 	//주문확인 전에 취소하면 비회원 아이디 삭제
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String kokonutIdCancel(@RequestParam String userId) {
+	public String kokonutIdCancel(@RequestParam String userId, HttpSession session) {
 		int su = userDAO.kokonutIdCancel(userId);
-		
+		session.invalidate();
 		if(su==1) {
 			return "success";
 		}else {
@@ -251,21 +253,70 @@ public class OrderController {
 
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String orderCancel(@RequestParam String userId) {
+	public String orderCancel(@RequestParam String userId, HttpSession session) {
 		orderDAO.orderCancel(userId);
-		
+		session.invalidate();
 		return "success";
+	}
+	
+	//비회원 주문정보 맞는지 확인
+	@RequestMapping(value="/kokonutOrderSearch.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String kokonutOrderSearch(@RequestParam Map<String, String> map) {
+		List<OrderDTO> list = orderDAO.getKokonutOrder(map);
+		//System.out.println(orderDTO);
+		if(list==null) {
+			return "fail";
+		}else{
+			return "success";
+		}
+	}
+	
+	@RequestMapping(value="/kokonutOrder.do", method=RequestMethod.GET)
+	public String kokonutOrder(@RequestParam String userName, @RequestParam String orderCode
+			,Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userName", userName);
+		map.put("orderCode", orderCode);
+		UserDTO userDTO = orderDAO.getKokonutInform(map);
+		
+		model.addAttribute("userName", userName);
+		model.addAttribute("orderCode", orderCode);
+		model.addAttribute("userDTO", userDTO);
+		return "/order/kokonutOrder";
 	}
 
 	//비회원 주문조회
-	@RequestMapping(value="/kokonutOrder.do", method=RequestMethod.GET)
-	public String kokonutOrder(@RequestParam Map<String, String> map, Model model) {
-		OrderDTO orderDTO = orderDAO.kokonutOrder(map);
-		OrderlistDTO orderlistDTO = orderDAO.kokonutOrderlist(map);
+	@RequestMapping(value="/getKokonutOrder.do", method=RequestMethod.POST)
+	public ModelAndView getKokonutOrder(@RequestParam Map<String, String> map) {
+		List<OrderDTO> list = orderDAO.getKokonutOrder(map);
 		
-		model.addAttribute("orderDTO", orderDTO);
-		model.addAttribute("orderlistDTO", orderlistDTO);
-		return "/order/kokonutOrder";
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//비회원 주문취소
+	@RequestMapping(value="/kokonutOrderStateChange.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderStateChange(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderStateChange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderExchange.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderExchange(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderExchange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderRefund.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderRefund(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderRefund(map);
+		return "success";
 	}
 
 	//주문 정보 추가 : 옵션이 있는 경우
@@ -323,6 +374,7 @@ public class OrderController {
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		ModelAndView mav = new ModelAndView();
 		
+		mav.addObject("checkedValueStr", checkedValueStr);
 		mav.addObject("thumbImgList", thumbImgList);
 		mav.addObject("productCodeList", productCodeList);
 		mav.addObject("productNameList", productNameList);

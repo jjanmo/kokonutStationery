@@ -33,7 +33,7 @@
 			<tr>
 				<td style="vertical-align:top; padding: 30px 0;">
 					<a href="#" style="margin-bottom:0;">
-					<img src="../image/thumbImg/${cartDTO.thumbImg }" width="70"></a>
+					<img src="../image/thumb/${cartDTO.thumbImg }" width="70"></a>
 				</td>
 			
 				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
@@ -66,7 +66,7 @@
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
 									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
 											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
-									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
+									<font style="font-size:15px;color:#2ac1bc;font-weight:700;"></font>									
 								</td>
 							</tr>
 						</tbody>
@@ -145,15 +145,6 @@
 						     </td>
 						    </tr>
 				   
-				          	<!-- <tr>
-					            <td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">주소 :</td>
-					            
-					            <td style="padding:10px 0; color:#333">	
-					            	주문자 주소 빈칸	
-					            		               
-					            </td>
-					        </tr> -->
-								 
 							<tr>
 								<td class="box_sub_tit" style="font-size: 13px; color: #666; font-weight:normal;">주문자 핸드폰 :</td>
 								<td style="padding:5px 0">
@@ -306,11 +297,12 @@
 								
 							</td>
 							</c:if>
-							
+							<c:if test="${total >= 30000 }">
 							<td style="font-size: 13px; color: #666; font-weight:normal; padding: 15px 0 5px 0;">배송비 :</td>
 							<td class="noline" style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
 								<div id="" style="display: block;">+ <span id="paper_delivery" style="font-weight:normal; color:#333;">0</span> 원</div>
 							</td>
+							</c:if>
 						</tr>
 						
 						<tr>
@@ -362,13 +354,14 @@
 			            
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
 		            	</c:if>
-		            	
+		            	<c:if test="${total >= 30000 }">
 		            	<span id="totalP" style="width:146px; text-align:right; font-size:28px; color:#2ac1bc; font-weight:700; 
 			            font-family: 'Montserrat', sans-serif, 'Noto Sans KR', sans-serif,Arial, dotum, 돋움;">
 			            
 			            <f:formatNumber pattern="###,###,###" value="${total}"/></span>
 			            
 			            <span style="font-size:16px; color:#2ac1bc; font-weight:700;">원</span>
+			            </c:if>
 		            </td>
 		          </tr>
 		        </tbody>
@@ -553,7 +546,7 @@ $('#orderWriteBtn').click(function(){
 	
 	//상품정보 : orderDB
 	for(i = 0 ; i < thumbImgArray.length-1 ; i++){
-		alert("order cart bbb");
+		alert($('input[name="payType"]:checked').val());
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/setOrderInfoOption.do',
@@ -584,7 +577,7 @@ $('#orderWriteBtn').click(function(){
 		});
 	}
 	
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";	
 			
 	});	
 	

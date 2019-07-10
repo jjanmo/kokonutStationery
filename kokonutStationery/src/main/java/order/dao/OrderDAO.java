@@ -33,10 +33,21 @@ public interface OrderDAO {
 
 	public void reduceSaleProductOption(Map<String, Object> map);
 
-	public OrderDTO kokonutOrder(Map<String, String> map);
+	public List<OrderDTO> getKokonutOrder(Map<String, String> map);	
 
-	public OrderlistDTO kokonutOrderlist(Map<String, String> map);
+	public UserDTO getKokonutInform(Map<String, String> map);
 
+	public void kokonutOrderStateChange(Map<String, Object> map);
+	
+	public void kokonutOrderExchange(Map<String, Object> map);
+
+	public void kokonutOrderRefund(Map<String, Object> map);
+	
 	public List<OrderDTO> getOrder(String orderCode);
+
+	
+
+	
+	
 
 }
