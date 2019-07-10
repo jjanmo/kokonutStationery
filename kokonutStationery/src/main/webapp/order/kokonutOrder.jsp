@@ -48,6 +48,24 @@
 }
 .kokonutOrder_img{
 	width: 100%;
+	height: 90%;
+	vertical-align: middle;
+	
+	transform: scale(1);
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	position:relative;
+}
+.kokonutOrder_img:hover{
+	border: 0.1px solid black;	
+	transform: scaleX(4) scaleY(5);
+	-webkit-transform: scaleX(4) scaleY(5);
+	-moz-transform: scaleX(4) scaleY(5);
+	-ms-transform: scaleX(4) scaleY(5);
+	-o-transform: scaleX(4) scaleY(5);
+	z-index: 1;
 }
 .kokonutOrder_PrdName{
 	padding-left : 10px;
@@ -122,7 +140,7 @@
 	<div id="order_totalPayment">
 		<span>상품 합계 금액 : </span><span id="totalPrice" style="width: 170px;"></span><br>
 		<span>배송비 : </span><span id="deliveryF" style="width: 170px;"></span><br>
-		<div style="border: 2px solid; margin: 10px 0;"></div>
+		<div style="border: 1px solid; margin: 10px 0;"></div>
 		결제 금액 : <span id="totalPayment" style="width: 170px;"></span>
 	</div>	
   </div>
@@ -227,6 +245,38 @@ $.ajax({
 			}else{
 				$('#cancelBtn' + index).hide();
 			}
+			
+			//주문상태 변경
+			$('#cancelBtn' + index).click(function(){
+				$.ajax({
+					type : 'post',
+					url : '/kokonutStationery/order/kokonutOrderStateChange.do',
+					data : {'orderCode' : items.orderCode,
+							'crPayment' : items.totalPrice
+							},
+					dataType : 'text',
+					success : function(data){
+						if(data=='success'){
+							alert("주문이 취소되었습니다.");
+						}
+					}
+				});
+			});
+			//총 합 금액
+			var totalPrice = 0;
+			if(items.orderState==0){
+				totalPrice = 0;
+			}else{
+				totalPrice += items.totalPrice;	
+			}			
+			
+			$('#totalPrice').append(totalPrice+' 원');
+			var deliveryF = 2500;
+			if(totalPrice>=30000||totalPrice<=0){
+				deliveryF = 0;
+			}
+			$('#deliveryF').append(deliveryF + ' 원');
+			$('#totalPayment').append(totalPrice+deliveryF + ' 원');
 		});
 	}
 })

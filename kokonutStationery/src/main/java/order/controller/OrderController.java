@@ -294,6 +294,14 @@ public class OrderController {
 		mav.setViewName("jsonView");
 		return mav;
 	}
+	
+	//비회원 주문취소
+	@RequestMapping(value="/kokonutOrderStateChange.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderStateChange(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderStateChange(map);
+		return "success";
+	}
 
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/cartOrderInfo.do", method=RequestMethod.POST)

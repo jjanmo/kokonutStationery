@@ -194,6 +194,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(select userId from tbl_order 
 		where userName = #{userName} and orderCode = #{orderCode})
 	</select>
+	<!-- 비회원 주문조회에서 주문취소시 -->
+	<update id="kokonutOrderStateChange" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set crPayment=#{crPayment}, 
+                              orderState=0 
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=0,
+                        cancel=1,
+                        cancelAmount=totalPrice,
+                        cancelQty=purchaseQty
+            where orderCode=#{orderCode};
+        end;
+	</update>
 	<!-- 주문내역 상세보기 -->
 	<select id="getOrder" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode=#{orderCode}
