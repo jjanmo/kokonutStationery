@@ -25,7 +25,7 @@
 	<div class="goods_qna_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="${goodsDTO.thumbImg }" 
+				<img src="../image/thumb/${goodsDTO.thumbImg }" 
 					 class="goods_qna_register_img" name="thumbImg" >
 				<input type="hidden" name="thumbImg" value="${goodsDTO.thumbImg }">
 				<div class="goods_qna_register_goodsName">
