@@ -82,7 +82,7 @@ public class StatisticsManagerController {
 		
 		//기간이 적혀있을 때
 		int totalA=0;
-		if(map.get("dateText1")!=null && map.get("dateText2")!=null) {
+		if(map.get("dateText1")!="" && map.get("dateText2")!="") {
 			System.out.println("날짜있음");
 			dateText1 = Integer.parseInt(map.get("dateText1").substring(6,8));
 			dateText2 = Integer.parseInt(map.get("dateText2").substring(6,8));
