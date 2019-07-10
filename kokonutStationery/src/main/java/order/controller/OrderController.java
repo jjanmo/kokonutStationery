@@ -156,7 +156,7 @@ public class OrderController {
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
 	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
-									@RequestParam String checkedValueStr) {
+									@RequestParam(required=false, defaultValue="") String checkedValueStr) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
 		mav.addObject("checkedValueStr", checkedValueStr); //cartCode
@@ -205,15 +205,23 @@ public class OrderController {
 	//ORDERLIST 생성 및 ORDER 수정
 	@RequestMapping(value="/insertOrderlist.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String insertOrderlist(@RequestParam Map<String, Object> map) {
+	public String insertOrderlist(@RequestParam Map<String, Object> map, HttpSession session) {
 		//ORDERLIST 생성
 		System.out.println(map);
 		int su = orderDAO.insertOrderlist(map);
-		if(su == 0) {
-			return "fail";
-		}
-		else {
-			return "success";
+		
+		String userId = (String) session.getAttribute("kokonutId");
+		if(userId!=null) {
+			String orderCode = orderDAO.getOrderCode(userId);
+			System.out.println(orderCode);
+			return orderCode;
+		}else {
+			if(su == 0) {
+				return "fail";
+			}
+			else {
+				return "success";
+			}
 		}
 	}
 	
@@ -318,6 +326,13 @@ public class OrderController {
 		orderDAO.kokonutOrderRefund(map);
 		return "success";
 	}
+	
+	@RequestMapping(value="/kokonutOrderOk.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderOk(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderOk(map);
+		return "success";
+	}
 
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/cartOrderInfo.do", method=RequestMethod.POST)
@@ -333,7 +348,7 @@ public class OrderController {
 
 	//order_cart 페이지 : 장바구니에서 선택주문에서 이동하는 페이지
 	@GetMapping("/order_cart.do")
-	public ModelAndView orderCart(@RequestParam String checkedValueStr, HttpSession session ) {
+	public ModelAndView orderCart(@RequestParam(required=false, defaultValue="") String checkedValueStr, HttpSession session ) {
 		
 		List<CartDTO> list = new ArrayList<CartDTO>();
 		String[] cartCodeStr = checkedValueStr.split(",");

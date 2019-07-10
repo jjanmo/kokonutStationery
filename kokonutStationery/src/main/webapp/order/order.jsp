@@ -594,7 +594,7 @@ $('#orderWriteBtn').click(function(){
 	var paywayVal = $('input[name="payType"]:checked').val();
 	var kId = 'Kokonut';
 	
-	alert('${kokonutId}'.indexOf(kId));
+	//alert('${kokonutId}'.indexOf(kId));
 	
 	//유효성검사
 	if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
@@ -671,7 +671,7 @@ $('#orderWriteBtn').click(function(){
 			dataType : 'text',
 			success : function(data){
 				if(data == "success"){
-					alert("고객배송정보보내기 성공");
+					//alert("고객배송정보보내기 성공");
 				}
 				else {
 					alert("실패!!");
@@ -683,7 +683,7 @@ $('#orderWriteBtn').click(function(){
 		//상품정보 : orderDB
 		if(option == 0){ //옵션이 없는 경우
 			var purchaseQty = '${productQty}';
-			alert(typeof purchaseQty);
+			//alert(typeof purchaseQty);
 			
 			$.ajax({
 				type : 'POST',
@@ -702,7 +702,7 @@ $('#orderWriteBtn').click(function(){
 				dataType : 'text',
 				success : function(data){
 					if(data == "success"){
-						alert("주문정보보내기 성공");
+						//alert("주문정보보내기 성공");
 					} 
 					else {
 						alert("실패!!");
@@ -738,7 +738,7 @@ $('#orderWriteBtn').click(function(){
 					dataType : 'text',
 					success : function(data){
 						if(data == "success"){
-							alert("주문정보보내기 성공");
+							//alert("주문정보보내기 성공");
 						}
 						else {
 							alert("실패!!");
@@ -771,7 +771,7 @@ $('#orderWriteBtn').click(function(){
 					'deliveryMsg' 		: $('#deliveryMsg').val() },
 			success : function(data){
 				if(data == "success"){
-					alert("고객배송정보보내기 성공");
+					//alert("고객배송정보보내기 성공");
 				}
 				else {
 					alert("실패!!");
@@ -783,9 +783,9 @@ $('#orderWriteBtn').click(function(){
 		//상품정보 : orderDB
 		if(option == 0){ //옵션이 없는 경우
 			var purchaseQty = '${productQty}';
-			alert(typeof purchaseQty);
+			//alert(typeof purchaseQty);
 			var  a = $('input[name="payType"]:checked').val();
-			alert("a : "+a);
+			//alert("a : "+a);
 			$.ajax({
 				type : 'POST',
 				url : '/kokonutStationery/order/setOrderInfo.do',
@@ -803,7 +803,7 @@ $('#orderWriteBtn').click(function(){
 				dataType : 'text',
 				success : function(data){
 					if(data == "success"){
-						alert("주문정보보내기 성공");
+						//alert("주문정보보내기 성공");
 					} 
 					else {
 						alert("실패!!");
@@ -839,7 +839,7 @@ $('#orderWriteBtn').click(function(){
 					dataType : 'text',
 					success : function(data){
 						if(data == "success"){
-							alert("주문정보보내기 성공");
+							//alert("주문정보보내기 성공");
 						}
 						else {
 							alert("실패!!");
