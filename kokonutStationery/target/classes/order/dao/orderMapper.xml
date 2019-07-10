@@ -215,6 +215,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             where orderCode=#{orderCode};
         end;
 	</update>
+	<!-- 비회원 교환요청 -->
+	<update id="kokonutOrderExchange" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=5 
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=5,
+                          exchange=1,
+                  		  exchangeQty=purchaseQty
+            where orderCode=#{orderCode};
+        end;
+	</update>
+	<!-- 비회원 환불요청 -->
+	<update id="kokonutOrderRefund" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=7
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=7,
+                          refund=1,
+	                      refundQty=purchaseQty,
+	                      refundAmount=totalPrice
+            where orderCode=#{orderCode};
+        end;
+	</update>
 	<!-- 주문내역 상세보기 -->
 	<select id="getOrder" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode=#{orderCode}

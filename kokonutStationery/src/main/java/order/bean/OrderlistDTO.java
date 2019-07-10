@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class OrderlistDTO {
 	private String orderCode;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date orderDate;
 	private String userName;
 	private String userId;

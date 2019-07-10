@@ -55,7 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			update TBL_ORDERLIST set orderState=5 
 				where orderCode=#{orderCode};
 			<!-- tbl_order -->
-			update TBL_ORDER set orderState=5
+			update TBL_ORDER set orderState=5,
+							exchange=1,
+							exchangeQty=purchaseQty 	
 				where orderCode=#{orderCode};
 		end;
 	</update>
@@ -68,7 +70,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				where orderCode=#{orderCode};
 				
 			<!-- tbl_order -->
-			update TBL_ORDER set orderState=7 
+			update TBL_ORDER set orderState=7,
+							refund=1,
+							refundQty=purchaseQty,
+							refundAmount=totalPrice 
 				where orderCode=#{orderCode};
 		end;
 	</update>

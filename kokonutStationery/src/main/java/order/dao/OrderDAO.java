@@ -39,7 +39,13 @@ public interface OrderDAO {
 
 	public void kokonutOrderStateChange(Map<String, Object> map);
 	
+	public void kokonutOrderExchange(Map<String, Object> map);
+
+	public void kokonutOrderRefund(Map<String, Object> map);
+	
 	public List<OrderDTO> getOrder(String orderCode);
+
+	
 
 	
 	

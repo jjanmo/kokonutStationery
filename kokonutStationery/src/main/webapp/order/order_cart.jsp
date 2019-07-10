@@ -33,7 +33,7 @@
 			<tr>
 				<td style="vertical-align:top; padding: 30px 0;">
 					<a href="#" style="margin-bottom:0;">
-					<img src="../image/thumbImg/${cartDTO.thumbImg }" width="70"></a>
+					<img src="../image/thumb/${cartDTO.thumbImg }" width="70"></a>
 				</td>
 			
 				<td class="ta_l order_option" style="text-align:left;vertical-align:top; padding: 30px 0;">
@@ -66,7 +66,7 @@
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
 									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
 											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
-									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
+									<font style="font-size:15px;color:#2ac1bc;font-weight:700;"></font>									
 								</td>
 							</tr>
 						</tbody>
@@ -577,7 +577,7 @@ $('#orderWriteBtn').click(function(){
 		});
 	}
 	
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";	
 			
 	});	
 	

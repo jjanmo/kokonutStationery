@@ -155,9 +155,11 @@ public class OrderController {
 
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
-	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint) {
+	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
+									@RequestParam String checkedValueStr) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
+		mav.addObject("checkedValueStr", checkedValueStr); //cartCode
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -238,9 +240,9 @@ public class OrderController {
 	//주문확인 전에 취소하면 비회원 아이디 삭제
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String kokonutIdCancel(@RequestParam String userId) {
+	public String kokonutIdCancel(@RequestParam String userId, HttpSession session) {
 		int su = userDAO.kokonutIdCancel(userId);
-		
+		session.invalidate();
 		if(su==1) {
 			return "success";
 		}else {
@@ -251,9 +253,9 @@ public class OrderController {
 
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String orderCancel(@RequestParam String userId) {
+	public String orderCancel(@RequestParam String userId, HttpSession session) {
 		orderDAO.orderCancel(userId);
-		
+		session.invalidate();
 		return "success";
 	}
 	
@@ -300,6 +302,20 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutOrderStateChange(@RequestParam Map<String, Object> map) {
 		orderDAO.kokonutOrderStateChange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderExchange.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderExchange(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderExchange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderRefund.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderRefund(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderRefund(map);
 		return "success";
 	}
 
@@ -358,6 +374,7 @@ public class OrderController {
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		ModelAndView mav = new ModelAndView();
 		
+		mav.addObject("checkedValueStr", checkedValueStr);
 		mav.addObject("thumbImgList", thumbImgList);
 		mav.addObject("productCodeList", productCodeList);
 		mav.addObject("productNameList", productNameList);
