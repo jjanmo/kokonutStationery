@@ -185,17 +185,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<!-- 비회원 주문조회 -->
-	<select id="kokonutOrder" parameterType="java.util.Map" resultType="order">
+	<select id="getKokonutOrder" parameterType="java.util.Map" resultType="order">
 		select * from TBL_ORDER where userName = #{userName} and orderCode = #{orderCode}
 	</select>
-	<select id="kokonutOrderlist" parameterType="java.util.Map" resultType="orderlist">
-		select * from TBL_ORDERLIST where userName = #{userName} and orderCode = #{orderCode}
+	<!-- 비회원 사용자정보 조회 -->
+	<select id="getKokonutInform" parameterType="java.util.Map" resultType="user">
+		select * from tbl_user where userId in 
+		(select userId from tbl_order 
+		where userName = #{userName} and orderCode = #{orderCode})
 	</select>
-	
-	
 	<!-- 주문내역 상세보기 -->
 	<select id="getOrder" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode=#{orderCode}
-
 	</select>
 </mapper>

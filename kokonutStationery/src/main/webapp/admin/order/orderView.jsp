@@ -86,7 +86,7 @@
 			<option value="9">주문완료</option>
 		</select>
 		<input type="button" id="order_state_change" value="주문상태 갱신">
-		<span style="width: 127px; float: right;">주문일 : ${orderDate }</span>
+		<span style="width: 186px; float: right;">주문일 : ${orderDate }</span>
 	</div>
 	<div id="order_info" style="overflow: auto;">
 		<table id="orderView_info_table" border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 10px;">

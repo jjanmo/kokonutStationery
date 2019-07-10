@@ -256,16 +256,43 @@ public class OrderController {
 		
 		return "success";
 	}
+	
+	//비회원 주문정보 맞는지 확인
+	@RequestMapping(value="/kokonutOrderSearch.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String kokonutOrderSearch(@RequestParam Map<String, String> map) {
+		List<OrderDTO> list = orderDAO.getKokonutOrder(map);
+		//System.out.println(orderDTO);
+		if(list==null) {
+			return "fail";
+		}else{
+			return "success";
+		}
+	}
+	
+	@RequestMapping(value="/kokonutOrder.do", method=RequestMethod.GET)
+	public String kokonutOrder(@RequestParam String userName, @RequestParam String orderCode
+			,Model model) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userName", userName);
+		map.put("orderCode", orderCode);
+		UserDTO userDTO = orderDAO.getKokonutInform(map);
+		
+		model.addAttribute("userName", userName);
+		model.addAttribute("orderCode", orderCode);
+		model.addAttribute("userDTO", userDTO);
+		return "/order/kokonutOrder";
+	}
 
 	//비회원 주문조회
-	@RequestMapping(value="/kokonutOrder.do", method=RequestMethod.GET)
-	public String kokonutOrder(@RequestParam Map<String, String> map, Model model) {
-		OrderDTO orderDTO = orderDAO.kokonutOrder(map);
-		OrderlistDTO orderlistDTO = orderDAO.kokonutOrderlist(map);
+	@RequestMapping(value="/getKokonutOrder.do", method=RequestMethod.POST)
+	public ModelAndView getKokonutOrder(@RequestParam Map<String, String> map) {
+		List<OrderDTO> list = orderDAO.getKokonutOrder(map);
 		
-		model.addAttribute("orderDTO", orderDTO);
-		model.addAttribute("orderlistDTO", orderlistDTO);
-		return "/order/kokonutOrder";
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
 	}
 
 	//주문 정보 추가 : 옵션이 있는 경우
