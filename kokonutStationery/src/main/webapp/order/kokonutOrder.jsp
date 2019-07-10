@@ -44,7 +44,7 @@
 .kokonutOrder_tr{
 	border-bottom : 1px solid #eee;
 	color : black;
-	height : 50px;
+	height : 70px;
 }
 .kokonutOrder_img{
 	width: 100%;
@@ -70,20 +70,17 @@
 .kokonutOrder_PrdName{
 	padding-left : 10px;
 }
-.receiptBtn{
+.userRequestBtn{
 	border: 1px solid #1b87d4;
 	background-color: #fff;
 	cursor: pointer;
 	color: #1b87d4;
-	font-size: 14px;
+	font-size: 10px;
 	font-weight: normal;
 }
-.receiptBtn:hover{
+.userRequestBtn:hover{
    background-color:#1b87d4;
    color:#ffffff;
-}
-.cancelBtn{
-	font-size : 10px;
 }
 #receiver_inform{
 	border: 1px solid #d9dadc;
@@ -218,7 +215,7 @@ $.ajax({
 				}).append($('<input/>', {
 					type : 'button',
 					id : 'cancelBtn' + index,
-					class : 'cancelBtn',
+					class : 'userRequestBtn',
 					value : '주문취소'
 			}))).append($('<td/>', {
 				align : 'center'
@@ -226,7 +223,17 @@ $.ajax({
 					type : 'button',
 					value : '수령확인',
 					id : 'receipt_ok' + index,
-					class : 'receiptBtn'
+					class : 'userRequestBtn'
+				})).append($('<input/>', {
+					type : 'button',
+					id : 'exchangeBtn' + index,
+					class : 'userRequestBtn',
+					value : '교환요청'
+				})).append($('<input/>', {
+					type : 'button',
+					id : 'refundBtn' + index,
+					class : 'userRequestBtn',
+					value : '환불요청'
 			}))).appendTo($('#kokonutOrder_table'));
 			
 			//옵션없는 상품은 옵션 숨기기
@@ -236,8 +243,12 @@ $.ajax({
 			//수령확인 버튼 배송완료시에만 출력
 			if(items.orderState!=4){
 				$('#receipt_ok'+index).hide();
+				$('#exchangeBtn' + index).hide();
+				$('#refundBtn' + index).hide();
 			}else{
 				$('#receipt_ok'+index).show();
+				$('#exchangeBtn' + index).show();
+				$('#refundBtn' + index).show();
 			}
 			//주문접수, 배송준비기간에 주문취소 가능하게 설정
 			if(items.orderState==1 || items.orderState==2){
@@ -245,9 +256,9 @@ $.ajax({
 			}else{
 				$('#cancelBtn' + index).hide();
 			}
-			
+			//교환 / 환불요청 버튼 배송완료때만 보이게 설정
 			//주문상태 변경
-			$('#cancelBtn' + index).click(function(){
+			$('#cancelBtn' + index).click(function(){//주문취소
 				$.ajax({
 					type : 'post',
 					url : '/kokonutStationery/order/kokonutOrderStateChange.do',
@@ -262,6 +273,34 @@ $.ajax({
 					}
 				});
 			});
+			$('#exchangeBtn' + index).click(function(){//교환
+				$.ajax({
+					type : 'post',
+					url : '/kokonutStationery/order/kokonutOrderExchange.do',
+					data : {'orderCode' : items.orderCode
+							},
+					dataType : 'text',
+					success : function(data){
+						if(data=='success'){
+							alert("교환요청되었습니다.");
+						}
+					}
+				});
+			});
+			$('#refundBtn' + index).click(function(){//환불
+				$.ajax({
+					type : 'post',
+					url : '/kokonutStationery/order/kokonutOrderRefund.do',
+					data : {'orderCode' : items.orderCode
+							},
+					dataType : 'text',
+					success : function(data){
+						if(data=='success'){
+							alert("환불요청되었습니다.");
+						}
+					}
+				});
+			})
 			//총 합 금액
 			var totalPrice = 0;
 			if(items.orderState==0){

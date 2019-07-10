@@ -96,10 +96,22 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
+	public void kokonutOrderExchange(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderExchange", map);
+	}
+
+	@Override
+	public void kokonutOrderRefund(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderRefund", map);
+	}
+	
+	@Override
 	public List<OrderDTO> getOrder(String orderCode) {
 		return sqlSession.selectList("orderSQL.getOrder",orderCode);
 
 	}
+
+	
 
 	
 

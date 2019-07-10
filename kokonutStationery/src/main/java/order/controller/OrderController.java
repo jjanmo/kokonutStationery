@@ -238,9 +238,9 @@ public class OrderController {
 	//주문확인 전에 취소하면 비회원 아이디 삭제
 	@RequestMapping(value="/kokonutIdCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String kokonutIdCancel(@RequestParam String userId) {
+	public String kokonutIdCancel(@RequestParam String userId, HttpSession session) {
 		int su = userDAO.kokonutIdCancel(userId);
-		
+		session.invalidate();
 		if(su==1) {
 			return "success";
 		}else {
@@ -251,9 +251,9 @@ public class OrderController {
 
 	@RequestMapping(value="/orderCancel.do", method=RequestMethod.GET)
 	@ResponseBody
-	public String orderCancel(@RequestParam String userId) {
+	public String orderCancel(@RequestParam String userId, HttpSession session) {
 		orderDAO.orderCancel(userId);
-		
+		session.invalidate();
 		return "success";
 	}
 	
@@ -300,6 +300,20 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutOrderStateChange(@RequestParam Map<String, Object> map) {
 		orderDAO.kokonutOrderStateChange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderExchange.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderExchange(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderExchange(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderRefund.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderRefund(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderRefund(map);
 		return "success";
 	}
 
