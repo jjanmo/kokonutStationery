@@ -34,8 +34,6 @@ public interface CartDAO {
 	public CartDTO getCartDTO(int cartCode);
 
 	public void deleteCartAfterPay(int cartCode);
-	
-	
-	
+
 
 }

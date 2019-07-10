@@ -577,7 +577,7 @@ $('#orderWriteBtn').click(function(){
 		});
 	}
 	
-	location.href = "/kokonutStationery/order/order_settle.do";	
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";	
 			
 	});	
 	
