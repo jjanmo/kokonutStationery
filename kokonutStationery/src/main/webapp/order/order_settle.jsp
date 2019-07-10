@@ -246,9 +246,6 @@ var prdArray = new Array();
 var prdQtyArray = new Array();
 var prdOption = new Array();
 
-
-
-
 	//order 뿌리기
 	$.ajax({
 		type: 'POST',
@@ -468,7 +465,23 @@ var prdOption = new Array();
 						}
 					}
 				}); 
-			} 
+			}
+			
+			//선택주문상품 장바구니에서 삭제
+			var checkedValueStr = '${checkedValueStr}';
+			var cartCodeArray = checkedValueStr.split(",");
+			//alert(cartCodeArray.length);
+			
+			for(i=0; i<cartCodeArray.length-1; i++) {
+				$.ajax({
+					type: 'POST',
+					url: '/kokonutStationery/cart/deleteCartAfterPay.do',
+					data: {'userId': '${memId}',
+						   'cartCode': cartCodeArray[i]}
+				});
+			}
+			
+			
 			location.href="/kokonutStationery/main/index.do";
 		}
 	});

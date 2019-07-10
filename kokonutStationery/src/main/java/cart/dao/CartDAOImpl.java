@@ -76,6 +76,11 @@ public class CartDAOImpl implements CartDAO {
 		return sqlSession.selectOne("cartSQL.getCartDTO", cartCode);
 	}
 
+	@Override
+	public void deleteCartAfterPay(int cartCode) {
+		sqlSession.delete("cartSQL.deleteCartAfterPay", cartCode);
+	}
+
 	/*
 	 * @Override public List<CartDTO> cartOrder(String userId) { return
 	 * sqlSession.selectList("cartSQL.cartOrder", userId); }

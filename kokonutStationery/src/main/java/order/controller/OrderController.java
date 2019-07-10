@@ -155,9 +155,11 @@ public class OrderController {
 
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
-	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint) {
+	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
+									@RequestParam String checkedValueStr) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
+		mav.addObject("checkedValueStr", checkedValueStr); //cartCode
 		mav.addObject("display", "/order/order_settle.jsp");
 		mav.setViewName("/main/nosIndex");
 		return mav;
@@ -323,6 +325,7 @@ public class OrderController {
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		ModelAndView mav = new ModelAndView();
 		
+		mav.addObject("checkedValueStr", checkedValueStr);
 		mav.addObject("thumbImgList", thumbImgList);
 		mav.addObject("productCodeList", productCodeList);
 		mav.addObject("productNameList", productNameList);
