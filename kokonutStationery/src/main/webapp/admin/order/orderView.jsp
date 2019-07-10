@@ -83,6 +83,10 @@
 			<option value="2">배송준비</option>
 			<option value="3">배송중</option>
 			<option value="4">배송완료</option>
+			<option value="5">교환접수</option>
+			<option value="6">교환완료</option>
+			<option value="7">환불접수</option>
+			<option value="8">환불완료</option>
 			<option value="9">주문완료</option>
 		</select>
 		<input type="button" id="order_state_change" value="주문상태 갱신">
