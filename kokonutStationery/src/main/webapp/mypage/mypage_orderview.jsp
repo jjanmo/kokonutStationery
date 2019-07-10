@@ -86,7 +86,13 @@
         </tr>
         <tr>
           <td id="box_name">총주문금액 :</td>
-          <td>${orderDTO.totalPrice }원</td>
+          <td>
+          		<c:set var="sum" value="0"/>
+	          <c:forEach var="orderDTO" items="${list}">
+	          	<c:set var="sum" value="${sum+orderDTO.totalPrice}"/>
+	          </c:forEach>
+	          	<c:out value="${sum}"/>
+          	원</td>
         </tr>
         <tr>
           <td>사용포인트 :</td>
@@ -94,11 +100,27 @@
         </tr>
         <tr>
           <td>배송비 :</td>
-          <td>2,500원</td>
+          <td>
+          <c:if test="${sum>=30000 }">
+          0원 (조건부 무료)
+          </c:if>
+          <c:if test="${sum<30000 }">
+          2,500원
+          </c:if>
+          	</td>
         </tr>
         <tr>
           <td>결제금액 :</td>
-          <td><span class="color_2ac1bc">${orderDTO.totalPayment }원</span></td>
+          <td>
+	          <span class="color_2ac1bc">
+	          <c:if test="${sum>=30000 }">
+	          	<c:out value="${sum}"/>원
+	          </c:if>
+	          <c:if test="${sum<30000 }">
+	          	<c:out value="${sum+2500}"/>원
+	          </c:if>
+	          </span>
+          </td>
         </tr>
         <tr>
           <td id="pament_info" colspan="2">
