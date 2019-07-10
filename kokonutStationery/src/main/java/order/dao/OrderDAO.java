@@ -26,6 +26,7 @@ public interface OrderDAO {
 
 	public int insertOrderlist(Map<String, Object> map);
 	//public int insertOrderlist(OrderlistDTO orderlistDTO);
+	public String getOrderCode(String userId);
 	
 	public void orderCancel(String userId);
 
@@ -43,7 +44,12 @@ public interface OrderDAO {
 
 	public void kokonutOrderRefund(Map<String, Object> map);
 	
+	public void kokonutOrderOk(Map<String, Object> map);
+	
 	public List<OrderDTO> getOrder(String orderCode);
+
+	
+
 
 	
 
