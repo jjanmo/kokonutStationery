@@ -203,15 +203,23 @@ public class OrderController {
 	//ORDERLIST 생성 및 ORDER 수정
 	@RequestMapping(value="/insertOrderlist.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String insertOrderlist(@RequestParam Map<String, Object> map) {
+	public String insertOrderlist(@RequestParam Map<String, Object> map, HttpSession session) {
 		//ORDERLIST 생성
 		System.out.println(map);
 		int su = orderDAO.insertOrderlist(map);
-		if(su == 0) {
-			return "fail";
-		}
-		else {
-			return "success";
+		
+		String userId = (String) session.getAttribute("kokonutId");
+		if(userId!=null) {
+			String orderCode = orderDAO.getOrderCode(userId);
+			System.out.println(orderCode);
+			return orderCode;
+		}else {
+			if(su == 0) {
+				return "fail";
+			}
+			else {
+				return "success";
+			}
 		}
 	}
 	
@@ -314,6 +322,13 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutOrderRefund(@RequestParam Map<String, Object> map) {
 		orderDAO.kokonutOrderRefund(map);
+		return "success";
+	}
+	
+	@RequestMapping(value="/kokonutOrderOk.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String kokonutOrderOk(@RequestParam Map<String, Object> map) {
+		orderDAO.kokonutOrderOk(map);
 		return "success";
 	}
 

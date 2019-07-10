@@ -245,10 +245,6 @@ var totalP = 0;
 var prdArray = new Array();
 var prdQtyArray = new Array();
 var prdOption = new Array();
-
-
-
-
 	//order 뿌리기
 	$.ajax({
 		type: 'POST',
@@ -256,7 +252,7 @@ var prdOption = new Array();
 		url: '/kokonutStationery/order/getOrder.do',
 		dataType: 'json',
 		success: function(data){
-			alert("데이터출력");
+			//alert("데이터출력");
 			$.each(data.list, function(index, item) {
 				$('<tr/>').append($('<td/>',{
 					style: "vertical-align: middle; padding: 30px 0;"
@@ -399,6 +395,7 @@ var prdOption = new Array();
 			var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
 			var totalPayment = stringNumberToInt($('#totalPayment1').text());		//총결제금액
 			var deliveryFee = stringNumberToInt($('#deliveryFee').text());
+			//회원
 			if('${kokonutId}' == ''){
 				$.ajax({
 					type : 'POST',
@@ -417,14 +414,16 @@ var prdOption = new Array();
 					dataType: 'text',
 					success: function(data){
 						if(data == "success"){
-							alert("orderlist 생성 및 order 수정 완료");
+							//alert("orderlist 생성 및 order 수정 완료");
+							alert("상품 구매가 완료되었습니다.")
 						}
 						else{
-							alert("orderlist 생성  실패 및 order 수정 ");
+							//alert("orderlist 생성  실패 및 order 수정 ");
 						}
 					}
 					
 				});//ajax orderlist/order수정
+			//비회원
 			}else if('${memId}' == ''){
 				$.ajax({
 					type : 'POST',
@@ -438,19 +437,20 @@ var prdOption = new Array();
 							 'members'				: 0 },
 					dataType: 'text',
 					success: function(data){
-						if(data == "success"){
-							alert("orderlist 생성 및 order 수정 완료");
+							if('${memId}' == ''){							
+								alert("상품 구매가 완료되었습니다. " + " 주문번호 : " + data);
+							}else if(data == "success"){
+								//alert("orderlist 생성 및 order 수정 완료");
+								alert("상품 구매가 완료되었습니다. ");
+							}else{
+								//alert("orderlist 생성  실패 및 order 수정 ");
+							}
 						}
-						else{
-							alert("orderlist 생성  실패 및 order 수정 ");
-						}
-					}
-					
 				});
 			}
 			
 			for(var i=0; i<prdArray.length; i++){
-				alert(prdArray[i] + '//' + prdOption[i]);
+				//alert(prdArray[i] + '//' + prdOption[i]);
 				$.ajax({
 					type : 'POST',
 					url : '/kokonutStationery/order/reduceSaleProduct.do',
@@ -461,10 +461,10 @@ var prdOption = new Array();
 					dataType : 'text',
 					success : function(data){
 						if(data == "success"){
-							alert("상품 재고 수정완료");
+							//alert("상품 재고 수정완료");
 						}
 						else{
-							alert("상품 재고 수정실패 ");
+							//alert("상품 재고 수정실패 ");
 						}
 					}
 				}); 
@@ -482,7 +482,7 @@ var prdOption = new Array();
 				dataType : 'text',
 				success : function(data){
 					if(data=='success'){
-						alert("확인");
+						//alert("확인");
 						window.history.back();
 					}
 				}
@@ -497,7 +497,7 @@ var prdOption = new Array();
 				dataType : 'text',
 				success : function(data){
 					if(data=='success'){
-						alert("확인");
+						//alert("확인");
 						window.history.back();
 					}
 				}
