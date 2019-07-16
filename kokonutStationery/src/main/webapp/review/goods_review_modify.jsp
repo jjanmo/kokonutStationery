@@ -25,7 +25,7 @@
 	<div class="goods_review_register_content">
 		<div style="border-bottom: 1px solid #eee; height: 82px;">
 			<div style="width: 830px; margin: 0 auto 20px auto;">
-				<img src="${reviewboardDTO.thumbImg }" 
+				<img src="../image/thumb/${reviewboardDTO.thumbImg }"
 					 class="goods_review_register_img" name="thumbImg" >
 				<input type="hidden" name="thumbImg" value="${reviewboardDTO.thumbImg }">
 				<div class="goods_review_register_goodsName">

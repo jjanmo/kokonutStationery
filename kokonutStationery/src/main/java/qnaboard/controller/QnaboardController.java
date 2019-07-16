@@ -42,8 +42,9 @@ public class QnaboardController {
 		
 		//페이징처리
 		int totalA = qnaboardDAO.getTotalMyQ(userId);
+		System.out.println("내상품문의 총갯수="+totalA);
 		qnaboardPaging.setCurrentPage(Integer.parseInt(pg));
-		qnaboardPaging.setPageBlock(5);
+		qnaboardPaging.setPageBlock(3);
 		qnaboardPaging.setPageSize(5);
 		qnaboardPaging.setTotalA(totalA);
 		

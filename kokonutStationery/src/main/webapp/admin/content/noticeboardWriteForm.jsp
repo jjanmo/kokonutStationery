@@ -103,7 +103,7 @@
 <div id="open_confirmModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
-            <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상 품 삭 제</span></b></span></p>
+            <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">공지사항 등록</span></b></span></p>
             <p style="text-align: center; line-height: 1.5;"><br />공지사항을 등록하시겠습니까?</p>
             <p><br /></p>
 

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOrderList" parameterType="java.util.Map" resultType="orderlist">
 		select * from 
 		(select rownum rn, tt.* from
-		(select * from TBL_ORDERLIST order by orderCode desc) tt)
+		(select * from TBL_ORDERLIST order by orderDate desc, orderCode desc) tt)
 		where rn between #{startNum} and ${endNum}
 	</select>
 	<!-- 리스트 전체 수 -->

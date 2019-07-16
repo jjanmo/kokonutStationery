@@ -66,7 +66,7 @@
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
 									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
 											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
-									<font style="font-size:15px;color:#2ac1bc;font-weight:700;">원</font>									
+									<font style="font-size:15px;color:#2ac1bc;font-weight:700;"></font>									
 								</td>
 							</tr>
 						</tbody>
@@ -424,7 +424,6 @@
 </div>
 
 
-
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
@@ -472,26 +471,112 @@ $(document).ready(function(){
 	/* //포인트
 	var totalPoint = ${userDTO.userPoint};
 	var usingPoint = $('#usingPoint').val(0);
-	var remainingPoint = $('#remainingPoint').val(totalPoint);	
+	var remainingPoint = $('#remainingPoint').val(totalPoint);
 	$('#totalPoint').val(totalPoint);
-	
+
 	if(totalP > 30000){
 		$('#goodsPrice').text(AddComma(totalP));
 		$('#paper_delivery').text(0);
 		$('#totalP').text(AddComma(totalP))
 	}
-	
+
 	else {
 		$('#goodsPrice').text(AddComma(totalP));
 		$('#paper_delivery').text(AddComma(2500));
 		$('#totalP').text(AddComma(totalP+2500))
 	} */
- 
 
-		
+
+
+/* ## 2019-07-10 추가 시작 ## */
+//상품합계금액과 포인트
+function totalP(){
+	var totalPriceArray = new Array();
+	totalPriceArray = $('.totalPrice');
+	var totalP = 0;
+	for(var i=0; i<totalPriceArray.length; i++){
+		var price = totalPriceArray.eq(i).text();
+		price = price.slice(0, price.length-1) * 1;
+		totalP += price;
+	}
+	$('#totalPrice').text(AddComma(totalP));
+
+	//포인트
+	var totalPoint = ${userDTO.userPoint};
+	var usingPoint = $('#usingPoint').val(0);
+	var remainingPoint = $('#remainingPoint').val(totalPoint);
+	$('#totalPoint').val(totalPoint);
+
+	if(totalP > 30000){
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(0);
+		$('#totalP').text(AddComma(totalP))
+	}
+
+	else {
+		$('#goodsPrice').text(AddComma(totalP));
+		$('#paper_delivery').text(AddComma(2500));
+		$('#totalP').text(AddComma(totalP+2500))
+	}
+}
+
+//포인트 사용
+function usePoint(){
+	var usePoint = $('#usingPoint').val();
+	var totalPoint = ${userDTO.userPoint};
+	var totalP = stringNumberToInt($('#goodsPrice').text())
+				+ stringNumberToInt($('#paper_delivery').text());  //포인트사용전의 결제금액
+
+	//숫자만 들어오게 유효성 검사
+	if(isNaN(usePoint)){
+		alert("1000원 단위의 숫자를 입력해주세요");
+		$('#usingPoint').val(0);
+	}
+
+	//1000단위로 사용
+	else if( usePoint < 1000 && usePoint > 0){
+		alert("1000원 이상부터 사용가능합니다")
+		$('#usingPoint').val(0);
+	}
+
+	//사용 가능한 포인트보다 큰 숫자 제한
+	else if(totalPoint < usePoint) {
+		alert("사용 가능한 포인트보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}
+
+	//총 결제금액보다 큰 숫자 제한
+	else if(totalP < usePoint) {
+		alert("총 결제금액보다 큰 숫자는 입력하실 수 없습니다.")
+		$('#usingPoint').val(0);
+	}
+
+	else {
+		var remainPoint = totalPoint*1 - usePoint*1;
+		var usePoint = $('#usingPoint').val();
+		$('#remainingPoint').val(remainPoint);
+		totalP = totalP - usePoint;
+		$('#totalP').text(AddComma(totalP));
+	}
+}
+
+//숫자 3자리당 쉼표찍기
+function AddComma(number) {
+	return Number(number).toLocaleString('en');
+}
+
+//콤마찍힌 숫자 정수형으로 변환
+function stringNumberToInt(stringNumber){
+    return parseInt(stringNumber.replace(/,/g , ''));
+}
+/* ## 2019-07-10 추가 끝 ## */
+
+
+
+//다음 버튼 이벤트
 $('#orderWriteBtn').click(function(){
 	alert("order cart aaa");
-	//user정보 및 배송정보 
+	//user정보 및 배송정보
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
@@ -512,9 +597,9 @@ $('#orderWriteBtn').click(function(){
 				alert("실패!!");
 			}
 		}
-		
+
 	});
-	
+
 	var thumbImg = '${thumbImgList}';
  	var thumbImgArray = thumbImg.split(",");
 	var productCode = '${productCodeList}';
@@ -528,8 +613,8 @@ $('#orderWriteBtn').click(function(){
 	var productOption = '${productOptionList}';
 	var productOptionArray = productOption.split(",");
 	var optionContent = '${optionContentList}';
-	var optionContentArray = optionContent.split(","); 
-	
+	var optionContentArray = optionContent.split(",");
+
 /* 	for(i=0;i<thumbImgArray.length; i++){
 		alert("thumbImgArray : " + thumbImgArray[i]);
 		alert("productCodeArray : " + productCodeArray[i]);
@@ -539,11 +624,11 @@ $('#orderWriteBtn').click(function(){
 		alert("productOptionArray : " + productOptionArray[i]);
 		alert("optionContentArray : " + optionContentArray[i]);
 	} */
-	
-	
-	
-	
-	
+
+
+
+
+
 	//상품정보 : orderDB
 	for(i = 0 ; i < thumbImgArray.length-1 ; i++){
 		alert($('input[name="payType"]:checked').val());
@@ -560,29 +645,32 @@ $('#orderWriteBtn').click(function(){
 					'totalPrice'	: discountPriceArray[i] * purchaseQtyArray[i],
 					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
 					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-					'productOption' : productOptionArray[i], 
-					'optionContent' : optionContentArray[i]  
+					'productOption' : productOptionArray[i],
+					'optionContent' : optionContentArray[i]
 					},
 			dataType : 'text',
 			success : function(data){
 				if(data == "success"){
 					alert("주문정보보내기 성공");
-				} 
+				}
 				else {
 					alert("실패!!");
 				}
-				
+
 			}
-		
+
 		});
 	}
-	
-	location.href = "/kokonutStationery/order/order_settle.do";	
-			
-	});	
-	
+
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
+
+	});
+
 	//콤마찍힌 숫자 정수형으로 변환
 	function stringNumberToInt(stringNumber){
 	    return parseInt(stringNumber.replace(/,/g , ''));
-	}	
+	}
 </script>
+
+
+

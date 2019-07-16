@@ -269,7 +269,7 @@ action="contentDelete.do">
 	       		</div>
  		 	</div>
 		</div>
-  		<!--End Modal-->	
+  		<!--End Modal-->
         	
 		<!-- 체크박스 선택 X / Modal -->
 		<div id="open_nonCheckModal" class="modal">
@@ -550,8 +550,10 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 								align : 'center',
 								text : items.regDate
 							})).appendTo($('#contentTable'));
+						
 					}//if - admin==0
 					
+					//admin일 경우
 					else if(items.admin==1) {
 						$('<tr/>',{
 							class : 'subjectTr',
@@ -590,21 +592,35 @@ $('#product_qna').click(function(){ // 상품문의 탭 누를 경우
 					
 					
 										
-					//문의 선택 내용 생성
-					$('<tr/>').append($('<td/>',{
+					//문의 선택 내용 생성 - admin==0일 때
+					if(items.admin==0){
+						$('<tr/>').append($('<td/>',{
+								text : items.qnaboardContent,
+								style : 'padding: 35px 60px 75px 130px; border-top:none;',
+								colspan : 6,
+								class : 'contentA',
+								id : items.qnaboardCode
+								
+							}).append($('<div/>',{ //답변 버튼
+								style : 'width:50px; height:25px; float:right; border:2px solid #808080; text-align:center; cursor:pointer;',
+								text : '답변',
+								id : 'replyA',
+								class : items.qnaboardCode
+								
+							}))).appendTo($('#contentTable'));
+					}//if admin==0
+					
+					if(items.admin==1){
+						$('<tr/>').append($('<td/>',{
 							text : items.qnaboardContent,
 							style : 'padding: 35px 60px 75px 130px; border-top:none;',
 							colspan : 6,
 							class : 'contentA',
 							id : items.qnaboardCode
 							
-						}).append($('<div/>',{ //답변 버튼
-							style : 'width:50px; height:25px; float:right; border:2px solid #808080; text-align:center; cursor:pointer;',
-							text : '답변',
-							id : 'replyA',
-							class : items.qnaboardCode
-							
-						}))).appendTo($('#contentTable'));		
+						})).appendTo($('#contentTable'));
+					}//if admin==1
+					
 					
 					$('.contentA').hide();
 				});//each

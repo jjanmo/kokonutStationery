@@ -18,7 +18,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
-		update TBL_USER set  receiverName 	= #{receiverName}
+		update TBL_USER set userName = #{userName}
+							,userPhone1 = #{userPhone1}
+							,userPhone2 = #{userPhone2}
+							,userPhone3 = #{userPhone3}
+							,userEmail = #{userEmail} 
+							,receiverName 	= #{receiverName}
 							,receiverAddr1 	= #{receiverAddr1}
 							,receiverAddr2 	= #{receiverAddr2}
 							,receiverZipcode = #{receiverZipcode}
@@ -160,7 +165,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 		end;
 	</insert>
-		
+	<!-- 비회원일때 주문번호 리턴 -->
+	<select id="getOrderCode" parameterType="String" resultType="String">
+		select orderCode from TBL_ORDER where userId = #{userId}
+	</select>
 	<!-- 재고처리 옵션없음 -->
 	<update id="reduceSaleProduct" parameterType="java.util.Map">
 		update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
@@ -185,17 +193,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<!-- 비회원 주문조회 -->
-	<select id="kokonutOrder" parameterType="java.util.Map" resultType="order">
+	<select id="getKokonutOrder" parameterType="java.util.Map" resultType="order">
 		select * from TBL_ORDER where userName = #{userName} and orderCode = #{orderCode}
 	</select>
-	<select id="kokonutOrderlist" parameterType="java.util.Map" resultType="orderlist">
-		select * from TBL_ORDERLIST where userName = #{userName} and orderCode = #{orderCode}
+	<!-- 비회원 사용자정보 조회 -->
+	<select id="getKokonutInform" parameterType="java.util.Map" resultType="user">
+		select * from tbl_user where userId in 
+		(select userId from tbl_order 
+		where userName = #{userName} and orderCode = #{orderCode})
 	</select>
-	
-	
+	<!-- 비회원 주문조회에서 주문취소시 -->
+	<update id="kokonutOrderStateChange" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set crPayment=#{crPayment}, 
+                              orderState=0 
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=0,
+                        cancel=1,
+                        cancelAmount=totalPrice,
+                        cancelQty=purchaseQty
+            where orderCode=#{orderCode};
+        end;
+	</update>
+	<!-- 비회원 교환요청 -->
+	<update id="kokonutOrderExchange" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=5 
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=5,
+                          exchange=1,
+                  		  exchangeQty=purchaseQty
+            where orderCode=#{orderCode};
+        end;
+	</update>
+	<!-- 비회원 환불요청 -->
+	<update id="kokonutOrderRefund" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=7
+            where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=7,
+                          refund=1,
+	                      refundQty=purchaseQty,
+	                      refundAmount=totalPrice
+            where orderCode=#{orderCode};
+        end;
+	</update>
+	<!-- 비회원 수령확인 -->
+	<update id="kokonutOrderOk" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=9 where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=9 where orderCode=#{orderCode};
+        end;
+	</update>
 	<!-- 주문내역 상세보기 -->
 	<select id="getOrder" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode=#{orderCode}
-
 	</select>
 </mapper>

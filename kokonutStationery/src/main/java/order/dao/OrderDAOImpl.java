@@ -64,6 +64,11 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.insert("orderSQL.insertOrderlist", map);
 	}
 	
+	@Override
+	public String getOrderCode(String userId) {
+		return sqlSession.selectOne("orderSQL.getOrderCode", userId);
+	}
+	
 	//재고처리
 	@Override
 	public void reduceSaleProduct(Map<String, Object> map) {
@@ -81,13 +86,33 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public OrderDTO kokonutOrder(Map<String, String> map) {
-		return sqlSession.selectOne("orderSQL.kokonutOrder", map);
+	public List<OrderDTO> getKokonutOrder(Map<String, String> map) {
+		return sqlSession.selectList("orderSQL.getKokonutOrder", map);
+	}	
+	
+	@Override
+	public UserDTO getKokonutInform(Map<String, String> map) {
+		return sqlSession.selectOne("orderSQL.getKokonutInform", map);
+	}
+
+	@Override
+	public void kokonutOrderStateChange(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderStateChange", map);
 	}
 	
 	@Override
-	public OrderlistDTO kokonutOrderlist(Map<String, String> map) {
-		return sqlSession.selectOne("orderSQL.kokonutOrderlist", map);
+	public void kokonutOrderExchange(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderExchange", map);
+	}
+
+	@Override
+	public void kokonutOrderRefund(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderRefund", map);
+	}
+	
+	@Override
+	public void kokonutOrderOk(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderOk", map);
 	}
 	
 	@Override
@@ -95,6 +120,16 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.selectList("orderSQL.getOrder",orderCode);
 
 	}
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 

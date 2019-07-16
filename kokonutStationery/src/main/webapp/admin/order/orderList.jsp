@@ -75,7 +75,7 @@
 	width: 80px;
 	height: 27px;
 }
-}#order_selectDiv{
+#order_selectDiv{
 	width: 100%;
 	padding-bottom: 10px;
 	overflow: auto;
@@ -335,9 +335,9 @@ $(document).ready(function(){
 		success : function(data){
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
-				if(items.paymentType==0)
+				if(items.paymentType==1)
 					var paymentType = '신용카드';
-				else if(items.paymentType==1)
+				else if(items.paymentType==2)
 					var paymentType = '핸드폰 결제';
 				
 				if(items.orderState==0)
@@ -357,7 +357,9 @@ $(document).ready(function(){
 				else if(items.orderState==7)
 					var orderState = '환불접수';
 				else if(items.orderState==8)
-					var orderState = '환불완료';				
+					var orderState = '환불완료';		
+				else if(items.orderState==9)
+					var orderState = '수령확인';
 				
 				//상품이름 외 x건 출력
 				var orderProductName="";
