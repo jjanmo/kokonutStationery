@@ -48,7 +48,6 @@
 }
 .kokonutOrder_img{
 	width: 100%;
-	height: 90%;
 	vertical-align: middle;
 	
 	transform: scale(1);
@@ -178,6 +177,8 @@ $.ajax({
 				var orderState = '환불접수';
 			else if(items.orderState==8)
 				var orderState = '환불완료';	
+			else if(items.orderState==9)
+				var orderState = '수령확인';
 						
 			$('<tr/>',{
 				class : 'kokonutOrder_tr'
@@ -192,7 +193,7 @@ $.ajax({
 				value : items.thumbImg
 				}).append($('<img/>', {
 					class : 'kokonutOrder_img',
-					src : '/kokonutStationery/image/thumbImg/' + items.thumbImg
+					src : '/kokonutStationery/image/thumb/' + items.thumbImg
 			}))).append($('<td/>', {
 				align : 'left',
 				class : 'kokonutOrder_PrdName',
@@ -301,6 +302,20 @@ $.ajax({
 					}
 				});
 			})
+			$('#receipt_ok' + index).click(function(){//수령확인
+				$.ajax({
+					type : 'post',
+					url : '/kokonutStationery/order/kokonutOrderOk.do',
+					data : {'orderCode' : items.orderCode
+							},
+					dataType : 'text',
+					success : function(data){
+						if(data=='success'){
+							alert("수령확인되었습니다.");
+						}
+					}
+				});
+			});
 			//총 합 금액
 			var totalPrice = 0;
 			if(items.orderState==0){

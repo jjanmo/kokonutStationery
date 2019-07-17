@@ -165,7 +165,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 		end;
 	</insert>
-		
+	<!-- 비회원일때 주문번호 리턴 -->
+	<select id="getOrderCode" parameterType="String" resultType="String">
+		select orderCode from TBL_ORDER where userId = #{userId}
+	</select>
 	<!-- 재고처리 옵션없음 -->
 	<update id="reduceSaleProduct" parameterType="java.util.Map">
 		update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
@@ -242,6 +245,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	                      refundQty=purchaseQty,
 	                      refundAmount=totalPrice
             where orderCode=#{orderCode};
+        end;
+	</update>
+	<!-- 비회원 수령확인 -->
+	<update id="kokonutOrderOk" parameterType="java.util.Map">
+		begin
+         <!-- tbl_orderlist -->
+         update TBL_ORDERLIST set orderState=9 where orderCode=#{orderCode};
+         
+         <!-- tbl_order -->
+         update TBL_ORDER set orderState=9 where orderCode=#{orderCode};
         end;
 	</update>
 	<!-- 주문내역 상세보기 -->

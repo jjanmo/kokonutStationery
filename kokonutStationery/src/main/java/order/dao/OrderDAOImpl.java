@@ -64,6 +64,11 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.insert("orderSQL.insertOrderlist", map);
 	}
 	
+	@Override
+	public String getOrderCode(String userId) {
+		return sqlSession.selectOne("orderSQL.getOrderCode", userId);
+	}
+	
 	//재고처리
 	@Override
 	public void reduceSaleProduct(Map<String, Object> map) {
@@ -106,10 +111,19 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
+	public void kokonutOrderOk(Map<String, Object> map) {
+		sqlSession.update("orderSQL.kokonutOrderOk", map);
+	}
+	
+	@Override
 	public List<OrderDTO> getOrder(String orderCode) {
 		return sqlSession.selectList("orderSQL.getOrder",orderCode);
 
 	}
+
+	
+
+	
 
 	
 
