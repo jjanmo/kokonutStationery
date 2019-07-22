@@ -321,6 +321,7 @@ $(document).ready(function(){
 		$('#pwdChkWarn').css('visibility','hidden');
 		$('#pwdChkWarn2').css('visibility','hidden');	
 		$('#pwdChkOk').css('visibility','hidden');
+		$('#pwdChkOk2').css('visibility','hidden');
 		$('#pwdChkGood').css('visibility','hidden');
 	 });
 	
