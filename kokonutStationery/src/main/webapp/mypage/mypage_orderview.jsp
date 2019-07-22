@@ -30,7 +30,38 @@
 	          <td>${orderDTO.productName }</td>
 	          <td>${orderDTO.totalPrice }원</td>
 	          <td>${orderDTO.purchaseQty }개</td>
-	          <td><span class="color_2ac1bc">결제시도</span></td>
+	          <td>
+	          	<span class="color_2ac1bc">
+	          		
+	          		<c:if test="${orderDTO.orderState==0 }">
+	          			주문취소
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==1 }">
+	          			주문접수
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==2 }">
+	          			배송준비
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==3 }">
+	          			배송중
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==4 }">
+	          			배송완료
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==5 }">
+	          			교환접수
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==6 }">
+	          			교환완료
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==7 }">
+	          			횐불접수
+	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==8 }">
+	          			환불완료
+	          		</c:if>
+	          	</span>
+	          </td>
 	          <td></td>
 	        </tr>
         </c:forEach>
@@ -135,12 +166,17 @@
         <tr>
           <td id="box_name">결제방법 :</td>
           <td>
+          <c:set var="loop" value="false"/>
+           <c:forEach var="orderDTO" items="${list}">
+           <c:if test="${not loop }">
           	<c:if test="${orderDTO.paymentType == 0 }">
-          		신용카드
+          		신용카드 <c:set var="loop" value="true"/>
           	</c:if>
           	<c:if test="${orderDTO.paymentType == 1 }">
-          		핸드폰
+          		핸드폰 <c:set var="loop" value="true"/>
           	</c:if>
+          	</c:if>
+          	</c:forEach>
           </td>
         </tr>
       </table>
