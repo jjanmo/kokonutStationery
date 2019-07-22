@@ -168,14 +168,14 @@
           <td>
           <c:set var="loop" value="false"/>
            <c:forEach var="orderDTO" items="${list}">
-           <c:if test="${not loop }">
-          	<c:if test="${orderDTO.paymentType == 0 }">
-          		신용카드 <c:set var="loop" value="true"/>
-          	</c:if>
-          	<c:if test="${orderDTO.paymentType == 1 }">
-          		핸드폰 <c:set var="loop" value="true"/>
-          	</c:if>
-          	</c:if>
+	          <c:if test="${not loop }">
+	          <c:if test="${orderDTO.paymentType == 0 }">
+	          	신용카드 <c:set var="loop" value="true"/>
+	          </c:if>
+	          <c:if test="${orderDTO.paymentType == 1 }">
+	          	핸드폰 <c:set var="loop" value="true"/>
+	          </c:if>
+	          </c:if>
           	</c:forEach>
           </td>
         </tr>
