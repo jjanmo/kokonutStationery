@@ -254,13 +254,21 @@ $(document).ready(function(){
 	$('input[name="agree"]').change(function(){
 		if($('input[name="private1"]:checked').val()=='yes')
 			$('#all').prop('checked',true);
+		
+		if($('input[name="agree"]:checked').val()=='no'){//하나가 no로 바뀌면 전체선택 해제
+			$('#all').prop('checked',false);
+		}
+			
 	});
 	$('input[name="private1"]').change(function(){
 		if($('input[name="agree"]:checked').val()=='yes')
 			$('#all').prop('checked',true);
+		
+		if($('input[name="private1"]:checked').val()=='no'){//하나가 no로 바뀌면 전체선택 해제
+			$('#all').prop('checked',false);
+		}
 	});
 	
-	//전체선택 체크되어있을때 동의x선택시 전체선택 체크X
 	
 	
 	

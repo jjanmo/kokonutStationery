@@ -209,6 +209,11 @@ padding-left:10px;
 		  		<strong>비밀번호 안전도 <font style="color:#2ac1bc">낮음</font></strong><br>
 		  		예상하기 쉬운 비밀번호 입니다.
 		  	</div>
+		  	<div id="pwdChkOk2" style="visibility:hidden;
+		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
+		  		<strong>비밀번호 안전도 <font style="color:#2ac1bc">보통</font></strong><br>
+		  		적절한 비밀번호 입니다.
+		  	</div>
 		  	<div id="pwdChkGood" style="visibility:hidden;
 		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
 		  		<strong>비밀번호 안전도 <font style="color:blue">높음</font></strong><br>
@@ -439,25 +444,39 @@ $(document).ready(function(){
 	    	//10자리미만일 때 
 	    	$('#pwdChkWarn').css('visibility','visible');	
 	    	$('#pwdChk').addClass('pwdWarn');
-	    	$('#pwdChk').removeClass('pwdOk');
-	    	
+	    	$('#pwdChk').removeClass('pwdOk');	    	
 	    	
 		}else if(currentVal.length>=10){
 			//10자리이상일 때	
-			if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{10,20}$/.test(currentVal) ){
-				//영어대소문자 숫자 특수기호로 10자리 이상으로 만들었을 때 
+			if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{15,20}$/.test(currentVal) ){
+				//영어대소문자 숫자 특수기호로 15자리 이상으로 만들었을 때 - 높음
 				$('#pwdChkGood').css('visibility','visible');
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
 				
+			}else if( /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
+				//영어대소문자 숫자 특수기호로 10자리 이상으로 만들었을 때 - 보통
+				$('#pwdChkOk2').css('visibility','visible');
+				$('#pwdChk').addClass('pwdOk');
+				$('#pwdChk').removeClass('pwdWarn');
+				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
-				//영어대소문자  특수기호로 10자리 이상으로 만들었을 때 
+				//영어대소문자  특수기호로 10자리 이상으로 만들었을 때 - 낮음
+				//alert("영어특수기호");
 				$('#pwdChkOk').css('visibility','visible');
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
 				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,20}$/.test(currentVal) ){
-				//영어대소문자 숫자 10자리 이상으로 만들었을 때 
+				//영어대소문자 숫자 10자리 이상으로 만들었을 때 - 낮음
+				//alert("영어숫자");
+				$('#pwdChkOk').css('visibility','visible');
+				$('#pwdChk').addClass('pwdOk');
+				$('#pwdChk').removeClass('pwdWarn');
+				
+			}else if( /^(?=.*[0-9])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
+				//숫자  특수기호로 10자리 이상으로 만들었을 때 - 낮음
+				//alert("숫자특수기호");
 				$('#pwdChkOk').css('visibility','visible');
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
