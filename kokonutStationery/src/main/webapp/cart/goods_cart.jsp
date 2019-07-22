@@ -236,6 +236,7 @@
 }; */
 
 
+
 $('.cart_select').click(function() {
 	if($('.cart_select').hasClass('checkedAll')) {
 		$('input[name=cartCheckbox]').prop('checked', false);

@@ -417,6 +417,7 @@ var prdOption = new Array();
 						if(data == "success"){
 							//alert("orderlist 생성 및 order 수정 완료");
 							alert("상품 구매가 완료되었습니다.")
+							
 						}
 						else{
 							//alert("orderlist 생성  실패 및 order 수정 ");

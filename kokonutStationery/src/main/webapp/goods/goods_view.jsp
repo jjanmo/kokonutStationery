@@ -357,6 +357,7 @@ function createDiv(sel){
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
+	
 	/* 
 	//옵션코드
 	$('#inputDiv'+ optionCnt).append($('<input>',{
@@ -639,6 +640,7 @@ $('#cartBtn').click(function(){
 					   'optionContent': 'none'
 					   }
 			}); //ajax
+		
 		} else { //옵션이 있을 때
 			if(selArray.length==0) {
 				alert('종류 선택하세요.');
@@ -655,15 +657,15 @@ $('#cartBtn').click(function(){
 							   'productOption': '${goodsDTO.productOption}',
 							   'thumbImg': '${goodsDTO.thumbImg}',
 							   'discountPrice': '${goodsDTO.discountPrice}',
-							   'productQty' : $('#productQty').val(),
+							   'productQty' : $('#option_productQty'+i).val(),
 							   'optionContent': selArray[i]
 							   }
 					}); //ajax
 				} //for
 			}//if~else
 		} //if~else
-			
 		//페이지 이동
+		
 		location.href = "/kokonutStationery/cart/goods_cart.do";
 	} //if~else
 });
