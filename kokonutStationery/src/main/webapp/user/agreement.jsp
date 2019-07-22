@@ -259,7 +259,10 @@ $(document).ready(function(){
 		if($('input[name="agree"]:checked').val()=='yes')
 			$('#all').prop('checked',true);
 	});
-		
+	
+	//전체선택 체크되어있을때 동의x선택시 전체선택 체크X
+	
+	
 	
 	$('#nextBtn').click(function(){
 		var agreeVal = $('input[name="agree"]:checked').val();

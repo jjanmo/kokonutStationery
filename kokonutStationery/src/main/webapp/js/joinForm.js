@@ -60,13 +60,19 @@ function chkForm(){
 		$('#userBirthYear').focus();
 		return false;
 		
+	}else if(parseInt(dif/cYear)<14){
+		//14세 이상만 가입가능
+		alert("[오류] 14세 이상만 가입가능");
+		$('#userBirthYear').focus();
+		return false;
+		
 	}else if(!/^(?=.*[0-9]).{1,2}$/.test(userBirthMonth)){
 		alert("올바른 생일형식이 아닙니다.");
 		$('#userBirthMonth').focus();
 		return false;
 		
-	}else if(userBirthMonth>13 || userBirthMonth<0){
-		alert("올바른 생일형식이 아닙니다.");
+	}else if(userBirthMonth<1 || userBirthMonth>12){
+		alert("1~12월 까지 입력이 가능합니다.");
 		$('#userBirthMonth').focus();
 		return false;
 		
@@ -75,26 +81,25 @@ function chkForm(){
 		$('#userBirthDay').focus();
 		return false;
 		
-	}else if(userBirthDay>32 || userBirthDat<1){
-		alert("올바른 생일형식이 아닙니다.");
+	}else if(userBirthDay<1 || userBirthDay>31){
+		alert("1~31일까지 입력이 가능합니다.");
 		$('#userBirthDay').focus();
 		return false;
 			
-	}else if(userBirthMonth=='1'||userBirthMonth=='3'||userBirthMonth=='5'||userBirthMonth=='7'||
-			userBirthMonth=='8'||userBirthMonth=='10'||userBirthMonth=='12'){
-		alert("올바른 생일형식이 아닙니다.");
+	}else if( (userBirthMonth==4||userBirthMonth==6||
+			userBirthMonth==9||userBirthMonth==11)&& userBirthDay==31){
+		
+		alert("해당 월에 올바른 날짜가 아닙니다.");
 		$('#userBirthDay').focus();
 		return false;
-	}else if(userBirthMonth=='2'||userBirthMonth=='4'||userBirthMonth=='6'||
-			userBirthMonth=='9'||userBirthMonth=='11'){
-		alert("올바른 생일형식이 아닙니다.");
-		$('#userBirthDay').focus();
-		return false;
-	}else if(parseInt(dif/cYear)<14){
-		//14세 이상만 가입가능
-		alert("[오류] 14세 이상만 가입가능");
-		$('#userBirthYear').focus();
-		return false;
+		
+	}else if( userBirthMonth==2){
+		var isleap = (userBirthYear % 4 == 0 && (userBirthYear % 100 != 0 || userBirthYear % 400 == 0));
+		if (userBirthDay>29 || (userBirthDay==29 && !isleap)) {
+            alert(userBirthYear + "년 2월은  " + userBirthDay + "일이 없습니다.");
+            return false;
+       }
+		
 		
 	}else if( !chkEmail.test($('#userEmail').val()) ){
 		alert("올바른 이메일 형식이 아닙니다.");
