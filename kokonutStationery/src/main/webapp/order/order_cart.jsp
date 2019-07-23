@@ -580,6 +580,14 @@ $('#orderWriteBtn').click(function(){
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
 		data : {'userId'			: '${memId}',
+<<<<<<< HEAD
+=======
+				'userName'			: '${memName}',
+				'userPhone1'		: '${userDTO.userPhone1}',
+				'userPhone2'		: '${userDTO.userPhone2}',
+				'userPhone3'		: '${userDTO.userPhone3}',
+				'userEmail'			: '${userDTO.userEmail}',
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 				'receiverName' 		: $('#receiverName').val(),
 				'receiverAddr1' 	: $('#receiverAddr1').val(),
 				'receiverAddr2' 	: $('#receiverAddr2').val(),
@@ -634,7 +642,7 @@ $('#orderWriteBtn').click(function(){
 		$.ajax({
 			type : 'POST',
 			url : '/kokonutStationery/order/setOrderInfoOption.do',
-			data : {'userId' 		: '${userDTO.userId}',
+			data : {'userId' 		: '${memId}',
 					'userName' 		: '${userDTO.userName}',
 					'thumbImg' 		: thumbImgArray[i],
 					'productCode' 	: productCodeArray[i],
