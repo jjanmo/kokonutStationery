@@ -69,4 +69,9 @@ public class OrderlistController {
 		orderlistDAO.orderRefund(orderCode);
 	}
 	
+	@RequestMapping(value="/order/orderReceipt.do",method=RequestMethod.POST)
+	public void orderReceipt(@RequestParam String orderCode) {
+		orderlistDAO.orderReceipt(orderCode);
+	}
+	
 }

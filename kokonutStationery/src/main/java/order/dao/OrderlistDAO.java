@@ -17,4 +17,6 @@ public interface OrderlistDAO {
 
 	public void orderRefund(String orderCode);
 
+	public void orderReceipt(String orderCode);
+
 }
