@@ -1,3 +1,4 @@
+    
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -245,7 +246,6 @@ var totalP = 0;
 var prdArray = new Array();
 var prdQtyArray = new Array();
 var prdOption = new Array();
-
 	//order 뿌리기
 	$.ajax({
 		type: 'POST',
@@ -372,8 +372,6 @@ var prdOption = new Array();
 	else {
 		$('#paymentType').text("핸드폰");
 	}
-
-
 	$('#payBtn').click(function(){
 		var payAgreeVal = $('input[name="payAgree"]:checked').val();
 		
@@ -417,7 +415,6 @@ var prdOption = new Array();
 						if(data == "success"){
 							//alert("orderlist 생성 및 order 수정 완료");
 							alert("상품 구매가 완료되었습니다.")
-							
 						}
 						else{
 							//alert("orderlist 생성  실패 및 order 수정 ");
@@ -528,7 +525,6 @@ var prdOption = new Array();
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
 }
-
 //콤마찍힌 숫자 정수형으로 변환
 function stringNumberToInt(stringNumber){
     return parseInt(stringNumber.replace(/,/g , ''));

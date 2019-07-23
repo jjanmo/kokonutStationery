@@ -575,12 +575,11 @@ function stringNumberToInt(stringNumber){
 
 //다음 버튼 이벤트
 $('#orderWriteBtn').click(function(){
-	alert("order cart aaa");
 	//user정보 및 배송정보
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
-		data : {'userId'			: '${userDTO.userId}',
+		data : {'userId'			: '${memId}',
 				'receiverName' 		: $('#receiverName').val(),
 				'receiverAddr1' 	: $('#receiverAddr1').val(),
 				'receiverAddr2' 	: $('#receiverAddr2').val(),
