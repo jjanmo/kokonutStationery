@@ -655,7 +655,7 @@ $('#cartBtn').click(function(){
 							   'productOption': '${goodsDTO.productOption}',
 							   'thumbImg': '${goodsDTO.thumbImg}',
 							   'discountPrice': '${goodsDTO.discountPrice}',
-							   'productQty' : $('#productQty').val(),
+							   'productQty' : $('#option_productQty'+i).val(),
 							   'optionContent': selArray[i]
 							   }
 					}); //ajax
