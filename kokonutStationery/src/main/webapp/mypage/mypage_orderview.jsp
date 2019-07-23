@@ -26,7 +26,7 @@
         </tr>
         <c:forEach var="orderDTO" items="${list}">
 	        <tr class="mypage_table_content orderview_content">
-	          <td id="product_thumb"><img src="../image/"${orderDTO.thumbImg }></td>
+	          <td id="product_thumb"><img id="thumbimg" src="../image/thumb/${orderDTO.thumbImg }"></td>
 	          <td>${orderDTO.productName }</td>
 	          <td>${orderDTO.totalPrice }원</td>
 	          <td>${orderDTO.purchaseQty }개</td>
