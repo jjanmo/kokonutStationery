@@ -247,7 +247,7 @@ $(document).ready(function(){
 	
 	$('#userPwd').on('propertychange change keyup paste input', function(){
 		var currentVal = $(this).val();
-		
+		console.log("currentVal="+currentVal+", oldVal="+oldVal);
 		if(currentVal.length == 0){
 
 			$('#pwdChkWarn').css('visibility','hidden');
@@ -268,6 +268,10 @@ $(document).ready(function(){
 	    	$('#pwdChk').addClass('pwdWarn');
 	    	$('#pwdChk').removeClass('pwdOk');
 	    	
+	    	$('#pwdChkWarn2').css('visibility','hidden');	
+			$('#pwdChkOk').css('visibility','hidden');
+			$('#pwdChkOk2').css('visibility','hidden');
+			$('#pwdChkGood').css('visibility','hidden');
 		}else if(currentVal.length>=10){
 			//10자리이상일 때
 			
@@ -278,12 +282,22 @@ $(document).ready(function(){
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
 				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkWarn2').css('visibility','hidden');	
+				$('#pwdChkOk').css('visibility','hidden');
+				$('#pwdChkOk2').css('visibility','hidden');
+				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
 				//영어대소문자  숫자 특수기호로 10자리 이상으로 만들었을 때 - 보통
 				//alert("영어특수기호");
 				$('#pwdChkOk2').css('visibility','visible');
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
+				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkWarn2').css('visibility','hidden');	
+				$('#pwdChkOk').css('visibility','hidden');
+				$('#pwdChkGood').css('visibility','hidden');
 				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
 				//영어대소문자  특수기호로 10자리 이상으로 만들었을 때 - 낮음
@@ -292,12 +306,22 @@ $(document).ready(function(){
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
 				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkWarn2').css('visibility','hidden');	
+				$('#pwdChkOk2').css('visibility','hidden');
+				$('#pwdChkGood').css('visibility','hidden');
+				
 			}else if( /^(?=.*[a-zA-Z])(?=.*[0-9]).{10,20}$/.test(currentVal) ){
 				//영어대소문자 숫자 10자리 이상으로 만들었을 때 - 낮음
 				//alert("영어숫자");
 				$('#pwdChkOk').css('visibility','visible');
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
+				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkWarn2').css('visibility','hidden');	
+				$('#pwdChkOk2').css('visibility','hidden');
+				$('#pwdChkGood').css('visibility','hidden');
 				
 			}else if( /^(?=.*[0-9])(?=.*[!@#$%^*+=-]).{10,20}$/.test(currentVal) ){
 				//숫자  특수기호로 10자리 이상으로 만들었을 때 - 낮음
@@ -306,10 +330,20 @@ $(document).ready(function(){
 				$('#pwdChk').addClass('pwdOk');
 				$('#pwdChk').removeClass('pwdWarn');
 				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkWarn2').css('visibility','hidden');	
+				$('#pwdChkOk2').css('visibility','hidden');
+				$('#pwdChkGood').css('visibility','hidden');
+				
 			}else{
 				$('#pwdChkWarn2').css('visibility','visible');
 				$('#pwdChk').addClass('pwdWarn');
 				$('#pwdChk').removeClass('pwdOk');
+				
+				$('#pwdChkWarn').css('visibility','hidden');
+				$('#pwdChkOk').css('visibility','hidden');
+				$('#pwdChkOk2').css('visibility','hidden');
+				$('#pwdChkGood').css('visibility','hidden');
 				//alert("에러");	
 			}
 		}
