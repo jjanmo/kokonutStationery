@@ -247,12 +247,13 @@ $(document).ready(function(){
 	
 	$('#userPwd').on('propertychange change keyup paste input', function(){
 		var currentVal = $(this).val();
-		console.log("currentVal="+currentVal+", oldVal="+oldVal);
+		//console.log("currentVal="+currentVal+", oldVal="+oldVal);
 		if(currentVal.length == 0){
 
 			$('#pwdChkWarn').css('visibility','hidden');
 			$('#pwdChkWarn2').css('visibility','hidden');	
 			$('#pwdChkOk').css('visibility','hidden');
+			$('#pwdChkOk2').css('visibility','hidden');
 			$('#pwdChkGood').css('visibility','hidden');
 		}
 		
