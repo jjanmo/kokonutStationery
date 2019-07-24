@@ -206,7 +206,7 @@ padding-left:10px;
 		  	</div>
 		  	<div id="pwdChkOk" style="visibility:hidden;
 		  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
-		  		<strong>비밀번호 안전도 <font style="color:#2ac1bc">낮음</font></strong><br>
+		  		<strong>비밀번호 안전도 <font style="color:#9FC93C">낮음</font></strong><br>
 		  		예상하기 쉬운 비밀번호 입니다.
 		  	</div>
 		  	<div id="pwdChkOk2" style="visibility:hidden;
