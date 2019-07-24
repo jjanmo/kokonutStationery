@@ -9,9 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import goods.bean.GoodsDTO;
@@ -153,6 +155,17 @@ public class GoodsController {
 		mav.addObject("list", list);
 		mav.setViewName("jsonView");
 		return mav;
+	}
+	
+	
+	//깜짝세일 페이지 - 기한 만료 시 discount를 0으로 변환
+	@RequestMapping(value="/discountDelete.do", method=RequestMethod.GET)
+	@ResponseBody
+	public String discountDelete() {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("category", "discount");
+		goodsDAO.discountDelete(map);
+		return "discountDelete_Ok";
 	}
 	
 

@@ -150,7 +150,7 @@
 
    <!-- Modal content -->
    <div class="modal-content">
-             <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상 품 삭 제</span></b></span></p>
+             <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">회 원 삭 제</span></b></span></p>
              <p style="text-align: center; line-height: 1.5;"><br />정말 삭제하시겠습니까?</p>
              <p><br /></p>
 
@@ -217,7 +217,7 @@
 			</div>
 		</form>
 		
-		<div id="userSeach_list" align="left" style="margin-top: 50px;">
+		<div id="userSeach_list" align="left" style="margin-top: 50px;"> 
 			<form id="userListForm" action="/kokonutStationery/admin/userDelete.do" method="post">
 				<table id="userSearchTable" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 					<tr>

@@ -51,4 +51,10 @@ public class GoodsDAOImpl implements GoodsDAO {
 	public List<ProductOptionDTO> getOption(int productCode) {
 		return sqlSession.selectList("goodsSQL.getOption", productCode);
 	}
+
+	//깜짝세일페이지 - 기한 만료 시 discount 0 만들기
+	@Override
+	public void discountDelete(Map<String, String> map) {
+		sqlSession.update("goodsSQL.discountDelete", map);	
+	}
 }

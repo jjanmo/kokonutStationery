@@ -13,4 +13,5 @@ public interface GoodsDAO {
 	public List<TotalProductOnSaleDTO> get_count();
 	public GoodsDTO getGoodsView(int productCode);
 	public List<ProductOptionDTO> getOption(int productCode);
+	public void discountDelete(Map<String, String> map);
 }
