@@ -21,8 +21,8 @@
           <th id="product_subject"></th>
           <th id="product_price">판매가</th>
           <th id="qty">수량</th>
-          <th id="delivery">배송상태</th>
-          <th id="delivery_ps">배송추적·이용후기</th>
+          <th id="delivery">주문상태</th>
+          <!-- <th id="delivery_ps">배송추적·이용후기</th> -->
         </tr>
         <c:forEach var="orderDTO" items="${list}">
 	        <tr class="mypage_table_content orderview_content">
@@ -87,7 +87,7 @@
           			<input type="button" id="order_receiptOk" class="orderStateBtn" value="수령확인">
           		</c:if>
 	          </td>
-	          <td></td>
+	         
 	        </tr>
         </c:forEach>
       </table>

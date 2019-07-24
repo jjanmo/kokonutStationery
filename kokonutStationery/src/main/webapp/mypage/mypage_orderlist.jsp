@@ -26,7 +26,7 @@
         <th id="order_totalPayment">주문금액</th>
         <th id="crPayment">취소금액</th>
         <th id="orderState">주문상태</th>
-        <th id="delivery">수령확인</th>
+        <th id="delivery">교환/환불</th>
         <th id="orderview"></th>
       </tr>
 
@@ -88,67 +88,74 @@ $(document).ready(function(){
 						id : 'mypage_table_content_'+index,
 						class : 'mypage_table_content review_content' 
 					
-					}).append($('<td/>',{//구분
-						text : '일반'
-					
-					})).append($('<td/>',{//주문일시
-						text : items.orderDate,
-						style : "width:100px;"
+						}).append($('<td/>',{//구분
+							text : '일반'
 						
-					})).append($('<td/>',{//주문번호
-						}).append($('<a/>',{
-							id : 'mypage_orderCode',
-							class : items.orderCode,
-							text : items.orderCode,
-							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode//상세 하게 되면 상세페이지 띄울 것
-						
-					}))).append($('<td/>',{//결제방법
-						text : paymentType
-					
-					})).append($('<td/>',{//주문금액
-						text : AddComma(items.totalPayment) 
-					
-					})).append($('<td/>',{//취소금액
-						text : AddComma(items.crPayment)
-					
-					})).append($('<td/>',{//주문상태
-						class : items.orderCode+"_orderState",
-						text : orderState,
-						style : "color:#2ac1bc;"
-						 
-						}).append($('<div/>',{ //주문취소버튼
-							value : items.orderCode,
-							class : items.orderCode+"_cancelBtn",
-							text : '주문취소',
-							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
-						
-						})).append($('<div/>',{ // 교환버튼
-							class : items.orderCode+"_changeBtn",
-							text : '교환',
-							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+						})).append($('<td/>',{//주문일시
+							text : items.orderDate,
+							style : "width:100px;"
 							
-						})).append($('<div/>',{ // 환불 버튼
-							class : items.orderCode+"_refundBtn",
-							text : '환불',
-							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+						})).append($('<td/>',{//주문번호
+							}).append($('<a/>',{
+								id : 'mypage_orderCode',
+								class : items.orderCode,
+								text : items.orderCode,
+								href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode//상세 하게 되면 상세페이지 띄울 것
+								
+							})).append($('<a/>',{
+								href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode
+								
+								}).append($('<div/>',{
+									text : '상세보기', 
+									style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+						
+						})))).append($('<td/>',{//결제방법
+							text : paymentType
+						
+						})).append($('<td/>',{//주문금액
+							text : AddComma(items.totalPayment) 
+						
+						})).append($('<td/>',{//취소금액
+							text : AddComma(items.crPayment)
+						
+						})).append($('<td/>',{//주문상태
+							class : items.orderCode+"_orderState",
+							text : orderState,
+							style : "color:#2ac1bc;"
+							 
+							}).append($('<div/>',{ //주문취소버튼
+								value : items.orderCode,
+								class : items.orderCode+"_cancelBtn",
+								text : '주문취소',
+								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
-						}))).append($('<td/>',{//수령확인칸
-							class : items.orderCode+"_delivery"
-						//주문상태 배송 완료 시 수령확인 뜨게
-						}).append($('<div/>',{ // 수령 버튼
-							class : items.orderCode+"_receiptBtn",
-							text : '수령',
-							style : 'cursor:pointer; color:grey; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+							})).append($('<div/>',{ // 교환버튼
+								class : items.orderCode+"_changeBtn",
+								text : '교환',
+								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+								
+							})).append($('<div/>',{ // 환불 버튼
+								class : items.orderCode+"_refundBtn",
+								text : '환불',
+								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+								
+							}))).append($('<td/>',{//수령확인칸
+								class : items.orderCode+"_delivery"
+							//주문상태 배송 완료 시 수령확인 뜨게
+							}).append($('<div/>',{ // 수령 버튼
+								class : items.orderCode+"_receiptBtn",
+								text : '수령',
+								style : 'cursor:pointer; color:gray; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+								
 							
 						
-					
-					}))).append($('<td/>',{ // 상세 페이지 띄우는 거
-						}).append($('<a/>',{
-							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
-							style : "width:40px; height:30px;" 
-							}).append($('<div/>',{
-								text : '보기', 
-								style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
+						}))).append($('<td/>',{ // 상세 페이지 띄우는 거
+							}).append($('<a/>',{
+								href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
+								style : "width:40px; height:30px;" 
+								}).append($('<div/>',{
+									text : '보기', 
+									style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
 					})))));
 					
 					//주문접수/배송준비 상태 시 주문취소 버튼 활성화
