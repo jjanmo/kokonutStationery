@@ -79,6 +79,8 @@ $(document).ready(function(){
 						var orderState = '환불접수';
 					else if(items.orderState==8)
 						var orderState = '환불완료';
+					else if(items.orderState==9)
+						var orderState = '수령확인';
 					
 					
 					
@@ -118,23 +120,29 @@ $(document).ready(function(){
 							value : items.orderCode,
 							class : items.orderCode+"_cancelBtn",
 							text : '주문취소',
-							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 						
 						})).append($('<div/>',{ // 교환버튼
 							class : items.orderCode+"_changeBtn",
 							text : '교환',
-							style : 'cursor:pointer; color:grey; margin-top:8px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						})).append($('<div/>',{ // 환불 버튼
 							class : items.orderCode+"_refundBtn",
 							text : '환불',
-							style : 'cursor:pointer; color:grey; margin-top:3px; margin-left:47px; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+							style : 'cursor:pointer; color:grey; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
 						}))).append($('<td/>',{//수령확인칸
-						class : items.orderCode+"_delivery"
+							class : items.orderCode+"_delivery"
 						//주문상태 배송 완료 시 수령확인 뜨게
+						}).append($('<div/>',{ // 수령 버튼
+							class : items.orderCode+"_receiptBtn",
+							text : '수령',
+							style : 'cursor:pointer; color:grey; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+							
+						
 					
-					})).append($('<td/>',{ // 상세 페이지 띄우는 거
+					}))).append($('<td/>',{ // 상세 페이지 띄우는 거
 						}).append($('<a/>',{
 							href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
 							style : "width:40px; height:30px;" 
@@ -143,14 +151,17 @@ $(document).ready(function(){
 								style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
 					})))));
 					
-					//주문접수 상태 시 주문취소 버튼 활성화
+					//주문접수/배송준비 상태 시 주문취소 버튼 활성화
 					if(orderState=='주문접수'){
+						$('.'+items.orderCode+'_cancelBtn').css('display','block');
+					}else if(orderState=='배송준비'){
 						$('.'+items.orderCode+'_cancelBtn').css('display','block');
 					}
 					//배송완료 상태 시 환불, 교환 버튼 활성화
 					if(orderState=='배송완료'){
 						$('.'+items.orderCode+'_changeBtn').css('display','block');
 						$('.'+items.orderCode+'_refundBtn').css('display','block');
+						$('.'+items.orderCode+'_receiptBtn').css('display','block');
 					}
 					
 					//주문취소버튼 클릭 시
@@ -201,6 +212,22 @@ $(document).ready(function(){
 								success : function(data){}//success
 							});//ajax - 환불접수
 							alert("환불접수가 완료되었습니다!");
+							location.href="../mypage/mypage_orderlist.do";
+						}
+					});
+					
+					//수령확인버튼 클릭 시
+					$('.'+items.orderCode+'_receiptBtn').click(function(){
+						var result = confirm("정말 수령확인 하시겠습니까?");
+						if(result){ // 확인일 시
+							//alert(items.orderCode);
+							$.ajax({
+								type : 'post',
+								url : '../order/orderReceipt.do',
+								data : {'orderCode' : items.orderCode},
+								success : function(data){}//success
+							});//ajax - 환불접수
+							alert("수령확인되었습니다!");
 							location.href="../mypage/mypage_orderlist.do";
 						}
 					});

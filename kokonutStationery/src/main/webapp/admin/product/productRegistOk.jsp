@@ -12,6 +12,7 @@
 <script>
 window.onload=function(){
 	alert("상품이 등록되었습니다.");
+	opener.parent.location.reload();
 	window.close();
 }
 </script>
