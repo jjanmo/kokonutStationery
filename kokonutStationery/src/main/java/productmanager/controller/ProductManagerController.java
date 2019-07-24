@@ -53,10 +53,15 @@ public class ProductManagerController {
 		
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
 
+<<<<<<< HEAD
 
 		String thumbImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
 		String detailedImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
 
+=======
+		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
+		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+>>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 
 		//파일 이름 지정
 		String thumbImgName = seq+".jpg";
@@ -220,7 +225,7 @@ public class ProductManagerController {
 		
 		if(thumbFile.isEmpty()==false) {//썸네일 있을때 이미지 수정
 			String thumbImgName = seq+".jpg";
-			String thumbImgPath = "C:\\Users\\Jun\\git\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb";
+			String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb";
 			File thumbImgFile = new	File(thumbImgPath, thumbImgName); 
 			try {
 				FileCopyUtils.copy(thumbFile.getInputStream(), new FileOutputStream(thumbImgFile));
@@ -233,7 +238,7 @@ public class ProductManagerController {
 		
 		if(detailedFile.isEmpty()==false) {//상세이미지 있을때 이미지 수정
 			String detailedImgName = seq+"d.jpg";
-			String detailedImgPath = "C:\\Users\\Jun\\git\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
+			String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
 			File detailedImgFile = new File(detailedImgPath, detailedImgName);
 			try {
 				FileCopyUtils.copy(detailedFile.getInputStream(), new FileOutputStream(detailedImgFile));

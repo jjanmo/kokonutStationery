@@ -78,6 +78,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		end;
 	</update>
 	
-	
-	
+	<!-- 수령확인 -->
+	<update id="orderReceipt" parameterType="String">
+		begin	
+			<!-- tbl_orderlist -->
+			update TBL_ORDERLIST set orderState=9 
+				where orderCode=#{orderCode};
+				
+			<!-- tbl_order -->
+			update TBL_ORDER set orderState=9						
+				where orderCode=#{orderCode};
+		end;
+	</update>
 </mapper>

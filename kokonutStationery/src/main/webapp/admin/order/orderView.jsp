@@ -87,10 +87,10 @@
 			<option value="6">교환완료</option>
 			<option value="7">환불접수</option>
 			<option value="8">환불완료</option>
-			<option value="9">주문완료</option>
+			<option value="9">수령확인</option>
 		</select>
 		<input type="button" id="order_state_change" value="주문상태 갱신">
-		<span style="width: 186px; float: right;">주문일 : ${orderDate }</span>
+		<span style="width: 190px; float: right;">주문일 : ${orderDate }</span>
 	</div>
 	<div id="order_info" style="overflow: auto;">
 		<table id="orderView_info_table" border="1" style="width:100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5; margin-top: 10px;">
@@ -126,6 +126,8 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 $(document).ready(function(){
+	var userRequest;
+	
 	$.ajax({
 		type : 'post',
 		url : '/kokonutStationery/admin/orderViewList.do',
@@ -136,14 +138,16 @@ $(document).ready(function(){
 			var orderState = 0; // 주문상태
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
-				//교환/환불요청
-				var userRequest;
+				
+				//교환/환불요청				
 				if(items.cancel==1)
 					userRequest = "주문취소";
 				else if(items.exchange==1)
 					userRequest = "교환요청";
 				else if(items.refund==1)
 					userRequest = "환불요청";
+				else if(items.orderState==9)
+					userRequest = "수령확인";
 				else
 					userRequest = "요청없음";			
 				
@@ -182,7 +186,7 @@ $(document).ready(function(){
 				//합계금액 산정	
 				if(userRequest == "주문취소"){
 					totalPrice = 0;
-				}else if(userRequest == "요청없음"){
+				}else{
 					totalPrice += items.totalPrice;
 				}
 				//주문상태 일괄적용
@@ -202,18 +206,24 @@ $(document).ready(function(){
 	});
 	$('#order_state_change').click(function(){
 		//alert($('#order_state').val());
-		$.ajax({
-			type : 'post',
-			url : '/kokonutStationery/admin/orderStateChange.do',
-			data : 'orderState='+$('#order_state').val()+'&orderCode='+$('#orderCode').val(),
-			success : function(result){
-				if(result=="success"){
-					alert("주문상태가 갱신되었습니다.");
-					location.reload();	
-				}else
-					alert("주문상태 갱신에 실패하였습니다.");
-			}
-		});
+		if(userRequest == '주문취소'){
+			alert('이미 주문취소된 상품입니다.');
+		}else if(userRequest == '수령확인'){
+			alert('이미 수령확인된 상품입니다.');
+		}else {
+			$.ajax({
+				type : 'post',
+				url : '/kokonutStationery/admin/orderStateChange.do',
+				data : 'orderState='+$('#order_state').val()+'&orderCode='+$('#orderCode').val(),
+				success : function(result){
+					if(result=="success"){
+						alert("주문상태가 갱신되었습니다.");
+						location.reload();	
+					}else
+						alert("주문상태 갱신에 실패하였습니다.");
+				}
+			});
+		}
 	})
 });
 </script>
