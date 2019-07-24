@@ -25,6 +25,10 @@
 </div>
 <!-- 카운트다운 끝! -->
 
+<!-- 기한 만료 시 게임 들어갈 부분 -->
+<div id="discountGameDiv">
+</div>
+
 <!-- 상품 리스트 -->
 <div class="contents_area no_cate_bar">
 	<div class="product_list">
@@ -72,6 +76,23 @@ jQuery('#countDown').countdown({
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
+}, function(){ // 기간 지날 시
+	
+	alert('깜짝세일이 종료되었습니다.다음을 기대해주세요!');
+	
+	$.ajax({ // 기존 리스트 상품들 discount 0으로 변경 & 공룡게임 넣기..
+		type : 'GET',
+		url : '../goods/discountDelete.do',
+		dataType : 'text',
+		success : function(data){
+			//alert(JSON.stringify(data));
+			if(data == 'discountDelete_Ok'){	
+				//$('#discountGameDiv').load("https://techiestechguide.com/files/trex.html");
+				
+			}
+		}//success
+	});//ajax
+	
 });
 
 //카운트다운 fixed 

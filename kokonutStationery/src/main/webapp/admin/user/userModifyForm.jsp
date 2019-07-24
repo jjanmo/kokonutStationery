@@ -100,7 +100,7 @@
 
    <!-- Modal content -->
    <div class="modal-content">
-             <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상 품 삭 제</span></b></span></p>
+             <p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">정 보 수 정</span></b></span></p>
              <p style="text-align: center; line-height: 1.5;"><br />회원정보를 수정하시겠습니까?</p>
              <p><br /></p>
 
