@@ -149,7 +149,7 @@ public class UserController {
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String checkLogin(@RequestParam Map<String,String> map , HttpSession session) {
-
+		
 		UserDTO userDTO = userDAO.login(map);
 		
 		if(userDTO==null){
