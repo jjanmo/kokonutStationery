@@ -42,10 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_PRODUCTOPTION where productCode = #{productCode}
 	</select>
 	
-	<!-- 깜짝세일:기한만료시 discount 0으로 -->
+	<!-- 깜짝세일:기한만료시 discount 0/ 세일가격 원가로 -->
 	<update id="discountDelete" parameterType="java.util.Map">
 		update TBL_PRODUCT 
-			set discount=0
+			set discount=0, discountprice=originalprice
 			where discount=1
 	</update>
 </mapper>

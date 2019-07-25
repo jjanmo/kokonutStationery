@@ -252,7 +252,7 @@ action="contentDelete.do">
 
 			<!-- Modal content -->
 			<div class="modal-content">
-          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품 삭제</span></b></span></p>
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">삭 제</span></b></span></p>
 				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
     			<p><br /></p>
 
