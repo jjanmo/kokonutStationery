@@ -224,7 +224,8 @@
 						<option value="2">배송준비</option>
 						<option value="3">배송중</option>
 						<option value="4">배송완료</option>
-						<option value="9">주문완료</option>
+						<option value="6">교환완료</option>
+						<option value="8">환불완료</option>
 					</select>				
 					&nbsp;
 					<input type="button" class="orderListBtn" value="선택 갱신" onclick="orderAction('change')"/>
