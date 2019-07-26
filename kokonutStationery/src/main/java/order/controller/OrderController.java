@@ -404,6 +404,20 @@ public class OrderController {
 		return mav;
 	}
 	
+	//교환/환불페이지띄우기
+	@GetMapping("/orderRefundChange.do")
+	public ModelAndView OrderRefundChange(@RequestParam String orderCode) {
+		ModelAndView mav = new ModelAndView();
+		//해당하는 상품내역가져오기
+		List<OrderDTO> list = orderDAO.getOrder(orderCode);
+		
+		System.out.println("orderCode="+orderCode);
+		
+		mav.addObject("list", list);
+		mav.addObject("orderCode", orderCode);
+		mav.setViewName("/order/orderRefundChange");
+		return mav;
+	}
 	
 
 }
