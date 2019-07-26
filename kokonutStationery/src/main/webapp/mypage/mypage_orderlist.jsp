@@ -129,47 +129,44 @@ $(document).ready(function(){
 								text : '주문취소',
 								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 							
-							})).append($('<div/>',{ // 교환버튼
-								class : items.orderCode+"_changeBtn",
-								text : '교환',
+							})).append($('<div/>',{ // 배송확인버튼
+								class : items.orderCode+"_deliveryCheckBtn",
+								text : '배송조회',
+								/* class : items.orderCode+"_changeBtn",
+								text : '교환', */
 								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 								
-							})).append($('<div/>',{ // 환불 버튼
-								class : items.orderCode+"_refundBtn",
-								text : '환불',
-								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
-								
-							}))).append($('<td/>',{//수령확인칸
-								class : items.orderCode+"_delivery"
-							//주문상태 배송 완료 시 수령확인 뜨게
-							}).append($('<div/>',{ // 수령 버튼
+							})).append($('<div/>',{ // 수령확인 버튼
 								class : items.orderCode+"_receiptBtn",
-								text : '수령',
-								style : 'cursor:pointer; color:gray; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+								text : '수령확인',
+								/* class : items.orderCode+"_refundBtn",
+								text : '환불', */
+								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 								
-							
-						
-						}))).append($('<td/>',{ // 상세 페이지 띄우는 거
-							}).append($('<a/>',{
-								href : '../mypage/mypage_orderview.do?orderCode='+items.orderCode, 
-								style : "width:40px; height:30px;" 
-								}).append($('<div/>',{
-									text : '보기', 
-									style : 'width:40px; height:30px;border:1px solid gray; text-align:center; line-height:30px;'
-					})))));
+						}))).append($('<td/>',{//교환/환불칸
+								class : items.orderCode+"_delivery"
+							//주문상태 배송 완료 시 교환/환불 뜨게
+							}).append($('<div/>',{
+								class:items.orderCode+"_refundChangeBtn",
+								text : '교환/환불', 
+								style : 'cursor:pointer; color:gray; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+				
+						}))));
 					
 					//주문접수/배송준비 상태 시 주문취소 버튼 활성화
 					if(orderState=='주문접수'){
 						$('.'+items.orderCode+'_cancelBtn').css('display','block');
 					}else if(orderState=='배송준비'){
 						$('.'+items.orderCode+'_cancelBtn').css('display','block');
+					}else if(orderState=='배송중'){
+						$('.'+items.orderCode+'_deliveryCheckBtn').css('display','block');
 					}
 					//배송완료 상태 시 환불, 교환 버튼 활성화
 					if(orderState=='배송완료'){
-						$('.'+items.orderCode+'_changeBtn').css('display','block');
-						$('.'+items.orderCode+'_refundBtn').css('display','block');
 						$('.'+items.orderCode+'_receiptBtn').css('display','block');
+						$('.'+items.orderCode+'_refundChangeBtn').css('display','block');
 					}
+					
 					
 					//주문취소버튼 클릭 시
 					$('.'+items.orderCode+'_cancelBtn').click(function(){
@@ -177,7 +174,7 @@ $(document).ready(function(){
 						if(result){ // 확인일 시
 							//alert(items.orderCode);
 							$.ajax({
-								type : 'post',
+								type :'post',
 								url : '../order/orderCancel.do',
 								data : {'orderCode' : items.orderCode,
 										'crPayment' : items.totalPayment,
@@ -191,7 +188,18 @@ $(document).ready(function(){
 						}
 					});
 					
-					//교환접수버튼 클릭 시
+					
+					
+					//교환/환불버튼 클릭시
+					$('.'+items.orderCode+'_refundChangeBtn').click(function(){
+						var result = confirm("정말 교환/환불을 신청하시겠습니까?");
+						if(result){ // 확인일 시
+							//orderCode가져가야한다
+							window.open("/kokonutStationery/order/orderRefundChange.do?orderCode="+items.orderCode, "_blank", "width=800, height=600");
+						}
+					});
+					
+					/* //교환접수버튼 클릭 시
 					$('.'+items.orderCode+'_changeBtn').click(function(){
 						var result = confirm("정말 교환접수 하시겠습니까?");
 						if(result){ // 확인일 시
@@ -221,7 +229,7 @@ $(document).ready(function(){
 							alert("환불접수가 완료되었습니다!");
 							location.href="../mypage/mypage_orderlist.do";
 						}
-					});
+					}); */
 					
 					//수령확인버튼 클릭 시
 					$('.'+items.orderCode+'_receiptBtn').click(function(){
