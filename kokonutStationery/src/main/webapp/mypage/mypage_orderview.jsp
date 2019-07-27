@@ -21,13 +21,19 @@
           <th id="product_subject"></th>
           <th id="product_price">판매가</th>
           <th id="qty">수량</th>
-          <th id="delivery">배송상태</th>
-          <th id="delivery_ps">배송추적·이용후기</th>
+          <th id="delivery">주문상태</th>
+          <!-- <th id="delivery_ps">배송추적·이용후기</th> -->
         </tr>
         <c:forEach var="orderDTO" items="${list}">
 	        <tr class="mypage_table_content orderview_content">
-	          <td id="product_thumb"><img src="../image/"${orderDTO.thumbImg }></td>
-	          <td>${orderDTO.productName }</td>
+	          <td id="product_thumb"><img id="thumbimg" src="../image/thumb/${orderDTO.thumbImg }"></td>
+	          <td>
+	          <span id="product_name">${orderDTO.productName }</span>
+	          <c:if test="${orderDTO.optionContent!=null }">
+	          <br>
+	          <span id="option_name">${orderDTO.optionContent }</span>
+	          </c:if>
+	          </td>
 	          <td>${orderDTO.totalPrice }원</td>
 	          <td>${orderDTO.purchaseQty }개</td>
 	          <td>
@@ -37,16 +43,16 @@
 	          			주문취소
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==1 }">
-	          			주문접수
+	          			주문접수	          			
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==2 }">
-	          			배송준비
+	          			배송준비	          			
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==3 }">
 	          			배송중
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==4 }">
-	          			배송완료
+	          			배송완료	          			
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==5 }">
 	          			교환접수
@@ -60,9 +66,28 @@
 	          		<c:if test="${orderDTO.orderState==8 }">
 	          			환불완료
 	          		</c:if>
+	          		<c:if test="${orderDTO.orderState==9 }">
+	          			수령확인
+	          		</c:if>
 	          	</span>
+          		<c:if test="${orderDTO.orderState==1 }">
+          			<br>
+          			<input type="button" id="order_cancle" class="orderStateBtn" value="주문취소">
+          		</c:if>
+          		<c:if test="${orderDTO.orderState==2 }">
+          			<br>
+          			<input type="button" id="order_cancle" class="orderStateBtn" value="주문취소">
+          		</c:if>
+          		<c:if test="${orderDTO.orderState==4 }">
+          			<br>
+          			<input type="button" id="order_exchange" class="orderStateBtn" value="교환신청">
+          			<br>
+          			<input type="button" id="order_refund" class="orderStateBtn" value="환불신청">
+          			<br>
+          			<input type="button" id="order_receiptOk" class="orderStateBtn" value="수령확인">
+          		</c:if>
 	          </td>
-	          <td></td>
+	         
 	        </tr>
         </c:forEach>
       </table>
@@ -168,14 +193,14 @@
           <td>
           <c:set var="loop" value="false"/>
            <c:forEach var="orderDTO" items="${list}">
-           <c:if test="${not loop }">
-          	<c:if test="${orderDTO.paymentType == 0 }">
-          		신용카드 <c:set var="loop" value="true"/>
-          	</c:if>
-          	<c:if test="${orderDTO.paymentType == 1 }">
-          		핸드폰 <c:set var="loop" value="true"/>
-          	</c:if>
-          	</c:if>
+	          <c:if test="${not loop }">
+	          <c:if test="${orderDTO.paymentType == 0 }">
+	          	신용카드 <c:set var="loop" value="true"/>
+	          </c:if>
+	          <c:if test="${orderDTO.paymentType == 1 }">
+	          	핸드폰 <c:set var="loop" value="true"/>
+	          </c:if>
+	          </c:if>
           	</c:forEach>
           </td>
         </tr>
@@ -192,4 +217,8 @@
   </div>
 
 </body>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+
+</script>
 </html>

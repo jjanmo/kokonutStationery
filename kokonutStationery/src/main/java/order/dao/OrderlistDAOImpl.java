@@ -40,6 +40,11 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 	@Override
 	public void orderRefund(String orderCode) {
 		sqlSession.update("orderlistSQL.orderRefund",orderCode);	
+	}
+
+	@Override
+	public void orderReceipt(String orderCode) {
+		sqlSession.update("orderlistSQL.orderReceipt",orderCode);	
 	} 
 	
 	

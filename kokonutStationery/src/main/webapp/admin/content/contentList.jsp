@@ -196,7 +196,7 @@ action="contentDelete.do">
 <div id="mainContent_wrap" style="width:1100px; margin:auto; padding-bottom:100px;">
 	<div id="user_search_wrap" style="width: 1000px; margin: 0 auto;">
 		<div id="user_search_title" style="margin-bottom: 20px;">
-			<h1 style="font-weight:normal;">게시글 관리</h1>
+			<h1 style="font-weight:normal;">게시물관리</h1>
 		</div>
 		
 		<div><!-- 검색 창 -->
@@ -252,7 +252,7 @@ action="contentDelete.do">
 
 			<!-- Modal content -->
 			<div class="modal-content">
-          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">삭 제</span></b></span></p>
 				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
     			<p><br /></p>
 

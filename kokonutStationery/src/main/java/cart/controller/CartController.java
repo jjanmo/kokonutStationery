@@ -55,6 +55,24 @@ public class CartController {
 		}
 	}
 
+	// 비회원 장바구니
+	@RequestMapping(value="/kokonutCartInsert.do", method=RequestMethod.POST)
+	public void kokonutCartInsert(@ModelAttribute CartDTO cartDTO, HttpSession session) {
+		System.out.println(cartDTO);
+		if(session.getAttribute("kokonutCart")==null) {//비회원 세션값이 없을때
+			List<CartDTO> list = new ArrayList<CartDTO>();
+			list.add(cartDTO);
+			session.setAttribute("kokonutCart", list);
+			System.out.println(list);
+		}else { // 비회원 세션값이 있을때
+			List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+			list.add(cartDTO);
+			session.setAttribute("kokonutCart", list);
+			System.out.println(list);
+		}
+				
+	}
+		
 	// 장바구니페이지
 	@RequestMapping(value = "/goods_cart.do", method = RequestMethod.GET)
 	public ModelAndView cart(HttpSession session) { // 들고갈파라미터 필요함 + 회원일때와 비회원일때를 구분지어야함!
@@ -65,6 +83,18 @@ public class CartController {
 
 		//System.out.println(list);
 		//System.out.println(userId);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.addObject("display", "/cart/goods_cart.jsp");
+		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//비회원 장바구니페이지
+	@RequestMapping(value="/kokonutCart.do", method=RequestMethod.GET)
+	public ModelAndView kokonutCart(HttpSession session) {
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.addObject("display", "/cart/goods_cart.jsp");
@@ -97,6 +127,40 @@ public class CartController {
 
 		//유저 장바구니 목록수 0
 		userDAO.allDeleteCartCount(userId);
+	}
+	
+	//비회원 장바구니 선택삭제
+	@RequestMapping(value="/deleteKokonutCart.do", method=RequestMethod.POST)
+	public void deleteKokonutCart(@RequestParam int productCode, @RequestParam String optionContent,
+			HttpSession session) {
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		System.out.println("삭제전 리스트 : " + list);
+		/*
+		for(CartDTO cartDTO : list) {
+			if(productCode==cartDTO.getProductCode()&&optionContent.equals(cartDTO.getOptionContent())){
+				list.remove(cartDTO);
+			}
+		}
+		if(list!=null) {
+			System.out.println("삭제후 리스트 : " + list);
+		}
+		*/
+		int size = list.size(); 
+		for(int i = 0; i < size; i++) { 
+			CartDTO cartDTO = list.get(i); 
+			if(productCode==cartDTO.getProductCode()&&optionContent.equals(cartDTO.getOptionContent())) { 
+				list.remove(cartDTO); 
+				size--; 
+				i--; 
+			}
+		}
+		System.out.println("삭제후 리스트 : " + list);
+	}
+	
+	//비회원 장부고니 전체삭제
+	@RequestMapping(value="/allDeleteKokonutCart.do", method=RequestMethod.POST)
+	public void allDeleteKokonutCart(HttpSession session) {
+		session.removeAttribute("kokonutCart");
 	}
 
 	// 선택옵션 수정 페이지
@@ -153,6 +217,29 @@ public class CartController {
 		return mav;
 	}
 	
+	//수량 변경 비회원
+	@RequestMapping(value="/kokonutCartModify.do", method=RequestMethod.POST)
+	public ModelAndView kokonutCartModify(@RequestParam int productCode, @RequestParam int productQty,  
+			@RequestParam String optionContent, HttpSession session) {
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");				
+		
+		System.out.println("수정전 리스트 : " + list);
+		for(CartDTO cartDTO : list) {
+			if(productCode==cartDTO.getProductCode()&&optionContent.equals(cartDTO.getOptionContent())){
+				cartDTO.setProductQty(productQty);
+			}
+		}
+		System.out.println("수정후 리스트 : " + list);
+		session.setAttribute("kokonutCart", list);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display", "/cart/goods_cart.jsp");
+		mav.addObject("list", list);
+		mav.setViewName("/main/nosIndex");
+		
+		return mav;
+	}
+	
 	// 상세페이지에서 option가져오기
 	@RequestMapping(value = "/getOption.do", method = RequestMethod.GET)
 	public ModelAndView getOption(@RequestParam String productCode) {
@@ -202,5 +289,5 @@ public class CartController {
 		userDAO.subCartCount(userId); //장바구니 담긴 수 -1
 		cartDAO.deleteCartAfterPay(Integer.parseInt(cartCode)); //장바구니 리스트에서 삭제
 	}
-
+	
 }

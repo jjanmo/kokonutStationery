@@ -224,7 +224,8 @@
 						<option value="2">배송준비</option>
 						<option value="3">배송중</option>
 						<option value="4">배송완료</option>
-						<option value="9">주문완료</option>
+						<option value="6">교환완료</option>
+						<option value="8">환불완료</option>
 					</select>				
 					&nbsp;
 					<input type="button" class="orderListBtn" value="선택 갱신" onclick="orderAction('change')"/>
@@ -275,7 +276,7 @@
 	    <div id="open_deleteConfirmModal" class="modal">
 			<!-- Modal content -->
 			<div class="modal-content">
-          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">상품삭제</span></b></span></p>
+          		<p style="text-align: center;"><span style="font-size: 14pt;"><b><span style="font-size: 24pt;">주문삭제</span></b></span></p>
 				<p style="text-align: center; line-height: 1.5;"><br>	<span style="color: red;">정말  삭제 하시겠습니까?</span></p>
    				<p><br /></p>
 

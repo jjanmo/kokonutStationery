@@ -12,6 +12,7 @@
 <script>
 window.onload = function(){
 	alert("수정 완료되었습니다.");
+	opener.parent.location.reload();
 	window.close();
 }
 </script>
