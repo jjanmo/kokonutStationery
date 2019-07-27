@@ -3,44 +3,72 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="onetooneSQL">
-	<!-- 1:1 문의 작성 -->
-	<insert id="register">
-		insert into tbl_onetoone(seq
-								,userId
-								,type
-								,orderCode
-								,email
-								,tel1
-								,tel2
-								,tel3
-								,subject
-								,contents
-								,ref
-								,lev
-								,step
-								,pseq
-								,reply
-								,logdate)
-						values(onetoone_seq.nextval
-							 ,#{type}
-							 ,#{userId}
-							 ,#{orderCode}
-							 ,#{email}
-							 ,#{tel1}
-							 ,#{tel2}
-							 ,#{tel3}
-							 ,#{subject}
-							 ,#{contents}
-							 ,#{ref}
-							 ,#{lev}
-							 ,#{step}
-							 ,#{pseq}
-							 ,#{reply}
-							 ,sysdate)
-	</insert>
 	
-	<!-- 1:1 문의 리스트 -->
-	<select id="onetooneList" parameterType="String" resultType="onetoone">
-		select * from tbl_onetoone where userId = #{userId}
+	<!-- 1:1 문의 리스트 가져오기 -->
+	<select id="getOnetooneList" parameterType="String" resultType="onetoone">
+		select * from tbl_onetoone where userId = #{userId} 
+									order by ref desc, onetooneCode asc 
 	</select>
+
+	<!-- 1:1 문의 등록 -->
+	<insert id="register" parameterType="onetoone">
+		insert into TBL_ONETOONE(userId 
+								,userName 
+								,onetooneCode 
+								,questionType 
+								,userEmail 
+								,userPhone 
+								,subject 
+								,contents 
+								,orderCode 
+								,ref 
+								,logdate)
+						values(#{userId}
+								,#{userName}
+								,onetooneCode_seq.nextval
+							 	,#{questionType}
+							 	,#{userEmail}
+							 	,#{userPhone}
+							 	,#{subject}
+								,#{contents}
+								,#{orderCode}
+								,onetooneCode_seq.currval
+						    	,sysdate)
+	</insert>
+
+	<!-- 주문 리스트 가져오기(주문번호조회) -->
+	<select id="getOrderList" parameterType="java.util.Map" resultType="orderlist">
+		select * from 
+		(select rownum rn, tt.* from
+		(select * from TBL_ORDERLIST order by orderDate desc, orderCode desc) tt)
+		where rn between #{startNum} and ${endNum}
+	</select>
+	<!-- 주문 리스트 전체 수 -->
+	<select id="getTotalA" resultType="Integer">
+		select count(*) from TBL_ORDERLIST
+	</select>
+
+	<!-- 주문 리스트 상품이름 -->
+	<select id="getOrderProduct" parameterType="String" resultType="order">
+		select * from TBL_ORDER where orderCode = #{orderCode} order by productCode desc
+	</select>
+
+	<!-- 1:1문의 삭제 -->
+	<delete id="onetooneDelete" parameterType="String">
+		delete from TBL_ONETOONE where onetooneCode = #{onetooneCode}
+	</delete>
+	
+	<select id="getOneToOneDTO" parameterType="String" resultType="onetoone">
+		select * from TBL_ONETOONE where onetooneCode = #{onetooneCode}
+	</select>
+	
+	<update id="onetoone_modify" parameterType="onetoone">
+		update TBL_ONETOONE set questionType = #{questionType}
+								,userEmail = #{userEmail}
+								,userPhone = #{userPhone}
+								,subject = #{subject}
+								,contents = #{contents}
+								,orderCode = #{orderCode}
+							where onetooneCode = #{onetooneCode}
+	</update>
 </mapper>
