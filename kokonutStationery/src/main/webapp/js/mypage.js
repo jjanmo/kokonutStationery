@@ -3,45 +3,6 @@ $('#close_btn_img').click(function(){
 	window.close();
 });
 
-$('.order_Number_Btn').click(function(){
-	$('.order_Number_search').toggleClass('show');
-});
-    
-$('#hide_btn_img').click(function(){
-	$('.order_Number_search').toggleClass('show');
-});
-
-
-
-// mypage_onetooen.jsp
-$('#onetoone_content').click(function(){
-	$('.question').toggleClass('hide');
-});
-
-$('.question_btn').click(function(){
-	window.open('/kokonutStationery/onetoone/mypage_onetoone_register.do',
-				'1:1 문의 작성',
-				'width=580, height=630');
-});
-
-$('#onetone_delete').click(function(){
-	window.open('/kokonutStationery/onetoone/mypage_onetoone_delete.do',
-	            '1:1 문의 삭제',
-				'width=500, height=280');
-});
-
-$('#onetoone_modify').click(function(){
-	window.open('/kokonutStationery/onetoone/mypage_onetoone_modify.do',
-	            '1:1 문의 수정',
-	            'width=580, height=630');
-});
-	
-$('#onetone_answer').click(function(){
-	window.open('/kokonutStationery/onetoone/mypage_onetoone_reply.do',
-	            '1:1 문의 답변',
-	            'width=580, height=630');
-});
-
 
 
 //mypage_review.jsp

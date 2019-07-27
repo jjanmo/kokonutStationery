@@ -575,17 +575,25 @@ function stringNumberToInt(stringNumber){
 
 //다음 버튼 이벤트
 $('#orderWriteBtn').click(function(){
-	alert("order cart aaa");
 	//user정보 및 배송정보
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
+<<<<<<< HEAD
 		data : {'userId'			: '${memId}',
 				'userName'			: '${memName}',
 				'userPhone1'		: '${userDTO.userPhone1}',
 				'userPhone2'		: '${userDTO.userPhone2}',
 				'userPhone3'		: '${userDTO.userPhone3}',
 				'userEmail'			: '${userDTO.userEmail}',
+=======
+		data : {'userId'			: '${userDTO.userId}',
+				'userName'			: '${memName}',
+				'userPhone1'		: $('#userPhone1').val(),
+				'userPhone2'		: $('#userPhone2').val(),
+				'userPhone3'		: $('#userPhone3').val(),
+				'userEmail'			: $('#userEmail').val(),
+>>>>>>> refs/heads/jjanmo0723
 				'receiverName' 		: $('#receiverName').val(),
 				'receiverAddr1' 	: $('#receiverAddr1').val(),
 				'receiverAddr2' 	: $('#receiverAddr2').val(),
@@ -629,10 +637,6 @@ $('#orderWriteBtn').click(function(){
 		alert("productOptionArray : " + productOptionArray[i]);
 		alert("optionContentArray : " + optionContentArray[i]);
 	} */
-
-
-
-
 
 	//상품정보 : orderDB
 	for(i = 0 ; i < thumbImgArray.length-1 ; i++){

@@ -139,7 +139,7 @@ a:hover {
   text-align: left;
 }
 
-#onetoone_content td {
+.onetoone_content td {
     border-bottom: 1px solid #ebebeb;
     height: 60px;
     font-size: 13px;
@@ -153,11 +153,11 @@ a:hover {
   padding: 15px;
 }
 
-#question_content{
+#question_subject{
   text-align: left;
 }
 
-#question_type, #mem_id, #writeDate{
+#question_type, #user_id, #logdate{
   text-align: center;
 }
 
@@ -173,8 +173,8 @@ a:hover {
   background-color: #444;
   box-sizing: border-box;
   cursor: pointer;
-  color: #fff
-
+  color: #fff;
+  margin-right: 10px;
 }
 
 .question{
@@ -195,11 +195,16 @@ a:hover {
   line-height: 21px;
 }
 
-.question_btns_div{
+.question_btns{
   text-align: right;
   font-size: 12px;
   color:#ccc;
   margin: 0 20px 30px 0;
+}
+
+.btnDiv{
+  float: right;
+  margin : 0 30px 20px 0;
 }
 
 .white_btn{
@@ -209,21 +214,25 @@ a:hover {
   border: 1px solid #ccc;
   list-style: none;
   box-sizing: border-box;
-  display: list-item;
   text-align: center;
   cursor: pointer;
   color: #a4a4a4;4
   font-weight: 700;
+  float: right;
+  margin-right : 5px;
+  width: 35px;
+  height: 27px;
+  outline: none;
+
 }
 
 .btn_size_xs{
-  width: 40px;
+  width: 100px;
   height: 30px;
   padding: 3px 7px;
   text-align: center;
   margin-left: 5px;
   font-size: 11px;
-  float: right;
 }
 
 .pageDiv{
