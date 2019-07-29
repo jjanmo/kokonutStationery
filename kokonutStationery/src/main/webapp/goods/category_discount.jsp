@@ -72,10 +72,15 @@
 <script type="text/javascript">
 //카운트다운 영역
 jQuery('#countDown').countdown({
+<<<<<<< HEAD
 	date: '07/25/2019 18:37:00',
+=======
+	date: '07/31/2019 23:59:59',
+>>>>>>> refs/heads/jjanmo0723
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
+<<<<<<< HEAD
 }, function(){ // 기간 지날 시
 	
 	//alert('깜짝세일이 종료되었습니다.다음을 기대해주세요!');
@@ -96,6 +101,8 @@ jQuery('#countDown').countdown({
 			}
 		}//success
 	});//ajax
+=======
+>>>>>>> refs/heads/jjanmo0723
 	
 });
 

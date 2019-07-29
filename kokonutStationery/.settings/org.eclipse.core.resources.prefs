@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/contentmanager/bean/ReviewboardManagerPaging.java=UTF-8
 encoding//src/main/java/goods/bean/ProductPaging.java=UTF-8
+encoding//src/main/java/onetoone/bean/OrderCodePaging.java=UTF-8
 encoding//src/main/java/order/bean/OrderManagerPaging.java=UTF-8
 encoding//src/main/java/reviewboard/bean/ReviewboardPaging.java=UTF-8
