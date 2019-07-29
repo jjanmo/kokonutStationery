@@ -238,7 +238,6 @@
 
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/order.js"></script>
 <script>
 $(function(){
 var totalP = 0;	
@@ -440,7 +439,7 @@ var prdOption = new Array();
 				}
 				
 				
-				location.href="/kokonutStationery/main/index.do";
+				
 			}//if
 			
 			//비회원
@@ -467,7 +466,7 @@ var prdOption = new Array();
 							}
 						}
 				});
-			}//else if
+			}//else if 비회원
 			
 			for(var i=0; i<prdArray.length; i++){
 				//alert(prdArray[i] + '//' + prdOption[i]);
@@ -490,6 +489,7 @@ var prdOption = new Array();
 				}); 
 			}//for
 		}//else
+		location.href="/kokonutStationery/main/index.do";
 	});//결제버튼
 });
 
@@ -514,7 +514,7 @@ $('#order_backBtn').click(function(){
 		$.ajax({
 			type : 'get',
 			url : '/kokonutStationery/order/orderCancel.do',
-			data : {'userId' : '${memId}'},
+			data : {'userId' : '${kokonutId}'},
 			dataType : 'text',
 			success : function(data){
 				if(data=='success'){
