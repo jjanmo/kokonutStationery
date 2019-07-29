@@ -309,7 +309,7 @@
 						  <td valign="top" style="font-size: 13px; color: #666; font-weight:normal; padding: 28px 0 5px 0;">포인트 사용 :</td>
 						<td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
 						
-						<table cellpadding="0" cellspacing="0">
+						<table cellpadding="0" cellspacing="0" id="pointTable">
 							<tbody>
 							  <tr>
 							    <td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용가능 포인트</td>
@@ -466,6 +466,11 @@ $(document).ready(function(){
 		}
 	});
 	
+	//비회원일 때 포인트사용 테이블 출력안되도록! 
+	if('${memId}' == ''){
+		$('#pointTable').css('display','none');
+	}
+
 });
 
 //다음 주소 API
