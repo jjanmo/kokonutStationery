@@ -53,15 +53,8 @@ public class ProductManagerController {
 		
 		//파일경로설정 - 옮겨받으시면 경로수정 꼭 해주세용
 
-<<<<<<< HEAD
-
 		String thumbImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
 		String detailedImgPath = "C:\\Users\\hjlee\\git\\kokonutStationery2\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
-
-=======
-		String thumbImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\thumb"; 
-		String detailedImgPath = "D:\\JavaWeb\\Git\\workspace\\kokonutStationery\\kokonutStationery\\src\\main\\webapp\\image\\detailed";
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 
 		//파일 이름 지정
 		String thumbImgName = seq+".jpg";

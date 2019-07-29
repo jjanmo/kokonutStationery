@@ -25,6 +25,10 @@
 </div>
 <!-- 카운트다운 끝! -->
 
+<!-- 기한 만료 시 게임 들어갈 부분 -->
+<div id="discountGameDiv" style="width:895px; height:895px; margin:auto; display:none;">
+</div>
+
 <!-- 상품 리스트 -->
 <div class="contents_area no_cate_bar">
 	<div class="product_list">
@@ -68,10 +72,38 @@
 <script type="text/javascript">
 //카운트다운 영역
 jQuery('#countDown').countdown({
-	date: '07/10/2019 23:59:59',
+<<<<<<< HEAD
+	date: '07/25/2019 18:37:00',
+=======
+	date: '07/31/2019 23:59:59',
+>>>>>>> refs/heads/jjanmo0723
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
+<<<<<<< HEAD
+}, function(){ // 기간 지날 시
+	
+	//alert('깜짝세일이 종료되었습니다.다음을 기대해주세요!');
+	$('.product').remove();
+	
+	$.ajax({ // 기존 리스트 상품들 discount 0으로 변경 & 공룡게임 넣기..
+		type : 'GET',
+		url : '../goods/discountDelete.do',
+		dataType : 'text',
+		success : function(data){
+			//alert(JSON.stringify(data));
+			if(data == 'discountDelete_Ok'){
+				$('#discountGameDiv').css('display','block');
+				$('#discountGameDiv').append($('<img/>',{
+					src : '../image/discount_end_image.jpg',
+					style : 'padding-left:18px;'
+				}));
+			}
+		}//success
+	});//ajax
+=======
+>>>>>>> refs/heads/jjanmo0723
+	
 });
 
 //카운트다운 fixed 

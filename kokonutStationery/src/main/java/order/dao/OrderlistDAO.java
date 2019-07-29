@@ -19,4 +19,5 @@ public interface OrderlistDAO {
 
 	public void orderReceipt(String orderCode);
 
+
 }
