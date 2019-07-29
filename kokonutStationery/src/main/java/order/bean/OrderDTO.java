@@ -28,7 +28,7 @@ public class OrderDTO {
 	private String optionContent;	// 옵션내용
 	private int orderState;			// 0: 주문취소1: 주문접수2: 배송준비3: 배송중4: 배송완료 5:교환접수6:교환완료7:환불접수8: 환불완료
 	private int cancel;				// 취소여부
-	private int cancelQty; 
+	private int cancelQty; 	
 	private int cancelAmount;
 	private int exchange; 			//교환여부
 	private int exchangeQty; 

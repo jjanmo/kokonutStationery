@@ -204,7 +204,7 @@
 				              <input type="text" name="receiverZipcode" id="receiverZipcode" size="5" readonly required
 								style="width:100px;" >
 				              
-				              <div class="sub-button-s" onclick="checkPost()"
+				              <div class="sub-button-s" onclick="daumCheckPost()"
 				              style="text-align:center; width: 112px;height: 42px;position: absolute; margin: -40px 0 0 120px;line-height: 42px; font-size: 12px;" align="absmiddle">우편번호 검색</div>
 				            </td>
 				            
@@ -423,7 +423,7 @@
 
 </div>
 
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
@@ -467,6 +467,49 @@ $(document).ready(function(){
 	});
 	
 });
+
+//다음 주소 API
+function daumCheckPost() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+          
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+       
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+            
+         	// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                	addr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                	addr += (addr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                                 
+            } else {
+                document.getElementById("receiverAddr1").value = '';
+            }
+          
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('receiverZipcode').value = data.zonecode;
+            document.getElementById("receiverAddr1").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("receiverAddr2").focus();
+        }
+    }).open();
+}
 
 	/* //포인트
 	var totalPoint = ${userDTO.userPoint};
@@ -579,27 +622,12 @@ $('#orderWriteBtn').click(function(){
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
-<<<<<<< HEAD
 		data : {'userId'			: '${memId}',
-<<<<<<< HEAD
-=======
 				'userName'			: '${memName}',
 				'userPhone1'		: '${userDTO.userPhone1}',
 				'userPhone2'		: '${userDTO.userPhone2}',
 				'userPhone3'		: '${userDTO.userPhone3}',
 				'userEmail'			: '${userDTO.userEmail}',
-<<<<<<< HEAD
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
-=======
-=======
-		data : {'userId'			: '${userDTO.userId}',
-				'userName'			: '${memName}',
-				'userPhone1'		: $('#userPhone1').val(),
-				'userPhone2'		: $('#userPhone2').val(),
-				'userPhone3'		: $('#userPhone3').val(),
-				'userEmail'			: $('#userEmail').val(),
->>>>>>> refs/heads/jjanmo0723
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 				'receiverName' 		: $('#receiverName').val(),
 				'receiverAddr1' 	: $('#receiverAddr1').val(),
 				'receiverAddr2' 	: $('#receiverAddr2').val(),

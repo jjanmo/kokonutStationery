@@ -9,7 +9,7 @@
 
 <body>
 <div class="onetoone_register_top">
-	1:1 문의 작성하기
+	1:1 문의 수정하기
 	<img id="close_btn_img" src="../image/btn_multioption_del_2.png">
 </div>
 
