@@ -190,6 +190,8 @@ var showDiv = 0;
 
 //구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
 $('#orderBtn').click(function(){
+	
+	alert(productQty);
 	var orderProductQty = $('#productQty').val();
 	if(option == 0){ //옵션이 없는 경우
 		if(userId==""){
