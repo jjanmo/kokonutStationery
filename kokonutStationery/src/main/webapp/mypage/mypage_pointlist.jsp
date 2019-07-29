@@ -44,6 +44,8 @@
 			<c:if test="${list.pointType==1}"> <!-- 사용 -->
 				<td style="color: #2ac1bc;">-${list.usePoint} 원</td>
 			</c:if>
+			
+			
 		</tr>
 		</c:forEach>
 	</table>

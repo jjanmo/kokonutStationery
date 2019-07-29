@@ -19,6 +19,6 @@ public class PointDTO {
 	private int usePoint;
 	private int savePoint;
 	private int totalPoint;
-	private int pointType;		// 0: 적립, 1: 사용
+	private int pointType;		// 0: 구매에 의한 적립, 1: 교환에 의한 포인트 적립 , 2: 구매에 의한 포인트 사용
 }
 

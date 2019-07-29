@@ -64,7 +64,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
+									<font id="totalPrice" style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
 											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;"></font>									
 								</td>
@@ -286,7 +286,7 @@
 			        	<tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">상품합계금액 :</td>
 				            <td class="noline" style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">
-				              <span id="goodsPrice"></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;"><f:formatNumber pattern="###,###,###" value="${total}"/>원</span>
+				              <span id="goodsPrice"><f:formatNumber pattern="###,###,###" value="${total}"/></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;">원</span>
 				            </td>
 			          	</tr>
 						<tr>
@@ -324,7 +324,7 @@
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 할 포인트</td>
 								<td style="padding: 0 0 10px 0;">
 								<input type="text" id="usingPoint" name="coupon" size="12" value="0 " 
-								style="text-align:right;"> 원
+								style="text-align:right;" onchange="usePoint()"> 원
 							
 								</td>	
 							  </tr>
@@ -333,7 +333,7 @@
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 후 남은 포인트</td>
 								<td style="padding: 0 0 10px 0;">
 								<input type="text" id="remainingPoint" name="coupon" size="12" readonly
-								style="text-align:right;"> 원
+								style="text-align:right;" > 원
 							
 								</td>	
 							  </tr>
@@ -491,33 +491,15 @@ $(document).ready(function(){
 /* ## 2019-07-10 추가 시작 ## */
 //상품합계금액과 포인트
 function totalP(){
-	var totalPriceArray = new Array();
-	totalPriceArray = $('.totalPrice');
-	var totalP = 0;
-	for(var i=0; i<totalPriceArray.length; i++){
-		var price = totalPriceArray.eq(i).text();
-		price = price.slice(0, price.length-1) * 1;
-		totalP += price;
-	}
-	$('#totalPrice').text(AddComma(totalP));
-
+	
+	
+	
 	//포인트
 	var totalPoint = ${userDTO.userPoint};
 	var usingPoint = $('#usingPoint').val(0);
-	var remainingPoint = $('#remainingPoint').val(totalPoint);
+	var remainingPoint = $('#remainingPoint').val(totalPoint);	
 	$('#totalPoint').val(totalPoint);
-
-	if(totalP > 30000){
-		$('#goodsPrice').text(AddComma(totalP));
-		$('#paper_delivery').text(0);
-		$('#totalP').text(AddComma(totalP))
-	}
-
-	else {
-		$('#goodsPrice').text(AddComma(totalP));
-		$('#paper_delivery').text(AddComma(2500));
-		$('#totalP').text(AddComma(totalP+2500))
-	}
+	
 }
 
 //포인트 사용
@@ -526,7 +508,9 @@ function usePoint(){
 	var totalPoint = ${userDTO.userPoint};
 	var totalP = stringNumberToInt($('#goodsPrice').text())
 				+ stringNumberToInt($('#paper_delivery').text());  //포인트사용전의 결제금액
-
+	alert(stringNumberToInt($('#goodsPrice').text()));
+	alert(stringNumberToInt($('#paper_delivery').text()));
+	alert(totalP);
 	//숫자만 들어오게 유효성 검사
 	if(isNaN(usePoint)){
 		alert("1000원 단위의 숫자를 입력해주세요");
@@ -553,12 +537,20 @@ function usePoint(){
 
 	else {
 		var remainPoint = totalPoint*1 - usePoint*1;
-		var usePoint = $('#usingPoint').val();
+		var usePoint = $('#usingPoint').val()*1;
+		alert(usePoint);
+		alert(typeof usePoint);
+		alert(typeof totalP);
 		$('#remainingPoint').val(remainPoint);
 		totalP = totalP - usePoint;
+		alert(typeof totalP);
 		$('#totalP').text(AddComma(totalP));
 	}
 }
+
+$(function(){
+	totalP();
+});
 
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
@@ -579,27 +571,12 @@ $('#orderWriteBtn').click(function(){
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/order/updateUserInfo.do',
-<<<<<<< HEAD
 		data : {'userId'			: '${memId}',
-<<<<<<< HEAD
-=======
 				'userName'			: '${memName}',
 				'userPhone1'		: '${userDTO.userPhone1}',
 				'userPhone2'		: '${userDTO.userPhone2}',
 				'userPhone3'		: '${userDTO.userPhone3}',
 				'userEmail'			: '${userDTO.userEmail}',
-<<<<<<< HEAD
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
-=======
-=======
-		data : {'userId'			: '${userDTO.userId}',
-				'userName'			: '${memName}',
-				'userPhone1'		: $('#userPhone1').val(),
-				'userPhone2'		: $('#userPhone2').val(),
-				'userPhone3'		: $('#userPhone3').val(),
-				'userEmail'			: $('#userEmail').val(),
->>>>>>> refs/heads/jjanmo0723
->>>>>>> branch 'master' of https://github.com/jjanmo/kokonutStationery.git
 				'receiverName' 		: $('#receiverName').val(),
 				'receiverAddr1' 	: $('#receiverAddr1').val(),
 				'receiverAddr2' 	: $('#receiverAddr2').val(),
@@ -644,6 +621,10 @@ $('#orderWriteBtn').click(function(){
 		alert("optionContentArray : " + optionContentArray[i]);
 	} */
 
+
+
+
+
 	//상품정보 : orderDB
 	for(i = 0 ; i < thumbImgArray.length-1 ; i++){
 		alert($('input[name="payType"]:checked').val());
@@ -675,9 +656,11 @@ $('#orderWriteBtn').click(function(){
 			}
 
 		});
+/* 		location.href = "/kokonutStationery/order/order_settle.do?usePoint="+$('#usingPoint').val(); */
 	}
-
-	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
+	
+	
+	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}&usePoint="+$('#usingPoint').val();
 
 	});
 
