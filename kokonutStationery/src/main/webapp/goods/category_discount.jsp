@@ -76,7 +76,6 @@ jQuery('#countDown').countdown({
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
-
 }, function(){ // 기간 지날 시
 	
 	//alert('깜짝세일이 종료되었습니다.다음을 기대해주세요!');

@@ -347,7 +347,7 @@ var prdOption = new Array();
 	
 	//배송비 및 총 결제 금액
 	var totalPayment = 0;
-	if(totalP > 30000) { //배송비 없음
+	if(totalP >= 30000) { //배송비 없음
 		$('#del1').text("+ ")
 		$('#del2').text(" 원(조건부 무료)")
 		$('#deliveryFee').text("0");
