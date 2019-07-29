@@ -212,7 +212,8 @@ public class OrderController {
 		
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
-			String orderCode = orderDAO.getOrderCode(userId);
+			List<String> list = orderDAO.getOrderCode(userId);
+			String orderCode = list.get(0);
 			System.out.println(orderCode);
 			return orderCode;
 		}else {
@@ -401,6 +402,64 @@ public class OrderController {
 		mav.addObject("list", list);
 		mav.addObject("display", "/order/order_cart.jsp");
 		mav.setViewName("/main/nosIndex");
+		return mav;
+	}
+	
+	//비회원 장바구니->선택주문하기
+	@RequestMapping(value="/kokonutOrderCart.do", method=RequestMethod.GET)
+	public ModelAndView kokonutOrderCart(@RequestParam(required=false, defaultValue="") String checkedValueStr, HttpSession session) {
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		List<CartDTO> cartList = new ArrayList<CartDTO>();
+		String[] cartCodeStr = checkedValueStr.split(",");
+		int[] cartCode = new int[cartCodeStr.length];
+		for(int i = 0; i<cartCodeStr.length; i++) {
+			cartCode[i] = Integer.parseInt(cartCodeStr[i]);
+			System.out.println(cartCode[i]);
+			for(CartDTO cartDTO : list) {
+				if(cartDTO.getCartCode()==cartCode[i]) {
+					cartList.add(cartDTO);
+				}				
+			}
+		}
+		
+		
+		String thumbImgList = "";
+		String productCodeList = "";
+		String productNameList = "";
+		String discountPriceList = "";
+		String purchaseQtyList = "";
+		String productOptionList ="";
+		String optionContentList = "";
+		
+		for(int i= 0 ; i<cartList.size(); i++) {
+			thumbImgList += (cartList.get(i).getThumbImg() + ",");
+			productCodeList += (cartList.get(i).getProductCode() + ",");
+			productNameList += (cartList.get(i).getProductName() + ",");
+			discountPriceList += (cartList.get(i).getDiscountPrice() + ",");
+			purchaseQtyList += (cartList.get(i).getProductQty() + ",");
+			productOptionList += (cartList.get(i).getProductOption() + ",");
+			optionContentList += (cartList.get(i).getOptionContent() + ",");			
+		}
+		
+		ModelAndView mav = new ModelAndView();
+		int seq = userDAO.IncreaseKokonutSeq();
+		userDAO.createKokonutId(seq);
+		UserDTO userDTO = userDAO.getKokonutId(seq);
+		session.setAttribute("kokonutId", userDTO.getUserId());
+		
+		mav.addObject("checkedValueStr", checkedValueStr);
+		mav.addObject("thumbImgList", thumbImgList);
+		mav.addObject("productCodeList", productCodeList);
+		mav.addObject("productNameList", productNameList);
+		mav.addObject("discountPriceList", discountPriceList);
+		mav.addObject("purchaseQtyList", purchaseQtyList);
+		mav.addObject("productOptionList", productOptionList);
+		mav.addObject("optionContentList", optionContentList);
+		mav.addObject("userDTO", userDTO);
+		mav.addObject("list", cartList);
+		mav.addObject("display", "/order/order_cart.jsp");
+		mav.setViewName("/main/nosIndex");
+		
 		return mav;
 	}
 	

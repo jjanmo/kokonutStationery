@@ -65,8 +65,8 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
-	public String getOrderCode(String userId) {
-		return sqlSession.selectOne("orderSQL.getOrderCode", userId);
+	public List<String> getOrderCode(String userId) {
+		return sqlSession.selectList("orderSQL.getOrderCode", userId);
 	}
 	
 	//재고처리

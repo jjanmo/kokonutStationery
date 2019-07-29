@@ -60,13 +60,19 @@ public class CartController {
 	public void kokonutCartInsert(@ModelAttribute CartDTO cartDTO, HttpSession session) {
 		System.out.println(cartDTO);
 		if(session.getAttribute("kokonutCart")==null) {//비회원 세션값이 없을때
-			List<CartDTO> list = new ArrayList<CartDTO>();
+			List<CartDTO> list = new ArrayList<CartDTO>();			
 			list.add(cartDTO);
+			for(int i=0; i<list.size(); i++) {
+				list.get(i).setCartCode(i);
+			}
 			session.setAttribute("kokonutCart", list);
 			System.out.println(list);
 		}else { // 비회원 세션값이 있을때
 			List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
 			list.add(cartDTO);
+			for(int i=0; i<list.size(); i++) {
+				list.get(i).setCartCode(i);
+			}
 			session.setAttribute("kokonutCart", list);
 			System.out.println(list);
 		}
