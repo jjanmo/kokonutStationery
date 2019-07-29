@@ -110,11 +110,11 @@ public class OrderController {
 		return mav;
 	}
 
-	//배송지 검색 페이지
-	@GetMapping("/checkPost.do")
-	public String checkPost() {
-		return "/order/checkPost";
-	}
+//	//배송지 검색 페이지
+//	@GetMapping("/checkPost.do")
+//	public String checkPost() {
+//		return "/order/checkPost";
+//	}
 	
 	//배송지 검색
 	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
@@ -140,6 +140,7 @@ public class OrderController {
 	@ResponseBody
 	public String setOrderInfo(@ModelAttribute OrderDTO orderDTO) {
 		int su = orderDAO.setOrderInfo(orderDTO);
+		System.out.println(su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
@@ -147,8 +148,9 @@ public class OrderController {
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
 	public @ResponseBody String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
-		System.out.println(orderDTO);
+		//System.out.println(orderDTO);
 		int su = orderDAO.setOrderInfoOption(orderDTO);
+		System.out.println(su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
