@@ -159,6 +159,7 @@ public class OrderController {
 	@GetMapping("/order_settle.do")
 	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
 									@RequestParam(required=false, defaultValue="") String checkedValueStr) {
+		System.out.println("오더에서 usePoint : "+usePoint+" check : "+checkedValueStr);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("usePoint", usePoint); //사용한 포인트
 		mav.addObject("checkedValueStr", checkedValueStr); //cartCode

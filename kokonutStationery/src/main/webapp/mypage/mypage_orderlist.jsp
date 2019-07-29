@@ -258,18 +258,14 @@ $(document).ready(function(){
 	});//ajax
 	
 });//ready
-
-
 /* 페이징 링크 */
 function orderManagerPaging(pg){
 	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
 }
-
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
 }
-
 </script>
 
 
