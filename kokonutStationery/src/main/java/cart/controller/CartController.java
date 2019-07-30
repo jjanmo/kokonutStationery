@@ -171,13 +171,24 @@ public class CartController {
 
 	// 선택옵션 수정 페이지
 	@RequestMapping(value = "/goods_cart_edit.do", method = RequestMethod.GET)
-	public ModelAndView goodsCartEdit(@RequestParam String cartCode) {
-
-		// 상품한개받아오기
-		CartDTO cartDTO = cartDAO.goodsCartEdit(Integer.parseInt(cartCode));
-
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("cartDTO", cartDTO);
+	public ModelAndView goodsCartEdit(@RequestParam String cartCode, HttpSession session) {
+		ModelAndView mav = new ModelAndView();		
+		String userId = (String) session.getAttribute("memId");
+		
+		if(userId!=null) {//회원
+			// 상품한개받아오기
+			CartDTO cartDTO = cartDAO.goodsCartEdit(Integer.parseInt(cartCode));
+			mav.addObject("cartDTO", cartDTO);
+		}else {//비회원
+			List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+			for(CartDTO cartDTO : list) {
+				if(cartDTO.getCartCode()==Integer.parseInt(cartCode)) {
+					mav.addObject("cartDTO", cartDTO);
+				}
+			}
+		}
+		
+		
 		mav.setViewName("/cart/goods_cart_edit");
 		return mav;
 
@@ -263,6 +274,18 @@ public class CartController {
 	public void cartOptionModify(@RequestParam Map<String, String> map) {
 		cartDAO.cartOptionModify(map);
 
+	}
+	
+	@RequestMapping(value = "/kokonut_option_content_modify.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void kokonutCartOptionModify(@RequestParam String optionContent, @RequestParam String cartCode
+			, HttpSession session) {
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		for(CartDTO cartDTO : list) {
+			if(cartDTO.getCartCode()==Integer.parseInt(cartCode)) {
+				cartDTO.setOptionContent(optionContent);
+			}
+		}
 	}
 	
 	//선택주문하기 페이지 이동
