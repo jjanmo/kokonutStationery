@@ -648,13 +648,16 @@ $('#orderWriteBtn').click(function(){
 	//alert('${kokonutId}'.indexOf(kId));
 	
 	//유효성검사
-	if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
-		alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
-		return false;		
-	}else if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
-		alert("올바른 이름 형식이 아닙니다.");
-		$('#userName').focus();
-		return false;
+	if('${memId}'==''){
+		if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
+			alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
+			return false;		
+		}
+	}
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#userName').focus();
+			return false;	 
 	}else if( !chkPhone.test($('#userPhone1').val())){
 		alert("올바른 전화번호 형식이 아닙니다.");
 		$('#userPhone1').focus();

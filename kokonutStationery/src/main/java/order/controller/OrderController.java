@@ -148,9 +148,9 @@ public class OrderController {
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
 	public @ResponseBody String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
-		//System.out.println(orderDTO);
+		System.out.println("setOrderInfoOption : "+orderDTO);
 		int su = orderDAO.setOrderInfoOption(orderDTO);
-		System.out.println(su);
+		//System.out.println("su : " + su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
@@ -212,12 +212,13 @@ public class OrderController {
 		//ORDERLIST 생성
 		System.out.println(map);
 		int su = orderDAO.insertOrderlist(map);
-		
+		System.out.println(su);
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
 			List<String> list = orderDAO.getOrderCode(userId);
 			String orderCode = list.get(0);
-			System.out.println(orderCode);
+			System.out.println(orderCode);			
+			session.removeAttribute("kokonutId");
 			return orderCode;
 		}else {
 			if(su == 0) {
@@ -254,7 +255,7 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutIdCancel(@RequestParam String userId, HttpSession session) {
 		int su = userDAO.kokonutIdCancel(userId);
-		session.invalidate();
+		session.removeAttribute("KokonutId");
 		if(su==1) {
 			return "success";
 		}else {

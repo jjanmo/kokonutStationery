@@ -314,9 +314,24 @@ public class CartController {
 	
 	@PostMapping("/deleteCartAfterPay.do")
 	@ResponseBody
-	public void deleteCartAfterPay(@RequestParam String userId, @RequestParam String cartCode) {
-		userDAO.subCartCount(userId); //장바구니 담긴 수 -1
-		cartDAO.deleteCartAfterPay(Integer.parseInt(cartCode)); //장바구니 리스트에서 삭제
+	public void deleteCartAfterPay(@RequestParam String cartCode, HttpSession session) {
+		String userId = (String) session.getAttribute("memId");
+		if(userId!=null) { //회원
+			userDAO.subCartCount(userId); //장바구니 담긴 수 -1
+			cartDAO.deleteCartAfterPay(Integer.parseInt(cartCode)); //장바구니 리스트에서 삭제
+		}else { //비회원
+			List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+			
+			int size = list.size();
+			for(int i=0; i<size; i++) {
+				CartDTO cartDTO = list.get(i);
+				if(cartDTO.getCartCode()==Integer.parseInt(cartCode)) {
+					list.remove(cartDTO); 
+					size--; 
+					i--; 
+				}
+			}
+		}		
 	}
 	
 }
