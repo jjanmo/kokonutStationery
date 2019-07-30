@@ -195,7 +195,7 @@ $('#orderBtn').click(function(){
 		if(userId==""){
 			if(confirm("로그인하지 않으셨습니다. 비회원으로 진행하시겠습니까?")){
 				location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
-				+"&productQty="+productQty;
+				+"&productQty="+orderProductQty;
 			}
 		}else{
 			location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode

@@ -67,7 +67,7 @@
 							
 								<!-- 선택옵션 내용 시작 -->
 								<c:if test="${cartDTO.productOption==1}">
-									<font id="${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
+									<font id="option${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
 										&emsp;[&nbsp;${cartDTO.optionContent}&nbsp;]
 									</font>
 									<a href="goods_cart_edit.do?cartCode=${cartDTO.cartCode}" data-width="600" data-height="400" class="popup" 
@@ -286,6 +286,8 @@ $('.up').click(function() {
 	var qty = $('#' + id_check).val();
 	qty++;
 	$('#' + id_check).val(qty);
+	//alert(id_check);
+	//alert(qty);
 });
 
 $('.down').click(function() {
@@ -295,6 +297,8 @@ $('.down').click(function() {
 		qty--;
 		$('#' + id_check).val(qty);
 	}
+	//alert(id_check);
+	//alert(qty);
 });
 
 //재고파악 및 수정
@@ -539,7 +543,7 @@ $('.allDelete').click(function() {
 	$('#' + ${status.index}).val("1");
 }); */
 
-/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
+/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트 -- 태그에서 팝업창 띄우는거로 대체
 $('.optionButton').click(function(){
 	$.ajax({
 		type:'GET',
