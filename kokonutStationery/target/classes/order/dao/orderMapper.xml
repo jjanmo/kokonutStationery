@@ -68,9 +68,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 주문정보 추가 : 옵션 있을떄 -->
 	<insert id="setOrderInfoOption" parameterType="order">
-	begin
-		delete from TBL_ORDER where orderCode = 0 and orderDate is null;
-		
 		insert into TBL_ORDER(orderCode
 					  ,userId
 					  ,userName
@@ -97,8 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,#{paymentType}
 					  ,#{totalPayment}
 					  ,#{productOption} 
-					  ,#{optionContent} );
-	  end;
+					  ,#{optionContent} )
 	</insert>
 	
 	<!--주문정보 가져오기 -->
