@@ -110,11 +110,6 @@ public class OrderController {
 		return mav;
 	}
 
-//	//배송지 검색 페이지
-//	@GetMapping("/checkPost.do")
-//	public String checkPost() {
-//		return "/order/checkPost";
-//	}
 	
 	//배송지 검색
 	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
@@ -212,13 +207,12 @@ public class OrderController {
 		//ORDERLIST 생성
 		System.out.println(map);
 		int su = orderDAO.insertOrderlist(map);
-		System.out.println(su);
+
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
 			List<String> list = orderDAO.getOrderCode(userId);
 			String orderCode = list.get(0);
 			System.out.println(orderCode);			
-			session.removeAttribute("kokonutId");
 			return orderCode;
 		}else {
 			if(su == 0) {

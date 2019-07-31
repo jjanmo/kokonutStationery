@@ -24,7 +24,7 @@
         <th id="orderCode">주문번호</th>
         <th id="paymentType">결제방법</th>
         <th id="order_totalPayment">주문금액</th>
-        <th id="crPayment">취소금액</th>
+        <th id="crPayment">취소환불금액</th>
         <th id="orderState">주문상태</th>
         <th id="delivery">교환/환불</th>
         <th id="orderview"></th>
