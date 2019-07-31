@@ -614,12 +614,9 @@ function stringNumberToInt(stringNumber){
 
 //다음 버튼 이벤트
 $('#orderWriteBtn').click(function(){
-	
-<<<<<<< HEAD
-=======
+
 	deletePreOrder();
 	
->>>>>>> refs/heads/jjanmo0729_1
 	//유효성검사
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
@@ -634,7 +631,6 @@ $('#orderWriteBtn').click(function(){
 		if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
 			alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
 			return false;
-		
 		}
 	}
 	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
