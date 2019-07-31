@@ -48,6 +48,8 @@ public interface OrderDAO {
 	
 	public List<OrderDTO> getOrder(String orderCode);
 
+	public void deletePreOrder(String userId);
+
 	
 
 

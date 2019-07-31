@@ -121,6 +121,13 @@ public class OrderDAOImpl implements OrderDAO {
 
 	}
 
+	//preorder(진짜 order정보가 되기 전에 저장한 정보:orderCode=0 & orderDate=null)삭제
+	@Override
+	public void deletePreOrder(String userId) {
+		sqlSession.delete("orderSQL.deletePreOrder",userId);
+		
+	}
+
 	
 
 	

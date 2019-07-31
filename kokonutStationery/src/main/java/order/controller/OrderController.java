@@ -110,11 +110,6 @@ public class OrderController {
 		return mav;
 	}
 
-//	//배송지 검색 페이지
-//	@GetMapping("/checkPost.do")
-//	public String checkPost() {
-//		return "/order/checkPost";
-//	}
 	
 	//배송지 검색
 	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
@@ -148,13 +143,29 @@ public class OrderController {
 	//주문 정보 추가 : 옵션이 있는 경우
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
 	public @ResponseBody String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
-		//System.out.println(orderDTO);
+		System.out.println("setOrderInfoOption : "+orderDTO);
 		int su = orderDAO.setOrderInfoOption(orderDTO);
-		System.out.println(su);
+		//System.out.println("su : " + su);
 		if(su == 1)	return "success";
 		else return "fail";
 	}
-
+	
+	//TBL_ORDER에 넣기 전에 이미 존재하는 필요없는 order정보(orderCode=0 & orderDate=null)를 지워주는 코드 
+	@RequestMapping(value="/deletePreOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void deletePreOrder(HttpSession session) {
+		String userId = (String)session.getAttribute("memId");
+		String kokonutId = (String)session.getAttribute("kokonutId");
+		System.out.println("u : " + userId);
+		System.out.println("k : " + kokonutId);
+		if(userId == null) {
+			orderDAO.deletePreOrder(kokonutId); 
+		}
+		else {
+			orderDAO.deletePreOrder(userId); 
+		}
+	}
+	
 	//order_settle 페이지
 	@GetMapping("/order_settle.do")
 	public ModelAndView orderSettle(@RequestParam(required=false, defaultValue="0") String usePoint, 
@@ -210,14 +221,15 @@ public class OrderController {
 	@ResponseBody
 	public String insertOrderlist(@RequestParam Map<String, Object> map, HttpSession session) {
 		//ORDERLIST 생성
-		System.out.println(map);
+		System.out.println("map :" + map);
 		int su = orderDAO.insertOrderlist(map);
+		System.out.println("su = "+ su);
 		
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
 			List<String> list = orderDAO.getOrderCode(userId);
 			String orderCode = list.get(0);
-			System.out.println(orderCode);
+			System.out.println(orderCode);			
 			return orderCode;
 		}else {
 			if(su == 0) {
@@ -254,7 +266,7 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutIdCancel(@RequestParam String userId, HttpSession session) {
 		int su = userDAO.kokonutIdCancel(userId);
-		session.invalidate();
+		session.removeAttribute("KokonutId");
 		if(su==1) {
 			return "success";
 		}else {

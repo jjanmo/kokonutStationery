@@ -1,3 +1,18 @@
+function deletePreOrder(){
+	alert("delete");
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/order/deletePreOrder.do'
+	});
+}
+
+
+
+
+
+
+
+
 /*function chkOrder(id){
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수

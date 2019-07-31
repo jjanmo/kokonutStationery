@@ -265,11 +265,11 @@
 							</td>
 						</tr>
 						
-						<tr>
+						<tr id="pointTr">
 						  <td valign="top" style="font-size: 13px; color: #666; font-weight:normal; padding: 28px 0 5px 0;">포인트 사용 :</td>
 						<td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
 						
-						<table cellpadding="0" cellspacing="0" id="pointTable">
+						<table cellpadding="0" cellspacing="0">
 							<tbody>
 							  <tr>
 							    <td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용가능 포인트</td>
@@ -399,7 +399,7 @@ $(function(){
 	
 	//비회원일 때 포인트사용 테이블 출력안되도록! 
 	if('${memId}' == ''){
-		$('#pointTable').css('display','none');
+		$('#pointTr').css('display','none');
 	}
 });
 
@@ -633,6 +633,9 @@ function stringNumberToInt(stringNumber){
 //'다음' 버튼 이벤트
 // /kokonutStationery/order/order_settle.do로 이동
 $('#orderWriteBtn').click(function(){
+	
+	deletePreOrder();
+	
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
@@ -648,13 +651,16 @@ $('#orderWriteBtn').click(function(){
 	//alert('${kokonutId}'.indexOf(kId));
 	
 	//유효성검사
-	if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
-		alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
-		return false;		
-	}else if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
-		alert("올바른 이름 형식이 아닙니다.");
-		$('#userName').focus();
-		return false;
+	if('${memId}'==''){
+		if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
+			alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
+			return false;		
+		}
+	}
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#userName').focus();
+			return false;	 
 	}else if( !chkPhone.test($('#userPhone1').val())){
 		alert("올바른 전화번호 형식이 아닙니다.");
 		$('#userPhone1').focus();
