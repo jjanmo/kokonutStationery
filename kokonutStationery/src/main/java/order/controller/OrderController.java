@@ -110,11 +110,6 @@ public class OrderController {
 		return mav;
 	}
 
-//	//배송지 검색 페이지
-//	@GetMapping("/checkPost.do")
-//	public String checkPost() {
-//		return "/order/checkPost";
-//	}
 	
 	//배송지 검색
 	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
@@ -138,7 +133,12 @@ public class OrderController {
 	//주문 정보 추가 : 옵션이 없는 경우
 	@RequestMapping(value="/setOrderInfo.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String setOrderInfo(@ModelAttribute OrderDTO orderDTO) {
+	public String setOrderInfo(@ModelAttribute OrderDTO orderDTO, HttpSession session) {
+		
+		//TBL_ORDER에 넣기 전에 이미 존재하는 필요없는 order정보(orderCode=0 & orderDate=null)를 지워주는 코드 
+		String userId = (String) session.getAttribute("userId");
+		orderDAO.deletePreOrder(userId); 
+		
 		int su = orderDAO.setOrderInfo(orderDTO);
 		System.out.println(su);
 		if(su == 1)	return "success";
@@ -149,10 +149,27 @@ public class OrderController {
 	@RequestMapping(value="/setOrderInfoOption.do", method=RequestMethod.POST)
 	public @ResponseBody String setOrderInfoOption(@ModelAttribute OrderDTO orderDTO) {
 		//System.out.println(orderDTO);
+			
 		int su = orderDAO.setOrderInfoOption(orderDTO);
 		System.out.println(su);
 		if(su == 1)	return "success";
 		else return "fail";
+	}
+
+	//TBL_ORDER에 넣기 전에 이미 존재하는 필요없는 order정보(orderCode=0 & orderDate=null)를 지워주는 코드 
+	@RequestMapping(value="/deletePreOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void deletePreOrder(HttpSession session) {
+		String userId = (String)session.getAttribute("memId");
+		String kokonutId = (String)session.getAttribute("kokonutId");
+		System.out.println("u : " + userId);
+		System.out.println("k : " + kokonutId);
+		if(userId == null) {
+			orderDAO.deletePreOrder(kokonutId); 
+		}
+		else {
+			orderDAO.deletePreOrder(userId); 
+		}
 	}
 
 	//order_settle 페이지

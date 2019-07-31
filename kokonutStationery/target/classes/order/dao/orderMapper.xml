@@ -34,11 +34,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							where userId = #{userId}
 	</update>
 	
+	<!--주문 전 orderCode=0 & orderDate=null인 order 정보 삭제-->
+	<delete id="deletePreOrder" parameterType="String">
+		delete from TBL_ORDER where orderCode = 0 and 
+									orderDate is null and 
+									userId = #{userId} or userId = #{kokonutId}
+	</delete>	
+	
+	
 	<!--주문정보 추가 : 옵션 없을때  -->
 	<insert id="setOrderInfo" parameterType="order">
-	begin
-		delete from TBL_ORDER where orderCode = 0 and orderDate is null;
-	
 		insert into TBL_ORDER(orderCode
 							  ,userId
 							  ,userName
@@ -62,15 +67,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 							  ,#{totalPrice}
 							  ,#{paymentType}
 							  ,#{totalPayment}
-							  ,#{productOption} );
-	end;				  	
-    </insert>
+							  ,#{productOption} )
+   </insert>
 	
 	<!-- 주문정보 추가 : 옵션 있을떄 -->
 	<insert id="setOrderInfoOption" parameterType="order">
-	begin
-		delete from TBL_ORDER where orderCode = 0 and orderDate is null;
-		
 		insert into TBL_ORDER(orderCode
 					  ,userId
 					  ,userName
@@ -97,8 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					  ,#{paymentType}
 					  ,#{totalPayment}
 					  ,#{productOption} 
-					  ,#{optionContent} );
-	  end;
+					  ,#{optionContent} )
 	</insert>
 	
 	<!--주문정보 가져오기 -->
