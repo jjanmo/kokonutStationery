@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deletePreOrder" parameterType="String">
 		delete from TBL_ORDER where orderCode = 0 and 
 									orderDate is null and 
-									userId = #{userId} or userId = #{kokonutId}
+									(userId = #{userId} or userId = #{kokonutId})
 	</delete>	
 	
 	

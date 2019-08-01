@@ -111,10 +111,18 @@
 								상품합계금액(배송비별도)
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+							<c:if test='${totalPayment>30000 }'>
+								<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+									${totalPayment}							
+								</font>
+							</c:if>
+							<c:if test='${totalPayment<30000 }'>
+								<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
 								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
-								${totalPayment}							
+								${totalPayment-2500}							
 							</font>
+							</c:if>
 							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
 								원
 							</font>
