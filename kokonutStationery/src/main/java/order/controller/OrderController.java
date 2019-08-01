@@ -226,7 +226,6 @@ public class OrderController {
 		//ORDERLIST 생성
 		System.out.println("map :" + map);
 		int su = orderDAO.insertOrderlist(map);
-		System.out.println("su = "+ su);
 		
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
@@ -234,13 +233,8 @@ public class OrderController {
 			String orderCode = list.get(0);
 			System.out.println(orderCode);			
 			return orderCode;
-		}else {
-			if(su == 0) {
-				return "fail";
-			}
-			else {
-				return "success";
-			}
+		}else {			
+			return "success";		
 		}
 	}
 	
