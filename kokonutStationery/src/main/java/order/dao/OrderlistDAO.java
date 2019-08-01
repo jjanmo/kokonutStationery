@@ -15,8 +15,12 @@ public interface OrderlistDAO {
 
 	public void orderChange(String orderCode);
 
-	public void orderRefund(String orderCode);
+	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
+			String erCostStr,String productCodeStr, String optionContentStr, String changeRefundQtyStr);
 
 	public void orderReceipt(String orderCode);
+
+	public void orderExchange(String orderCode, String erReason, String erDetail, 
+			String productCodeStr, String optionContentStr,	String changeRefundQtyStr);
 
 }

@@ -273,7 +273,8 @@ $(document).ready(function(){
 			$('#pwdChkOk').css('visibility','hidden');
 			$('#pwdChkOk2').css('visibility','hidden');
 			$('#pwdChkGood').css('visibility','hidden');
-		}else if(currentVal.length>=10){
+		
+	    }else if(currentVal.length>=10){
 			//10자리이상일 때
 			
 			if( /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{15,20}$/.test(currentVal) ){
@@ -358,6 +359,7 @@ $(document).ready(function(){
 		$('#pwdChkOk').css('visibility','hidden');
 		$('#pwdChkOk2').css('visibility','hidden');
 		$('#pwdChkGood').css('visibility','hidden');
+		
 	 });
 	
 });//document.ready

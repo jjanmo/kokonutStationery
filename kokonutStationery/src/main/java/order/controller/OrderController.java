@@ -1,7 +1,9 @@
 package order.controller;
 
 import java.util.HashMap;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -405,21 +408,26 @@ public class OrderController {
 	}
 	
 	//교환/환불페이지띄우기
-	@GetMapping("/orderRefundChange.do")
-	public ModelAndView OrderRefundChange(@RequestParam String orderCode) {
+	@GetMapping("/orderExchangeRefund.do")
+	public ModelAndView orderExchangeRefund(@RequestParam String orderCode) {
 		ModelAndView mav = new ModelAndView();
 		//해당하는 상품내역가져오기
 		List<OrderDTO> list = orderDAO.getOrder(orderCode);
 		
 		System.out.println("orderCode="+orderCode);
+		String orderDate = new SimpleDateFormat("yyyy.MM.dd kk:mm:ss").format(list.get(0).getOrderDate());
+		
+		int totalPayment = list.get(0).getTotalPayment();
 		
 		mav.addObject("list", list);
 		mav.addObject("orderCode", orderCode);
-		mav.setViewName("/order/orderRefundChange");
+		mav.addObject("orderDate", orderDate);
+		mav.addObject("totalPayment", totalPayment);
+		mav.setViewName("/order/orderExchangeRefund");
 		return mav;
 	}
 	
-
+	
 }
 
 

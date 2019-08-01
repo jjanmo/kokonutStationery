@@ -1,5 +1,6 @@
 package order.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,13 +39,41 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 	}
 
 	@Override
-	public void orderRefund(String orderCode) {
-		sqlSession.update("orderlistSQL.orderRefund",orderCode);	
+	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
+			String erCostStr,String productCodeStr, String optionContentStr, String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("erTotalCost", erTotalCost);
+		map.put("erCostStr", erCostStr);
+		map.put("productCodeStr", productCodeStr);
+		map.put("optionContentStr", optionContentStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderRefund",map);
+		
 	}
 
 	@Override
 	public void orderReceipt(String orderCode) {
 		sqlSession.update("orderlistSQL.orderReceipt",orderCode);	
+	}
+
+	@Override
+	public void orderExchange(String orderCode, String erReason, String erDetail, 
+			String productCodeStr, String optionContentStr,	String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("productCodeStr", productCodeStr);
+		map.put("optionContentStr", optionContentStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderExchange",map);
 	} 
 	
 	

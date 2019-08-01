@@ -59,19 +59,81 @@ public class OrderlistController {
 		orderlistDAO.orderCancel(map);
 	}
 	
-	@RequestMapping(value="/order/orderChange.do",method=RequestMethod.POST)
-	public void orderChange(@RequestParam String orderCode) {
-		orderlistDAO.orderChange(orderCode);
-	}
-	
-	@RequestMapping(value="/order/orderRefund.do",method=RequestMethod.POST)
-	public void orderRefund(@RequestParam String orderCode) {
-		orderlistDAO.orderRefund(orderCode);
-	}
+	/*
+	 * @RequestMapping(value="/order/orderChange.do",method=RequestMethod.POST)
+	 * public void orderChange(@RequestParam String orderCode) {
+	 * orderlistDAO.orderChange(orderCode); }
+	 * 
+	 * @RequestMapping(value="/order/orderRefund.do",method=RequestMethod.POST)
+	 * public void orderRefund(@RequestParam String orderCode) {
+	 * orderlistDAO.orderRefund(orderCode); }
+	 */
 	
 	@RequestMapping(value="/order/orderReceipt.do",method=RequestMethod.POST)
 	public void orderReceipt(@RequestParam String orderCode) {
 		orderlistDAO.orderReceipt(orderCode);
 	}
 	
+	//상품교환
+	@RequestMapping(value="/order/orderExchange.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String orderExchange(@RequestParam String orderCode,
+								@RequestParam String erReason,
+								@RequestParam String erDetail,
+								@RequestParam String productCodeList,
+								@RequestParam String optionContentList,
+								@RequestParam String changeRefundQtyList) {
+		
+		
+		System.out.println("[교환]주문코드="+orderCode+" 사유="+erReason+" 세부사유="+erDetail+" 상품코드="+productCodeList+" 옵션내용="+optionContentList+" 교환환불수량="+changeRefundQtyList);
+		//상품에 따른 수량변경(옵션있으면체크)
+		//상품재고 돌려놓기
+		String[] productCodeStr = productCodeList.split(",");
+		String[] optionContentStr = optionContentList.split(",");
+		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
+		
+		for(int i=0;i<productCodeStr.length;i++) {
+			if(optionContentStr[i].equals("undefined"))
+				optionContentStr[i]="";
+			orderlistDAO.orderExchange(orderCode,erReason,erDetail,
+					productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+		}
+		
+		
+		return "ok";
+	}
+	
+	//상품환불
+	@RequestMapping(value="/order/orderRefund.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String orderRefund(@RequestParam String orderCode,
+							@RequestParam String erReason,
+							@RequestParam String erDetail,
+							@RequestParam String erTotalCost,
+							@RequestParam String erCostList,
+							@RequestParam String productCodeList,
+							@RequestParam String optionContentList,
+							@RequestParam String changeRefundQtyList) {
+		
+		
+		System.out.println("[환불]주문코드="+orderCode+" 사유="+erReason+" 총환불금액="+erTotalCost+" 각환불금액="+erCostList
+				+" 상품코드="+productCodeList+" 옵션내용="+optionContentList+" 교환환불수량="+changeRefundQtyList);
+		//erCost변경
+		//상품에 따른 수량변경(옵션있으면체크)
+		//상품재고 돌려놓기
+		String[] erCostStr = erCostList.split(",");
+		String[] productCodeStr = productCodeList.split(",");
+		String[] optionContentStr = optionContentList.split(",");
+		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
+		
+		for(int i=0;i<productCodeStr.length;i++) {
+			if(optionContentStr[i].equals("undefined"))
+				optionContentStr[i]="";
+			orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
+					erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+		}
+		
+		return "ok";
+	}
+		
 }
