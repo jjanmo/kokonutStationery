@@ -122,6 +122,10 @@ public class UserController {
 		session.setAttribute("memId", userDTO.getUserId());
 		session.setAttribute("memEmail", userDTO.getUserEmail());
 		
+		//비회원 세션 삭제
+		session.removeAttribute("kokonutId"); //비회원 아이디
+		session.removeAttribute("kokonutCart"); //비회원 장바구니
+		
 		//회원가입폼을 DB로 전달 
 		String encPassword = passwordEncoder.encode(userDTO.getUserPwd());
 		userDTO.setUserPwd(encPassword);
@@ -158,6 +162,9 @@ public class UserController {
 			session.setAttribute("memName", userDTO.getUserName());
 			session.setAttribute("memId", userDTO.getUserId());
 			session.setAttribute("memEmail", userDTO.getUserEmail());
+			//비회원 세션 삭제
+			session.removeAttribute("kokonutId"); //비회원 아이디
+			session.removeAttribute("kokonutCart"); //비회원 장바구니
 			return "exist";
 		}else {
 			return "not_exist";

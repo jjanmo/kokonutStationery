@@ -439,7 +439,7 @@ var prdOption = new Array();
 							 'members'				: 0 },
 					dataType: 'text',
 					success: function(data){
-							if('${memId}' == ''){							
+							if(data>=0){							
 								alert("상품 구매가 완료되었습니다. " + " 주문번호 : " + data);
 							}else if(data == "success"){
 								//alert("orderlist 생성 및 order 수정 완료");
