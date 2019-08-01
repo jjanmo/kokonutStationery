@@ -190,12 +190,14 @@ var showDiv = 0;
 
 //구매하기(주문하기)버튼 클릭 이벤트 : order.jsp이동
 $('#orderBtn').click(function(){
+	
+	alert(productQty);
 	var orderProductQty = $('#productQty').val();
 	if(option == 0){ //옵션이 없는 경우
 		if(userId==""){
 			if(confirm("로그인하지 않으셨습니다. 비회원으로 진행하시겠습니까?")){
 				location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
-				+"&productQty="+productQty;
+																	+"&productQty="+orderProductQty;
 			}
 		}else{
 			location.href="/kokonutStationery/order/orderNoOption.do?productCode="+productCode
@@ -357,6 +359,7 @@ function createDiv(sel){
 	  max : '0',
 	  size :'2',
 	  value : '1'}));
+	
 	/* 
 	//옵션코드
 	$('#inputDiv'+ optionCnt).append($('<input>',{
@@ -675,6 +678,7 @@ $('#cartBtn').click(function(){
 					   'optionContent': 'none'
 					   }
 			}); //ajax
+		
 		} else { //옵션이 있을 때
 			if(selArray.length==0) {
 				alert('종류 선택하세요.');
@@ -698,8 +702,8 @@ $('#cartBtn').click(function(){
 				} //for
 			}//if~else
 		} //if~else
-			
 		//페이지 이동
+		
 		location.href = "/kokonutStationery/cart/goods_cart.do";
 	} //if~else
 });

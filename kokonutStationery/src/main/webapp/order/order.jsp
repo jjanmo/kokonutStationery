@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
 <div class="indiv2" style="width:1000px; margin-top:135px;"><!-- Start indiv -->
@@ -177,9 +177,9 @@
 				            <td style="font-size: 13px; color: #666; font-weight:normal;">받으실곳 :</td>
 				            <td style="padding:5px 0">
 				              <input type="text" name="receiverZipcode" id="receiverZipcode" size="5" readonly required
-								style="width:100px;" >
+								style="width:100px;" placeholder="우편번호">
 				              
-				              <div class="sub-button-s" onclick="checkPost()"
+				              <div class="sub-button-s" id="daumCheckPost" onclick="daumCheckPost()"
 				              style="text-align:center; width: 112px;height: 42px;position: absolute; margin: -40px 0 0 120px;line-height: 42px; font-size: 12px;" align="absmiddle">우편번호 검색</div>
 				            </td>
 				            
@@ -188,14 +188,14 @@
 				            <td style="font-size: 13px; color: #666; font-weight:normal;"></td>
 				            <td style="padding:5px 0">
 				              <input type="text" name="receiverAddr1" id="receiverAddr1" 
-				              style="width:400px; " required readonly>
+				              style="width:400px;" placeholder="도로명 주소" required readonly>
 				            </td>
 				          </tr>
 				          <tr>
 				            <td style="font-size: 13px; color: #666; font-weight:normal;"></td>
 				            <td style="padding:5px 0">
 				              <input type="text" name="receiverAddr2" id="receiverAddr2" label="세부주소"
-				              style=" width:345px; ">
+				              style=" width:345px;" placeholder="세부주소">
 				              <div style="padding:5px 0 0 1px;font:12px dotum;color:#999;" id="div_road_address_sub"></div>
 				            </td>
 				          </tr>
@@ -265,7 +265,7 @@
 							</td>
 						</tr>
 						
-						<tr>
+						<tr id="pointTr">
 						  <td valign="top" style="font-size: 13px; color: #666; font-weight:normal; padding: 28px 0 5px 0;">포인트 사용 :</td>
 						<td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
 						
@@ -369,7 +369,7 @@
 </div>
 
 
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
@@ -385,7 +385,6 @@ $(function(){
 	//옵션이 없는 경우
 	if(option == 0){
 		createTabNoOption();
-		totalP();		
 	}
 	//옵션이 있는 경우
 	else{
@@ -395,11 +394,16 @@ $(function(){
 		var productQty = qtyStr.split(",");
 		
 		createTabOption(optionContent, productQty);
-		totalP();
+	}
+	totalP();
+	
+	//비회원일 때 포인트사용 테이블 출력안되도록! 
+	if('${memId}' == ''){
+		$('#pointTr').css('display','none');
 	}
 });
 
-//배송지 확인 클릭
+//배송정보 확인 클릭
 $('#sameInfo').click(function(){
 	if($('#sameInfo').prop('checked')){
 		$('#receiverName').val(userName);
@@ -413,6 +417,50 @@ $('#sameInfo').click(function(){
 		$('#receiverPhone3').val('');
 	}
 });
+
+//다음 주소 API
+function daumCheckPost() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+          
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+       
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+            
+         	// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                	addr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                	addr += (addr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                                 
+            } else {
+                document.getElementById("receiverAddr1").value = '';
+            }
+          
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('receiverZipcode').value = data.zonecode;
+            document.getElementById("receiverAddr1").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("receiverAddr2").focus();
+        }
+    }).open();
+}
+
 
 //제품 1개에 대한 table 생성 : 옵션없음
 function createTabNoOption(){
@@ -518,7 +566,7 @@ function totalP(){
 	var remainingPoint = $('#remainingPoint').val(totalPoint);	
 	$('#totalPoint').val(totalPoint);
 	
-	if(totalP > 30000){
+	if(totalP >= 30000){ //결제금액이 30000원부터는 배송료 무료 
 		$('#goodsPrice').text(AddComma(totalP));
 		$('#paper_delivery').text(0);
 		$('#totalP').text(AddComma(totalP))
@@ -583,8 +631,11 @@ function stringNumberToInt(stringNumber){
 
 
 //'다음' 버튼 이벤트
-// /kokonutStationery/order/order_settle.do
+// /kokonutStationery/order/order_settle.do로 이동
 $('#orderWriteBtn').click(function(){
+	
+	deletePreOrder();
+	
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
 	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
@@ -594,16 +645,22 @@ $('#orderWriteBtn').click(function(){
 	var paywayVal = $('input[name="payType"]:checked').val();
 	var kId = 'Kokonut';
 	
+	//alert('${memId}');
+	//alert('${kokonutId}');
+	//alert(${kokonutId});
 	//alert('${kokonutId}'.indexOf(kId));
 	
 	//유효성검사
-	if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
-		alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
-		return false;		
-	}else if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
-		alert("올바른 이름 형식이 아닙니다.");
-		$('#userName').focus();
-		return false;
+	if('${memId}'==''){
+		if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
+			alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
+			return false;		
+		}
+	}
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#userName').focus();
+			return false;	 
 	}else if( !chkPhone.test($('#userPhone1').val())){
 		alert("올바른 전화번호 형식이 아닙니다.");
 		$('#userPhone1').focus();
@@ -705,7 +762,7 @@ $('#orderWriteBtn').click(function(){
 						//alert("주문정보보내기 성공");
 					} 
 					else {
-						alert("실패!!");
+						//alert("실패!!");
 					}
 					
 				}
@@ -741,7 +798,7 @@ $('#orderWriteBtn').click(function(){
 							//alert("주문정보보내기 성공");
 						}
 						else {
-							alert("실패!!");
+							//alert("실패!!");
 						}
 	
 					}
@@ -784,7 +841,7 @@ $('#orderWriteBtn').click(function(){
 		if(option == 0){ //옵션이 없는 경우
 			var purchaseQty = '${productQty}';
 			//alert(typeof purchaseQty);
-			var  a = $('input[name="payType"]:checked').val();
+			//var  a = $('input[name="payType"]:checked').val();
 			//alert("a : "+a);
 			$.ajax({
 				type : 'POST',
@@ -806,7 +863,7 @@ $('#orderWriteBtn').click(function(){
 						//alert("주문정보보내기 성공");
 					} 
 					else {
-						alert("실패!!");
+						//alert("실패!!");
 					}
 					
 				}
@@ -842,7 +899,7 @@ $('#orderWriteBtn').click(function(){
 							//alert("주문정보보내기 성공");
 						}
 						else {
-							alert("실패!!");
+							//alert("실패!!");
 						}
 	
 					}

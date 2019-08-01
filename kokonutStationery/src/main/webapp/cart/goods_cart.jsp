@@ -67,7 +67,7 @@
 							
 								<!-- 선택옵션 내용 시작 -->
 								<c:if test="${cartDTO.productOption==1}">
-									<font id="${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
+									<font id="option${cartDTO.cartCode }" style="font-weight:normal; font-size:12px; color:#666; line-height:23px; margin: 0 -104px 0;">
 										&emsp;[&nbsp;${cartDTO.optionContent}&nbsp;]
 									</font>
 									<a href="goods_cart_edit.do?cartCode=${cartDTO.cartCode}" data-width="600" data-height="400" class="popup" 
@@ -236,6 +236,7 @@
 }; */
 
 
+
 $('.cart_select').click(function() {
 	if($('.cart_select').hasClass('checkedAll')) {
 		$('input[name=cartCheckbox]').prop('checked', false);
@@ -285,6 +286,8 @@ $('.up').click(function() {
 	var qty = $('#' + id_check).val();
 	qty++;
 	$('#' + id_check).val(qty);
+	//alert(id_check);
+	//alert(qty);
 });
 
 $('.down').click(function() {
@@ -294,6 +297,8 @@ $('.down').click(function() {
 		qty--;
 		$('#' + id_check).val(qty);
 	}
+	//alert(id_check);
+	//alert(qty);
 });
 
 //재고파악 및 수정
@@ -538,7 +543,7 @@ $('.allDelete').click(function() {
 	$('#' + ${status.index}).val("1");
 }); */
 
-/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트
+/* //선택옵션수정버튼 클릭시 수정창 띄우는 이벤트 -- 태그에서 팝업창 띄우는거로 대체
 $('.optionButton').click(function(){
 	$.ajax({
 		type:'GET',
@@ -561,45 +566,50 @@ $('.optionButton').click(function(){
 
 
 //선택 찜하기
-$('.selectLike').click(function(){
-	var productCode = '';
-	var productName = '';
-	var productOption = '';
-	var thumbImg = '';
-	var discountPrice = '';
-	var optionContent = '';
-	
-	//선택된 것을 확인
-	for(var i=1; i<=$('input[name=cartCheckbox]').length; i++) {
-		if($('.checkbox'+i).is(':checked')) {
-			productCode = $('#productCode'+i).val();
-			productName = $('#productName'+i).val();
-			productOption = $('#productOption'+i).val();
-			thumbImg = $('#thumbImg'+i).val();
-			discountPrice = $('#discountPrice'+i).val();
 
-			if($('#productOption'+i).val()==0) { //옵션이 없을 때
-				optionContent = 'none';
-			} else { //옵션이 있을 때
-				optionContent = $('#optionContent'+i).val();
-			}
-			
-			$.ajax({	
-				type: 'post',
-				url: '/kokonutStationery/mypage/setWishList.do',
-				data: {'userId': '${memId}',
-					   'productCode': productCode,
-					   'productName': productName,
-					   'productOption': productOption,
-					   'thumbImg': thumbImg,
-					   'discountPrice': discountPrice,
-					   'optionContent': optionContent},
-				success: function(){
-					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+$('.selectLike').click(function(){
+	if('${memId}'!=''){//회원
+		var productCode = '';
+		var productName = '';
+		var productOption = '';
+		var thumbImg = '';
+		var discountPrice = '';
+		var optionContent = '';
+		
+		//선택된 것을 확인
+		for(var i=1; i<=$('input[name=cartCheckbox]').length; i++) {
+			if($('.checkbox'+i).is(':checked')) {
+				productCode = $('#productCode'+i).val();
+				productName = $('#productName'+i).val();
+				productOption = $('#productOption'+i).val();
+				thumbImg = $('#thumbImg'+i).val();
+				discountPrice = $('#discountPrice'+i).val();
+	
+				if($('#productOption'+i).val()==0) { //옵션이 없을 때
+					optionContent = 'none';
+				} else { //옵션이 있을 때
+					optionContent = $('#optionContent'+i).val();
 				}
-			});
-		} //if; 체크 유무 확인
-	} //for
+				
+				$.ajax({	
+					type: 'post',
+					url: '/kokonutStationery/mypage/setWishList.do',
+					data: {'userId': '${memId}',
+						   'productCode': productCode,
+						   'productName': productName,
+						   'productOption': productOption,
+						   'thumbImg': thumbImg,
+						   'discountPrice': discountPrice,
+						   'optionContent': optionContent},
+					success: function(){
+						location.href='/kokonutStationery/mypage/mypage_wishlist.do';
+					}
+				});
+			} //if; 체크 유무 확인
+		} //for
+	}else if('${memId}'==''){//비회원
+		alert('찜하기는 회원만 가능합니다.');
+	}
 });
 		
 //선택주문하기
@@ -612,9 +622,13 @@ $('#selectOrderBtn').click(function(){
 		checkedValueStr += checkedValue[i].value;		//checkbox value값 = cartCode
 		checkedValueStr += ",";
 	}
-	
-	location.href="/kokonutStationery/order/order_cart.do?checkedValueStr="+checkedValueStr;
-	
+	if('${memId}'!=''){
+		location.href="/kokonutStationery/order/order_cart.do?checkedValueStr="+checkedValueStr;
+	}else if('${memId}'==''){
+		if(confirm("로그인하지않으셨습니다. 비회원으로 진행하시겠습니까?")){
+			location.href="/kokonutStationery/order/kokonutOrderCart.do?checkedValueStr="+checkedValueStr;
+		}
+	}
 /* 	var cartCode=[];
 	$('input:checkbox[name=cartCheckbox]:checked').each(function(){
 		//cartCode.push($(this).val());

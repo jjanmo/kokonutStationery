@@ -238,7 +238,6 @@
 
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="../js/order.js"></script>
 <script>
 $(function(){
 var totalP = 0;	
@@ -347,7 +346,7 @@ var prdOption = new Array();
 	
 	//배송비 및 총 결제 금액
 	var totalPayment = 0;
-	if(totalP > 30000) { //배송비 없음
+	if(totalP >= 30000) { //배송비 없음
 		$('#del1').text("+ ")
 		$('#del2').text(" 원(조건부 무료)")
 		$('#deliveryFee').text("0");
@@ -390,7 +389,7 @@ var prdOption = new Array();
 			}
 			else{
 				pt = 1;
-			}
+			} 
 						
 			//orderlist생성
 			var totalProductPayment = stringNumberToInt($('#totalAmount').text());	//총주문금액
@@ -423,9 +422,11 @@ var prdOption = new Array();
 						}
 					}
 					
-				});//ajax orderlist/order수정
+				});//ajax orderlist생성/order수정			
+			}//if 회원
+			
 			//비회원
-			}else if('${memId}' == ''){
+			else if('${memId}' == ''){
 				$.ajax({
 					type : 'POST',
 					url  : '/kokonutStationery/order/insertOrderlist.do',
@@ -448,7 +449,21 @@ var prdOption = new Array();
 							}
 						}
 				});
+			}//else if 비회원
+			
+			//선택주문상품 장바구니에서 삭제
+			var checkedValueStr = '${checkedValueStr}';
+			var cartCodeArray = checkedValueStr.split(",");
+			//alert(cartCodeArray.length);
+			
+			for(i=0; i<cartCodeArray.length-1; i++) {
+				$.ajax({
+					type: 'POST',
+					url: '/kokonutStationery/cart/deleteCartAfterPay.do',
+					data: {'cartCode': cartCodeArray[i]}
+				});
 			}
+			
 			
 			for(var i=0; i<prdArray.length; i++){
 				//alert(prdArray[i] + '//' + prdOption[i]);
@@ -469,60 +484,47 @@ var prdOption = new Array();
 						}
 					}
 				}); 
-			}
-			
-			//선택주문상품 장바구니에서 삭제
-			var checkedValueStr = '${checkedValueStr}';
-			var cartCodeArray = checkedValueStr.split(",");
-			//alert(cartCodeArray.length);
-			
-			for(i=0; i<cartCodeArray.length-1; i++) {
-				$.ajax({
-					type: 'POST',
-					url: '/kokonutStationery/cart/deleteCartAfterPay.do',
-					data: {'userId': '${memId}',
-						   'cartCode': cartCodeArray[i]}
-				});
-			}
-			
-			
+			}//for
 			location.href="/kokonutStationery/main/index.do";
-		}
-	});
-	$('#order_backBtn').click(function(){
-		//회원
-		if('${kokonutId}' == ''){
-			$.ajax({
-				type : 'get',
-				url : '/kokonutStationery/order/orderCancel.do',
-				data : {'userId' : '${memId}'},
-				dataType : 'text',
-				success : function(data){
-					if(data=='success'){
-						//alert("확인");
-						window.history.back();
-					}
-				}
-			});
-		}
-		//비회원
-		else if('${memId}' == ''){
-			$.ajax({
-				type : 'get',
-				url : '/kokonutStationery/order/orderCancel.do',
-				data : {'userId' : '${memId}'},
-				dataType : 'text',
-				success : function(data){
-					if(data=='success'){
-						//alert("확인");
-						window.history.back();
-					}
-				}
-				
-			});
-		}
-	});
+		}//else		
+	});//결제버튼
 });
+
+$('#order_backBtn').click(function(){
+	//회원
+	if('${kokonutId}' == ''){
+		$.ajax({
+			type : 'get',
+			url : '/kokonutStationery/order/orderCancel.do',
+			data : {'userId' : '${memId}'},
+			dataType : 'text',
+			success : function(data){
+				if(data=='success'){
+					//alert("확인");
+					window.history.back();
+				}
+			}
+		});
+	}
+	//비회원
+	else if('${memId}' == ''){
+		$.ajax({
+			type : 'get',
+			url : '/kokonutStationery/order/orderCancel.do',
+			data : {'userId' : '${kokonutId}'},
+			dataType : 'text',
+			success : function(data){
+				if(data=='success'){
+					//alert("확인");
+					window.history.back();
+				}
+			}
+			
+		});
+	}
+});
+
+
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
@@ -532,4 +534,5 @@ function AddComma(number) {
 function stringNumberToInt(stringNumber){
     return parseInt(stringNumber.replace(/,/g , ''));
 }
+
 </script>

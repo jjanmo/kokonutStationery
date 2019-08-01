@@ -72,7 +72,7 @@
 <script type="text/javascript">
 //카운트다운 영역
 jQuery('#countDown').countdown({
-	date: '07/25/2019 18:37:00',
+	date: '07/31/2019 23:59:59',
 	offset: 9,
 	day: 'Day',
 	days: 'Days'
@@ -96,7 +96,6 @@ jQuery('#countDown').countdown({
 			}
 		}//success
 	});//ajax
-	
 });
 
 //카운트다운 fixed 

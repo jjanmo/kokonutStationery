@@ -54,7 +54,7 @@
 							  	<div id="pwdChkWarn2" style="visibility:hidden;
 							  	width:300px; height:40px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">
 							  		<strong>비밀번호 안전도 <font style="color:red">사용불가</font></strong><br>
-							  		비밀번호는 영어, 숫자, 특수기호 중 <br>2가지 이상을 조합하여 10자리 이상 사용해주세요.
+							  		비밀번호는 영어, 숫자, 특수기호 중 영어를 포함한<br> 2가지 이상을 조합하여 10자리 이상 사용해주세요.
 							  	</div>
 							  	<div id="pwdChkOk" style="visibility:hidden;
 							  	width:300px; height:35px; font-size:11px; position:absolute; background:#fff; border:1px solid #DDD; padding:8px; margin:-5 0 0 5;">

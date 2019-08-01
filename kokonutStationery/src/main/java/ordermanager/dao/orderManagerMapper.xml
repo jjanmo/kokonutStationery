@@ -120,11 +120,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 			<!-- 주문취소시 컬럼 업데이트 -->
 			<if test="orderState[0] == 0">
-				update TBL_ORDER set cancel = 1 where orderCode in
+				update TBL_ORDER set cancel=1,
+									 orderState=0,
+									 cancelAmount=totalPrice,
+									 cancelQty=purchseQty 
+								 where orderCode in
+				<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			</if>
+			<!-- 교환완료시 컬럼 업데이트 -->
+			<if test="orderState[0] == 6">
+				update TBL_ORDER set exchange=1,
+									 orderState=6,
+									 exchangeQty=purchaseQty
+								 where orderCode in
+				<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
+			</if>
+			<!-- 환불완료시 컬럼 업데이트 -->
+			<if test="orderState[0] == 8">
+				update TBL_ORDER set refund=1,
+									 orderState=8,
+									 refundQty=purchaseQty,
+									 refundAmount=totalPrice
+								 where orderCode in
 				<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
 			</if>
 		end;
 	</update>
+	
 	<!-- 주문내역 삭제 -->
 	<delete id="selectedOrderDelete" parameterType="java.util.Map">
 		begin

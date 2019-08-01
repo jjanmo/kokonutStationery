@@ -26,7 +26,7 @@ public interface OrderDAO {
 
 	public int insertOrderlist(Map<String, Object> map);
 	//public int insertOrderlist(OrderlistDTO orderlistDTO);
-	public String getOrderCode(String userId);
+	public List<String> getOrderCode(String userId);
 	
 	public void orderCancel(String userId);
 
@@ -47,6 +47,8 @@ public interface OrderDAO {
 	public void kokonutOrderOk(Map<String, Object> map);
 	
 	public List<OrderDTO> getOrder(String orderCode);
+
+	public void deletePreOrder(String userId);
 
 	
 

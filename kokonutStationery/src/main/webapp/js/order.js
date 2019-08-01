@@ -1,3 +1,18 @@
+function deletePreOrder(){
+	alert("delete");
+	$.ajax({
+		type : 'POST',
+		url : '/kokonutStationery/order/deletePreOrder.do'
+	});
+}
+
+
+
+
+
+
+
+
 /*function chkOrder(id){
 	var privateVal = $('input[name="private1"]:checked').val();
 	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
@@ -60,78 +75,75 @@
 }
 */
 
-function checkPost(){
-	window.open("/kokonutStationery/order/checkPost.do","","width=550 height=500 left=500 top=300 scrollbars=yes");
-}
+//구버전  주소지 찾기
+//$('#postSearchBtn').click(function(){
+//	if($('#sido').val()=='시도선택'||$('#roadname').val()==''){
+//		alert("주소를 입력하세요.");
+//	}else 
+//		$.ajax({
+//			type : 'POST',
+//			url : '/kokonutStationery/order/postSearch.do',
+//			data : {'sido' : $('#sido').val(),
+//				    'sigungu' : $('#sigungu').val(),
+//				    'roadname' : $('#roadname').val()},
+//			dataType : 'json',
+//			success : function(data){
+//				//alert(JSON.stringify(data));
+//				$('table tr:gt(1)').remove();
+//				var address;
+//				$('<tr/>').append($('<td/>',{colspan:'4'}).css('border','none').css('height','20px')).appendTo($('#postTable'));
+//				$('<tr/>').css('background-color', '#f5f4f4'
+//				).append($('<td/>',{
+//					text : '우편번호'
+//				}).css('height', '40px')
+//				.css('text-align', 'center')
+//				).append($('<td/>', {
+//					text : '주소', 
+//					colspan: '3',
+//					align: 'center'
+//				})).appendTo($('#postTable'));
+//				
+//				$.each(data.list, function(index, items){
+//					address = items.sido + " "
+//					           + items.sigungu + " "
+//					           + items.yubmyundong + " "
+//					           + items.ri + " "
+//					           + items.roadname + " "
+//					           + items.buildingname;
+//					
+//					address = address.replace(/null/g,'');//전체에서 null을 찾아서 ''내용으로 바꿔라
+//					
+//					$('<tr/>').append($('<td/>',{
+//						align : 'center',
+//						id : 'zipcode',
+//						text : items.zipcode
+//					}).css('height', '30px')
+//					).append($('<td/>',{
+//						colspan : '3',
+//						}).append($('<a/>',{
+//							href : 'javascript:void(0)',//주소를 타고 가는 것이 아니다! ==> #과 같음
+//							id : 'addressA',
+//							text : address
+//							
+//						}).css('padding-left', '5px'
+//						))
+//					).appendTo($('#postTable'));//tree구조로 잡혀있다.
+//				});//each
+//				
+//				$('a').click(function(){
+//					
+//					//alert($(this).prop('tagName'));
+//					var zipcode = $(this).parent().prev().text();
+//					address=$(this).text();
+//					checkPostClose(zipcode,address);
+//				});
+//			}
+//		});
+//});
 
-$('#postSearchBtn').click(function(){
-	if($('#sido').val()=='시도선택'||$('#roadname').val()==''){
-		alert("주소를 입력하세요.");
-	}else 
-		$.ajax({
-			type : 'POST',
-			url : '/kokonutStationery/order/postSearch.do',
-			data : {'sido' : $('#sido').val(),
-				    'sigungu' : $('#sigungu').val(),
-				    'roadname' : $('#roadname').val()},
-			dataType : 'json',
-			success : function(data){
-				//alert(JSON.stringify(data));
-				$('table tr:gt(1)').remove();
-				var address;
-				$('<tr/>').append($('<td/>',{colspan:'4'}).css('border','none').css('height','20px')).appendTo($('#postTable'));
-				$('<tr/>').css('background-color', '#f5f4f4'
-				).append($('<td/>',{
-					text : '우편번호'
-				}).css('height', '40px')
-				.css('text-align', 'center')
-				).append($('<td/>', {
-					text : '주소', 
-					colspan: '3',
-					align: 'center'
-				})).appendTo($('#postTable'));
-				
-				$.each(data.list, function(index, items){
-					address = items.sido + " "
-					           + items.sigungu + " "
-					           + items.yubmyundong + " "
-					           + items.ri + " "
-					           + items.roadname + " "
-					           + items.buildingname;
-					
-					address = address.replace(/null/g,'');//전체에서 null을 찾아서 ''내용으로 바꿔라
-					
-					$('<tr/>').append($('<td/>',{
-						align : 'center',
-						id : 'zipcode',
-						text : items.zipcode
-					}).css('height', '30px')
-					).append($('<td/>',{
-						colspan : '3',
-						}).append($('<a/>',{
-							href : 'javascript:void(0)',//주소를 타고 가는 것이 아니다! ==> #과 같음
-							id : 'addressA',
-							text : address
-							
-						}).css('padding-left', '5px'
-						))
-					).appendTo($('#postTable'));//tree구조로 잡혀있다.
-				});//each
-				
-				$('a').click(function(){
-					
-					//alert($(this).prop('tagName'));
-					var zipcode = $(this).parent().prev().text();
-					address=$(this).text();
-					checkPostClose(zipcode,address);
-				});
-			}
-		});
-});
-
-function checkPostClose(zipcode,address){
-	opener.document.getElementById("receiverZipcode").value = zipcode;
-	opener.document.getElementById("receiverAddr1").value = address;
-	window.close();
-	opener.document.getElementById("receiverAddr2").focus();
-}
+//function checkPostClose(zipcode,address){
+//	opener.document.getElementById("receiverZipcode").value = zipcode;
+//	opener.document.getElementById("receiverAddr1").value = address;
+//	window.close();
+//	opener.document.getElementById("receiverAddr2").focus();
+//}

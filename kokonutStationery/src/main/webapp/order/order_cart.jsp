@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../css/order.css">    
 
 <div class="indiv"><!-- Start indiv -->
-	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222;">
+	<div class="in_tit" style="font-size: 22px; font-weight: 700; text-align: left;color:#222; padding-top: 10px;">
 		주문하기
 	</div>
 	
@@ -64,7 +64,7 @@
 							<tr class="total_price" style="padding-right: 0px;">
 								<td>
 									<font style="color:#333;font-weight:500;">상품합계금액 (배송비 별도)</font>&nbsp;&nbsp;&nbsp;&nbsp;
-									<font style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
+									<font id="totalPrice" style="font-family:'Montserrat', sans-serif; font-size:24px; color:#2ac1bc; font-weight:700;">
 											<f:formatNumber pattern="###,###,###" value="${total}"/>원</font>
 									<font style="font-size:15px;color:#2ac1bc;font-weight:700;"></font>									
 								</td>
@@ -121,7 +121,7 @@
 			</div>
 		</div>
 		
-		</c:if>
+	</c:if>
 		
 		<div style="margin: 30px 0 0 0;">
 			<h5 class="order_tit" style="font-size: 16px; font-weight: 700; text-align: left; margin: 0 0 13px 0;">주문서 작성</h5>
@@ -140,8 +140,12 @@
 						    <tr>
 						      <td class="box_sub_tit" style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 5px;">주문하시는분 :</td>
 						      <td style="padding-top: 5px;">
-						          <input type="text" name="userName" id="userName" value="${userDTO.userName }" 
-						         readonly required>
+						          <c:if test="${memId != null }">
+						        	  <input type="text" name="userName" id="userName" value="${userDTO.userName }" readonly required>
+							      </c:if>
+							      <c:if test="${memId == null }">
+							          <input type="text" name="userName" id="userName" value="" required>
+							      </c:if>
 						     </td>
 						    </tr>
 				   
@@ -168,8 +172,7 @@
 					            </td>
 				          	</tr>
 			               </tbody>
-			               </table>
-					
+			       	 </table>
 				</td>
 			</tr>
 		
@@ -188,7 +191,9 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">배송지 확인 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding-top: 10px;">
+				             <c:if test="${memId!=null }">
 				              <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
+				             </c:if>
 				            </td>
 				          </tr>
 				          <tr>
@@ -204,7 +209,7 @@
 				              <input type="text" name="receiverZipcode" id="receiverZipcode" size="5" readonly required
 								style="width:100px;" >
 				              
-				              <div class="sub-button-s" onclick="checkPost()"
+				              <div class="sub-button-s" onclick="daumCheckPost()"
 				              style="text-align:center; width: 112px;height: 42px;position: absolute; margin: -40px 0 0 120px;line-height: 42px; font-size: 12px;" align="absmiddle">우편번호 검색</div>
 				            </td>
 				            
@@ -256,14 +261,14 @@
 				              <input type="radio" name="deliveryOption" value="0" checked style="height: 14px; border-color: #fff;">기본배송
 				            </td>
 				          </tr>
-				          
-				          <tr>
-				            <td style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">회원정보 반영 :</td>
-				            <td style="font-size: 13px; color: #333; font-weight:normal; padding:10px 0;">
-				            	<input type="checkbox" id="updateMemberInfo" value="y" style="height: 14px;"> 위 내용을 회원정보에 반영합니다. (주소, 핸드폰번호)
-				            </td>
-				          </tr>
-				          
+				          <c:if test="${memId!=null }">
+					          <tr>
+					            <td style="font-size: 13px; color: #666; font-weight:normal; padding:10px 0;">회원정보 반영 :</td>
+					            <td style="font-size: 13px; color: #333; font-weight:normal; padding:10px 0;">
+					            	<input type="checkbox" id="updateMemberInfo" value="y" style="height: 14px;"> 위 내용을 회원정보에 반영합니다. (주소, 핸드폰번호)
+					            </td>
+					          </tr>
+				          </c:if>
 			          	</tbody>
 			          </table>
 			  
@@ -286,7 +291,7 @@
 			        	<tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">상품합계금액 :</td>
 				            <td class="noline" style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">
-				              <span id="goodsPrice"></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;"><f:formatNumber pattern="###,###,###" value="${total}"/>원</span>
+				              <span id="goodsPrice"><f:formatNumber pattern="###,###,###" value="${total}"/></span><span id="paper_goodsprice" style="font-weight:normal; color:#333;">원</span>
 				            </td>
 			          	</tr>
 						<tr>
@@ -304,7 +309,7 @@
 							</td>
 							</c:if>
 						</tr>
-						
+						<c:if test="${memId!=null }">
 						<tr>
 						  <td valign="top" style="font-size: 13px; color: #666; font-weight:normal; padding: 28px 0 5px 0;">포인트 사용 :</td>
 						<td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
@@ -324,7 +329,7 @@
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 할 포인트</td>
 								<td style="padding: 0 0 10px 0;">
 								<input type="text" id="usingPoint" name="coupon" size="12" value="0 " 
-								style="text-align:right;"> 원
+								style="text-align:right;" onchange="usePoint()"> 원
 							
 								</td>	
 							  </tr>
@@ -333,16 +338,16 @@
 							  	<td width="130" align="left" style="font-size: 13px; color: #333; padding: 0 0 10px 0;">사용 후 남은 포인트</td>
 								<td style="padding: 0 0 10px 0;">
 								<input type="text" id="remainingPoint" name="coupon" size="12" readonly
-								style="text-align:right;"> 원
+								style="text-align:right;" > 원
 							
 								</td>	
 							  </tr>
 		              		</tbody>
-		              </table>
-		        
-		            </td>
-		          </tr>
-		          
+			              </table>
+			        
+			            </td>
+			          </tr>
+		          	  </c:if>
 		          <tr>
 		            <td style="font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">총 결제금액 :</td>
 		            <td style="font-size: 13px; color: #333; font-weight:normal; padding: 15px 0 5px 0;">
@@ -423,7 +428,7 @@
 
 </div>
 
-
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="../js/order.js"></script>
 <script>
@@ -465,8 +470,50 @@ $(document).ready(function(){
 			$('#receiverPhone3').val('');
 		}
 	});
-	
 });
+
+//다음 주소 API
+function daumCheckPost() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+          
+
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+       
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+            
+         	// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                	addr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                	addr += (addr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                                 
+            } else {
+                document.getElementById("receiverAddr1").value = '';
+            }
+          
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('receiverZipcode').value = data.zonecode;
+            document.getElementById("receiverAddr1").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("receiverAddr2").focus();
+        }
+    }).open();
+}
 
 	/* //포인트
 	var totalPoint = ${userDTO.userPoint};
@@ -491,42 +538,26 @@ $(document).ready(function(){
 /* ## 2019-07-10 추가 시작 ## */
 //상품합계금액과 포인트
 function totalP(){
-	var totalPriceArray = new Array();
-	totalPriceArray = $('.totalPrice');
-	var totalP = 0;
-	for(var i=0; i<totalPriceArray.length; i++){
-		var price = totalPriceArray.eq(i).text();
-		price = price.slice(0, price.length-1) * 1;
-		totalP += price;
-	}
-	$('#totalPrice').text(AddComma(totalP));
-
+	
+	
+	
 	//포인트
 	var totalPoint = ${userDTO.userPoint};
 	var usingPoint = $('#usingPoint').val(0);
-	var remainingPoint = $('#remainingPoint').val(totalPoint);
+	var remainingPoint = $('#remainingPoint').val(totalPoint);	
 	$('#totalPoint').val(totalPoint);
-
-	if(totalP > 30000){
-		$('#goodsPrice').text(AddComma(totalP));
-		$('#paper_delivery').text(0);
-		$('#totalP').text(AddComma(totalP))
-	}
-
-	else {
-		$('#goodsPrice').text(AddComma(totalP));
-		$('#paper_delivery').text(AddComma(2500));
-		$('#totalP').text(AddComma(totalP+2500))
-	}
+	
 }
-
+	
 //포인트 사용
 function usePoint(){
 	var usePoint = $('#usingPoint').val();
 	var totalPoint = ${userDTO.userPoint};
 	var totalP = stringNumberToInt($('#goodsPrice').text())
 				+ stringNumberToInt($('#paper_delivery').text());  //포인트사용전의 결제금액
-
+	alert(stringNumberToInt($('#goodsPrice').text()));
+	alert(stringNumberToInt($('#paper_delivery').text()));
+	alert(totalP);
 	//숫자만 들어오게 유효성 검사
 	if(isNaN(usePoint)){
 		alert("1000원 단위의 숫자를 입력해주세요");
@@ -553,12 +584,20 @@ function usePoint(){
 
 	else {
 		var remainPoint = totalPoint*1 - usePoint*1;
-		var usePoint = $('#usingPoint').val();
+		var usePoint = $('#usingPoint').val()*1;
+		alert(usePoint);
+		alert(typeof usePoint);
+		alert(typeof totalP);
 		$('#remainingPoint').val(remainPoint);
 		totalP = totalP - usePoint;
+		alert(typeof totalP);
 		$('#totalP').text(AddComma(totalP));
 	}
 }
+
+$(function(){
+	totalP();
+});
 
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
@@ -575,107 +614,246 @@ function stringNumberToInt(stringNumber){
 
 //다음 버튼 이벤트
 $('#orderWriteBtn').click(function(){
-	alert("order cart aaa");
-	//user정보 및 배송정보
-	$.ajax({
-		type : 'POST',
-		url : '/kokonutStationery/order/updateUserInfo.do',
-		data : {'userId'			: '${memId}',
-				'userName'			: '${memName}',
-				'userPhone1'		: '${userDTO.userPhone1}',
-				'userPhone2'		: '${userDTO.userPhone2}',
-				'userPhone3'		: '${userDTO.userPhone3}',
-				'userEmail'			: '${userDTO.userEmail}',
-				'receiverName' 		: $('#receiverName').val(),
-				'receiverAddr1' 	: $('#receiverAddr1').val(),
-				'receiverAddr2' 	: $('#receiverAddr2').val(),
-				'receiverZipcode' 	: $('#receiverZipcode').val(),
-				'receiverPhone1' 	: $('#receiverPhone1').val(),
-				'receiverPhone2' 	: $('#receiverPhone2').val(),
-				'receiverPhone3' 	: $('#receiverPhone3').val(),
-				'deliveryMsg' 		: $('#deliveryMsg').val() },
-		success : function(data){
-			if(data == "success"){
-				alert("고객배송정보보내기 성공");
-			}
-			else {
-				alert("실패!!");
-			}
+
+	deletePreOrder();
+	
+	//유효성검사
+	var privateVal = $('input[name="private1"]:checked').val();
+	var chkPhone = /^(?=.*[0-9]).{3,4}$/;//3자리수
+	var chkPhone2 = /^(?=.*[0-9]).{4,5}$/;//4자리수
+	var chkEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+	var receiverName = $('#receiverName').val();
+	var paywayVal = $('input[name="payType"]:checked').val();
+	var kId = 'Kokonut';
+	
+	if('${memId}'==''){
+		if(privateVal!='yes' && '${kokonutId}'.indexOf(kId) == 0){
+			alert("[개인정보보호를 위한 이용자 동의사항]에 동의를 하셔야 주문이 가능합니다.");
+			return false;
 		}
-
-	});
-
-	var thumbImg = '${thumbImgList}';
- 	var thumbImgArray = thumbImg.split(",");
-	var productCode = '${productCodeList}';
-	var productCodeArray = productCode.split(",");
-	var productName = '${productNameList}';
-	var productNameArray = productName.split(",");
-	var discountPrice = '${discountPriceList}';
-	var discountPriceArray = discountPrice.split(",");
-	var purchaseQty = '${purchaseQtyList}';
-	var purchaseQtyArray = purchaseQty.split(",");
-	var productOption = '${productOptionList}';
-	var productOptionArray = productOption.split(",");
-	var optionContent = '${optionContentList}';
-	var optionContentArray = optionContent.split(",");
-
-/* 	for(i=0;i<thumbImgArray.length; i++){
-		alert("thumbImgArray : " + thumbImgArray[i]);
-		alert("productCodeArray : " + productCodeArray[i]);
-		alert("productNameArray : " + productNameArray[i]);
-		alert("discountPriceArray : " + discountPriceArray[i]);
-		alert("purchaseQtyArray : " + purchaseQtyArray[i]);
-		alert("productOptionArray : " + productOptionArray[i]);
-		alert("optionContentArray : " + optionContentArray[i]);
-	} */
-
-
-
-
-
-	//상품정보 : orderDB
-	for(i = 0 ; i < thumbImgArray.length-1 ; i++){
-		alert($('input[name="payType"]:checked').val());
+	}
+	if(!/^(?=.*[가-힣]).{2,20}$/.test($('#userName').val())){
+			alert("올바른 이름 형식이 아닙니다.");
+			$('#userName').focus();
+			return false;	 
+	}else if( !chkPhone.test($('#userPhone1').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone1').focus();
+		return false;
+	}else if( !chkPhone2.test($('#userPhone2').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone2').focus();
+		return false;
+	}else if( !chkPhone2.test($('#userPhone3').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#userPhone3').focus();
+		return false;
+	}else if( !chkEmail.test($('#userEmail').val()) ){
+		alert("올바른 이메일 형식이 아닙니다.");
+		$('#userEmail').focus();
+		return false;
+	}else if(!/^(?=.*[가-힣]).{2,20}$/.test($('#receiverName').val())){
+		alert("올바른 이름 형식이 아닙니다.");
+		$('#receiverName').focus();
+		return false;
+	}else if($('#receiverZipcode').val()==''){
+		alert("주소를 입력해주세요");
+		$('#receiverZipcode').focus();
+		return false;
+	}else if($('#receiverAddr2').val()==''){
+		alert("세부주소를 입력해주세요.");
+		$('#receiverAddr2').focus();
+		return false;
+	}else if( !chkPhone.test($('#receiverPhone1').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone1').focus();	
+		return false;
+	}else if( !chkPhone2.test($('#receiverPhone2').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone2').focus();	
+		return false;
+	}else if( !chkPhone2.test($('#receiverPhone3').val())){
+		alert("올바른 전화번호 형식이 아닙니다.");
+		$('#receiverPhone3').focus();
+		return false;
+	}
+	//user정보 및 배송정보
+	//회원
+	if('${memId}' != ''){
 		$.ajax({
 			type : 'POST',
-			url : '/kokonutStationery/order/setOrderInfoOption.do',
-			data : {'userId' 		: '${memId}',
-					'userName' 		: '${userDTO.userName}',
-					'thumbImg' 		: thumbImgArray[i],
-					'productCode' 	: productCodeArray[i],
-					'productName'	: productNameArray[i],
-					'discountPrice' : discountPriceArray[i],
-					'purchaseQty' 	: purchaseQtyArray[i],
-					'totalPrice'	: discountPriceArray[i] * purchaseQtyArray[i],
-					'paymentType' 	: $('input[name="payType"]:checked').val()*1,
-					'totalPayment' 	: stringNumberToInt($('#totalP').text()),
-					'productOption' : productOptionArray[i],
-					'optionContent' : optionContentArray[i]
-					},
-			dataType : 'text',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${memId}',
+					'userName'			: '${memName}',
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
 			success : function(data){
 				if(data == "success"){
-					alert("주문정보보내기 성공");
+					//alert("고객배송정보보내기 성공");
 				}
 				else {
-					alert("실패!!");
+					//alert("실패!!");
 				}
-
 			}
-
 		});
+	
+
+		var thumbImg = '${thumbImgList}';
+	 	var thumbImgArray = thumbImg.split(",");
+		var productCode = '${productCodeList}';
+		var productCodeArray = productCode.split(",");
+		var productName = '${productNameList}';
+		var productNameArray = productName.split(",");
+		var discountPrice = '${discountPriceList}';
+		var discountPriceArray = discountPrice.split(",");
+		var purchaseQty = '${purchaseQtyList}';
+		var purchaseQtyArray = purchaseQty.split(",");
+		var productOption = '${productOptionList}';
+		var productOptionArray = productOption.split(",");
+		var optionContent = '${optionContentList}';
+		var optionContentArray = optionContent.split(",");
+	
+	/* 	for(i=0;i<thumbImgArray.length; i++){
+			alert("thumbImgArray : " + thumbImgArray[i]);
+			alert("productCodeArray : " + productCodeArray[i]);
+			alert("productNameArray : " + productNameArray[i]);
+			alert("discountPriceArray : " + discountPriceArray[i]);
+			alert("purchaseQtyArray : " + purchaseQtyArray[i]);
+			alert("productOptionArray : " + productOptionArray[i]);
+			alert("optionContentArray : " + optionContentArray[i]);
+		} */
+	
+		//상품정보 : orderDB
+		for(i = 0 ; i < thumbImgArray.length-1 ; i++){
+			alert($('input[name="payType"]:checked').val());
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/setOrderInfoOption.do',
+				data : {'userId' 		: '${memId}',
+						'userName' 		: '${userDTO.userName}',
+						'thumbImg' 		: thumbImgArray[i],
+						'productCode' 	: productCodeArray[i],
+						'productName'	: productNameArray[i],
+						'discountPrice' : discountPriceArray[i],
+						'purchaseQty' 	: purchaseQtyArray[i],
+						'totalPrice'	: discountPriceArray[i] * purchaseQtyArray[i],
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : productOptionArray[i],
+						'optionContent' : optionContentArray[i]
+						},
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						//alert("주문정보보내기 성공");
+					}
+					else {
+						//alert("실패!!");
+					}
+	
+				}
+	
+			});
+		}
+
+		location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
+	//비회원
+	}else if('${memId}' == ''){
+		$.ajax({
+			type : 'POST',
+			url : '/kokonutStationery/order/updateUserInfo.do',
+			data : {'userId'			: '${kokonutId}',
+					'userName'			: $('#userName').val(),
+					'userPhone1'		: $('#userPhone1').val(),
+					'userPhone2'		: $('#userPhone2').val(),
+					'userPhone3'		: $('#userPhone3').val(),
+					'userEmail'			: $('#userEmail').val(),
+					'receiverName' 		: $('#receiverName').val(),
+					'receiverAddr1' 	: $('#receiverAddr1').val(),
+					'receiverAddr2' 	: $('#receiverAddr2').val(),
+					'receiverZipcode' 	: $('#receiverZipcode').val(),
+					'receiverPhone1' 	: $('#receiverPhone1').val(),
+					'receiverPhone2' 	: $('#receiverPhone2').val(),
+					'receiverPhone3' 	: $('#receiverPhone3').val(),
+					'deliveryMsg' 		: $('#deliveryMsg').val() },
+			success : function(data){
+				if(data == "success"){
+					//alert("고객배송정보보내기 성공");
+				}
+				else {
+				//	alert("고객배송정보보내기 실패!!");
+				}
+			}
+			
+		});
+		
+		var thumbImg = '${thumbImgList}';
+	 	var thumbImgArray = thumbImg.split(",");
+		var productCode = '${productCodeList}';
+		var productCodeArray = productCode.split(",");
+		var productName = '${productNameList}';
+		var productNameArray = productName.split(",");
+		var discountPrice = '${discountPriceList}';
+		var discountPriceArray = discountPrice.split(",");
+		var purchaseQty = '${purchaseQtyList}';
+		var purchaseQtyArray = purchaseQty.split(",");
+		var productOption = '${productOptionList}';
+		var productOptionArray = productOption.split(",");
+		var optionContent = '${optionContentList}';
+		var optionContentArray = optionContent.split(",");
+	
+		for(i = 0 ; i < thumbImgArray.length-1 ; i++){
+			alert($('input[name="payType"]:checked').val());
+			$.ajax({
+				type : 'POST',
+				url : '/kokonutStationery/order/setOrderInfoOption.do',
+				data : {'userId'		: '${kokonutId}',
+						'userName'		: $('#userName').val(),
+						'thumbImg' 		: thumbImgArray[i],
+						'productCode' 	: productCodeArray[i],
+						'productName'	: productNameArray[i],
+						'discountPrice' : discountPriceArray[i],
+						'purchaseQty' 	: purchaseQtyArray[i],
+						'totalPrice'	: discountPriceArray[i] * purchaseQtyArray[i],
+						'paymentType' 	: $('input[name="payType"]:checked').val()*1,
+						'totalPayment' 	: stringNumberToInt($('#totalP').text()),
+						'productOption' : productOptionArray[i],
+						'optionContent' : optionContentArray[i]
+						},
+				dataType : 'text',
+				success : function(data){
+					if(data == "success"){
+						//alert("주문정보보내기 성공");
+					}
+					else {
+						//alert("주문정보보내기 실패!!");
+					}
+	
+				}
+	
+			});
+		}
+		location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
 	}
+});
 
-	location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
-
-	});
-
-	//콤마찍힌 숫자 정수형으로 변환
-	function stringNumberToInt(stringNumber){
-	    return parseInt(stringNumber.replace(/,/g , ''));
-	}
+//콤마찍힌 숫자 정수형으로 변환
+function stringNumberToInt(stringNumber){
+    return parseInt(stringNumber.replace(/,/g , ''));
+}
 </script>
+
 
 
 
