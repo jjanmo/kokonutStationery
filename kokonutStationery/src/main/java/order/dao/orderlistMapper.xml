@@ -48,19 +48,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		end;
 	</update>
 	
-	<!-- 교환접수 - 상태 변경 업데이트 -->
+	<!--  교환접수 - 상태 변경 업데이트 
 	<update id="orderChange" parameterType="String">
 		begin	
-			<!-- tbl_orderlist -->
+			tbl_orderlist
 			update TBL_ORDERLIST set orderState=5 
 				where orderCode=#{orderCode};
-			<!-- tbl_order -->
+			tbl_order
 			update TBL_ORDER set orderState=5,
 							exchange=1,
 							exchangeQty=purchaseQty 	
 				where orderCode=#{orderCode};
 		end;
-	</update>
+	</update> -->
 	
 	<!-- (옵션있는)환불접수 - 상태 변경 업데이트 -->
 	<update id="orderRefund" parameterType="map">
@@ -200,7 +200,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 수령확인 -->
-	<update id="orderReceipt" parameterType="String">
+	<update id="orderReceipt" parameterType="map">
 		begin	
 			<!-- tbl_orderlist -->
 			update TBL_ORDERLIST set orderState=5
@@ -211,6 +211,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				where orderCode=#{orderCode};
 				
 			<!-- tbl_point -->
+			insert into tbl_point (userId
+									  ,logdate
+									  ,contents
+									  ,orderCode
+									  ,usePoint
+									  ,savePoint
+									  ,pointType)
+							values (#{userId}
+								   ,sysdate
+								   ,'포인트 적립'
+								   ,#{orderCode}
+								   ,0
+								   ,#{savePoint}
+								   ,0);
 		end;
 	</update>
 </mapper>

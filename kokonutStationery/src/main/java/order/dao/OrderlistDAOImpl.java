@@ -73,8 +73,8 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 	} 
 	
 	@Override
-	public void orderReceipt(String orderCode) {
-		sqlSession.update("orderlistSQL.orderReceipt",orderCode);	
+	public void orderReceipt(Map<String, String> map) {
+		sqlSession.update("orderlistSQL.orderReceipt",map);	
 	}
 
 	@Override

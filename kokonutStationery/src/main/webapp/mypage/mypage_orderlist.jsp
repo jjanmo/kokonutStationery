@@ -256,7 +256,8 @@ $(document).ready(function(){
 							$.ajax({
 								type : 'post',
 								url : '../order/orderReceipt.do',
-								data : {'orderCode' : items.orderCode},
+								data : {'orderCode' : items.orderCode,
+									'totalPayment':items.totalPayment,},
 								success : function(data){}//success
 							});//ajax - 환불접수
 							alert("구매확정되었습니다!");

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,8 +72,17 @@ public class OrderlistController {
 	 */
 	
 	@RequestMapping(value="/order/orderReceipt.do",method=RequestMethod.POST)
-	public void orderReceipt(@RequestParam String orderCode) {
-		orderlistDAO.orderReceipt(orderCode);
+	public void orderReceipt(@RequestParam String orderCode,@RequestParam String totalPayment, HttpSession session) {
+		String userId = (String)session.getAttribute("memId");
+		double savePoint = Integer.parseInt(totalPayment)*(0.1);
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("userId", userId);
+		map.put("savePoint",savePoint+"");
+		
+		orderlistDAO.orderReceipt(map);
 	}
 	
 	//상품교환
