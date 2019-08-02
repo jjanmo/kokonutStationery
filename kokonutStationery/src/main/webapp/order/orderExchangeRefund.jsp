@@ -111,7 +111,7 @@
 								상품합계금액(배송비별도)
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<c:if test='${totalPayment>30000 }'>
+							<c:if test='${totalPayment>=30000 }'>
 								<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
 									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
 									${totalPayment}							
@@ -119,9 +119,12 @@
 							</c:if>
 							<c:if test='${totalPayment<30000 }'>
 								<font id="totalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
-								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
-								${totalPayment-2500}							
-							</font>
+									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+									${totalPayment-2500}							
+								</font>
+								<font id="deliveryCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+									(2500)					
+								</font>
 							</c:if>
 							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
 								원
@@ -129,23 +132,55 @@
 							
 						</td>
 					</tr>
+							
 					<tr class="erPrice" style="visibility:hidden; padding-right: 0px;">
 						<td style="border: none;">
 							
 							<font style="font-size:12px; color: #333; font-weight: 500;">
-								환불금액
+								환불금액(포인트제외)
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<font id="erTotalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
-								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>
-								${totalPayment}								
-							</font>
+							<c:if test='${totalPayment>30000 }'>
+								<font id="erTotalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+									${totalPayment}	<%-- ${totalPayment+usePoint} --%>						
+								</font>
+							</c:if>
+							<c:if test='${totalPayment<30000 }'>
+								<font id="erTotalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+								${totalPayment-2500} <%-- ${totalPayment-2500+usePoint}	 --%>							
+								</font>
+							</c:if>
 							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
 								원
 							</font>
 						</td>
 					</tr>
-					
+					<tr class="usePoint" style=" padding-right: 0px;">
+						<td style="border: none;">
+							
+							<font style="font-size:12px; color: #333; font-weight: 500;">
+								사용한 포인트
+							</font>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<c:if test='${usePoint>0 }'>
+								<font id="usePoint" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+									${usePoint}							
+								</font>
+							</c:if>
+							<c:if test='${usePoint<=0 }'>
+								<font id="usePoint" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
+								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
+								0						
+								</font>
+							</c:if>
+							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
+								원
+							</font>
+						</td>
+					</tr>			
 				</table>		
 			</td>
 		</tr>
@@ -183,8 +218,10 @@ $(document).ready(function(){
 	$('#sort').on('change',function(){
 		if($(this).val()=="환불"){
 			$('.erPrice').css('visibility','visible');
+			
 		}else{
 			$('.erPrice').css('visibility','hidden');
+			
 		}
 			
 	});
@@ -320,8 +357,9 @@ $(document).ready(function(){
 							if(data=='ok'){
 								alert("교환을 성공했습니다.");
 								window.close();
-								location.href='../mypage/mypage_orderlist.do';
+								
 							}
+							location.href='../mypage/mypage_orderlist.do';
 						}//success
 					});//ajax
 				}
@@ -336,6 +374,7 @@ $(document).ready(function(){
 				}else{
 					var erReason = $("select[name='erReason'] ").val();
 					var erTotalCost = $('#erTotalCost').text().trim();
+					var usePoint = $('#usePoint').text().trim();
 					var erDetail=$('#erDetail').val();
 					
 					$.ajax({
@@ -344,7 +383,7 @@ $(document).ready(function(){
 						data:{'orderCode':orderCode,
 							'erReason':erReason,
 							'erDetail':erDetail,
-							'erTotalCost':erTotalCost,
+							'erTotalCost':(erTotalCost-usePoint),
 							'erCostList':erCostList,
 							'productCodeList':productCodeList,
 							'optionContentList':optionContentList,
@@ -353,8 +392,9 @@ $(document).ready(function(){
 							if(data=='ok'){
 								alert("환불을 성공했습니다.");
 								window.close();
-								location.href='../mypage/mypage_orderlist.do';
+								
 							}
+							location.href='../mypage/mypage_orderlist.do';
 						}
 					});//ajax
 				}

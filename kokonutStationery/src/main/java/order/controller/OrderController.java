@@ -28,6 +28,7 @@ import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
+import point.dao.PointDAO;
 import user.bean.UserDTO;
 import user.dao.UserDAO;
 
@@ -41,7 +42,9 @@ public class OrderController {
 	private UserDAO userDAO;
 	@Autowired
 	private CartDAO cartDAO;
-		
+	@Autowired
+	private PointDAO pointDAO;
+	
 	//상세페이지에서 구매하기 버튼 클릭 : 옵션 없는 제품의 order페이지 
 	//제품1개에 대한 정보
 	@GetMapping("/orderNoOption.do")
@@ -486,10 +489,18 @@ public class OrderController {
 		String orderDate = new SimpleDateFormat("yyyy.MM.dd kk:mm:ss").format(list.get(0).getOrderDate());
 		
 		int totalPayment = list.get(0).getTotalPayment();
+		String usePoint = pointDAO.getUsePoint(orderCode);
+		int usePoint2=0;
+		
+		if(usePoint==null)			
+			usePoint2=0;
+		else
+			usePoint2=Integer.parseInt(usePoint);
 		
 		mav.addObject("list", list);
 		mav.addObject("orderCode", orderCode);
 		mav.addObject("orderDate", orderDate);
+		mav.addObject("usePoint", usePoint2);
 		mav.addObject("totalPayment", totalPayment);
 		mav.setViewName("/order/orderExchangeRefund");
 		return mav;

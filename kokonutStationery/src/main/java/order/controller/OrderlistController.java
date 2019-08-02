@@ -116,7 +116,7 @@ public class OrderlistController {
 							@RequestParam String changeRefundQtyList) {
 		
 		
-		System.out.println("[환불]주문코드="+orderCode+" 사유="+erReason+" 총환불금액="+erTotalCost+" 각환불금액="+erCostList
+		System.out.println("[환불]주문코드="+orderCode+" 사유="+erReason+" 총환불금액(포인트제외)="+erTotalCost+" 각환불금액="+erCostList
 				+" 상품코드="+productCodeList+" 옵션내용="+optionContentList+" 교환환불수량="+changeRefundQtyList);
 		//erCost변경
 		//상품에 따른 수량변경(옵션있으면체크)
