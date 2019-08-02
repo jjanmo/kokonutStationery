@@ -17,11 +17,19 @@ public interface OrderlistDAO {
 
 	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
 			String erCostStr,String productCodeStr, String optionContentStr, String changeRefundQtyStr);
+	
+	public void orderRefundNoOption(String orderCode, String erReason, String erDetail, String erTotalCost,
+			String erCostStr, String productCodeStr, String changeRefundQtyStr);
 
+	
 	public void orderReceipt(String orderCode);
 
 	public void orderExchange(String orderCode, String erReason, String erDetail, 
 			String productCodeStr, String optionContentStr,	String changeRefundQtyStr);
 
+	public void orderExchangeNoOption(String orderCode, String erReason, String erDetail, 
+			String productCodeStr,	String changeRefundQtyStr);
+
+	
 }
 

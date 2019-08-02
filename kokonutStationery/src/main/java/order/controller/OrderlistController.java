@@ -94,13 +94,21 @@ public class OrderlistController {
 		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
 		
 		for(int i=0;i<productCodeStr.length;i++) {
-			if(optionContentStr[i].equals("undefined"))
+			if(optionContentStr[i].equals("undefined")) {
 				optionContentStr[i]="";
+				//옵션없는 상품 교환
+				orderlistDAO.orderExchangeNoOption(orderCode, erReason, erDetail, 
+						productCodeStr[i], changeRefundQtyStr[i]);
+			}else {
+				//옵션있는상품교환
+				orderlistDAO.orderExchange(orderCode,erReason,erDetail,
+						productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+			}
+				
 			System.out.println(" 상품코드="+productCodeStr[i]
 								+" 옵션내용="+optionContentStr[i]
-								+" 교환환불수량="+changeRefundQtyStr[i]);
-			orderlistDAO.orderExchange(orderCode,erReason,erDetail,
-					productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+								+" 교환수량="+changeRefundQtyStr[i]);
+			
 		}
 		
 		
@@ -130,14 +138,22 @@ public class OrderlistController {
 		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
 		
 		for(int i=0;i<productCodeStr.length;i++) {
-			if(optionContentStr[i].equals("undefined"))
+			if(optionContentStr[i].equals("undefined")) {
 				optionContentStr[i]="";
+				//옵션없는상품 환불
+				orderlistDAO.orderRefundNoOption(orderCode,erReason,erDetail,erTotalCost,
+						erCostStr[i],productCodeStr[i],changeRefundQtyStr[i]);
+			}else {
+				//옵션있는상품 환불
+				orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
+						erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+			}
+				
 			System.out.println(" 각환불금액="+erCostStr[i]
 								+" 상품코드="+productCodeStr[i]
 								+" 옵션내용="+optionContentStr[i]
-								+" 교환환불수량="+changeRefundQtyStr[i]);
-			orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
-					erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+								+" 환불수량="+changeRefundQtyStr[i]);
+			
 		}
 		
 		return "ok";

@@ -55,7 +55,23 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		sqlSession.update("orderlistSQL.orderRefund",map);
 		
 	}
-
+	
+	@Override
+	public void orderRefundNoOption(String orderCode, String erReason, String erDetail, String erTotalCost,
+			String erCostStr, String productCodeStr, String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("erTotalCost", erTotalCost);
+		map.put("erCostStr", erCostStr);
+		map.put("productCodeStr", productCodeStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderRefundNoOption",map);
+	} 
+	
 	@Override
 	public void orderReceipt(String orderCode) {
 		sqlSession.update("orderlistSQL.orderReceipt",orderCode);	
@@ -74,7 +90,24 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		map.put("changeRefundQtyStr", changeRefundQtyStr);
 		
 		sqlSession.update("orderlistSQL.orderExchange",map);
-	} 
+	}
+
+	@Override
+	public void orderExchangeNoOption(String orderCode, String erReason, String erDetail, 
+			String productCodeStr,	String changeRefundQtyStr) {
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("productCodeStr", productCodeStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderExchangeNoOption",map);
+	}
+
+	
 	
 	
 }

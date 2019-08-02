@@ -92,7 +92,9 @@ public class MypageController {
 		String userId = (String) session.getAttribute("memId");
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		List<OrderDTO> list = orderDAO.getOrder(orderCode);
-		
+		for(int i=0;i<list.size();i++) {
+			System.out.println("상세보기페이지의 상품"+list.get(i));
+		}
 		String usePoint = pointDAO.getUsePoint(orderCode);
 		int usePoint2=0;
 		
