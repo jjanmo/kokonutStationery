@@ -212,7 +212,7 @@ $(document).ready(function(){
 						var result = confirm("정말 교환/환불을 신청하시겠습니까?");
 						if(result){ // 확인일 시
 							//orderCode가져가야한다
-							window.open("/kokonutStationery/order/orderExchangeRefund.do?orderCode="+items.orderCode, "_blank", "width=800, height=600");
+							window.open("/kokonutStationery/order/orderExchangeRefund.do?orderCode="+items.orderCode, "_blank", "width=850, height=650");
 						}
 					});
 					

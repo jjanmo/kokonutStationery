@@ -123,7 +123,7 @@
 									${totalPayment-2500}							
 								</font>
 								<font id="deliveryCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
-									(2500)					
+									(+2500)					
 								</font>
 							</c:if>
 							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
@@ -140,7 +140,7 @@
 								환불금액(포인트제외)
 							</font>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<c:if test='${totalPayment>30000 }'>
+							<c:if test='${totalPayment>=30000 }'>
 								<font id="erTotalCost" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
 									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
 									${totalPayment}	<%-- ${totalPayment+usePoint} --%>						
@@ -166,14 +166,12 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:if test='${usePoint>0 }'>
 								<font id="usePoint" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
-									<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
 									${usePoint}							
 								</font>
 							</c:if>
 							<c:if test='${usePoint<=0 }'>
 								<font id="usePoint" style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #2ac1bc; font-weight: 700;">
-								<%-- <fmt:formatNumber pattern="###,###,###" value="${totalPayment}"/> --%>	
-								0						
+									0						
 								</font>
 							</c:if>
 							<font style="font-size: 15px; color: #2ac1bc; font-weight: 700;">
@@ -359,7 +357,7 @@ $(document).ready(function(){
 								window.close();
 								
 							}
-							location.href='../mypage/mypage_orderlist.do';
+							
 						}//success
 					});//ajax
 				}
@@ -394,7 +392,7 @@ $(document).ready(function(){
 								window.close();
 								
 							}
-							location.href='../mypage/mypage_orderlist.do';
+							
 						}
 					});//ajax
 				}

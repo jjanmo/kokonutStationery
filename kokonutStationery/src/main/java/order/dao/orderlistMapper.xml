@@ -79,12 +79,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					
 			<!-- tbl_order -->
 			<!-- 상태변화,주문의 교환수량 체크 -->
-			update TBL_ORDER set orderState=4,
-							refund=1,<!-- 상태 : 환불접수 -->
-							refundQty=#{changeRefundQtyStr},
-							purchaseQty=purchaseQty-#{changeRefundQtyStr},	
-							refundAmount=#{erCostStr} 
-			where orderCode=#{orderCode} and productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
+			update TBL_ORDER set refund=1,<!-- 상태 : 환불접수 -->
+								refundQty=#{changeRefundQtyStr},
+								purchaseQty=purchaseQty-#{changeRefundQtyStr},	
+								refundAmount=#{erCostStr} 
+			where orderCode=#{orderCode} and productCode=#{productCodeStr} 
+			<choose>			
+				<when test="#{optionContentStr}!=''">
+				and optionContent like '%'||#{optionContentStr}||'%';
+				</when>	
+				<when test="#{optionContentStr}==''">
+				;
+				</when>
+			</choose>	
 			
 			<!-- tbl_product -->
 			<!-- 재고추가,판매량감소 -->
@@ -94,7 +101,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<!-- tbl_productOption -->	
 			<!-- 옵션상품 각각 재고, 판매량관리 -->
 			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
+				where productCode=#{productCodeStr} 
+				<choose>			
+					<when test="#{optionContentStr}!=''">
+					and optionContent like '%'||#{optionContentStr}||'%';
+					</when>	
+					<when test="#{optionContentStr}==''">
+					;
+					</when>
+				</choose>	
 		end;
 	</update>
 	
@@ -111,12 +126,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 					
 			<!-- tbl_order -->
 			<!-- 상태변화,주문의 교환수량 체크 -->
-			update TBL_ORDER set orderState=4,
-							exchange=1,<!-- 상태 : 교환접수 -->
-							exchangeQty=#{changeRefundQtyStr},
-							purchaseQty=purchaseQty-#{changeRefundQtyStr}	
-			where orderCode=#{orderCode} and productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
-				
+			update TBL_ORDER set exchange=1,<!-- 상태 : 교환접수 -->
+								exchangeQty=#{changeRefundQtyStr},
+								purchaseQty=purchaseQty-#{changeRefundQtyStr}	
+			where orderCode=#{orderCode} and productCode=#{productCodeStr} 
+			<choose>			
+				<when test="#{optionContentStr}!=''">
+				and optionContent like '%'||#{optionContentStr}||'%';
+				</when>	
+				<when test="#{optionContentStr}==''">
+				;
+				</when>
+			</choose>	
 			<!-- tbl_product -->
 			<!-- 재고추가,판매량감소 -->
 			update TBL_PRODUCT set stockQTY=stockQty+#{changeRefundQtyStr} ,saleQty=saleQty-#{changeRefundQtyStr}
@@ -125,7 +146,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<!-- tbl_productOption -->	
 			<!-- 옵션상품 각각 재고, 판매량관리 -->
 			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
+				where productCode=#{productCodeStr} 
+				<choose>			
+					<when test="#{optionContentStr}!=null">
+					and optionContent like '%'||#{optionContentStr}||'%';
+					</when>	
+					<when test="#{optionContentStr}==null">
+					;
+					</when>
+				</choose>
 		end;
 	</update>
 	<!-- 수령확인 -->

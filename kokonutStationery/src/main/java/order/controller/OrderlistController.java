@@ -85,7 +85,8 @@ public class OrderlistController {
 								@RequestParam String changeRefundQtyList) {
 		
 		
-		System.out.println("[교환]주문코드="+orderCode+" 사유="+erReason+" 세부사유="+erDetail+" 상품코드="+productCodeList+" 옵션내용="+optionContentList+" 교환환불수량="+changeRefundQtyList);
+		System.out.println("[교환]주문코드="+orderCode+" 사유="+erReason+" 세부사유="+erDetail);
+		
 		//상품에 따른 수량변경(옵션있으면체크)
 		//상품재고 돌려놓기
 		String[] productCodeStr = productCodeList.split(",");
@@ -95,6 +96,9 @@ public class OrderlistController {
 		for(int i=0;i<productCodeStr.length;i++) {
 			if(optionContentStr[i].equals("undefined"))
 				optionContentStr[i]="";
+			System.out.println(" 상품코드="+productCodeStr[i]
+								+" 옵션내용="+optionContentStr[i]
+								+" 교환환불수량="+changeRefundQtyStr[i]);
 			orderlistDAO.orderExchange(orderCode,erReason,erDetail,
 					productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
 		}
@@ -115,9 +119,8 @@ public class OrderlistController {
 							@RequestParam String optionContentList,
 							@RequestParam String changeRefundQtyList) {
 		
+		System.out.println("[환불]주문코드="+orderCode+" 사유="+erReason+" 세부사유="+erDetail+" 총환불금액(포인트제외)="+erTotalCost);
 		
-		System.out.println("[환불]주문코드="+orderCode+" 사유="+erReason+" 총환불금액(포인트제외)="+erTotalCost+" 각환불금액="+erCostList
-				+" 상품코드="+productCodeList+" 옵션내용="+optionContentList+" 교환환불수량="+changeRefundQtyList);
 		//erCost변경
 		//상품에 따른 수량변경(옵션있으면체크)
 		//상품재고 돌려놓기
@@ -129,6 +132,10 @@ public class OrderlistController {
 		for(int i=0;i<productCodeStr.length;i++) {
 			if(optionContentStr[i].equals("undefined"))
 				optionContentStr[i]="";
+			System.out.println(" 각환불금액="+erCostStr[i]
+								+" 상품코드="+productCodeStr[i]
+								+" 옵션내용="+optionContentStr[i]
+								+" 교환환불수량="+changeRefundQtyStr[i]);
 			orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
 					erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
 		}

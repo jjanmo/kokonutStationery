@@ -92,11 +92,21 @@ public class MypageController {
 		String userId = (String) session.getAttribute("memId");
 		UserDTO userDTO = userDAO.getUserInfo(userId);
 		List<OrderDTO> list = orderDAO.getOrder(orderCode);
+		
+		String usePoint = pointDAO.getUsePoint(orderCode);
+		int usePoint2=0;
+		
+		if(usePoint==null)			
+			usePoint2=0;
+		else
+			usePoint2=Integer.parseInt(usePoint);
+		
 		ModelAndView mav = new ModelAndView();		
 		
 		mav.addObject("contents", "/mypage/mypage_orderview.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.addObject("userDTO", userDTO);
+		mav.addObject("usePoint", usePoint2);
 		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
 		return mav;
