@@ -105,6 +105,7 @@ public class OrderlistController {
 		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
 		
 		for(int i=0;i<productCodeStr.length;i++) {
+			
 			if(optionContentStr[i].equals("undefined")) {
 				optionContentStr[i]="";
 				//옵션없는 상품 교환
@@ -113,7 +114,8 @@ public class OrderlistController {
 			}else {
 				//옵션있는상품교환
 				orderlistDAO.orderExchange(orderCode,erReason,erDetail,
-						productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+						productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);		
+				
 			}
 				
 			System.out.println(" 상품코드="+productCodeStr[i]

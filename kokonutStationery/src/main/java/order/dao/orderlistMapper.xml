@@ -225,6 +225,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,0
 								   ,#{savePoint}
 								   ,0);
+								   
+			<!-- tbl_user -->
+			update TBL_USER set userPoint = userPoint+#{savePoint} where userId=#{userId};
+			
 		end;
 	</update>
 </mapper>

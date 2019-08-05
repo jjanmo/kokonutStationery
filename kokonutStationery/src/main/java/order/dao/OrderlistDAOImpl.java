@@ -33,10 +33,10 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		sqlSession.update("orderlistSQL.orderCancel",map);	
 	}
 
-	@Override
-	public void orderChange(String orderCode) {
-		sqlSession.update("orderlistSQL.orderChange",orderCode);
-	}
+	/*
+	 * @Override public void orderChange(String orderCode) {
+	 * sqlSession.update("orderlistSQL.orderChange",orderCode); }
+	 */
 
 	@Override
 	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
@@ -107,7 +107,6 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		sqlSession.update("orderlistSQL.orderExchangeNoOption",map);
 	}
 
-	
-	
+		
 	
 }
