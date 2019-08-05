@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deletePreOrder" parameterType="String">
 		delete from TBL_ORDER where orderCode = 0 and 
 									orderDate is null and 
-									userId = #{userId} or userId = #{kokonutId}
+									(userId = #{userId} or userId = #{kokonutId})
 	</delete>	
 	
 	
@@ -145,7 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								   ,to_char(sysdate,'yymmdd')||orderCode_seq.currval
 								   ,#{usePoint}
 								   ,0
-								   ,1);
+								   ,2);
 			</if>
 			
 			<if test="savePoint!=0 and members==1">

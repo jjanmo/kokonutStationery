@@ -1,7 +1,9 @@
 package order.controller;
 
 import java.util.HashMap;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +28,7 @@ import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import order.bean.PostDTO;
 import order.dao.OrderDAO;
+import point.dao.PointDAO;
 import user.bean.UserDTO;
 import user.dao.UserDAO;
 
@@ -38,7 +42,9 @@ public class OrderController {
 	private UserDAO userDAO;
 	@Autowired
 	private CartDAO cartDAO;
-		
+	@Autowired
+	private PointDAO pointDAO;
+	
 	//상세페이지에서 구매하기 버튼 클릭 : 옵션 없는 제품의 order페이지 
 	//제품1개에 대한 정보
 	@GetMapping("/orderNoOption.do")
@@ -223,7 +229,6 @@ public class OrderController {
 		//ORDERLIST 생성
 		System.out.println("map :" + map);
 		int su = orderDAO.insertOrderlist(map);
-		System.out.println("su = "+ su);
 		
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
@@ -231,13 +236,8 @@ public class OrderController {
 			String orderCode = list.get(0);
 			System.out.println(orderCode);			
 			return orderCode;
-		}else {
-			if(su == 0) {
-				return "fail";
-			}
-			else {
-				return "success";
-			}
+		}else {			
+			return "success";		
 		}
 	}
 	
@@ -479,21 +479,34 @@ public class OrderController {
 	}
 	
 	//교환/환불페이지띄우기
-	@GetMapping("/orderRefundChange.do")
-	public ModelAndView OrderRefundChange(@RequestParam String orderCode) {
+	@GetMapping("/orderExchangeRefund.do")
+	public ModelAndView orderExchangeRefund(@RequestParam String orderCode) {
 		ModelAndView mav = new ModelAndView();
 		//해당하는 상품내역가져오기
 		List<OrderDTO> list = orderDAO.getOrder(orderCode);
 		
 		System.out.println("orderCode="+orderCode);
+		String orderDate = new SimpleDateFormat("yyyy.MM.dd kk:mm:ss").format(list.get(0).getOrderDate());
+		
+		int totalPayment = list.get(0).getTotalPayment();
+		String usePoint = pointDAO.getUsePoint(orderCode);
+		int usePoint2=0;
+		
+		if(usePoint==null)			
+			usePoint2=0;
+		else
+			usePoint2=Integer.parseInt(usePoint);
 		
 		mav.addObject("list", list);
 		mav.addObject("orderCode", orderCode);
-		mav.setViewName("/order/orderRefundChange");
+		mav.addObject("orderDate", orderDate);
+		mav.addObject("usePoint", usePoint2);
+		mav.addObject("totalPayment", totalPayment);
+		mav.setViewName("/order/orderExchangeRefund");
 		return mav;
 	}
 	
-
+	
 }
 
 

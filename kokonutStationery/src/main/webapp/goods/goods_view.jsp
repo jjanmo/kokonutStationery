@@ -1111,7 +1111,8 @@ function qnaDelete(qnaboardCode){
 			data:{'qnaboardCode':qnaboardCode},
 			success:function(){
 				alert("삭제를 완료했습니다!");
-				location.href="../goods/goods_view.do?productCode="+productCode;
+				//location.href="../goods/goods_view.do?productCode="+productCode;
+				location.reload();
 			}
 		});
 	 }else{   //취소

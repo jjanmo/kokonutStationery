@@ -1,5 +1,6 @@
 package order.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,20 +33,80 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		sqlSession.update("orderlistSQL.orderCancel",map);	
 	}
 
-	@Override
-	public void orderChange(String orderCode) {
-		sqlSession.update("orderlistSQL.orderChange",orderCode);
-	}
+	/*
+	 * @Override public void orderChange(String orderCode) {
+	 * sqlSession.update("orderlistSQL.orderChange",orderCode); }
+	 */
 
 	@Override
-	public void orderRefund(String orderCode) {
-		sqlSession.update("orderlistSQL.orderRefund",orderCode);	
+	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
+			String erCostStr,String productCodeStr, String optionContentStr, String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("erTotalCost", erTotalCost);
+		map.put("erCostStr", erCostStr);
+		map.put("productCodeStr", productCodeStr);
+		map.put("optionContentStr", optionContentStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderRefund",map);
+		
 	}
-
+	
 	@Override
-	public void orderReceipt(String orderCode) {
-		sqlSession.update("orderlistSQL.orderReceipt",orderCode);	
+	public void orderRefundNoOption(String orderCode, String erReason, String erDetail, String erTotalCost,
+			String erCostStr, String productCodeStr, String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("erTotalCost", erTotalCost);
+		map.put("erCostStr", erCostStr);
+		map.put("productCodeStr", productCodeStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderRefundNoOption",map);
 	} 
 	
+	@Override
+	public void orderReceipt(Map<String, String> map) {
+		sqlSession.update("orderlistSQL.orderReceipt",map);	
+	}
+
+	@Override
+	public void orderExchange(String orderCode, String erReason, String erDetail, 
+			String productCodeStr, String optionContentStr,	String changeRefundQtyStr) {
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("productCodeStr", productCodeStr);
+		map.put("optionContentStr", optionContentStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderExchange",map);
+	}
+
+	@Override
+	public void orderExchangeNoOption(String orderCode, String erReason, String erDetail, 
+			String productCodeStr,	String changeRefundQtyStr) {
+		
+		Map<String,String> map = new HashMap<String,String>();
+		
+		map.put("orderCode", orderCode);
+		map.put("erReason", erReason);
+		map.put("erDetail", erDetail);
+		map.put("productCodeStr", productCodeStr);
+		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		
+		sqlSession.update("orderlistSQL.orderExchangeNoOption",map);
+	}
+
+		
 	
 }

@@ -13,11 +13,23 @@ public interface OrderlistDAO {
 
 	public void orderCancel(Map<String,String> map);
 
-	public void orderChange(String orderCode);
+	/* public void orderChange(String orderCode); */
 
-	public void orderRefund(String orderCode);
+	public void orderRefund(String orderCode, String erReason, String erDetail, String erTotalCost, 
+			String erCostStr,String productCodeStr, String optionContentStr, String changeRefundQtyStr);
+	
+	public void orderRefundNoOption(String orderCode, String erReason, String erDetail, String erTotalCost,
+			String erCostStr, String productCodeStr, String changeRefundQtyStr);
 
-	public void orderReceipt(String orderCode);
+	
+	public void orderReceipt(Map<String, String> map);
 
+	public void orderExchange(String orderCode, String erReason, String erDetail, 
+			String productCodeStr, String optionContentStr,	String changeRefundQtyStr);
 
+	public void orderExchangeNoOption(String orderCode, String erReason, String erDetail, 
+			String productCodeStr,	String changeRefundQtyStr);
+
+	
 }
+

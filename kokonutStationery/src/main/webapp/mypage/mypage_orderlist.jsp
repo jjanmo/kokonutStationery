@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,7 +25,7 @@
         <th id="orderCode">주문번호</th>
         <th id="paymentType">결제방법</th>
         <th id="order_totalPayment">주문금액</th>
-        <th id="crPayment">취소환불금액</th>
+        <th id="crPayment">취소/환불금액</th>
         <th id="orderState">주문상태</th>
         <th id="delivery">교환/환불</th>
         <th id="orderview"></th>
@@ -72,15 +73,16 @@ $(document).ready(function(){
 					else if(items.orderState==4)
 						var orderState = '배송완료';
 					else if(items.orderState==5)
-						var orderState = '교환접수';
-					else if(items.orderState==6)
-						var orderState = '교환완료';
-					else if(items.orderState==7)
-						var orderState = '환불접수';
-					else if(items.orderState==8)
-						var orderState = '환불완료';
-					else if(items.orderState==9)
-						var orderState = '수령확인';
+						var orderState = '';//주문완료
+					
+					if(items.erState=='교환접수')
+						var erState = '교환접수';
+					else if(items.erState=='교환완료')
+						var erState = '교환완료';
+					else if(items.erState=='환불접수')
+						var erState = '환불접수';
+					else if(items.erState=='환불완료')
+						var erState = '환불완료';
 					
 					
 					
@@ -115,8 +117,8 @@ $(document).ready(function(){
 						})).append($('<td/>',{//주문금액
 							text : AddComma(items.totalPayment) 
 						
-						})).append($('<td/>',{//취소금액
-							text : AddComma(items.crPayment)
+						})).append($('<td/>',{//취소환불금액
+							text :  AddComma( items.crPayment )
 						
 						})).append($('<td/>',{//주문상태
 							class : items.orderCode+"_orderState",
@@ -136,18 +138,27 @@ $(document).ready(function(){
 								text : '교환', */
 								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 								
-							})).append($('<div/>',{ // 수령확인 버튼
+							})).append($('<div/>',{ // 구매확정 버튼
 								class : items.orderCode+"_receiptBtn",
-								text : '수령확인',
+								text : '구매확정',
+								/* class : items.orderCode+"_refundBtn",
+								text : '환불', */
+								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
+								
+							})).append($('<div/>',{ // 주문완료 버튼
+								class : items.orderCode+"_completeBtn",
+								text : '주문완료',
 								/* class : items.orderCode+"_refundBtn",
 								text : '환불', */
 								style : 'cursor:pointer; color:gray; margin: 3px auto 0 auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 								
 						}))).append($('<td/>',{//교환/환불칸
-								class : items.orderCode+"_delivery"
+								class : items.orderCode+"_delivery",
+								text: erState,
+								style : "color:#2ac1bc;"
 							//주문상태 배송 완료 시 교환/환불 뜨게
 							}).append($('<div/>',{
-								class:items.orderCode+"_refundChangeBtn",
+								class:items.orderCode+"_ExchangeRefundBtn",
 								text : '교환/환불', 
 								style : 'cursor:pointer; color:gray; margin: auto; display:none; width:80px; height:25px; line-height:25px; text-align:center; border:1px solid gray;'
 				
@@ -164,9 +175,15 @@ $(document).ready(function(){
 					//배송완료 상태 시 환불, 교환 버튼 활성화
 					if(orderState=='배송완료'){
 						$('.'+items.orderCode+'_receiptBtn').css('display','block');
-						$('.'+items.orderCode+'_refundChangeBtn').css('display','block');
+						
+						if(erState==null)
+							$('.'+items.orderCode+'_ExchangeRefundBtn').css('display','block');
+							
 					}
-					
+					if(orderState==''){//주문완료
+						//주문완료버튼
+						$('.'+items.orderCode+'_completeBtn').css('display','block');
+					}
 					
 					//주문취소버튼 클릭 시
 					$('.'+items.orderCode+'_cancelBtn').click(function(){
@@ -191,11 +208,11 @@ $(document).ready(function(){
 					
 					
 					//교환/환불버튼 클릭시
-					$('.'+items.orderCode+'_refundChangeBtn').click(function(){
+					$('.'+items.orderCode+'_ExchangeRefundBtn').click(function(){
 						var result = confirm("정말 교환/환불을 신청하시겠습니까?");
 						if(result){ // 확인일 시
 							//orderCode가져가야한다
-							window.open("/kokonutStationery/order/orderRefundChange.do?orderCode="+items.orderCode, "_blank", "width=800, height=600");
+							window.open("/kokonutStationery/order/orderExchangeRefund.do?orderCode="+items.orderCode, "_blank", "width=850, height=650");
 						}
 					});
 					
@@ -231,18 +248,19 @@ $(document).ready(function(){
 						}
 					}); */
 					
-					//수령확인버튼 클릭 시
+					//구매확정버튼 클릭 시
 					$('.'+items.orderCode+'_receiptBtn').click(function(){
-						var result = confirm("정말 수령확인 하시겠습니까?");
+						var result = confirm("구매확정 시 교환/환불이 불가합니다.\n 구매확정을 완료하시겠습니까?");
 						if(result){ // 확인일 시
 							//alert(items.orderCode);
 							$.ajax({
 								type : 'post',
 								url : '../order/orderReceipt.do',
-								data : {'orderCode' : items.orderCode},
+								data : {'orderCode' : items.orderCode,
+									'totalPayment':items.totalPayment,},
 								success : function(data){}//success
 							});//ajax - 환불접수
-							alert("수령확인되었습니다!");
+							alert("구매확정되었습니다!");
 							location.href="../mypage/mypage_orderlist.do";
 						}
 					});
@@ -258,14 +276,18 @@ $(document).ready(function(){
 	});//ajax
 	
 });//ready
+
+
 /* 페이징 링크 */
 function orderManagerPaging(pg){
 	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
 }
+
 //숫자 3자리당 쉼표찍기
 function AddComma(number) {
 	return Number(number).toLocaleString('en');
 }
+
 </script>
 
 

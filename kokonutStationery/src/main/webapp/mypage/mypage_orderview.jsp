@@ -22,7 +22,7 @@
           <th id="product_price">판매가</th>
           <th id="qty">수량</th>
           <th id="delivery">주문상태</th>
-          <!-- <th id="delivery_ps">배송추적·이용후기</th> -->
+          <th id="exchangeRefund">교환/환불</th>
         </tr>
         <c:forEach var="orderDTO" items="${list}">
 	        <tr class="mypage_table_content orderview_content">
@@ -55,39 +55,47 @@
 	          			배송완료	          			
 	          		</c:if>
 	          		<c:if test="${orderDTO.orderState==5 }">
-	          			교환접수
+	          			주문완료
 	          		</c:if>
-	          		<c:if test="${orderDTO.orderState==6 }">
-	          			교환완료
-	          		</c:if>
-	          		<c:if test="${orderDTO.orderState==7 }">
-	          			횐불접수
-	          		</c:if>
-	          		<c:if test="${orderDTO.orderState==8 }">
-	          			환불완료
-	          		</c:if>
-	          		<c:if test="${orderDTO.orderState==9 }">
-	          			수령확인
-	          		</c:if>
+	          		
 	          	</span>
           		<c:if test="${orderDTO.orderState==1 }">
           			<br>
-          			<input type="button" id="order_cancle" class="orderStateBtn" value="주문취소">
+          			<!-- <input type="button" id="order_cancle" class="orderStateBtn" value="주문취소"> -->
           		</c:if>
           		<c:if test="${orderDTO.orderState==2 }">
           			<br>
-          			<input type="button" id="order_cancle" class="orderStateBtn" value="주문취소">
+          			<!-- <input type="button" id="order_cancle" class="orderStateBtn" value="주문취소"> -->
           		</c:if>
           		<c:if test="${orderDTO.orderState==4 }">
-          			<br>
+          			<!-- <br>
           			<input type="button" id="order_exchange" class="orderStateBtn" value="교환신청">
           			<br>
           			<input type="button" id="order_refund" class="orderStateBtn" value="환불신청">
           			<br>
-          			<input type="button" id="order_receiptOk" class="orderStateBtn" value="수령확인">
+          			<input type="button" id="order_receiptOk" class="orderStateBtn" value="수령확인"> -->
           		</c:if>
 	          </td>
-	         
+	          <td>
+	          	<span class="color_2ac1bc">
+	          		<c:if test="${orderDTO.exchange==1 }">
+	          			교환접수<br>
+	          			[${orderDTO.exchangeQty}개]
+	          		</c:if>
+	          		<c:if test="${orderDTO.exchange==2 }">
+	          			교환완료<br>
+	          			[${orderDTO.exchangeQty}개]
+	          		</c:if>
+	          		<c:if test="${orderDTO.refund==1 }">
+	          			환불접수<br>
+	          			[${orderDTO.refundQty}개]
+		          	</c:if>
+		          	<c:if test="${orderDTO.refund==2 }">
+	          			환불완료<br>
+	          			[${orderDTO.refundQty}개]
+		          	</c:if>
+	          	</span>
+	          </td>
 	        </tr>
         </c:forEach>
       </table>
@@ -144,15 +152,17 @@
           <td id="box_name">총주문금액 :</td>
           <td>
           		<c:set var="sum" value="0"/>
+	         
 	          <c:forEach var="orderDTO" items="${list}">
 	          	<c:set var="sum" value="${sum+orderDTO.totalPrice}"/>
 	          </c:forEach>
+	          
 	          	<c:out value="${sum}"/>
           	원</td>
         </tr>
         <tr>
           <td>사용포인트 :</td>
-          <td>원</td>
+          <td>${usePoint}원</td>
         </tr>
         <tr>
           <td>배송비 :</td>
@@ -170,10 +180,10 @@
           <td>
 	          <span class="color_2ac1bc">
 	          <c:if test="${sum>=30000 }">
-	          	<c:out value="${sum}"/>원
+	          	<c:out value="${sum-usePoint}"/>원
 	          </c:if>
 	          <c:if test="${sum<30000 }">
-	          	<c:out value="${sum+2500}"/>원
+	          	<c:out value="${sum+2500-usePoint}"/>원
 	          </c:if>
 	          </span>
           </td>

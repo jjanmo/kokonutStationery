@@ -27,14 +27,14 @@ public class OrderDTO {
 	private int productOption;		// 0:없음 / 1:있음
 	private String optionContent;	// 옵션내용
 	private int orderState;			// 0: 주문취소1: 주문접수2: 배송준비3: 배송중4: 배송완료 5:교환접수6:교환완료7:환불접수8: 환불완료
-	private int cancel;				// 취소여부
+	private int cancel;				// 취소여부		0:미신청	1:취소완료	
 	private int cancelQty; 	
 	private int cancelAmount;
-	private int exchange; 			//교환여부
+	private int exchange; 			// 교환여부 		0:미신청	1:교환신청	2:교환완료
 	private int exchangeQty; 
-	private int refund;				//환불여부
+	private int refund;				// 환불여부		0:미신청	1:환불신청	2:환불완료
 	private int refundQty;
-	private int refundAmount; 		//환불금액
+	private int refundAmount; 		// 환불금액		
 
 }
 
