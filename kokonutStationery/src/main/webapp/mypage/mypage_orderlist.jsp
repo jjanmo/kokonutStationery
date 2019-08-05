@@ -73,7 +73,7 @@ $(document).ready(function(){
 					else if(items.orderState==4)
 						var orderState = '배송완료';
 					else if(items.orderState==5)
-						var orderState = '주문완료';
+						var orderState = '';//주문완료
 					
 					if(items.erState=='교환접수')
 						var erState = '교환접수';
@@ -180,7 +180,7 @@ $(document).ready(function(){
 							$('.'+items.orderCode+'_ExchangeRefundBtn').css('display','block');
 							
 					}
-					if(orderState=='주문완료'){
+					if(orderState==''){//주문완료
 						//주문완료버튼
 						$('.'+items.orderCode+'_completeBtn').css('display','block');
 					}
