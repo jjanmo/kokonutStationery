@@ -712,7 +712,7 @@ $('#cartBtn').click(function(){
 $('#wishlistBtn').click(function(){
 	if('${memId}'=='') {
 		alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
-		location.href='/kokonutStationery/user/loginForm.do';
+		//location.href='/kokonutStationery/user/loginForm.do';
 	} else {
 		if(option==0) { //옵션이 없을 때
 			$.ajax({	

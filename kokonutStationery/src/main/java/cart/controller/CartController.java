@@ -166,7 +166,15 @@ public class CartController {
 	//비회원 장부고니 전체삭제
 	@RequestMapping(value="/allDeleteKokonutCart.do", method=RequestMethod.POST)
 	public void allDeleteKokonutCart(HttpSession session) {
-		session.removeAttribute("kokonutCart");
+		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		
+		int size = list.size(); 
+		for(int i = 0; i < size; i++) { 
+			CartDTO cartDTO = list.get(i); 			
+			list.remove(cartDTO); 
+			size--; 
+			i--; 			
+		}
 	}
 
 	// 선택옵션 수정 페이지
@@ -273,7 +281,7 @@ public class CartController {
 	@ResponseBody
 	public void cartOptionModify(@RequestParam Map<String, String> map) {
 		cartDAO.cartOptionModify(map);
-
+		//System.out.println("확인");
 	}
 	
 	@RequestMapping(value = "/kokonut_option_content_modify.do", method = RequestMethod.POST)
@@ -281,9 +289,11 @@ public class CartController {
 	public void kokonutCartOptionModify(@RequestParam String optionContent, @RequestParam String cartCode
 			, HttpSession session) {
 		List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+		System.out.println(list);
 		for(CartDTO cartDTO : list) {
 			if(cartDTO.getCartCode()==Integer.parseInt(cartCode)) {
 				cartDTO.setOptionContent(optionContent);
+				System.out.println(cartDTO.getOptionContent());
 			}
 		}
 	}

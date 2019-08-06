@@ -179,7 +179,7 @@
 					비우기
 				</div>
 				<div class="shopContinue main-button-s" style="width: 140px; margin: -59px 564px 0px;">
-					쇼핑계속하기
+					<a href="/kokonutStationery/main/index.do"><li class="shopContinue main-button-s" >쇼핑계속하기</li></a>
 				</div>
 			</div>
 		</c:if>
@@ -202,9 +202,11 @@
 							<div class="" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="/kokonutStationery/main/index.do" ><li class="subButton subButton-xs">쇼핑 계속하기</li></a>
 							</div>
+							<c:if test="${memId!=null }">
 							<div class="selectLike" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="#" ><li class="subButton subButton-xs">선택 찜하기</li></a>
 							</div>
+							</c:if>
 							<div class="selectOrder" style="width: 140px; display: inline-block; padding-left: 5px;">
 								<a href="#"><li id="selectOrderBtn" class="main-button-s">선택 주문하기</li></a>
 							</div>
@@ -234,7 +236,6 @@
 		}
 	}
 }; */
-
 
 
 $('.cart_select').click(function() {
