@@ -47,7 +47,7 @@
 	height : 70px;
 }
 .kokonutOrder_img{
-	width: 100%;
+	width: 90%;
 	vertical-align: middle;
 	
 	transform: scale(1);
@@ -59,11 +59,11 @@
 }
 .kokonutOrder_img:hover{
 	border: 0.1px solid black;	
-	transform: scaleX(4) scaleY(5);
-	-webkit-transform: scaleX(4) scaleY(5);
-	-moz-transform: scaleX(4) scaleY(5);
-	-ms-transform: scaleX(4) scaleY(5);
-	-o-transform: scaleX(4) scaleY(5);
+	transform: scaleX(5) scaleY(5);
+	-webkit-transform: scaleX(5) scaleY(5);
+	-moz-transform: scaleX(5) scaleY(5);
+	-ms-transform: scaleX(5) scaleY(5);
+	-o-transform: scaleX(5) scaleY(5);
 	z-index: 1;
 }
 .kokonutOrder_PrdName{
@@ -152,6 +152,7 @@ $.ajax({
 	dataType : 'json',
 	success : function(data){
 		//alert(JSON.stringify(data));
+		var totalPrice = 0;
 		$.each(data.list, function(index, items){
 			//결제방법
 			if(items.paymentType==0)
@@ -317,21 +318,21 @@ $.ajax({
 				});
 			});
 			//총 합 금액
-			var totalPrice = 0;
+			
 			if(items.orderState==0){
 				totalPrice = 0;
 			}else{
 				totalPrice += items.totalPrice;	
-			}			
+			}						
 			
-			$('#totalPrice').append(totalPrice+' 원');
-			var deliveryF = 2500;
-			if(totalPrice>=30000||totalPrice<=0){
-				deliveryF = 0;
-			}
-			$('#deliveryF').append(deliveryF + ' 원');
-			$('#totalPayment').append(totalPrice+deliveryF + ' 원');
 		});
+		$('#totalPrice').text(totalPrice+' 원');
+		var deliveryF = 2500;
+		if(totalPrice>=30000||totalPrice<=0){
+			deliveryF = 0;
+		}
+		$('#deliveryF').text(deliveryF + ' 원');
+		$('#totalPayment').text(totalPrice+deliveryF + ' 원');
 	}
 })
 

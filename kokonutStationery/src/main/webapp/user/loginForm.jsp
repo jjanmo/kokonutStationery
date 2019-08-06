@@ -116,6 +116,7 @@ $('#loginBtn').on('click', function(){
 $('#order_num').click(function(){
 	var kokonutName = $('#kokonut_name').val();
 	var kokonutOC = $('#kokonut_orderCode').val();
+	
 	if(kokonutName == ''){
 		alert('주문자명을 입력해주세요');
 	}else if(kokonutOC == ''){
@@ -129,6 +130,7 @@ $('#order_num').click(function(){
 					},
 			dataType : 'text',
 			success : function(data){
+				//alert(data);
 				if(data == 'success'){
 					window.open('/kokonutStationery/order/kokonutOrder.do?userName='+kokonutName+'&orderCode='+kokonutOC
 							,'','width=1100, height=500, top=200,left=200, resizable=no, toolbar=no','true');

@@ -229,8 +229,7 @@ public class OrderController {
 		
 		String userId = (String) session.getAttribute("kokonutId");
 		if(userId!=null) {
-			List<String> list = orderDAO.getOrderCode(userId);
-			String orderCode = list.get(0);
+			String orderCode = orderDAO.getOrderCode(userId);
 			System.out.println(orderCode);			
 			return orderCode;
 		}else {			
@@ -285,11 +284,11 @@ public class OrderController {
 	@ResponseBody
 	public String kokonutOrderSearch(@RequestParam Map<String, String> map) {
 		List<OrderDTO> list = orderDAO.getKokonutOrder(map);
-		//System.out.println(orderDTO);
-		if(list==null) {
-			return "fail";
-		}else{
+		System.out.println(list);
+		if(list.size() > 0) {
 			return "success";
+		}else{
+			return "fail";
 		}
 	}
 	

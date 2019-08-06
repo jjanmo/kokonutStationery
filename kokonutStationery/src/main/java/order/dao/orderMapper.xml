@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deletePreOrder" parameterType="String">
 		delete from TBL_ORDER where orderCode = 0 and 
 									orderDate is null and 
-									userId = #{userId} or userId = #{kokonutId}
+									(userId = #{userId} or userId = #{kokonutId})
 	</delete>	
 	
 	
@@ -174,7 +174,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!-- 비회원일때 주문번호 리턴 -->
 	<select id="getOrderCode" parameterType="String" resultType="String">
-		select orderCode from TBL_ORDER where userId = #{userId}
+		select orderCode from TBL_ORDERLIST where userId = #{userId}
 	</select>
 	<!-- 재고처리 옵션없음 -->
 	<update id="reduceSaleProduct" parameterType="java.util.Map">

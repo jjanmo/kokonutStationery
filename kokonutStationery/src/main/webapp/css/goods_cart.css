@@ -109,6 +109,10 @@
     transition: all 0.2s ease;
 }
 
+.optionButton:hover{
+	background-color: rgb(246, 246, 246);
+}
+
 .totalPrice{
 	height: 30px;
     border: 0;
@@ -131,6 +135,9 @@
     color: #fff;
     cursor: pointer;
     transition: all 0.2s ease;
+}
+.main-button-s:hover{
+	background-color: rgb(43, 43, 43);
 }
 * {
     font-family: 'Noto Sans KR', sans-serif,Arial, dotum, ����;
@@ -166,6 +173,10 @@
     border-image: initial;
     list-style: none;
     transition: all 0.2s ease 0s;
+}
+
+.subButton-xs:hover{
+	background-color : rgb(246, 246, 246);
 }
 
 .cartTable th {

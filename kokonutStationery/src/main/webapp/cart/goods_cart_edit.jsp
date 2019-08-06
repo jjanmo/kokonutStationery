@@ -13,7 +13,11 @@
 <!-- 부트스트랩 -->
 <link href="../css/bootstrap.min.css" rel="stylesheet">
 <link href="../css/goods_cart_edit.css" rel="stylesheet">
-
+<style type="text/css">
+.sub-button:hover{
+	background-color: rgb(246,246,246);
+}
+</style>
 </head>
 <body style="margin: 0px" cz-shortcut-listen="true">
 
@@ -176,6 +180,7 @@
 			return;
 			
 		} else if('${memId}'!='') {//회원
+			alert("회원");
 			$.ajax({
 				type :'post',
 				url :'/kokonutStationery/cart/option_content_modify.do',
@@ -198,7 +203,7 @@
 
 	function modifyOptionClose(optionContent){
 		//alert(optionContent);
-		opener.document.getElementById('${cartDTO.cartCode }').value = optionContent;
+		//opener.document.getElementById('${cartDTO.cartCode }').value = optionContent;
 		opener.parent.location.reload();
 		/* opener.parent.location = '/kokonutStationery/cart/goods_cart.do'; */
 		window.close();
