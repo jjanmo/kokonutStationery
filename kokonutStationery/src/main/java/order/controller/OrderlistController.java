@@ -14,12 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import order.bean.OrderDTO;
 import order.bean.OrderManagerPaging;
 import order.bean.OrderlistDTO;
+import order.dao.OrderDAO;
 import order.dao.OrderlistDAO;
+import productmanager.dao.ProductManagerDAO;
 
 @Controller
 public class OrderlistController {
+	
+	@Autowired
+	private ProductManagerDAO productManagerDAO;
+	
+	@Autowired
+	private OrderDAO orderDAO;
+	
 	@Autowired
 	private OrderlistDAO orderlistDAO;
 	
@@ -58,7 +68,31 @@ public class OrderlistController {
 	
 	@RequestMapping(value="/order/orderCancel.do",method=RequestMethod.POST)
 	public void orderCancel(@RequestParam Map<String,String> map) {
+		
+		String orderCode = map.get("orderCode");
+		List<OrderDTO> list= orderDAO.getOrder(orderCode);
+		//재고 돌려놓기
+		Map<String,String> map2 = new HashMap<String,String>();
+		for(int i=0;i<list.size();i++) {
+			
+			map2.put("purchaseQty",list.get(i).getPurchaseQty()+"");
+			map2.put("productCode",list.get(i).getProductCode()+"");
+			String optionContent = list.get(i).getOptionContent();
+			
+			if(list.get(i).getOptionContent()==null || list.get(i).getOptionContent().equals("none")) {
+				optionContent=null;
+			}
+				
+			map2.put("optionContent",optionContent);
+			
+			//재고변화
+			productManagerDAO.changeStock(map2);
+			
+		}
+		
+		//상태변경
 		orderlistDAO.orderCancel(map);
+		
 	}
 	
 	/*
@@ -104,25 +138,35 @@ public class OrderlistController {
 		String[] optionContentStr = optionContentList.split(",");
 		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
 		
+		//재고 돌려놓기
+		Map<String,String> map = new HashMap<String,String>();
+		
 		for(int i=0;i<productCodeStr.length;i++) {
 			
+			map.put("purchaseQty",changeRefundQtyStr[i]);
+			map.put("productCode",productCodeStr[i]);
+			String optionContent = optionContentStr[i];
+			
 			if(optionContentStr[i].equals("undefined")) {
-				optionContentStr[i]="";
-				//옵션없는 상품 교환
-				orderlistDAO.orderExchangeNoOption(orderCode, erReason, erDetail, 
-						productCodeStr[i], changeRefundQtyStr[i]);
-			}else {
-				//옵션있는상품교환
-				orderlistDAO.orderExchange(orderCode,erReason,erDetail,
-						productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);		
-				
+				optionContentStr[i]=null;
+				optionContent=null;
 			}
-				
+			map.put("optionContent",optionContent);
+			
+			//재고변화
+			productManagerDAO.changeStock(map);
+			System.out.println("[map] "+map);
+			
+			//상태변화
+			orderlistDAO.orderExchange(orderCode,erReason,erDetail,
+					productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+		
 			System.out.println(" 상품코드="+productCodeStr[i]
 								+" 옵션내용="+optionContentStr[i]
 								+" 교환수량="+changeRefundQtyStr[i]);
 			
 		}
+		
 		
 		
 		return "ok";
@@ -152,15 +196,10 @@ public class OrderlistController {
 		
 		for(int i=0;i<productCodeStr.length;i++) {
 			if(optionContentStr[i].equals("undefined")) {
-				optionContentStr[i]="";
-				//옵션없는상품 환불
-				orderlistDAO.orderRefundNoOption(orderCode,erReason,erDetail,erTotalCost,
-						erCostStr[i],productCodeStr[i],changeRefundQtyStr[i]);
-			}else {
-				//옵션있는상품 환불
-				orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
-						erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+				optionContentStr[i]=null;
 			}
+			orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
+					erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
 				
 			System.out.println(" 각환불금액="+erCostStr[i]
 								+" 상품코드="+productCodeStr[i]

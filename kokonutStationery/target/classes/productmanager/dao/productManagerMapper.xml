@@ -279,7 +279,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select substockQty from TBL_PRODUCTOPTION where productCode=#{productCode} and optionContent=#{optionContent}
 	</select>
 	
-	
+	<!-- 주문취소 /교환/환불 시에 재고 변경 -->
+	<update id="changeStock" parameterType="java.util.Map">
+		begin
+			<!-- tbl_product -->
+			<!-- 재고추가,판매량감소 -->
+			update TBL_PRODUCT set stockQTY=stockQty+#{purchaseQty} ,saleQty=saleQty-#{purchaseQty}
+				where productCode=#{productCode};
+				
+			<!-- tbl_productOption -->	
+			<!-- 옵션상품 각각 재고, 판매량관리 -->
+			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{purchaseQty} ,subsaleQty=subsaleQty-#{purchaseQty}
+				where productCode=#{productCode} 
+				<if test="optionContent!=null">
+				and optionContent like '%'||#{optionContent}||'%';
+				</if>
+				<if test="optionContent==null">
+				;
+				</if>
+		end;
+	</update>
 </mapper>
 
 

@@ -57,6 +57,8 @@ public interface ProductManagerDAO {
 
 	public int checkOptionStock(Map<String, String> map);
 
+	public void changeStock(Map<String, String> map2);
+
 
 
 
