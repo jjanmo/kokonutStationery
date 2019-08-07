@@ -92,7 +92,7 @@
 			<div class="join_agreement" style=" text-align:center; position:relative;">
 				<!-- 개인정보보호를 위한 이용자 동의사항 -->
 				<div align="right" style="height:26px; position:absolute; top:-28px; right:0;" class="private_info">
-					개인정보보호를 위한 이용자 동의사항 (자세한 내용은 <a href="../servicePrivate" style="color:#999"><u>개인정보취급방침</u></a>을 확인하시기 바랍니다)
+					개인정보보호를 위한 이용자 동의사항 (자세한 내용은 <a href="../service/private.do" style="color:#999"><u>개인정보취급방침</u></a>을 확인하시기 바랍니다)
 				</div>
 				
 				<div class="boxScroll scroll private_textarea" style="width:100%; height:250px; margin:0; padding:25px;">
@@ -191,9 +191,10 @@
 				          <tr>
 				            <td style="width:150px; font-size: 13px; color: #666; font-weight:normal; padding-top: 10px;">배송지 확인 :</td>
 				            <td style="font-size: 13px; color: #333; font-weight:normal; padding-top: 10px;">
-				             <c:if test="${memId!=null }">
+				             <%-- <c:if test="${memId!=null }">
 				              <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
-				             </c:if>
+				             </c:if> --%>
+				             <input type="checkbox" id="sameInfo" style="height: 14px;"> 주문고객 정보와 동일합니다
 				            </td>
 				          </tr>
 				          <tr>
