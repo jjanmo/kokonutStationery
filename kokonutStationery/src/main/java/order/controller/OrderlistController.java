@@ -127,7 +127,7 @@ public class OrderlistController {
 								@RequestParam String erDetail,
 								@RequestParam String productCodeList,
 								@RequestParam String optionContentList,
-								@RequestParam String changeRefundQtyList) {
+								@RequestParam String changeExchangeQtyList) {
 		
 		
 		System.out.println("[교환]주문코드="+orderCode+" 사유="+erReason+" 세부사유="+erDetail);
@@ -136,14 +136,14 @@ public class OrderlistController {
 		//상품재고 돌려놓기
 		String[] productCodeStr = productCodeList.split(",");
 		String[] optionContentStr = optionContentList.split(",");
-		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
+		String[] changeExchangeQtyStr = changeExchangeQtyList.split(",");
 		
 		//재고 돌려놓기
 		Map<String,String> map = new HashMap<String,String>();
 		
 		for(int i=0;i<productCodeStr.length;i++) {
 			
-			map.put("purchaseQty",changeRefundQtyStr[i]);
+			map.put("purchaseQty",changeExchangeQtyStr[i]);
 			map.put("productCode",productCodeStr[i]);
 			String optionContent = optionContentStr[i];
 			
@@ -159,11 +159,11 @@ public class OrderlistController {
 			
 			//상태변화
 			orderlistDAO.orderExchange(orderCode,erReason,erDetail,
-					productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
+					productCodeStr[i],optionContentStr[i],changeExchangeQtyStr[i]);
 		
 			System.out.println(" 상품코드="+productCodeStr[i]
 								+" 옵션내용="+optionContentStr[i]
-								+" 교환수량="+changeRefundQtyStr[i]);
+								+" 교환수량="+changeExchangeQtyStr[i]);
 			
 		}
 		
@@ -194,10 +194,26 @@ public class OrderlistController {
 		String[] optionContentStr = optionContentList.split(",");
 		String[] changeRefundQtyStr = changeRefundQtyList.split(",");
 		
+		//재고 돌려놓기
+		Map<String,String> map = new HashMap<String,String>();
+				
 		for(int i=0;i<productCodeStr.length;i++) {
+			
+			map.put("purchaseQty",changeRefundQtyStr[i]);
+			map.put("productCode",productCodeStr[i]);
+			String optionContent = optionContentStr[i];			
+			
 			if(optionContentStr[i].equals("undefined")) {
 				optionContentStr[i]=null;
+				optionContent=null;
 			}
+			map.put("optionContent",optionContent);
+			
+			//재고변화
+			productManagerDAO.changeStock(map);
+			System.out.println("[map] "+map);
+			
+			//상태변화
 			orderlistDAO.orderRefund(orderCode,erReason,erDetail,erTotalCost,
 					erCostStr[i],productCodeStr[i],optionContentStr[i],changeRefundQtyStr[i]);
 				

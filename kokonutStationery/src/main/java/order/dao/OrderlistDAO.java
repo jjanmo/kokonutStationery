@@ -23,7 +23,7 @@ public interface OrderlistDAO {
 	public void orderReceipt(Map<String, String> map);
 
 	public void orderExchange(String orderCode, String erReason, String erDetail, 
-			String productCodeStr, String optionContentStr,	String changeRefundQtyStr);
+			String productCodeStr, String optionContentStr,	String changeExchangeQtyStr);
 
 	
 }

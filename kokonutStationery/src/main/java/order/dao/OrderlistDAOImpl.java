@@ -67,7 +67,7 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 
 	@Override
 	public void orderExchange(String orderCode, String erReason, String erDetail, 
-			String productCodeStr, String optionContentStr,	String changeRefundQtyStr) {
+			String productCodeStr, String optionContentStr,	String changeExchangeQtyStr) {
 		Map<String,String> map = new HashMap<String,String>();
 		
 		map.put("orderCode", orderCode);
@@ -75,7 +75,7 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		map.put("erDetail", erDetail);
 		map.put("productCodeStr", productCodeStr);
 		map.put("optionContentStr", optionContentStr);
-		map.put("changeRefundQtyStr", changeRefundQtyStr);
+		map.put("changeExchangeQtyStr", changeExchangeQtyStr);
 		
 		sqlSession.update("orderlistSQL.orderExchange",map);
 	}

@@ -350,7 +350,7 @@ $(document).ready(function(){
 							'erDetail':erDetail,
 							'productCodeList':productCodeList,
 							'optionContentList':optionContentList,
-							'changeRefundQtyList':changeRefundQtyList},
+							'changeExchangeQtyList':changeRefundQtyList},
 						success : function(data){
 							if(data=='ok'){
 								alert("교환을 성공했습니다.");
