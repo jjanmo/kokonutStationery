@@ -100,10 +100,10 @@
 						회사는 회원님께서 회원가입, 상품구매 및 배송 서비스의 원활한 제공을 위해 최소한의 범위 내에서 아래와 같이 개인정보 수집·이용합니다. <br />
 						<br />
 						(1) 회원 정보의 수집·이용목적, 수집항목, 보유·이용기간은 아래와 같습니다.<br />
-						<img src="../img/private_5_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_5_1.gif" style="width: 100%;"><br />
 						<br />
 						(2) 법령에 의하여 수집·이용되는 이용자의 정보는 아래와 같은 수집·이용목적으로 보관합니다.<br />
-						<img src="../img/private_6_1.gif" style="width: 100%;"><br />
+						<img src="../image/private_6_1.gif" style="width: 100%;"><br />
 						<br />
 						(3) 이용자가 선택정보에 동의를 거부하더라도 배민문방구 서비스 이용은 가능합니다. <br />
 						<br />
