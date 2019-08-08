@@ -107,7 +107,7 @@ public class MypageController {
 		mav.addObject("contents", "/mypage/mypage_orderview.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.addObject("userDTO", userDTO);
-		mav.addObject("usePoint", usePoint);
+		mav.addObject("usePoint", usePoint2);
 		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
 		return mav;
