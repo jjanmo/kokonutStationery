@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from  
 					(select rownum rn, tt.* from 
 				    	(select userName,userId,userPhone1,userPhone2,
-				    	userPhone3, userEmail, joinDate  
+				    	userPhone3, userEmail,userPoint, joinDate  
 				      	from TBL_USER)tt 
 				 ) where rn between #{startNum} and #{endNum}
 	</select>
@@ -100,6 +100,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_user where userId=#{userId}
 	</select>
 	
+	<!-- userPointModify : 회원 정보 포인트 불러오기 -->
+	<select id="userPointModify" parameterType="String" resultType="user">
+		select * from TBL_user where userId=#{userId}
+	</select>
 	
 	<!-- userModify : 회원정보수정 -->
 	<update id="userModify" parameterType="java.util.Map">
@@ -125,4 +129,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			'${array[i]}'
 		</foreach>
 	</delete>
+	
+	<select id="userPointList" parameterType="String" resultType="point">
+		select * from tbl_point where userId = #{userId} order by logdate desc, contents desc
+	</select>
 </mapper>

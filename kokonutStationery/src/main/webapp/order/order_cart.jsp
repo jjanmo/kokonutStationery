@@ -539,8 +539,6 @@ function daumCheckPost() {
 //상품합계금액과 포인트
 function totalP(){
 	
-	
-	
 	//포인트
 	var totalPoint = ${userDTO.userPoint};
 	var usingPoint = $('#usingPoint').val(0);
@@ -584,7 +582,7 @@ function usePoint(){
 
 	else {
 		var remainPoint = totalPoint*1 - usePoint*1;
-		var usePoint = $('#usingPoint').val()*1;
+		var usePoint = $('#usingPoint').val();
 		alert(usePoint);
 		alert(typeof usePoint);
 		alert(typeof totalP);
@@ -767,7 +765,8 @@ $('#orderWriteBtn').click(function(){
 			});
 		}
 
-		location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}";
+		location.href = "/kokonutStationery/order/order_settle.do?checkedValueStr=${checkedValueStr}&usePoint="+$('#usingPoint').val();
+		
 	//비회원
 	}else if('${memId}' == ''){
 		$.ajax({

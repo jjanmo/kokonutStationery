@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import point.bean.PointDTO;
 import user.bean.UserDTO;
 
 @Repository
@@ -50,5 +51,14 @@ public class UserManagerDAOImpl implements UserManagerDAO {
 		
 	}
 
-	
+	@Override
+	public UserDTO userPointModify(String userId) {
+		return sqlSession.selectOne("userSQL.userPointModify", userId);
+	}
+
+	@Override
+	public List<PointDTO> userPointList(String userId) {
+		return sqlSession.selectList("userSQL.userPointList", userId);
+	}
+
 }

@@ -58,7 +58,6 @@ public class MypageController {
 		return mav;
 	}
 	
-		
 	//찜목록 
 	@GetMapping("/mypage_wishlist.do")
 	public ModelAndView wishlist(HttpSession session) {

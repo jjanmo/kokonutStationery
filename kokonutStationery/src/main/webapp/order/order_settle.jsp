@@ -109,7 +109,10 @@
 				            <td class="box_sub_tit" style="font-size: 13px; color: #666;">주소 : </td>
 				            <td id="receiverAddr" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
 				          </tr>
-				          
+				          <tr>
+				          	<td class="box_sub_tit" style="font-size: 13px; color: #666:">남기고 싶은말 : </td>
+				          	<td id="deliveryMsg" class="box_sub_tit" style="font-size: 13px; color: #666;"></td>
+				          </tr>
 			          	</tbody>
 			          </table>
 			  
@@ -148,7 +151,7 @@
 						<tr>
 				            <td class="box_sub_tit" style="width:150px; height:38px; font-size: 13px; color: #666; padding-top: 5px;">사용한 포인트 : </td>
 				            <td>
-							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;">${usePoint }</span>
+							<span id="usePoint" class="box_sub_tit" style="font-size: 13px; color: #666;">${usePoint}</span>
 				            <span style="font-size: 13px; color: #666;">원</span>
 				            <input type="hidden" id="totalPoint">
 							</td>
@@ -332,6 +335,7 @@ var prdOption = new Array();
 				var addr = data.userDTO.receiverAddr1;
 			}
 			$('#receiverAddr').text(addr);
+			$('#deliveryMsg').text(data.userDTO.deliveryMsg);
 			$('#totalPoint').val(data.userDTO.userPoint); //tbl_user의 totalPoint 값
 			$('#x_totalPayment').val(data.userDTO.totalPayment); //tbl_user의 totalPayment 값
 		}
@@ -407,7 +411,7 @@ var prdOption = new Array();
 							 'deliveryFee' 			: deliveryFee,
 							 'totalPayment' 		: totalPayment,
 							 'usePoint'				: point,
-							 'savePoint'			: totalProductPayment/10,
+							 /* 'savePoint'			: totalProductPayment/10, */
 							 'totalPoint'			: $('#totalPoint').val(),
 							 'x_totalPayment'		: $('#x_totalPayment').val(),
 							 'members'				: 1 },

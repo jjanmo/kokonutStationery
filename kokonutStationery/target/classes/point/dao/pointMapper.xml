@@ -12,4 +12,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUsePoint" parameterType="String" resultType="String">
 		select usePoint from tbl_point where orderCode=#{orderCode} and pointType=2
 	</select>
+	
 </mapper>
