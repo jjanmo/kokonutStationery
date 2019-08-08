@@ -172,8 +172,7 @@
 <div id="mainContent_wrap">
 	<div id="product_search_wrap" style="width:1200px; margin: 0 auto;">
 		<div id="product_search_title" style="margin-bottom: 20px;">
-			<h1 style="font-weight:normal;">상품관리</h1>
-			<div id="product_searchDiv"></div>
+			<h1 style="font-weight:normal;">상품관리</h1>			
 		</div>
 		
 		<form name="product_searchForm" method="post">
@@ -213,6 +212,7 @@
 				</tr>
 			</table>
 			<div style="margin-top: 15px" align="center">
+				<div id="product_searchDiv"></div><br>
 				<input type="button" id="product_searchBtn" class="product_btn_group" value="검 색">
 				<input type="reset" id="product_resetBtn" class="product_btn_group" value="초기화">
 			</div>
@@ -439,6 +439,10 @@ $('#product_searchBtn').click(function(event,str){
 		|| $('#kategorie').val()!='-카테고리 선택-'
 		|| $('#productSearchWord').val()!=''){
 		
+		if($('#lowPrice').val() > $('#highPrice').val()){
+			alert('하한가가 상한가보다 높을 수 없습니다.');
+		}else{
+		
 			$('#productSearch_Table tr:not(:first)').empty();
 			$.ajax({
 				type : 'POST',
@@ -497,6 +501,7 @@ $('#product_searchBtn').click(function(event,str){
 					}
 				}
 			});//ajax
+		}
 	}//if문
 	else{
 		$('#product_searchDiv').text('검색항목을 입력해주세요').css('color', 'red').css('font-weight', '10pt')
