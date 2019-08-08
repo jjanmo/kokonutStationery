@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		begin
 			<!-- tbl_orderlist -->
 			update TBL_ORDERLIST set crPayment=#{crPayment}, 
-										orderState=0 
+									orderState=0 
 				where orderCode=#{orderCode};
 			
 			<!-- tbl_order -->
@@ -44,9 +44,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where userId = #{userId};
 			
 			<!-- 포인트 내역 변경 -->
-			delete tbl_point where userId = #{userId} and orderCode = #{orderCode};
+			delete tbl_point where userId = #{userId} and orderCode = #{orderCode};			
+			
 		end;
-	</update>
+	</update>	
+	
+	
 	
 	<!--  교환접수 - 상태 변경 업데이트 
 	<update id="orderChange" parameterType="String">
@@ -62,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		end;
 	</update> -->
 	
-	<!-- (옵션있는)환불접수 - 상태 변경 업데이트 -->
+	<!-- 환불접수 - 상태 변경 업데이트 -->
 	<update id="orderRefund" parameterType="map">
 		begin
 			<!-- tbl_orderlist -->
@@ -83,59 +86,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 								refundQty=#{changeRefundQtyStr},
 								purchaseQty=purchaseQty-#{changeRefundQtyStr},	
 								refundAmount=#{erCostStr} 
-			where orderCode=#{orderCode} and productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
-					
+			where orderCode=#{orderCode} and productCode=#{productCodeStr} 
+			<if test="optionContentStr!=null">
+			and optionContent like '%'||#{optionContentStr}||'%';
+			</if>
+			<if test="optionContentStr==null">
+			;
+			</if>	
 			
-			<!-- tbl_product -->
-			<!-- 재고추가,판매량감소 -->
-			update TBL_PRODUCT set stockQTY=stockQty+#{changeRefundQtyStr} ,saleQty=saleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-				
-			<!-- tbl_productOption -->	
-			<!-- 옵션상품 각각 재고, 판매량관리 -->
-			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
-					
+			
 		end;
 	</update>
 	
-	<!-- (옵션없는)환불접수 - 상태 변경 업데이트 -->
-	<update id="orderRefundNoOption" parameterType="map">
-		begin
-			<!-- tbl_orderlist -->
-			<!-- 주문상태변화 -->
-			update TBL_ORDERLIST set orderState=4 
-									,erState='환불접수'
-									,crPayment=#{erTotalCost}
-									,refundRegDate=sysdate
-				where orderCode=#{orderCode};
-			<!-- 사유 추가 -->	
-			update TBL_ORDERLIST set erReason=#{erReason}
-									,erDetail=#{erDetail}
-				where orderCode=#{orderCode};
-					
-			<!-- tbl_order -->
-			<!-- 상태변화,주문의 교환수량 체크 -->
-			update TBL_ORDER set refund=1,<!-- 상태 : 환불접수 -->
-								refundQty=#{changeRefundQtyStr},
-								purchaseQty=purchaseQty-#{changeRefundQtyStr},	
-								refundAmount=#{erCostStr} 
-			where orderCode=#{orderCode} and productCode=#{productCodeStr};
-			
-			<!-- tbl_product -->
-			<!-- 재고추가,판매량감소 -->
-			update TBL_PRODUCT set stockQTY=stockQty+#{changeRefundQtyStr} ,saleQty=saleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-				
-			<!-- tbl_productOption -->	
-			<!-- 옵션상품 각각 재고, 판매량관리 -->
-			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-					
-		end;
-	</update>
-	
-	<!-- (옵션있는)교환접수- 상태변화,물량조절 -->
+	<!-- 교환접수- 상태변화,물량조절 -->
 	<update id="orderExchange" parameterType="map">
 		begin
 			<!-- tbl_orderlist -->
@@ -149,57 +112,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<!-- tbl_order -->
 			<!-- 상태변화,주문의 교환수량 체크 -->
 			update TBL_ORDER set exchange=1,<!-- 상태 : 교환접수 -->
-								exchangeQty=#{changeRefundQtyStr},
-								purchaseQty=purchaseQty-#{changeRefundQtyStr}	
-			where orderCode=#{orderCode} and productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
-					
+								exchangeQty=#{changeExchangeQtyStr},
+								purchaseQty=purchaseQty-#{changeExchangeQtyStr}	
+			where orderCode=#{orderCode} and productCode=#{productCodeStr} 
+			<if test="optionContentStr!=null">
+			and optionContent like '%'||#{optionContentStr}||'%';
+			</if>
+			<if test="optionContentStr==null">
+			;
+			</if>		
 			
-			<!-- tbl_product -->
-			<!-- 재고추가,판매량감소 -->
-			update TBL_PRODUCT set stockQTY=stockQty+#{changeRefundQtyStr} ,saleQty=saleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-				
-			<!-- tbl_productOption -->	
-			<!-- 옵션상품 각각 재고, 판매량관리 -->
-			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr} and optionContent like '%'||#{optionContentStr}||'%';
-					
 		end;
 	</update>
-	
-	<!-- (옵션없는)교환접수- 상태변화,물량조절 -->
-	<update id="orderExchangeNoOption" parameterType="map">
-		begin
-			<!-- tbl_orderlist -->
-			<!-- 주문상태변화 -->
-			update TBL_ORDERLIST set orderState=4, erState='교환접수', exchangeRegDate = sysdate
-				where orderCode=#{orderCode};
-			<!-- 사유 추가 -->	
-			update TBL_ORDERLIST set erReason=#{erReason}, erDetail=#{erDetail}
-				where orderCode=#{orderCode};
-					
-			<!-- tbl_order -->
-			<!-- 상태변화,주문의 교환수량 체크 -->
-			update TBL_ORDER set exchange=1,<!-- 상태 : 교환접수 -->
-								exchangeQty=#{changeRefundQtyStr},
-								purchaseQty=purchaseQty-#{changeRefundQtyStr}	
-			where orderCode=#{orderCode} and productCode=#{productCodeStr} ;
-					
-			
-			<!-- tbl_product -->
-			<!-- 재고추가,판매량감소 -->
-			update TBL_PRODUCT set stockQTY=stockQty+#{changeRefundQtyStr} ,saleQty=saleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-				
-			<!-- tbl_productOption -->	
-			<!-- 옵션상품 각각 재고, 판매량관리 -->
-			update TBL_PRODUCTOPTION set substockQTY=substockQTY+#{changeRefundQtyStr} ,subsaleQty=subsaleQty-#{changeRefundQtyStr}
-				where productCode=#{productCodeStr};
-					
-		end;
-	</update>
-	
-	<!-- 수령확인 -->
+		
+	<!-- 구매확정 -->
 	<update id="orderReceipt" parameterType="map">
 		begin	
 			<!-- tbl_orderlist -->

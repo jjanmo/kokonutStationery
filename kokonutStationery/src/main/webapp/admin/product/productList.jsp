@@ -170,7 +170,7 @@
 <input type="hidden" id="pg" value="${pg }">
 <input type="hidden" name="pg" value="1">
 <div id="mainContent_wrap">
-	<div id="product_search_wrap" style="width: 1000px; margin: 0 auto;">
+	<div id="product_search_wrap" style="width:1200px; margin: 0 auto;">
 		<div id="product_search_title" style="margin-bottom: 20px;">
 			<h1 style="font-weight:normal;">상품관리</h1>
 			<div id="product_searchDiv"></div>
@@ -241,6 +241,7 @@
 					<th style="width: 134px;">세일가격</th>
 					<th style="width: 134px;">총 수량</th>
 					<th style="width: 134px;">잔여 수량</th>
+					<th style="width: 134px;">총 판매량</th>
 					<th style="width: 100px;">등록일</th>
 				</tr>
 			</table>
@@ -402,6 +403,9 @@ $(document).ready(function(){
 				})).append($('<td/>',{
 					align : 'center',
 					text : addComma(items.stockQty)
+				})).append($('<td/>', {
+					align : 'center',
+					text : addComma(items.saleQty) + '개'
 				})).append($('<td/>',{
 					align : 'center',
 					text : items.regDate
@@ -481,6 +485,9 @@ $('#product_searchBtn').click(function(event,str){
 							})).append($('<td/>',{
 								align : 'center',
 								text : addComma(items.stockQty)
+							})).append($('<td/>', {
+								align : 'center',
+								text : addComma(items.saleQty) + '개'
 							})).append($('<td/>',{
 								align : 'center',
 								text : items.regDate

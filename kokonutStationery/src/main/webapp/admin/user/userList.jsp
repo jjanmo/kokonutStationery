@@ -172,7 +172,7 @@
  
 <!-- 메인컨텐츠 시작 -->
 <div id="mainContent_wrap">
-	<div id="user_search_wrap" style="width: 1000px; margin: 0 auto;">
+	<div id="user_search_wrap" style="width:1200px; margin: 0 auto;">
 		<div id="user_search_title" style="margin-bottom: 20px;">
 			<h1 style="font-weight:normal;">회원관리</h1>
 			<div id="check_userSearchDiv"></div>

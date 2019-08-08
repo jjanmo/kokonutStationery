@@ -96,12 +96,11 @@ public class MypageController {
 			System.out.println("상세보기페이지의 상품"+list.get(i));
 		}
 		String usePoint = pointDAO.getUsePoint(orderCode);
+		
 		int usePoint2=0;
 		
-		if(usePoint==null)			
-			usePoint2=0;
-		else
-			usePoint2=Integer.parseInt(usePoint);
+		if(usePoint==null) usePoint2=0; 
+		else usePoint2=Integer.parseInt(usePoint);
 		
 		ModelAndView mav = new ModelAndView();		
 		

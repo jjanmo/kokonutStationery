@@ -9,4 +9,7 @@ public interface PointDAO {
 
 	public String getUsePoint(String orderCode);
 
+	public PointDTO getPointDTO(String orderCode);
+
+
 }
