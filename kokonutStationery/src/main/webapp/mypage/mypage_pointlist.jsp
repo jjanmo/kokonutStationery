@@ -41,11 +41,10 @@
 				<td>${list.savePoint} 원</td>
 			</c:if>
 			
-			<c:if test="${list.pointType==1}"> <!-- 사용 -->
+			<c:if test="${list.pointType==2}"> <!-- 사용 -->
 				<td style="color: #2ac1bc;">-${list.usePoint} 원</td>
 			</c:if>
-			
-			
+				
 		</tr>
 		</c:forEach>
 	</table>

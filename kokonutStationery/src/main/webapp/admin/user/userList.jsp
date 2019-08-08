@@ -228,6 +228,7 @@
 						<th style="width: 150px;">아 이 디</th>
 						<th style="width: 280px;">휴 대 전 화</th>
 						<th style="width: 360px;">이 메 일</th>
+						<th style="width: 150px;">포인트</th>
 						<th style="width: 200px;">가 입 일</th>
 	
 					</tr>
@@ -262,7 +263,18 @@ function boardSearchPaging(pg){
 
 
 
-$().ready(function(){
+$(function(){
+	
+	//회원 포인 관리: 포인트 클릭시
+	$('#userSearchTable').on("click",'.userPoint',function(){
+		alert("aaa");
+		window.open(
+				"/kokonutStationery/admin/userPointForm.do?userId="+$(this).attr('id')
+				,'','width=900, height=750, left=200, resizable=no, toolbar=no'
+				,'true');
+		
+	});
+
 	
 	/*삭제 버튼 클릭 시*/
 	$('#userDeleteBtn').click(function(){
@@ -321,7 +333,6 @@ $().ready(function(){
 					id : 'userId',
 					href : 'javascript:void(0)',
 					class : items.userId+""
-					
 				}))).append($('<td/>',{ // 폰번호
 					align : 'center',
 					text : items.userPhone1 + " - " 
@@ -330,6 +341,11 @@ $().ready(function(){
 				})).append($('<td/>',{ // 이메일
 					align : 'center',
 					text : items.userEmail
+				})).append($('<td/>',{ //포인트
+					align : 'center',
+					class : 'userPoint',
+					id : items.userId,
+					text : items.userPoint
 				})).append($('<td/>',{ // 가입일
 					align : 'center',
 					text : items.joinDate
@@ -348,6 +364,7 @@ $().ready(function(){
 						,'true'
 				);
 			});
+			
 			
 		}//success
 	});//ajax
@@ -413,6 +430,9 @@ $().ready(function(){
 						})).append($('<td/>',{ // 이메일
 							align : 'center',
 							text : items.userEmail
+						})).append($('<td/',{ //포인트
+							align : 'center',
+							text : items.userPoint
 						})).append($('<td/>',{ // 가입일
 							align : 'center',
 							text : items.joinDate

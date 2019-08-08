@@ -17,4 +17,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getPointDTO" parameterType="String" resultType="point">
 		select * from tbl_point where orderCode = #{orderCode} and  pointType = 2
 	</select>
+	
 </mapper>

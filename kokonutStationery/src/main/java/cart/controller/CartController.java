@@ -42,7 +42,7 @@ public class CartController {
 	// 장바구니에 담기
 	@RequestMapping(value = "/goods_cart_insert.do", method = RequestMethod.POST)
 	@ResponseBody
-	public void cartInsert(@ModelAttribute CartDTO cartDTO) {
+	public String cartInsert(@ModelAttribute CartDTO cartDTO) {
 		System.out.println(cartDTO);
 
 		int checkCart = cartDAO.checkCart(cartDTO);
@@ -52,12 +52,18 @@ public class CartController {
 			
 			//유저 장바구니 목록수 + 1
 			userDAO.addCartCount(cartDTO.getUserId());
+			
+			return "success";
+		}else {
+			return "fail";
 		}
+		
 	}
 
 	// 비회원 장바구니
 	@RequestMapping(value="/kokonutCartInsert.do", method=RequestMethod.POST)
-	public void kokonutCartInsert(@ModelAttribute CartDTO cartDTO, HttpSession session) {
+	@ResponseBody
+	public String kokonutCartInsert(@ModelAttribute CartDTO cartDTO, HttpSession session) {
 		System.out.println(cartDTO);
 		if(session.getAttribute("kokonutCart")==null) {//비회원 세션값이 없을때
 			List<CartDTO> list = new ArrayList<CartDTO>();			
@@ -66,15 +72,31 @@ public class CartController {
 				list.get(i).setCartCode(i);
 			}
 			session.setAttribute("kokonutCart", list);
-			System.out.println(list);
+			System.out.println("세션값 생성 리스트 : " + list);
+			
+			return "success";
 		}else { // 비회원 세션값이 있을때
 			List<CartDTO> list = (List<CartDTO>) session.getAttribute("kokonutCart");
+			System.out.println("장바구니 추가전 리스트 : " + list);
+			//같은제품이 장바구니 들어왔을때
+			for(int i=0; i<list.size(); i++) {
+				if(cartDTO.getOptionContent().equals("none")) {
+					if(list.get(i).getProductCode()==cartDTO.getProductCode())
+						return "fail";
+				}else {
+					if(list.get(i).getProductCode()==cartDTO.getProductCode()
+							&& list.get(i).getOptionContent().equals(cartDTO.getOptionContent()))
+						return "fail";
+				}
+			}
 			list.add(cartDTO);
 			for(int i=0; i<list.size(); i++) {
 				list.get(i).setCartCode(i);
 			}
 			session.setAttribute("kokonutCart", list);
-			System.out.println(list);
+			System.out.println("장바구니 추가 리스트 : " + list);
+			
+			return "success";
 		}
 				
 	}
