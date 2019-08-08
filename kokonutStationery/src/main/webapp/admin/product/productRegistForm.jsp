@@ -86,6 +86,12 @@
 	padding-right: 5px;
 }
 
+.minusImg {
+	width: 20px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -217,7 +223,10 @@ $('#check_option').click(function(){
 $('#none_option').click(function(){
 	$('#add_optionBtn').hide();
 });
-$('#add_optionBtn').click(function(){
+//옵션 추가
+var cnt = 0;
+$('#add_optionBtn').click(function(){	
+	cnt++;
 	$('#product_info_table').append($('<tr/>'
 	).append($('<th/>', {
 		text : "추가 옵션"
@@ -237,9 +246,18 @@ $('#add_optionBtn').click(function(){
 			min : '0'
 		})).append($('<span/>', {
 			text : " 개"
+		}).append('&nbsp;').append('&nbsp;')).append($('<img/>',{
+			src : '/kokonutStationery/image/minus.png',
+			id : 'minusImg' + cnt,
+			class : 'minusImg'
 		}))
-	));		
+	));	
+	//추가옵션 삭제
+	$('.minusImg').click(function(){
+		$(this).parent().parent().remove();
+	});
 });
+
 
 //유효성 검사
 $('#registBtn').click(function(){
