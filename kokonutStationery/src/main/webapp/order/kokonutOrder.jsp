@@ -249,15 +249,17 @@ $.ajax({
 				$('#kokonut_optionContent'+index).hide();
 			}
 			//수령확인 버튼 배송완료시에만 출력
-			if(items.orderState!=4){
-				$('#receipt_ok'+index).hide();
-				$('#exchangeRefundBtn' + index).hide();
-				
-			}else{
+			if(items.orderState==4){
 				$('#receipt_ok'+index).show();
 				$('#exchangeRefundBtn' + index).show();
-				
+			}else{
+				$('#receipt_ok'+index).hide();	
+				$('#exchangeRefundBtn' + index).hide();
 			}
+			
+			if(items.exchange!=0 || items.refund!=0)//교환/환불신청전일때만 버튼보이도록
+				$('#exchangeRefundBtn' + index).hide();
+			
 			//주문접수, 배송준비기간에 주문취소 가능하게 설정
 			if(items.orderState==1 || items.orderState==2){
 				$('#cancelBtn' + index).show();
@@ -267,7 +269,25 @@ $.ajax({
 			//교환 / 환불요청 버튼 배송완료때만 보이게 설정
 			//주문상태 변경
 			$('#cancelBtn' + index).click(function(){//주문취소
-				$.ajax({
+				
+				var result = confirm("정말 주문취소 하시겠습니까?");
+				if(result){ // 확인일 시
+					//alert(items.orderCode);
+					$.ajax({
+						type :'post',
+						url : '../order/orderCancel.do',
+						data : {'orderCode' : items.orderCode,
+								'crPayment' : items.totalPayment,
+								'x_totalPayment' : items.totalPayment,
+								'x_userPoint' : 0,
+								'userId' : '${memId}'},
+						success : function(data){}//success
+					});//ajax - 주문취소
+					alert("주문취소가 완료되었습니다!");
+					
+				}
+				
+				/* $.ajax({
 					type : 'post',
 					url : '/kokonutStationery/order/kokonutOrderStateChange.do',
 					data : {'orderCode' : items.orderCode,
@@ -279,23 +299,19 @@ $.ajax({
 							alert("주문이 취소되었습니다.");
 						}
 					}
-				});
+				}); */
 			});
 			$('#exchangeRefundBtn' + index).click(function(){//교환
-				$.ajax({
-					type : 'post',
-					url : '/kokonutStationery/order/kokonutOrderExchange.do',
-					data : {'orderCode' : items.orderCode
-							},
-					dataType : 'text',
-					success : function(data){
-						if(data=='success'){
-							alert("교환요청되었습니다.");
-						}
-					}
-				});
+				
+				var result = confirm("정말 교환/환불을 신청하시겠습니까?");
+				if(result){ // 확인일 시
+					//orderCode가져가야한다
+					window.open("/kokonutStationery/order/orderExchangeRefund.do?orderCode="+items.orderCode, "_blank", "width=850, height=650");
+				}
+				
 			});
-			$('#refundBtn' + index).click(function(){//환불
+			
+			/* $('#refundBtn' + index).click(function(){//환불
 				$.ajax({
 					type : 'post',
 					url : '/kokonutStationery/order/kokonutOrderRefund.do',
@@ -308,9 +324,25 @@ $.ajax({
 						}
 					}
 				});
-			})
+			}) */
+			
 			$('#receipt_ok' + index).click(function(){//수령확인
-				$.ajax({
+				
+				var result = confirm("구매확정 시 교환/환불이 불가합니다.\n 구매확정을 완료하시겠습니까?");
+				if(result){ // 확인일 시
+					//alert(items.orderCode);
+					$.ajax({
+						type : 'post',
+						url : '../order/orderReceipt.do',
+						data : {'orderCode' : '${orderCode}',
+							'totalPayment':items.totalPayment},
+						success : function(data){}//success
+					});//ajax - 환불접수
+					alert("구매확정되었습니다!");
+					
+				}
+				
+				/* $.ajax({
 					type : 'post',
 					url : '/kokonutStationery/order/kokonutOrderOk.do',
 					data : {'orderCode' : items.orderCode
@@ -321,7 +353,7 @@ $.ajax({
 							alert("수령확인되었습니다.");
 						}
 					}
-				});
+				}); */
 			});
 			//총 합 금액
 			

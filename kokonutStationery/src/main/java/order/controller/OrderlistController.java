@@ -108,6 +108,12 @@ public class OrderlistController {
 	@RequestMapping(value="/order/orderReceipt.do",method=RequestMethod.POST)
 	public void orderReceipt(@RequestParam String orderCode,@RequestParam String totalPayment, HttpSession session) {
 		String userId = (String)session.getAttribute("memId");
+		System.out.println("userId="+userId);
+		if(userId==null) {//비회원일때
+			userId = orderlistDAO.getKokonutId(orderCode);	
+			System.out.println("비회원userId="+userId);
+		}
+		
 		double savePoint = Integer.parseInt(totalPayment)*(0.1);
 		
 		Map<String,String> map = new HashMap<String,String>();

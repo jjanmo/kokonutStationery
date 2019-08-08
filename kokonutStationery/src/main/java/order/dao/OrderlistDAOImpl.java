@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 
 @Repository
@@ -80,7 +81,11 @@ public class OrderlistDAOImpl implements OrderlistDAO {
 		sqlSession.update("orderlistSQL.orderExchange",map);
 	}
 
-	
+	//비회원일때 아이디 찾아오기
+	@Override
+	public String getKokonutId(String orderCode) {
+		return sqlSession.selectOne("orderlistSQL.getKokonutId",orderCode);
+	}
 	
 	
 }

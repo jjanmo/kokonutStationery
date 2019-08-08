@@ -3,6 +3,7 @@ package order.dao;
 import java.util.List;
 import java.util.Map;
 
+import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 
 public interface OrderlistDAO {
@@ -24,6 +25,8 @@ public interface OrderlistDAO {
 
 	public void orderExchange(String orderCode, String erReason, String erDetail, 
 			String productCodeStr, String optionContentStr,	String changeExchangeQtyStr);
+
+	public String getKokonutId(String orderCode);
 
 	
 }

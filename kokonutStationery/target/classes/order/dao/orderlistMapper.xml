@@ -24,7 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		begin
 			<!-- tbl_orderlist -->
 			update TBL_ORDERLIST set crPayment=#{crPayment}, 
-									orderState=0 
+									orderState=0 ,
+									cancelDate=sysdate
 				where orderCode=#{orderCode};
 			
 			<!-- tbl_order -->
@@ -157,4 +158,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			
 		end;
 	</update>
+	
+	<!--  -->
+	<select id="getKokonutId" parameterType="String" resultType="String">
+		select userId from tbl_orderlist where orderCode=#{orderCode}
+	</select>
 </mapper>
