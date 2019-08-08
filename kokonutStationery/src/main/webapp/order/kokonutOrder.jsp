@@ -122,7 +122,7 @@
         <th width="140">주문금액</th>
         <th width="140">취소금액</th>
         <th width="100">주문상태</th>
-        <th width="100">수령확인</th>
+        <th width="100">교환/환불</th>
       </tr>      
     </table>
     <div id="receiver_inform">
@@ -171,16 +171,26 @@ $.ajax({
 			else if(items.orderState==4)
 				var orderState = '배송완료';
 			else if(items.orderState==5)
-				var orderState = '교환접수';
-			else if(items.orderState==6)
+				var orderState = '주문완료';
+			
+			/* else if(items.orderState==6)
 				var orderState = '교환완료';
 			else if(items.orderState==7)
 				var orderState = '환불접수';
 			else if(items.orderState==8)
 				var orderState = '환불완료';	
 			else if(items.orderState==9)
-				var orderState = '수령확인';
-						
+				var orderState = '수령확인'; */
+			
+			if(items.exchange==1)
+				var erState = '교환접수';
+			else if(items.exchange==2)
+				var erState = '교환완료';
+			else if(items.refund==1)
+				var erState = '환불접수';
+			else if(items.refund==2)
+				var erState = '환불완료';	
+				
 			$('<tr/>',{
 				class : 'kokonutOrder_tr'
 			}).append($('<td/>', {
@@ -219,24 +229,20 @@ $.ajax({
 					id : 'cancelBtn' + index,
 					class : 'userRequestBtn',
 					value : '주문취소'
-			}))).append($('<td/>', {
-				align : 'center'
-				}).append($('<input/>',{
+				})).append($('<input/>',{
 					type : 'button',
-					value : '수령확인',
+					value : '구매확정',
 					id : 'receipt_ok' + index,
 					class : 'userRequestBtn'
-				})).append($('<input/>', {
+			}))).append($('<td/>', {
+				align : 'center',
+				text: erState
+				}).append($('<input/>', {
 					type : 'button',
-					id : 'exchangeBtn' + index,
+					id : 'exchangeRefundBtn' + index,
 					class : 'userRequestBtn',
-					value : '교환요청'
-				})).append($('<input/>', {
-					type : 'button',
-					id : 'refundBtn' + index,
-					class : 'userRequestBtn',
-					value : '환불요청'
-			}))).appendTo($('#kokonutOrder_table'));
+					value : '교환/환불'
+				}))).appendTo($('#kokonutOrder_table'));
 			
 			//옵션없는 상품은 옵션 숨기기
 			if(items.optionContent==null){
@@ -245,12 +251,12 @@ $.ajax({
 			//수령확인 버튼 배송완료시에만 출력
 			if(items.orderState!=4){
 				$('#receipt_ok'+index).hide();
-				$('#exchangeBtn' + index).hide();
-				$('#refundBtn' + index).hide();
+				$('#exchangeRefundBtn' + index).hide();
+				
 			}else{
 				$('#receipt_ok'+index).show();
-				$('#exchangeBtn' + index).show();
-				$('#refundBtn' + index).show();
+				$('#exchangeRefundBtn' + index).show();
+				
 			}
 			//주문접수, 배송준비기간에 주문취소 가능하게 설정
 			if(items.orderState==1 || items.orderState==2){
@@ -275,7 +281,7 @@ $.ajax({
 					}
 				});
 			});
-			$('#exchangeBtn' + index).click(function(){//교환
+			$('#exchangeRefundBtn' + index).click(function(){//교환
 				$.ajax({
 					type : 'post',
 					url : '/kokonutStationery/order/kokonutOrderExchange.do',
