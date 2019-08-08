@@ -18,90 +18,134 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getOrderProduct" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode = #{orderCode} order by productCode desc
 	</select>
-	<!-- 배송지 정보 -->
-	<select id="getReceiverInform" parameterType="String" resultType="user">
-		select userId, userName, receiverName, receiverZipcode, receiverAddr1, receiverAddr2
-			,  receiverPhone1, receiverPhone2, receiverPhone3, deliveryMsg
-		from TBL_USER
-		where userId = #{userId} 
+	
+	<!-- 상세팝업창에 유저정보(배송정보) 가져오기 -->
+	<select id="getUserInfo" parameterType="String" resultType="user">
+		select * from tbl_user where userId = 
+							 (select userId from tbl_orderlist where orderCode = #{orderCode})
+		 
 	</select>
-	<!-- 주문상세 -->
+	
+	<!-- 주문상세페이지 제품리스트 -->
 	<select id="orderViewList" parameterType="String" resultType="order">
 		select * from TBL_ORDER where orderCode = #{orderCode} order by productCode desc
 	</select>
-	<!-- 주문상태 변경 -->
-	<update id="orderStateChange" parameterType="java.util.Map">
-		begin
-			<!-- tbl_order -->
-			update TBL_ORDER set orderState = #{orderState}
-								, cancel = 0
-								, exchange = 0
-								, refund = 0
-			where orderCode = #{orderCode};
-			
-			<!-- tbl_orderlist -->
-			update TBL_ORDERLIST set orderState = #{orderState} where orderCode = #{orderCode};
-			
-			<!-- 주문취소시 컬럼 업데이트 -->
-			<if test="orderState == 0">
-				update TBL_ORDER set cancel = 1 where orderCode = #{orderCode};
-			</if>
-		end;
+	
+	<!-- tbl_orderlist 주문상태 갱신(변경) -->
+	<update id="changeOrderlistState" parameterType="java.util.Map">
+		update TBL_ORDERLIST set orderState = #{orderState} 
+								 where orderCode = #{orderCode}
 	</update>
 	
-	<!-- 검색 총 글 수 -->
-	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="int">
-		select count(*) from TBL_ORDERLIST where
-		<if test="searchText!=''">
-			<choose>
-				<when test="categorie.equals('orderCode')">
-					orderCode like '%'||#{searchText}||'%'
-				</when>
-				<when test="categorie.equals('userName')">
-					userName like '%'||#{searchText}||'%'
-				</when>
-				<when test="categorie.equals('userId')">
-					userId like #{searchText}
-				</when>
-			</choose>
-		</if>
-		<if test="dateText1!=''and dataText2!=''">
-			<if test="searchText!=''">
-				and 
-			</if>
-			orderdate >= to_date(#{dateText1},'YYYYMMDD') and orderdate <![CDATA[<]]> to_date(#{dateText2},'YYYYMMDD') + 1
-		</if>	
-	</select>
-	
-	<!-- 검색 리스트 뿌리기 -->
-	<select id="orderSearchList" parameterType="java.util.Map" resultType="orderlist">
-		select * from 
-		(select rownum rn, tt.* from
-		(select * from TBL_ORDERLIST where 
-		<if test="searchText!=''">
-			<choose>
-				<when test="categorie.equals('orderCode')">
-					orderCode like '%'||#{searchText}||'%'
-				</when>
-				<when test="categorie.equals('userName')">
-					userName like '%'||#{searchText}||'%'
-				</when>
-				<when test="categorie.equals('userId')">
-					userId like #{searchText}
-				</when>
-			</choose>
-		</if>
-		<if test="dateText1!=''and dataText2!=''">
-			<if test="searchText!=''">
-				and 
-			</if>
-			orderdate >= to_date(#{dateText1},'YYYYMMDD') and orderdate <![CDATA[<]]> to_date(#{dateText2},'YYYYMMDD') + 1
-		</if>	
+	<!-- tbl_order 주문상태 갱신(변경) -->
+	<update id="changeOrderState" parameterType="java.util.Map">
+		update TBL_ORDER set orderState = #{orderState}
+					where orderCode = #{orderCode} 
+					and productCode = #{productCode}
+	</update>
 		
-		order by orderdate desc) tt)
-		where rn between #{startNum} and #{endNum}
+	<!-- 검색 총 글 수 -->
+	<select id="getSearchTotalA" parameterType="java.util.Map" resultType="Integer">
+	select count(*) from
+        (select rownum rn, tt.* from 
+        (select * from 
+        (select * from 
+        (select * from TBL_ORDERLIST 
+        		<!--회원인경우 -->
+    			<if test="userClass != '' and userClass != 'kokonut0'">
+    				where userId not like '%kokonut0%'
+    			</if>
+    			<!-- 비회원인경우 -->
+    			<if test="userClass != '' and userClass == 'kokonut0'">
+    				where userId like '%kokonut0%'
+    			</if>
+    	) 
+   		<if test="startDate != '' and endDate != ''">
+   			where orderDate between TO_DATE(#{startDate},'YYYYMMDD') and TO_DATE(TO_NUMBER(#{endDate})+1,'YYYYMMDD')
+   		</if>
+   		) 
+   		
+   		<if test="searchKeyword != '' and orderState != '' and erState != ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and orderState like '%'||#{orderState}||'%'
+   			or erState like '%'||#{erState}||'%'
+   		</if>
+   		<if test="searchKeyword != '' and orderState != '' and erState == ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and orderState like '%'||#{orderState}||'%'
+   		</if>		
+   		<if test="searchKeyword != '' and orderState == '' and erState != ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and erState like '%'||#{erState}||'%'
+   		</if>	
+   		<if test="searchKeyword != '' and orderState == '' and erState == ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState != '' and erState == ''">
+   			where orderState like '%'||#{orderState}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState != '' and erState != ''">
+   			where orderState like '%'||#{orderState}||'%'
+   			or erState like '%'||#{erState}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState == '' and erState != '' ">
+   			where erState like '%'||#{erState}||'%'
+   		</if>
+         order by orderDate desc)tt) 
+         where rn between #{startNum} and #{endNum}
 	</select>
-	
+
+	<!-- 주문관리에서 검색 리스트 뿌리기 -->
+	<select id="orderSearchList" parameterType="java.util.Map" resultType="orderlist">
+	select * from
+        (select rownum rn, tt.* from 
+        (select * from 
+        (select * from 
+        (select * from TBL_ORDERLIST 
+        		<!--회원인경우 -->
+    			<if test="userClass != '' and userClass != 'kokonut0'">
+    				where userId not like '%kokonut0%'
+    			</if>
+    			<!-- 비회원인경우 -->
+    			<if test="userClass != '' and userClass == 'kokonut0'">
+    				where userId like '%kokonut0%'
+    			</if>
+    	) 
+   		<if test="startDate != '' and endDate != ''">
+   			where orderDate between TO_DATE(#{startDate},'YYYYMMDD') and TO_DATE(TO_NUMBER(#{endDate})+1,'YYYYMMDD')
+   		</if>
+   		) 
+   		
+   		<if test="searchKeyword != '' and orderState != '' and erState != ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and orderState like '%'||#{orderState}||'%'
+   			or erState like '%'||#{erState}||'%'
+   		</if>
+   		<if test="searchKeyword != '' and orderState != '' and erState == ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and orderState like '%'||#{orderState}||'%'
+   		</if>		
+   		<if test="searchKeyword != '' and orderState == '' and erState != ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   			and erState like '%'||#{erState}||'%'
+   		</if>	
+   		<if test="searchKeyword != '' and orderState == '' and erState == ''">
+   			where ${searchKeywordOption} like '%'||#{searchKeyword}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState != '' and erState == ''">
+   			where orderState like '%'||#{orderState}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState != '' and erState != ''">
+   			where orderState like '%'||#{orderState}||'%'
+   			or erState like '%'||#{erState}||'%'
+   		</if>
+   		<if test="searchKeyword == '' and orderState == '' and erState != '' ">
+   			where erState like '%'||#{erState}||'%'
+   		</if>
+         order by orderDate desc)tt) 
+         where rn between #{startNum} and #{endNum}
+	</select>
+
 	<!-- 주문관리페이지 체크된 주문상태 변경 -->
 	<update id="selectedOrderStateChange" parameterType="java.util.Map">
 		begin
@@ -157,6 +201,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<foreach close=")" open="(" separator=","  index="i" collection="check">${check[i]}</foreach>;
 		end;
 	</delete>
+	
+	<!-- 주문취소폼 -->
+	<select id="getOrderlistInCancelForm" parameterType="String" resultType="orderlist">
+		select * from TBL_ORDERLIST where orderCode = #{orderCode}
+	</select>
+	
+	<!-- 주문취소 등록1 : orderlist 수정-->
+	<update id="updateOrderlist" parameterType="java.util.Map">
+		update TBL_ORDERLIST set cancelDate = TO_DATE(#{cancelDate},'YYYYMMDD'),
+								 cancelReason = #{cancelReason},
+								 cancelDetail = #{cancelDetail},
+								 whoCancel = 1,
+								 crPayment = #{crPayment},
+								 orderState = 0
+							 where orderCode = #{orderCode}
+	</update>
+	
+	<!-- 주문취소 등록 2 : order 가져오기 -->
+	<select id="getOrder" parameterType="String" resultType="order">
+		select * from TBL_ORDER where orderCode = #{orderCode}
+	</select>
+	
+	<!-- 주문취소 등록 3 : order 수정 -->
+	<update id="updateOrder" parameterType="java.util.Map">
+		update TBL_ORDER set cancel = 1,
+							orderState = 0,
+							cancelQty = #{purchaseQty},
+							cancelAmount = #{totalPrice}	
+						 where orderCode = #{orderCode}
+	</update>
+	
+	<!-- 주문취소 등록4 : user 수정 -->
+	<update id="updateTotalPaymentInUser" parameterType="String">
+		update TBL_USER set totalPayment 
+						= totalPayment - (select totalPayment from TBL_ORDERLIST where orderCode=#{orderCode})
+	             		where userId 
+	             		= (select userId from TBL_ORDERLIST where orderCode=#{orderCode})
+	</update>
+	
+	<!-- 주문취소자 -->
+	<select id="getWhoCancel" parameterType="String" resultType="orderlist">
+		select * from TBL_ORDERLIST where orderCode = #{orderCode}
+	</select>
 </mapper>
 
 

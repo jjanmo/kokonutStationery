@@ -1,6 +1,7 @@
 package ordermanager.controller;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,16 +19,20 @@ import order.bean.OrderDTO;
 import order.bean.OrderManagerPaging;
 import order.bean.OrderlistDTO;
 import ordermanager.dao.OrderManagerDAO;
+import point.bean.PointDTO;
+import point.dao.PointDAO;
 import user.bean.UserDTO;
 
 @Controller
 public class OrderManagerController {
 	@Autowired
 	private OrderManagerDAO orderManagerDAO;
-	
+	@Autowired
+	private PointDAO pointDAO;
 	@Autowired
 	private OrderManagerPaging orderManagerPaging;
 	
+	//주문관리페이지에서 orderlist가져오기
 	@RequestMapping(value="/admin/getOrderList.do", method=RequestMethod.POST)
 	public ModelAndView getOrderList(@RequestParam(required=false, defaultValue="1") String pg) {
 		
@@ -57,6 +62,7 @@ public class OrderManagerController {
 		return mav;
 	}
 	
+	//주문관리에서 orderlist에서 각 리스트마다 이름 만들기(~~외 n건)
 	@RequestMapping(value="/admin/getOrderProduct.do", method=RequestMethod.POST)
 	public ModelAndView getOrderProduct(@RequestParam String orderCode) {
 		List<OrderDTO> pName = orderManagerDAO.getOrderProduct(orderCode); 
@@ -66,61 +72,89 @@ public class OrderManagerController {
 		return mav;
 	}
 	
-	@RequestMapping(value="/admin/orderView.do", method=RequestMethod.GET)
-	public String orderView(@RequestParam String orderCode, @RequestParam String orderDate, 
-			@RequestParam String userId, Model model) {
-		UserDTO userDTO = orderManagerDAO.getReceiverInform(userId);
-		model.addAttribute("userDTO", userDTO);
-		model.addAttribute("orderDate", orderDate);
-		model.addAttribute("orderCode", orderCode);
-		return "/admin/order/orderView";
-	}
-	
-	@RequestMapping(value="/admin/orderViewList.do", method=RequestMethod.POST)
-	public ModelAndView orderViewList(@RequestParam String orderCode) {
-		List<OrderDTO> list = orderManagerDAO.orderViewList(orderCode);
+	//주문취소 등록팝업창
+	@RequestMapping(value="/admin/orderCancelRegisterForm.do",method=RequestMethod.GET)
+	public ModelAndView orderCancelRegisterForm(@RequestParam String orderCode) {
+		OrderlistDTO orderlistDTO = orderManagerDAO.getOrderlistInCancelForm(orderCode);
+		//System.out.println(orderlistDTO);
+		
+		//날짜변환
+		Date pOrderDate = orderlistDTO.getOrderDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String orderDate = sdf.format(pOrderDate);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.setViewName("jsonView");
-		
+		mav.addObject("orderlistDTO", orderlistDTO);
+		mav.addObject("orderDate", orderDate);
+		mav.setViewName("/admin/order/orderCancelRegisterForm");
 		return mav;
 	}
 	
-	@RequestMapping(value="/admin/orderStateChange.do", method=RequestMethod.POST)
+	//주문취소 등록
+	@RequestMapping(value="/admin/orderCancelRegister.do",method=RequestMethod.POST)
 	@ResponseBody
-	public String orderStateChange(@RequestParam Map<String, Object> map, Model model) {
-		orderManagerDAO.orderStateChange(map);
-		return "success";
+	public String orderCancelRegister(@RequestParam Map<String, String> map) {
+		
+		//1) orderlist 수정(update)
+		orderManagerDAO.updateOrderlist(map); 
+		//2) order가져오기
+		List<OrderDTO> list = orderManagerDAO.getOrder(map.get("orderCode")); 
+		System.out.println(list);
+		
+		//3) order수정
+		Map<String, Object> uMap  = new HashMap<String, Object>();
+		int cnt = 0;
+		for(int i = 0; i < list.size(); i++) {
+			uMap.put("orderCode", map.get("orderCode"));
+			uMap.put("purchaseQty",list.get(i).getPurchaseQty());
+			uMap.put("totalPrice",list.get(i).getTotalPrice());
+			orderManagerDAO.updateOrder(uMap);
+			cnt++;
+		}
+		//4) user 수정(총구매액)
+		orderManagerDAO.updateTotalPaymentInUser(map.get("orderCode"));  		
+		System.out.println("cnt : " + cnt);
+		if(cnt == list.size()) return "success";
+		else return "fail";
 	}
 	
+	//주문취소상세 팝업창
+	@RequestMapping(value="/admin/orderCancelDetail.do", method=RequestMethod.GET)
+	public String orderCancelDetail(@RequestParam String orderCode, Model model) {
+		OrderlistDTO orderlistDTO = orderManagerDAO.getOrderlistInCancelForm(orderCode);
+		//날짜변환
+		Date pOrderDate = orderlistDTO.getOrderDate();
+		Date pCancelDate = orderlistDTO.getCancelDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String orderDate = sdf.format(pOrderDate);
+		String cancelDate = sdf.format(pCancelDate);
+		model.addAttribute("orderlistDTO", orderlistDTO);
+		model.addAttribute("orderDate", orderDate);
+		model.addAttribute("cancelDate", cancelDate);
+		return "/admin/order/orderCancelDetail";
+	}
+	
+	//주문취소시 누가 취소했는지 알기위해서
+	@RequestMapping(value="/admin/getWhoCancel.do", method=RequestMethod.POST)
+	@ResponseBody
+	public OrderlistDTO getWhoCancel(@RequestParam String orderCode) {
+		OrderlistDTO orderlistDTO = orderManagerDAO.getWhoCancel(orderCode);
+		return orderlistDTO;
+	}
+	
+	//주문관리에서 주문리스트(orderlist) 검색
 	@RequestMapping(value="/admin/orderSearchList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public ModelAndView orderSearchList(@RequestParam Map<String,String> map) {
+		//System.out.println("map : " + map);
+		
 		int endNum = Integer.parseInt(map.get("pg"))*10;
 		int startNum = endNum-9;
-		
 		map.put("startNum", startNum+"");
 		map.put("endNum", endNum+"");
 		
-		int dateText1 = 0;
-		int dateText2 = 0;
-		List<OrderDTO> list = null;
-		//기간이 적혀있을 때
-		if(map.get("dataText1")!=null && map.get("dataText2")!=null) {
-			dateText1 = Integer.parseInt(map.get("dateText1").substring(6,8));
-			dateText2 = Integer.parseInt(map.get("dateText2").substring(6,8));
-			//1일 부터 31일까지의 값인지 확인
-			if(dateText1<=dateText2) {
-				if((dateText1>=1 && dateText1<=31) && (dateText2>=1 && dateText2<=31)) {
-					list = orderManagerDAO.orderSearchList(map);
-				}
-			}
-		}else if(map.get("searchText")!=null) {
-			list = orderManagerDAO.orderSearchList(map);
-		}
-		
 		int totalA = orderManagerDAO.getSearchTotalA(map);
+		//System.out.println("totalA : " + totalA);
 		
 		orderManagerPaging.setCurrentPage(Integer.parseInt(map.get("pg")));
 		orderManagerPaging.setPageBlock(3);
@@ -128,12 +162,69 @@ public class OrderManagerController {
 		orderManagerPaging.setTotalA(totalA);
 		orderManagerPaging.makeSearchPagingHTML();
 		
+		List<OrderlistDTO> list = orderManagerDAO.orderSearchList(map);
+		//System.out.println("list : " + list);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pg", map.get("pg"));
 		mav.addObject("list", list);
 		mav.addObject("orderManagerPaging", orderManagerPaging);
 		mav.setViewName("jsonView");
 		return mav;
+	}
+	
+	//제품상세페이지
+	@RequestMapping(value="/admin/orderView.do", method=RequestMethod.GET)
+	public String orderView(@RequestParam String orderCode, Model model) {
+		List<OrderDTO> list = orderManagerDAO.orderViewList(orderCode);
+		
+		//날짜변환
+		Date pOrderDate = list.get(0).getOrderDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String orderDate = sdf.format(pOrderDate);
+		
+		model.addAttribute("orderDate",orderDate);
+		model.addAttribute("orderCode", orderCode);
+		model.addAttribute("list", list);
+		return "/admin/order/orderView";
+	}
+	
+	//제품상세페이지에서 유저정보 가져오기
+	@RequestMapping(value="/admin/getUserInfo.do", method=RequestMethod.POST)
+	public ModelAndView orderViewList(@RequestParam String orderCode) {
+		UserDTO userDTO = orderManagerDAO.getUserInfo(orderCode);
+		//System.out.println(userDTO);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("userDTO", userDTO);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//제품상세페이지에서 사용한 포인트 가져오기
+	@RequestMapping(value="/admin/getUsePoint.do",method=RequestMethod.POST)
+	public ModelAndView getUsePoint(@RequestParam String orderCode) {
+		PointDTO pointDTO = pointDAO.getUsePoint(orderCode);
+		//System.out.println(pointDTO);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("pointDTO", pointDTO);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//상세페이지에서 orderState 갱신
+	@RequestMapping(value="/admin/changeOrderState.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String orderStateChange(@RequestParam Map<String, Object> map) {
+
+		orderManagerDAO.changeOrderlistState(map);
+		int su = orderManagerDAO.changeOrderState(map);
+		System.out.println(su);
+		if(su == -1) {
+			return "fail";
+		}
+		else {
+			return "success";
+		}
 	}
 	
 	@RequestMapping(value="/admin/selectedOrderStateChange.do", method=RequestMethod.POST)
@@ -147,6 +238,7 @@ public class OrderManagerController {
 		return "redirect:/admin/orderList.do?pg="+pg;
 	}
 	
+	//주문관리에서 주문내역(orderlist) 삭제
 	@RequestMapping(value="admin/selectedOrderDelete.do", method=RequestMethod.POST)
 	public String selectedOrderDelete(@RequestParam String[] check, @RequestParam String pg) {
 		Map<String, String[]> map = new HashMap<String, String[]>();
