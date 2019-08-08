@@ -203,7 +203,7 @@ public class OrderManagerController {
 	//제품상세페이지에서 사용한 포인트 가져오기
 	@RequestMapping(value="/admin/getUsePoint.do",method=RequestMethod.POST)
 	public ModelAndView getUsePoint(@RequestParam String orderCode) {
-		PointDTO pointDTO = pointDAO.getUsePoint(orderCode);
+		PointDTO pointDTO = pointDAO.getPointDTO(orderCode);
 		//System.out.println(pointDTO);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("pointDTO", pointDTO);

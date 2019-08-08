@@ -24,4 +24,9 @@ public class PointDAOImpl implements PointDAO {
 	public String getUsePoint(String orderCode) {
 		return sqlSession.selectOne("pointSQL.getUsePoint", orderCode);
 	}
+
+	@Override
+	public PointDTO getPointDTO(String orderCode) {
+		return sqlSession.selectOne("pointSQL.getPointDTO", orderCode);
+	}
 }
