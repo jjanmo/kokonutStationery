@@ -21,7 +21,7 @@ public class PointDAOImpl implements PointDAO {
 	
 	//주문관리상세페이지에서 주문시 사용한 포인트목록 가져오기
 	@Override
-	public PointDTO getUsePoint(String orderCode) {
+	public String getUsePoint(String orderCode) {
 		return sqlSession.selectOne("pointSQL.getUsePoint", orderCode);
 	}
 }

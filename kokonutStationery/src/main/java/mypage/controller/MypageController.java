@@ -96,19 +96,18 @@ public class MypageController {
 			System.out.println("상세보기페이지의 상품"+list.get(i));
 		}
 		String usePoint = pointDAO.getUsePoint(orderCode);
+		
 		int usePoint2=0;
 		
-		if(usePoint==null)			
-			usePoint2=0;
-		else
-			usePoint2=Integer.parseInt(usePoint);
+		if(usePoint==null) usePoint2=0; 
+		else usePoint2=Integer.parseInt(usePoint);
 		
 		ModelAndView mav = new ModelAndView();		
 		
 		mav.addObject("contents", "/mypage/mypage_orderview.jsp");
 		mav.addObject("display", "/mypage/mypageIndex.jsp");
 		mav.addObject("userDTO", userDTO);
-		mav.addObject("usePoint", usePoint2);
+		mav.addObject("usePoint", usePoint);
 		mav.addObject("list", list);
 		mav.setViewName("/main/nosIndex");
 		return mav;
