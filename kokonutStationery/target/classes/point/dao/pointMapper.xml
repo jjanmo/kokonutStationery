@@ -7,4 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getPointList" parameterType="String" resultType="point">
 		select * from tbl_point where userId = #{userId} order by logdate desc, contents desc
 	</select>
+	
+	
+	<!-- 주문관리 상세페이지에서 사용한 포인트 내역 가져오기  -->
+	<select id="getUsePoint" parameterType="String" resultType="point">
+		select * from tbl_point where orderCode = #{orderCode} and  pointType = 2
+	</select>
 </mapper>

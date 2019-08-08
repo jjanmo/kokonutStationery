@@ -7,4 +7,6 @@ import point.bean.PointDTO;
 public interface PointDAO {
 	public List<PointDTO> getPointList(String userId);
 
+	public PointDTO getUsePoint(String orderCode);
+
 }

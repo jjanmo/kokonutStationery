@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,6 +49,25 @@
     cursor: pointer;
 }
 
+.tbl_button {
+    width:55px;
+    height:25px;
+    background-color: #1B87D4;
+    border: none;
+    color:#fff;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius:10px;
+}
+
+.tbl_button:hover {
+    background-color: #f8585b;
+}
+
+
 #order_searchBtn{
     color: #fff;
     border: 1px solid transparent;
@@ -81,7 +103,7 @@
 	overflow: auto;
 }
 
-.orderListBtn{
+#selDelete{
 	width: 100px;
 	height: 35px;
     padding: 0 20px;
@@ -92,7 +114,7 @@
     border: 1px solid #1b87d4;
     background-color: #fff;
 }
-.orderListBtn:hover{
+#selDelete:hover{
    background-color:#1b87d4;
    color:#ffffff;
 }
@@ -104,8 +126,11 @@
     font-size: 14px;
 	font-weight: normal;
 }
-
-.inputText{
+.searchKeyword{
+	height: 23px;
+	padding-left: 5px;
+}
+.searchPeriod{
 	height: 23px;
 	padding-left: 5px;
 }
@@ -114,9 +139,7 @@
 }
 .orderList_tr:hover{
 	background-color: #eef;
-	cursor: pointer;
 	color : #1b87d4;
-	text-decoration-line: underline;
 }
 
 #orderManagerPagingDiv{
@@ -174,10 +197,11 @@
 <body>
 <!-- 메인컨텐츠 시작 -->
 <div id="mainContent_wrap">	
-	<div id="order_search_wrap" style="width: 1000px; margin: 0 auto;">
+	<div id="order_search_wrap" style="width: 1200px; margin: 0 auto;">
 		<div id="order_search_title" style="margin-bottom: 20px;">
-			<h1 style="font-weight:normal;">주문관리</h1>
-			<div id="order_search_div"></div>
+			<h1 id="orderManager" style="font-weight:normal; display:inline-block;cursor:pointer;">주문관리</h1>
+			&ensp;&ensp;
+			<h1 id="orderRegister" style="font-weight:normal; display:inline-block;cursor:pointer;">주문등록</h1>
 		</div>
 		
 		<form id="orderSearchForm">
@@ -186,28 +210,101 @@
 					<tr>
 						<th>검 색 어</th>
 						<td>
-							<select id="searchCategorie">
+							<select id="searchKeywordOption">
 								<option value="orderCode">주문번호</option>
 								<option value="userName">주문자명</option>
 								<option value="userId">주문자 ID</option>
 							</select>
-							<input type="text" id="searchText" class="inputText" style="width: 250px;">
+							<input type="text" id="searchKeyword" class="searchKeyword" style="width: 250px;">
 						</td>
 					</tr>
 					
 					<tr>
 						<th>기  간</th>
 						<td>
-							<input type="text" id="dateText1" class="inputText" style="width: 120px;" placeholder="ex)20190705" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> ~
-							<input type="text" id="dateText2" class="inputText" style="width: 120px;" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+							<input type="button" id="today" class="searchPeriod" style="width: 60px;" value="오늘">
+							<input type="button" id="threeday" class="searchPeriod" style="width: 60px;" value="3일">
+							<input type="button" id="week" class="searchPeriod" style="width: 60px;" value="7일">
+							<input type="button" id="onemonth" class="searchPeriod" style="width: 60px;" value="1개월">
+							<input type="button" id="sixmonth" class="searchPeriod" style="width: 60px;" value="6개월">
+							&ensp;
+							<select id="startYear" name="startYear" class="inputPeriod" style="width: 60px;">
+							    <option value="2017" >2017</option>
+							    <option value="2018" >2018</option>
+							    <option value="2019" selected >2019</option>
+							</select>
+							<select id="startMonth" name="startMonth" class="inputPeriod" style="width: 60px;">
+							 <option value="">월</option>
+						     <c:forEach begin="1" end="12" var="i" step="1">
+							  <option value="<c:out value="${i}"/>">${i}</option>
+						     </c:forEach>
+							</select>
+							<select id="startDay" name="startDay" class="inputPeriod" style="width: 60px;">
+							 <option value="">일</option>
+						     <c:forEach begin="1" end="31" var="i" step="1">
+							  <option value="<c:out value="${i}"/>">${i}</option>
+							 </c:forEach>
+							</select>
+							&nbsp;~&nbsp;
+							<select id="endYear" name="endYear" class="inputPeriod" style="width: 60px;">
+								<option value="2017" >2017</option>
+							    <option value="2018" >2018</option>
+							    <option value="2019" selected >2019</option>
+							</select>
+							<select id="endMonth" name="endMonth" class="inputPeriod" style="width: 60px;">
+							 <option value="">월</option>
+						     <c:forEach begin="1" end="12" var="i" step="1">
+						      <option value="<c:out value="${i}"/>">${i}</option>
+							 </c:forEach>
+							</select>
+							<select id="endDay" name="endDay" class="inputPeriod" style="width: 60px;">
+							 <option value="">일</option>
+						     <c:forEach begin="1" end="31" var="i" step="1">
+							  <option value="<c:out value="${i}"/>">${i}</option>
+						     </c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>주문상태</th>
+						<td>
+							<input type="radio" name="orderState" value="" checked>&nbsp;전체&emsp;
+							<input type="radio" name="orderState" value="0">&nbsp;주문취소&emsp;
+							<input type="radio" name="orderState" value="1">&nbsp;주문접수&emsp;
+							<input type="radio" name="orderState" value="2">&nbsp;배송준비&emsp;
+							<input type="radio" name="orderState" value="3">&nbsp;배송중&emsp;
+							<input type="radio" name="orderState" value="4">&nbsp;배송완료&emsp;
+							<input type="radio" name="orderState" value="5">&nbsp;주문완료
+						</td>
+					</tr>
+					<tr>
+						<th>교환/환불</th>
+						<td>
+							<input type="radio" name="erState" value="" checked >&nbsp;전체&emsp;
+							<input type="radio" name="erState" value="교환접수">&nbsp;교환접수&emsp;
+							<input type="radio" name="erState" value="교환완료">&nbsp;교환완료&emsp;
+							<input type="radio" name="erState" value="환불준비">&nbsp;환불준비&emsp;
+							<input type="radio" name="erState" value="환불완료">&nbsp;환불완료
+						</td>
+					</tr>
+					<tr>
+						<th>회원구분</th>
+						<td>
+							<input type="radio" name="userClass" value="" checked>&nbsp;전체&emsp;
+							<input type="radio" name="userClass" value="회원">&nbsp;회원&emsp;
+							<input type="radio" name="userClass" value="kokonut0">&nbsp;비회원
 						</td>
 					</tr>
 					
 				</table>
+				<div align="center" style="margin:10px 0 10px 0;">
+					<div id="order_search_div"></div>
+				</div>
 				<div style="margin-top: 15px" align="center">
 					<input type="button" id="order_searchBtn" class="order_btn_group" value="검 색">
 					<input type="reset" id="order_resetBtn" class="order_btn_group" value="초기화">
 				</div>
+				
 			</div>
 		</form>
 		
@@ -215,34 +312,23 @@
 		<input type="hidden" id="pg" name="pg" value="${pg }">
 		<div id="orderSeach_list" align="left" style="margin-top: 50px;">
 			<div id="order_selectDiv">
-				<input type="button" class="orderListBtn" value="선택 삭제" onclick="orderAction('delete')"/>
-				<div style="float: right;">				
-					<select id="order_state" name="orderState">
-						<option>주문상태 선택</option>
-						<option value="0">주문취소</option>
-						<option value="1">주문접수</option>
-						<option value="2">배송준비</option>
-						<option value="3">배송중</option>
-						<option value="4">배송완료</option>
-						<option value="6">교환완료</option>
-						<option value="8">환불완료</option>
-					</select>				
-					&nbsp;
-					<input type="button" class="orderListBtn" value="선택 갱신" onclick="orderAction('change')"/>
-				</div>
+				<input type="button" id="selDelete" value="선택 삭제" onclick="selectDelete()"/>
 			</div>
+			
 			<table id="orderList_table" border="1" style="width: 100%; border: 1px solid #d9dadc; border-spacing: 0; line-height: 1.5;">
 				<tr>
-					<th style="width: 44px;">
-						<input type="checkbox" id="check_all">
+					<th style="width: 3%;">
+						<input type="checkbox" id="check_all" style="cursor:pointer;">
 					</th>	
-					<th style="width: 120px;">주문일</th>
-					<th style="width: 130px;">주문번호</th>
-					<th style="width: 170px;">주문자</th>
-					<th style="width: 360px;">상품이름</th>
-					<th style="width: 160px;">결제 금액</th>
-					<th style="width: 120px;">결제방법</th>
-					<th style="width: 120px;">주문상태</th>
+					<th style="width: 10%;">주문일</th>
+					<th style="width: 9%;">주문번호</th>
+					<th style="width: 25%;">상품이름</th>
+					<th style="width: 9%;">주문자</th>
+					<th style="width: 8%;">결제금액</th>
+					<th style="width: 8%;">주문상태</th>
+					<th style="width: 8%;">취소처리</th>
+					<th style="width: 10%;">교환/환불상태</th>
+					<th style="width: 10%;">교환/환불상세</th>
 				</tr>
 			</table>
 			<br>
@@ -250,6 +336,7 @@
 			<br><br><br><br>
 		</div>
 		</form>
+				
 		<!-- 선택 갱신 시 확인&취소 / Modal -->
 	    <div id="open_changeConfirmModal" class="modal">
 			<!-- Modal content -->
@@ -271,6 +358,7 @@
         		</div>
 			</div>
 		</div>
+		
   		<!--End Modal-->
 		 <!-- 선택 삭제 시 확인&취소 / Modal -->
 	    <div id="open_deleteConfirmModal" class="modal">
@@ -286,7 +374,7 @@
     				</span>
 				</div>
 				
-				<div  class="modalDiv" id="deleteConfirmClose_Modal" style="float:right;">
+				<div  class="modalDiv" id="deleteConfirmClose_Modal" style="float:right;">				
 					<span class="pop_bt" style="font-size: 13pt;" >
                			 취소
             		</span>
@@ -327,7 +415,7 @@ function addComma(num) {
 }
 
 $(document).ready(function(){
-	//주문 리스트 출력
+	//orderlist loading
 	$.ajax({
 		type : 'post',
 		url : '/kokonutStationery/admin/getOrderList.do',
@@ -336,11 +424,6 @@ $(document).ready(function(){
 		success : function(data){
 			//alert(JSON.stringify(data));
 			$.each(data.list, function(index, items){
-				if(items.paymentType==1)
-					var paymentType = '신용카드';
-				else if(items.paymentType==2)
-					var paymentType = '핸드폰 결제';
-				
 				if(items.orderState==0)
 					var orderState = '주문취소';
 				else if(items.orderState==1)
@@ -352,27 +435,11 @@ $(document).ready(function(){
 				else if(items.orderState==4)
 					var orderState = '배송완료';
 				else if(items.orderState==5)
-					var orderState = '교환접수';
-				else if(items.orderState==6)
-					var orderState = '교환완료';
-				else if(items.orderState==7)
-					var orderState = '환불접수';
-				else if(items.orderState==8)
-					var orderState = '환불완료';		
-				else if(items.orderState==9)
-					var orderState = '수령확인';
-				
+					var orderState = '주문완료';
+						
 				//상품이름 외 x건 출력
 				var orderProductName="";
 				var orderProductAmount = 0;
-				
-				//주문취소시 결제금액 0원
-				var totalPayment;
-				if(orderState == '주문취소'){
-					totalPayment = 0;
-				}else{
-					totalPayment = items.totalPayment;
-				}
 				
 				$.ajax({
 					type : 'post',
@@ -389,127 +456,403 @@ $(document).ready(function(){
 							}else{
 								orderProductAmount++;
 							}
-							
-							
+						
 						});
 						$('.order_product'+index).append($('<span/>', {
-							text : orderProductName + ' 포함 ' + orderProductAmount + ' 건'
+							text : orderProductName + ' 포함 ' + orderProductAmount + ' 건' 
+						}).append('<br>')).append($('<button/>',{
+							class : 'pDetail_button tbl_button',
+							id : items.orderCode,
+							type : 'button',
+							text : '상세보기'
 						}));
-						
 					}
 				});
 				//alert(orderProductName);
 				$('<tr/>', {
 					class : 'orderList_tr'
 				}).append($('<td/>',{
-					align : 'center',
-					onclick : 'event.cancelBubble=true' //이 칸만 이벤트 적용 x
+					align : 'center'
 					}).append($('<input/>', {
 						type : 'checkbox',
 						value : items.orderCode,
 						name : 'check',
-						class : 'check '
-				})).css('cursor', 'auto')).append($('<td/>', {
+						class : 'check',
+						style : 'cursor : pointer;'
+				}))).append($('<td/>', {
 					align : 'center',
 					text : items.orderDate
 				})).append($('<td/>', {
 					align : 'center',
-					id : 'order_code',
-					text : items.orderCode
+					class : 'productDetail',
+					id : items.orderCode,
+					text : items.orderCode,
+					style : 'cursor : pointer;'
 				})).append($('<td/>', {
 					align : 'center',
-					text : items.userName + '(' + items.userId + ')'
+				 	style : 'text-align:center; cursor :pointer;',
+					class : 'productDetail order_product'+index,
+					id : items.orderCode
 				})).append($('<td/>', {
-					class : 'order_product'+index
+					align : 'center',
+					text : items.userName + '(' + items.userId + ')' 
 				}).css('padding', '0 5px')).append($('<td/>', {
 					align : 'right',
 					id : 'totalPayment_td',
-					text : totalPayment + '원'
-				}).css('padding', '0 5px')).append($('<td/>', {
-					align : 'center',
-					text : paymentType
+					text : items.totalPayment + '원',
+					style : 'padding-right: 5px;'
 				})).append($('<td/>', {
 					align : 'center',
 					text : orderState
-				})).appendTo($('#orderList_table'));
+				}).append('<br>').append($('<span/>',{
+					class : 'whoCancel',
+					id : 'whoCancel'+ items.orderCode
+				}))).append($('<td/>',{
+					align : 'center'
+				}).append($('<button/>',{
+					class : 'cancel_button tbl_button',
+					id : 'cancel_button'+items.orderCode,
+					type : 'button',
+					text : '처리',
+				}))).append($('<td/>',{
+					align : 'center',
+				})).append($('<td/>',{
+					align : 'center',
+					text : items.erState
+				}).append($('<button/>',{
+					class : 'erDetail_button tbl_button',
+					id : 'erDetail'+items.orderCode,
+					type : 'button',
+					text : '상세'
+				}))).appendTo($('#orderList_table'));
+			
 				
-				
-				
-				//주문확인 페이지 이동
-				$('.orderList_tr').click(function(){
-					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userId='+items.userId+'&orderDate='+items.orderDate
-							,'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
-				});			
-			});
+				changeByState(items.orderState, items.whoCancel, items.erState, items.orderCode);
+			
+			
+			});//each
+			
 			//페이징 생성
 			$('#orderManagerPagingDiv').html(data.orderManagerPaging.pagingHTML);
-		}		
-	});
+		}//success		
+	});//ajax
 	
-	//체크박스 전체 선택
-	$('#check_all').click(function(){
-		if($('#check_all').is(':checked'))
-			$('.check').prop('checked', true);
-		else
-			$('.check').prop('checked', false);
-	});
-	/* 모달선택 창 닫기 */
-	$('#changeConfirmClose_Modal').click(function(){
-		$('#open_changeConfirmModal').hide();
-	});
+	
+});
 
-	/* 모달삭제 창 닫기 */
-	$('#deleteConfirmClose_Modal').click(function(){
-		$('#open_deleteConfirmModal').hide();
-	});
+//orderState/erState에 따른 변화
+function changeByState(orderState,whoCancel,erState,orderCode){
+	//주문취소일 때
+	if(orderState == 0){
+		//버튼변경
+		$('#cancel_button'+orderCode).text('상세');
+		$('#cancel_button'+orderCode).addClass('cancel_detail');
+		
+		$('#cancel_button'+orderCode).css('background-color','powderblue').hover(function(){
+			 $(this).css('background-color','#f8585b')}, function(){
+			 $(this).css('background-color','powderblue')		 
+		});
+		
+		$('#cancel_button'+orderCode).removeClass('cancel_button');
+		
+		//누가 주문취소를 했는지
+		if(whoCancel == 0){
+			$('#whoCancel'+orderCode).text('<주문자>').css('font-size','12px');
+		}
+		else if(whoCancel == 1){
+			$('#whoCancel'+orderCode).text('<관리자>').css('font-size','12px');
+		}
+	}
+		
+	//교환/환불 버튼
+	if(erState == null){
+		$('.erDetail_button').hide();
+	}
+	else{
+		$('.erDetail_button').show();
+	}
+}
 
-	$('.close_Modal').click(function(){
-		$('#open_nonCheckModal').hide();
-		$('#open_deleteSuccessModal').hide();
-	});
+
+
+//주문관리 클릭
+$('#orderManager').click(function(){
+	location.href = "/kokonutStationery/admin/orderList.do";
+});
+
+//주문등록 클릭
+$('#orderRegister').click(function(){
+	location.href = "/kokonutStationery/admin/orderRegister.do";
+});
+
+//제품상세페이지로 이동
+$(document).on('click','.pDetail_button', function(){
+	var orderCode = $(this).attr('id');
+	window.open('/kokonutStationery/admin/orderView.do?orderCode='+orderCode,
+			'','width=1100, height=600, left=100, resizable=no, toolbar=no','true');
+});
+
+//취소처리버튼 클릭 : 취소신청
+$(document).on('click','.cancel_button',function(){
+	var orderCode = $(this).attr('id');
+	var orderCode = orderCode.substring(13);
+	window.open('/kokonutStationery/admin/orderCancelRegisterForm.do?orderCode='+orderCode,
+			'','width=840, height=600, left=100, resizable=no, toolbar=no','true'); 
+});
+
+//취소상세버튼 클릭 : 취소처리확인
+$(document).on('click','.cancel_detail',function(){
+	var orderCode = $(this).attr('id');
+	var orderCode = orderCode.substring(13);
+	window.open('/kokonutStationery/admin/orderCancelDetail.do?orderCode='+orderCode,
+			'','width=840, height=550, left=100, resizable=no, toolbar=no','true'); 
+});
+
+//환불상세버튼 클릭
+$(document).on('click','.erDetail_button',function(){
+	window.open('/kokonutStationery/admin/erDetailForm.do?orderCode='+orderCode,
+			'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+});
+
+//체크박스 전체 선택
+$('#check_all').click(function(){
+	if($('#check_all').is(':checked'))
+		$('.check').prop('checked', true);
+	else
+		$('.check').prop('checked', false);
+});
+
+/* 모달선택 창 닫기 */
+$('#changeConfirmClose_Modal').click(function(){
+	$('#open_changeConfirmModal').hide();
+});
+
+/* 모달삭제 창 닫기 */
+$('#deleteConfirmClose_Modal').click(function(){
+	$('#open_deleteConfirmModal').hide();
+});
+
+$('.close_Modal').click(function(){
+	$('#open_nonCheckModal').hide();
+	$('#open_deleteSuccessModal').hide();
+});
+
+//기간 설정 버튼
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth()+1;
+var day = today.getDate();
+
+$('#today').click(function(){
+	$('#startYear').val(year);
+	$('#startMonth').val(month);
+	$('#startDay').val(day);
+	$('#endYear').val(year);
+	$('#endMonth').val(month);
+	$('#endDay').val(day);
+});
+$('#threeday').click(function(){
+	if(day < 3){
+		$('#startYear').val(year);
+		$('#startMonth').val(month-1);
+		if(month == 2 || month == 4 || month == 6 || month == 9 || month == 11){
+			$('#startDay').val(30+day-2);
+		}
+		else {
+			$('#startDay').val(31+day-2);
+		}
+	}
+	else {
+		$('#startYear').val(year);
+		$('#startMonth').val(month);
+		$('#startDay').val(day-2);
+	}
+	$('#endYear').val(year);
+	$('#endMonth').val(month);
+	$('#endDay').val(day);
+});
+$('#week').click(function(){
+	if(day < 7){
+		$('#startYear').val(year);
+		$('#startMonth').val(month-1);
+		if(month == 2 || month == 4 || month == 6 || month == 9 || month == 11){
+			$('#startDay').val(30+day-6);
+		}
+		else {
+			$('#startDay').val(31+day-6);
+		}
+	}
+	else {
+		$('#startYear').val(year);
+		$('#startMonth').val(month);
+		$('#startDay').val(day-6);
+	}
+	$('#endYear').val(year);
+	$('#endMonth').val(month);
+	$('#endDay').val(day);
+});
+$('#onemonth').click(function(){
+	if(day == 30){
+		$('#startYear').val(year);
+		if(month == 2 || month == 4 || month == 6 || month == 9 || month == 11 ){
+			$('#startMonth').val(month);
+			$('#startDay').val(1);
+		}
+		else {
+			$('#startMonth').val(month-1);
+			$('#startDay').val(day);
+		}
+	}
+	else if(day == 31){
+		$('#startYear').val(year);
+		$('#startMonth').val(month);
+		$('#startDay').val(1);
+	}
+	else {
+		$('#startYear').val(year);
+		$('#startMonth').val(month-1);
+		$('#startDay').val(day);
+	}
+	$('#endYear').val(year);
+	$('#endMonth').val(month);
+	$('#endDay').val(day);
+});
+$('#sixmonth').click(function(){
+	if(year < 6){
+		$('#startYear').val(year-1);
+		$('#startMonth').val(month-5);
+	}
+	else{
+		$('#startYear').val(year);
+		$('#startMonth').val(month-5);
+	}
+	$('#startDay').val(day);
+	$('#endYear').val(year);
+	$('#endMonth').val(month);
+	$('#endDay').val(day);
 });
 
 
-/* 검색 시 리스트 생성 */
+/*search orderlist : 주문내역 검색  */
 $('#order_searchBtn').click(function(){
+
 	$('#order_search_div').empty();
+
+	var searchKeywordOption = $('#searchKeywordOption').val();
+	var searchKeyword = $('#searchKeyword').val();
 	
-	if($('#searchText').val()=='' && $('#dateText1').val()=='' 
-								  && $('#dateText2').val()==''){
-		$('#order_search_div').text('검색 항목을 입력해 주세요').css('color', 'red').css('font-weight', '10pt');		
-		return;
+	
+	var startMonth = $('#startMonth').val();
+	var startDay = $('#startDay').val();
+	var endMonth = $('#endMonth').val();
+	var endDay = $('#endDay').val();
+		
+	if(startMonth < 10){
+		startMonth = '0' + startMonth;
 	}
-	if($('#dateText1').val()!=''||$('#dateText2').val()!=''){
-		if($('#dateText1').val().length!=8 || $('#dateText2').val().length!=8){
-			$('#order_search_div').text('기간을 형식에 맞춰 입력해 주세요').css('color', 'red').css('font-weight', '10pt');		
+	if(startDay < 10){
+		startDay = '0' + startDay;
+	}
+	if(endMonth < 10){
+		endMonth = '0' + endMonth;
+	}
+	if(endDay < 10){
+		endDay= '0' + endDay;
+	}	
+	
+		
+	var startDate = $('#startYear').val()+startMonth+startDay; 
+	var endDate = $('#endYear').val()+endMonth+endDay;
+	//alert(startDate);
+	//alert(endDate); 
+	if(startDate.length != 8) startDate="";
+	if(endDate.length != 8) endDate ="";
+	
+	var orderState = $('input[name="orderState"]:checked').val();
+	var erState = $('input[name="erState"]:checked').val();
+	var userClass = $('input[name="userClass"]:checked').val();
+	
+	//검색어 기간 유효성 검사
+	if($('#searchKeyword').val()==''){ //검색어 null
+		//기간 존재
+		if($('#startMonth').val() != '' || $('#startDay').val() != '' || $('#endMonth').val() !='' || $('#endDay').val() !=''){
+			if( $('#startYear').val() > $('#endYear').val()){ 
+				$('#order_search_div').text('시작날짜가 종료날짜보다 클 수 없습니다').css('color', 'red').css('font-weight', '10pt');
+				return;
+			}
+			else if($('#startYear').val() == $('#endYear').val()){
+				if($('#startMonth').val() > $('#endMonth').val()){
+					$('#order_search_div').text('시작날짜가 종료날짜보다 클 수 없습니다').css('color', 'red').css('font-weight', '10pt');
+					return;
+				}
+			}
+			else{
+				alert("기간으로만 검색가능");
+			}
+		}
+		//기간 null
+		else if($('#startMonth').val() == '' && $('#startDay').val() == '' && $('#endMonth').val() =='' && $('#endDay').val() ==''){
+			//검색어와 기간을 제외한 것들도 null
+			if(orderState == '' && erState == '' && userClass == ''){
+				alert("전체리스트 출력");
+				//$('#order_search_div').text('검색조건을 최소한 1개이상 선택해야합니다([전체]제외)').css('color', 'red').css('font-weight', '10pt');
+				
+			}
+		}
+		//그 외(기간을 정확히 입력이 안된 부분)
+		else{
+			$('#order_search_div').text('검색어 혹은 기간을 입력해 주세요').css('color', 'red').css('font-weight', '10pt');
 			return;
 		}
 	}
+	else{//검색어 존재
+		if($('#startMonth').val()=='' && $('#startDay').val()=='' && $('#endMonth').val()=='' && $('#endDay').val()==''){
+			alert("검색어로만 검색가능");
+			//기간 조건이 모두 null이면 검색어로만 검색가능
+		}
+		else{
+			if($('#startMonth').val() != '' && $('#startDay').val() != '' && $('#endMonth').val() != '' && $('#endDay').val() != ''){
+				if( $('#startYear').val() > $('#endYear').val()){ 
+					$('#order_search_div').text('시작날짜가 종료날짜보다 클 수 없습니다').css('color', 'red').css('font-weight', '10pt');
+					return;
+				}
+				else if($('#startYear').val() == $('#endYear').val()){
+					if($('#startMonth').val() > $('#endMonth').val()){
+						$('#order_search_div').text('시작날짜가 종료날짜보다 클 수 없습니다').css('color', 'red').css('font-weight', '10pt');
+						return;
+					}
+				}
+			}
+			else{//기간이 다 입력되지않은 경우
+				$('#order_search_div').text('기간을 정확히 입력해 주세요').css('color', 'red').css('font-weight', '10pt');
+				return;
+			}
+		}
+	}
+	
 	$.ajax({
 		type : 'POST',
 		url : '/kokonutStationery/admin/orderSearchList.do',
 		data : {'pg' : $('#pg').val(),
-				'categorie' : $('#searchCategorie').val(),
-				'searchText' : $('#searchText').val(),
-				'dateText1' : $('#dateText1').val(),
-				'dateText2' : $('#dateText2').val()},
+				'searchKeywordOption' : searchKeywordOption,
+				'searchKeyword' : searchKeyword,
+				'startDate' : startDate,
+				'endDate' : endDate,
+				'orderState' : orderState,
+				'erState' : erState,
+				'userClass' : userClass },
 		dataType : 'json',
 		success : function(data){
-			//alert(JSON.stringify(data));
+			alert(JSON.stringify(data));
 										
-			if(data.list==null || data.list[0]==null || data.list[1]==null){
+			if(data.list==null){
 				$('#order_search_div').text('일치하는 항목이 없습니다').css('color', 'red').css('font-weight', '10pt');		
 				return;	
 			}
 			
 			$('#orderList_table tr:gt(0)').remove();
 			
-			$.each(data.list, function(index,items){
-				if(items.paymentType==1)
-					var paymentType = '신용카드';
-				else if(items.paymentType==2)
-					var paymentType = '핸드폰 결제';
-				
+			$.each(data.list, function(index, items){
 				if(items.orderState==0)
 					var orderState = '주문취소';
 				else if(items.orderState==1)
@@ -521,14 +864,8 @@ $('#order_searchBtn').click(function(){
 				else if(items.orderState==4)
 					var orderState = '배송완료';
 				else if(items.orderState==5)
-					var orderState = '교환접수';
-				else if(items.orderState==6)
-					var orderState = '교환완료';
-				else if(items.orderState==7)
-					var orderState = '환불접수';
-				else if(items.orderState==8)
-					var orderState = '환불완료';
-				
+					var orderState = '주문완료';
+						
 				//상품이름 외 x건 출력
 				var orderProductName="";
 				var orderProductAmount = 0;
@@ -548,69 +885,82 @@ $('#order_searchBtn').click(function(){
 							}else{
 								orderProductAmount++;
 							}
-							
-							
 						});
 						$('.order_product'+index).append($('<span/>', {
-							text : orderProductName + ' 포함 ' + orderProductAmount + ' 건'
+							text : orderProductName + ' 포함 ' + orderProductAmount + ' 건' 
+						}).append('<br>')).append($('<button/>',{
+							class : 'pDetail_button tbl_button',
+							id : items.orderCode,
+							type : 'button',
+							text : '상세보기'
 						}));
-						
 					}
 				});
-				
-				$('<tr/>',{
+				//alert(orderProductName);
+				$('<tr/>', {
 					class : 'orderList_tr'
 				}).append($('<td/>',{
-					align : 'center',
-					onclick : 'event.cancelBubble=true'
-				}).append($('<input/>',{ //체크박스
-					type : 'checkbox',
-					value : items.orderCode,
-					name : 'check',
-					class : 'check'
-					
-				}))).append($('<td/>',{ // 주문일
+					align : 'center'
+					}).append($('<input/>', {
+						type : 'checkbox',
+						value : items.orderCode,
+						name : 'check',
+						class : 'check',
+						style : 'cursor : pointer;'
+				}))).append($('<td/>', {
 					align : 'center',
 					text : items.orderDate
-					
-				})).append($('<td/>',{ // 주문번호
+				})).append($('<td/>', {
 					align : 'center',
-					id : 'order_code',
-					text : items.orderCode
-					
-				})).append($('<td/>',{ // 주문자명(주문자Id)
+					class : 'productDetail',
+					id : items.orderCode,
+					text : items.orderCode,
+					style : 'cursor : pointer;'
+				})).append($('<td/>', {
 					align : 'center',
-					text : items.userName + '(' + items.userId + ')'
-				
-				})).append($('<td/>',{ // 결제 금액
-					class : 'order_product' + index
-				}).css('padding','0 5px')).append($('<td/>',{
+				 	style : 'text-align:center; cursor :pointer;',
+					class : 'productDetail order_product'+index,
+					id : items.orderCode
+				})).append($('<td/>', {
+					align : 'center',
+					text : items.userName + '(' + items.userId + ')' 
+				}).css('padding', '0 5px')).append($('<td/>', {
 					align : 'right',
-					text : items.totalPayment + '원'
-					
-				}).css('padding','0 5px')).append($('<td/>',{ // 결제방법
-					align : 'center',
-					text : paymentType
-					
-				})).append($('<td/>',{ // 주문 상태
+					id : 'totalPayment_td',
+					text : items.totalPayment + '원',
+					style : 'padding-right: 5px;'
+				})).append($('<td/>', {
 					align : 'center',
 					text : orderState
-				})).appendTo($('#orderList_table'));
+				}).append('<br>').append($('<span/>',{
+					id : 'whoCancel'+ items.orderCode
+				}))).append($('<td/>',{
+					align : 'center'
+				}).append($('<button/>',{
+					class : 'cancel_button tbl_button',
+					id : 'cancel_button'+items.orderCode,
+					type : 'button',
+					text : '처리',
+				}))).append($('<td/>',{
+					align : 'center',
+				})).append($('<td/>',{
+					align : 'center',
+					text : items.erState
+				}).append($('<button/>',{
+					class : 'erDetail_button tbl_button',
+					type : 'button',
+					text : '상세'
+				}))).appendTo($('#orderList_table'));
 				
-				//주문확인 페이지 이동
-				$('.orderList_tr').click(function(){
-					window.open('/kokonutStationery/admin/orderView.do?orderCode='+items.orderCode+'&userName='+items.userName+'&userId='+items.userId+'&orderDate='+items.orderDate
-							,'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
-				});	
+				changeByState(items.orderState, items.whoCancel, items.erState);
 				
 			});//each
 			$('#orderManagerPagingDiv').html(data.orderManagerPaging.pagingHTML);
 			$('#pg').val(1);
 		}//success
 	});//ajax
+	
 });//order_searchBtn : 상품 검색 리스트 끝
-
-
 
 /* 페이징 링크 */
 function orderManagerPaging(pg){
@@ -622,15 +972,11 @@ function orderSearchPaging(pg){
 	$('#order_searchBtn').trigger('click');
 }
 
-/* 초기화 버튼 클릭 시 */
-$('#order_resetBtn').click(function(){
-	 location.href="/kokonutStationery/admin/orderList.do";
-});
 
-//선택갱신 선택 삭제
-function orderAction(action){
+//선택삭제
+function selectDelete(){
 	var count = $('.check:checked').length;
-
+	/*
 	if(action=='change'){
 		if(count==0){
 			$('#noneCheck_modal').html('주문상태 갱신');
@@ -650,18 +996,18 @@ function orderAction(action){
 				});
 			}
 		}
-	}else if(action=='delete'){
-		if(count==0){
-			$('#noneCheck_modal').html('주문내역 삭제');
-			$('#open_nonCheckModal').show();
-		}else{
-			$('#open_deleteConfirmModal').show();
-			$("#deleteConfirmOK_Modal").off().on('click', function(){
-				document.orderList_actionForm.method='post';
-				document.orderList_actionForm.action='/kokonutStationery/admin/selectedOrderDelete.do';
-				document.orderList_actionForm.submit();
-			});
-		}
+	}else if(action=='delete'){}
+	*/
+	if(count==0){
+		$('#noneCheck_modal').html('주문내역 삭제');
+		$('#open_nonCheckModal').show();
+	}else{
+		$('#open_deleteConfirmModal').show();
+		$("#deleteConfirmOK_Modal").off().on('click', function(){
+			document.orderList_actionForm.method='post';
+			document.orderList_actionForm.action='/kokonutStationery/admin/selectedOrderDelete.do';
+			document.orderList_actionForm.submit();
+		});
 	}
 }
 </script>

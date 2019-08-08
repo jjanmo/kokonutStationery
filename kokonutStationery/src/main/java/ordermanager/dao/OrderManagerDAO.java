@@ -15,13 +15,11 @@ public interface OrderManagerDAO {
 	
 	public List<OrderDTO> getOrderProduct(String orderCode);
 	
-	public UserDTO getReceiverInform(String userId);
+	public UserDTO getUserInfo(String orderCode);
 	
 	public List<OrderDTO> orderViewList(String orderCode);
 
-	public int orderStateChange(Map<String, Object> map);
-
-	public List<OrderDTO> orderSearchList(Map<String, String> map);
+	public List<OrderlistDTO> orderSearchList(Map<String, String> map);
 
 	public int getSearchTotalA(Map<String, String> map);
 	
@@ -29,10 +27,19 @@ public interface OrderManagerDAO {
 
 	public void selectedOrderDelete(Map<String, String[]> map);
 
-	
+	public OrderlistDTO getOrderlistInCancelForm(String orderCode);
 
-	
+	public void updateOrderlist(Map<String, String> map);
 
-	
+	public List<OrderDTO> getOrder(String orderCode);
 
+	public void updateOrder(Map<String, Object> uMap);
+
+	public OrderlistDTO getWhoCancel(String orderCode);
+		
+	public void changeOrderlistState(Map<String, Object> map);
+
+	public int changeOrderState(Map<String, Object> map);
+
+	public void updateTotalPaymentInUser(String orderCode);
 }
