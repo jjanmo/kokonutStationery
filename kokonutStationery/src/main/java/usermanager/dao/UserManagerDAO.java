@@ -3,6 +3,7 @@ package usermanager.dao;
 import java.util.List;
 import java.util.Map;
 
+import point.bean.PointDTO;
 import user.bean.UserDTO;
 
 public interface UserManagerDAO {
@@ -20,5 +21,9 @@ public interface UserManagerDAO {
 	public void userModify(Map<String, Object> map);
 
 	public void userDelete(Map<String, String[]> map);
+
+	public UserDTO userPointModify(String userId);
+
+	public List<PointDTO> userPointList(String userId);
 
 }

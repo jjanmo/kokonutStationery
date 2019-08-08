@@ -12,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import point.bean.PointDTO;
+import point.dao.PointDAO;
 import user.bean.BoardPaging;
 import user.bean.UserDTO;
 import usermanager.dao.UserManagerDAO;
@@ -22,6 +25,8 @@ import usermanager.dao.UserManagerDAO;
 public class UserManagerController {
 	@Autowired
 	private UserManagerDAO userDAO;
+	@Autowired
+	private PointDAO pointDAO;
 	@Autowired
 	private BoardPaging boardPaging;
 	
@@ -122,6 +127,23 @@ public class UserManagerController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("userDTO", userDTO);
 		return "/admin/user/userModifyForm"; 
+	}
+	
+	//아아디 클릭시 회원 포인트 수정
+	@RequestMapping(value = "/admin/userPointForm.do", method = RequestMethod.GET)
+	public String userPointForm(@RequestParam String userId, Model model) {
+		
+		UserDTO userDTO = userDAO.userPointModify(userId);
+		List<PointDTO> pointList = userDAO.userPointList(userId);
+		
+		System.out.println(userId);
+		System.out.println(userDTO);
+		System.out.println(pointList);
+		
+		model.addAttribute("userId", userId);
+		model.addAttribute("userDTO", userDTO);
+		model.addAttribute("pointList", pointList);
+		return "/admin/user/userPointForm";
 	}
 	
 	//회원정보수정
