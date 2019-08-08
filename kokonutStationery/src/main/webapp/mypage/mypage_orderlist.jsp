@@ -172,12 +172,11 @@ $(document).ready(function(){
 					}else if(orderState=='배송중'){
 						$('.'+items.orderCode+'_deliveryCheckBtn').css('display','block');
 					}
-					//배송완료 상태 시 환불, 교환 버튼 활성화
-					if(orderState=='배송완료'){
+					//배송완료이면서 교환,환불하지않았을시에 환불, 교환 버튼 활성화
+					if(orderState=='배송완료' && erState==null){
 						$('.'+items.orderCode+'_receiptBtn').css('display','block');
 						
-						if(erState==null)
-							$('.'+items.orderCode+'_ExchangeRefundBtn').css('display','block');
+						$('.'+items.orderCode+'_ExchangeRefundBtn').css('display','block');
 							
 					}
 					if(orderState==''){//주문완료
