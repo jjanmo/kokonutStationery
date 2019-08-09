@@ -27,9 +27,9 @@ public class OrderCodePaging {
 		
 		for(int i=startPage; i<=endPage; i++) {
 			if(i==currentPage) {
-				pagingHTML.append("[<span id='currentPaging' onclick='orderManagerPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='currentPaging' onclick='orderManagerPaging("+i+")'>"+i+"</span>");
 			} else {
-				pagingHTML.append("[<span id='paging' onclick='orderManagerPaging("+i+")'>"+i+"</span>]");
+				pagingHTML.append("<span id='paging' onclick='orderManagerPaging("+i+")'>"+i+"</span>");
 			}//if~else
 		}//for
 		

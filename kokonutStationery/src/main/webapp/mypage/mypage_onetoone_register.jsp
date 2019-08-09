@@ -157,8 +157,12 @@ $('.confirm_btn').click(function(){
 });
 
 
-$(function(){
-	//주문 리스트 출력
+$(function(event,str){
+	if(str!='trigger') $('#pg').val(1);
+	//trigger이벤트일 땐 2~이상의 페이지/ 검색하지않을때는 1페이지보여주기
+	console.log("onload함수 pg="+pg);
+	
+	/* //주문 리스트 출력
 	$.ajax({
 		type : 'post',
 		url : '/kokonutStationery/onetoone/getOrderList.do',
@@ -195,6 +199,118 @@ $(function(){
 						});//each
 					}//success
 				});
+				
+				$('#orderListTable tr:gt(0)').remove();//0보다 큰 tr은 제거
+				
+				var year = items.orderDate.substr(2,2);
+				var month = items.orderDate.substr(5,2);
+				var day = items.orderDate.substr(8,2);
+				var date = year+"-"+month+"-"+day;
+				
+				$('<tr/>', {
+					class : 'orderList_tr'
+					}).append($('<td/>',{
+						align : 'center',
+						id : 'order_code1',
+						text  : items.orderCode
+					})).append($('<td/>', {
+						align : 'center',
+						id : 'order_date',
+						text : date
+					})).append($('<td/>', {
+						align : 'center',
+						id : 'product_name'+index, 
+						text : orderProductName + ' 포함 ' + orderProductAmount + ' 건'
+					})).append($('<td/>', {
+						align : 'center',
+						id : 'purchaseQty',
+						text : totalPurchaseQty
+					})).append($('<td/>', {
+						align : 'center',
+						text : items.totalPayment+' 원'
+					})).append($('<td/>',{
+						align : 'center'
+						}).append($('<input/>',{
+							type : 'radio',
+							name : 'select',
+							class : 'select',
+							id : items.orderCode
+							}))).appendTo($('#orderListTable'));
+			});//each
+			
+			//페이징 생성
+			$('#orderCodePagingDiv').html(data.orderCodePaging.pagingHTML);
+			
+		}//success
+
+	});//ajax	 */
+});
+
+//주문조회페이징이벤트
+function orderManagerPaging(pg){
+	$('input[name=pg]').val(pg);
+	console.log("orderManagerPaging함수 pg="+pg);
+	$('#order_Number_Btn').trigger('click','trigger');
+}
+
+//주문조회 라디오버튼 클릭 이벤트
+$(document).on('click','.select', function(){
+	$('#orderCode').val("");
+	var order_code = $(this).attr('id');
+	//alert(order_code);
+	$('#orderCode').val(order_code);
+	$('.order_Number_search').toggle();
+});
+
+//주문조회 보이기
+$('#order_Number_Btn').click(function(event,str){
+	if(str!='trigger') $('#pg').val(1);
+	//trigger이벤트일 땐 2~이상의 페이지/ 검색하지않을때는 1페이지보여주기
+	console.log("onload함수 pg="+ $('#pg').val() );
+	
+	//주문 리스트 출력
+	$.ajax({
+		type : 'post',
+		
+		
+		url : '/kokonutStationery/onetoone/getOrderList.do',
+		data : {'pg' : $('#pg').val()},
+		dataType : 'json',
+		success : function(data){
+			
+			$('#orderListTable tr:gt(0)').remove();//0보다 큰 tr은 제거
+			
+			//alert(JSON.stringify(data));
+			$.each(data.list, function(index, items){
+				
+				var orderProductName="";		
+				var orderProductAmount = 0; //총 상품 구매 종류 : 이름별
+				var totalPurchaseQty = 0; 	//총 구매 상품 수량
+				
+				$.ajax({
+					type : 'post',
+					async: false,
+					url : '/kokonutStationery/onetoone/getOrderProduct.do',
+					data : {'orderCode' : items.orderCode},
+					dataType : 'json',
+					success : function(pData){
+						//alert(JSON.stringify(pData));
+						
+						$.each(pData.pName, function(pIndex, pItems){
+							if(orderProductAmount==0){
+								orderProductName = pItems.productName;
+								orderProductAmount++;
+								totalPurchaseQty += pItems.purchaseQty;
+
+							}
+							else{
+								orderProductAmount++;
+								totalPurchaseQty += pItems.purchaseQty;
+							}
+						});//each
+					}//success
+				});
+				
 				
 				var year = items.orderDate.substr(2,2);
 				var month = items.orderDate.substr(5,2);
@@ -238,21 +354,9 @@ $(function(){
 		}//success
 
 	});//ajax	
-});
-
-
-//주문조회 라디오버튼 클릭 이벤트
-$(document).on('click','.select', function(){
-	$('#orderCode').val("");
-	var order_code = $(this).attr('id');
-	//alert(order_code);
-	$('#orderCode').val(order_code);
-	$('.order_Number_search').toggle();
-});
-
-//주문조회 보이기
-$('#order_Number_Btn').click(function(){
-	$('.order_Number_search').toggle();
+	
+	//$('.order_Number_search').toggle();
+	$('.order_Number_search').css('display','block');
 });
 
 //주문조회 없애기
