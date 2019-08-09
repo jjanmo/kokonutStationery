@@ -633,7 +633,7 @@ $('#cartBtn').click(function(){
 					    'thumbImg': '${goodsDTO.thumbImg}',
 					    'discountPrice': '${goodsDTO.discountPrice}',
 					    'productQty' : $('#productQty').val(),
-					    'optionContent': 'none'
+					    'optionContent': null
 					   },
 			   success : function(data){
 					if(data=='success'){
@@ -689,7 +689,7 @@ $('#cartBtn').click(function(){
 					   'thumbImg': '${goodsDTO.thumbImg}',
 					   'discountPrice': '${goodsDTO.discountPrice}',
 					   'productQty' : $('#productQty').val(),
-					   'optionContent': 'none'
+					   'optionContent': null
 					   },
 				success : function(data){
 					if(data=='success'){
@@ -756,7 +756,7 @@ $('#wishlistBtn').click(function(){
 					   'productOption': '${goodsDTO.productOption}',
 					   'thumbImg': '${goodsDTO.thumbImg}',
 					   'discountPrice': '${goodsDTO.discountPrice}',
-					   'optionContent': 'none'
+					   'optionContent': null
 					   },
 				success: function(){
 					location.href='/kokonutStationery/mypage/mypage_wishlist.do';
