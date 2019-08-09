@@ -79,7 +79,7 @@ public class OrderlistController {
 			map2.put("productCode",list.get(i).getProductCode()+"");
 			String optionContent = list.get(i).getOptionContent();
 			
-			if(list.get(i).getOptionContent()==null || list.get(i).getOptionContent().equals("none")) {
+			if(list.get(i).getOptionContent()==null) {
 				optionContent=null;
 			}
 				
