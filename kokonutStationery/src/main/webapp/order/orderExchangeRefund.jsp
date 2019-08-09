@@ -354,6 +354,7 @@ $(document).ready(function(){
 						success : function(data){
 							if(data=='ok'){
 								alert("교환을 성공했습니다.");
+								opener.location.reload();
 								window.close();
 								
 							}
@@ -389,6 +390,7 @@ $(document).ready(function(){
 						success:function(data){
 							if(data=='ok'){
 								alert("환불을 성공했습니다.");
+								opener.location.reload();
 								window.close();
 								
 							}
