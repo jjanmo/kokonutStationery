@@ -3,13 +3,15 @@ package ordermanager.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import user.bean.UserDTO;
 
 public interface OrderManagerDAO {
 
-	public List<OrderlistDTO> getOrderList(Map<String, String> map);
+	public List<OrderlistDTO> getOrderlist(Map<String, String> map);
 	
 	public int getTotalA();
 	
@@ -23,7 +25,7 @@ public interface OrderManagerDAO {
 
 	public int getSearchTotalA(Map<String, String> map);
 	
-	public void selectedOrderStateChange(Map<String, String[]> map);
+	//public void selectedOrderStateChange(Map<String, String[]> map);
 
 	public void selectedOrderDelete(Map<String, String[]> map);
 
@@ -42,4 +44,17 @@ public interface OrderManagerDAO {
 	public int changeOrderState(Map<String, Object> map);
 
 	public void updateTotalPaymentInUser(String orderCode);
+
+	public int setErAdminMemo(@RequestParam Map<String, String> map);
+
+	public void setErReason(Map<String, String> map);
+
+	public OrderDTO getOrderErState(Map<String, Object> map);
+
+	public void changeErState(Map<String, Object> map);
+
+	public void changeOrderlistErState(Map<String, Object> map);
+
+	public void changeTotalPayment(Map<String, String> map);
+
 }

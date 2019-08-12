@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
@@ -19,8 +20,8 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<OrderlistDTO> getOrderList(Map<String, String> map) {
-		return sqlSession.selectList("orderManagerSQL.getOrderList", map);
+	public List<OrderlistDTO> getOrderlist(Map<String, String> map) {
+		return sqlSession.selectList("orderManagerSQL.getOrderlist", map);
 	}
 	
 	@Override
@@ -67,10 +68,10 @@ public class OrderManagerImpl implements OrderManagerDAO {
 		return sqlSession.selectOne("orderManagerSQL.getSearchTotalA", map);
 	}
 	
-	@Override
-	public void selectedOrderStateChange(Map<String, String[]> map) {
-		sqlSession.update("orderManagerSQL.selectedOrderStateChange", map);
-	}
+//	@Override
+//	public void selectedOrderStateChange(Map<String, String[]> map) {
+//		sqlSession.update("orderManagerSQL.selectedOrderStateChange", map);
+//	}
 
 	@Override
 	public void selectedOrderDelete(Map<String, String[]> map) {
@@ -109,6 +110,46 @@ public class OrderManagerImpl implements OrderManagerDAO {
 	public OrderlistDTO getWhoCancel(String orderCode) {
 		return sqlSession.selectOne("orderManagerSQL.getWhoCancel", orderCode);
 	}
+
+	//교환환불에서 관리자메모 등록
+	@Override
+	public int setErAdminMemo(@RequestParam Map<String, String> map) {
+		return sqlSession.update("orderManagerSQL.setErAdminMemo", map);
+	}
+
+	//교환환불 사유 입력
+	@Override
+	public void setErReason(Map<String, String> map) {
+		sqlSession.update("orderManagerSQL.setErReason", map);
+		
+	}
+	//상세페이지에서 교환환불에서 선택한 제품의 교환환불 상태를 가져오기
+	@Override
+	public OrderDTO getOrderErState(Map<String, Object> map) {
+		return sqlSession.selectOne("orderManagerSQL.getOrderErState", map);
+	}
+
+	//상세페이지에서 교환환불상태 변경 : order수정
+	@Override
+	public void changeErState(Map<String, Object> map) {
+		sqlSession.update("orderManagerSQL.changeErState",map);
+		
+	}
+	
+	//상세페이지에서 교환환불 상태 변경 : orderlist수정
+	@Override
+	public void changeOrderlistErState(Map<String, Object> map) {
+		sqlSession.update("orderManagerSQL.changeOrderlistErState", map);
+	}
+
+	@Override
+	public void changeTotalPayment(Map<String, String> map) {
+		sqlSession.update("orderManagerSQL.changeTotalPayment", map);
+		
+	}
+
+
+
 
 	
 

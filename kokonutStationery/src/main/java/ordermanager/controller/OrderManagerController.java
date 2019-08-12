@@ -43,7 +43,7 @@ public class OrderManagerController {
 		map.put("startNum", startNum+"");
 		map.put("endNum", endNum+"");
 		
-		List<OrderlistDTO> list = orderManagerDAO.getOrderList(map);
+		List<OrderlistDTO> list = orderManagerDAO.getOrderlist(map);
 		
 		int totalA = orderManagerDAO.getTotalA();
 		
@@ -177,12 +177,16 @@ public class OrderManagerController {
 	@RequestMapping(value="/admin/orderView.do", method=RequestMethod.GET)
 	public String orderView(@RequestParam String orderCode, Model model) {
 		List<OrderDTO> list = orderManagerDAO.orderViewList(orderCode);
+		//orderlistDTO에서 orderState얻기위해서 이용함
+		OrderlistDTO orderlistDTO =  orderManagerDAO.getWhoCancel(orderCode);
+		int orderState = orderlistDTO.getOrderState();
 		
 		//날짜변환
 		Date pOrderDate = list.get(0).getOrderDate();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String orderDate = sdf.format(pOrderDate);
 		
+		model.addAttribute("orderState", orderState);
 		model.addAttribute("orderDate",orderDate);
 		model.addAttribute("orderCode", orderCode);
 		model.addAttribute("list", list);
@@ -211,11 +215,10 @@ public class OrderManagerController {
 		return mav;
 	}
 	
-	//상세페이지에서 orderState 갱신
+	//상세페이지에서 orderState갱신
 	@RequestMapping(value="/admin/changeOrderState.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String orderStateChange(@RequestParam Map<String, Object> map) {
-
+	public String changeOrderState(@RequestParam Map<String, Object> map) {
 		orderManagerDAO.changeOrderlistState(map);
 		int su = orderManagerDAO.changeOrderState(map);
 		System.out.println(su);
@@ -227,16 +230,16 @@ public class OrderManagerController {
 		}
 	}
 	
-	@RequestMapping(value="/admin/selectedOrderStateChange.do", method=RequestMethod.POST)
-	public String selectedOrderStateChange(@RequestParam String[] check
-			, @RequestParam String[] orderState, @RequestParam String pg) {
-		Map<String, String[]> map = new HashMap<String, String[]>();
-		
-		map.put("check", check);
-		map.put("orderState", orderState);
-		orderManagerDAO.selectedOrderStateChange(map);
-		return "redirect:/admin/orderList.do?pg="+pg;
-	}
+//	@RequestMapping(value="/admin/selectedOrderStateChange.do", method=RequestMethod.POST)
+//	public String selectedOrderStateChange(@RequestParam String[] check
+//			, @RequestParam String[] orderState, @RequestParam String pg) {
+//		Map<String, String[]> map = new HashMap<String, String[]>();
+//		
+//		map.put("check", check);
+//		map.put("orderState", orderState);
+//		orderManagerDAO.selectedOrderStateChange(map);
+//		return "redirect:/admin/orderList.do?pg="+pg;
+//	}
 	
 	//주문관리에서 주문내역(orderlist) 삭제
 	@RequestMapping(value="admin/selectedOrderDelete.do", method=RequestMethod.POST)
@@ -248,4 +251,91 @@ public class OrderManagerController {
 		return "redirect:/admin/orderList.do?pg="+pg;
 	}
 	
+	//주문관리에서 교환/환불 상세 페이지 이동
+	@RequestMapping(value="/admin/erDetailForm.do", method=RequestMethod.GET)
+	public String erDetailForm(@RequestParam String orderCode, @RequestParam String erState, Model model) {
+		List<OrderDTO> list = orderManagerDAO.getOrder(orderCode);
+		model.addAttribute("list", list);
+		model.addAttribute("orderCode", orderCode);
+		model.addAttribute("erState",erState);
+		return "/admin/order/erDetailForm";	
+	}
+	
+	//교환/환불 상세페이지에서 orderlist불러오기
+	@RequestMapping(value="/admin/getOrderlistInErDetail.do", method=RequestMethod.POST)
+	public ModelAndView getOrderlistInErDetail(@RequestParam String orderCode) {
+		OrderlistDTO orderlistDTO = orderManagerDAO.getWhoCancel(orderCode); 
+		//orderlistDTO를 가져오는것을 같이 사용함(method이름이 이상한데...어쩔수 없이 사용함, 나중에 리펙토링(이름통일)필요)
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("orderlistDTO", orderlistDTO);
+		mav.setViewName("jsonView");
+		return mav;
+		
+	}
+	
+	//교환환불관련 관리자 메세지 등록
+	@RequestMapping(value="/admin/setErAdminMemo.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String setErAdminMemo(@RequestParam Map<String, String> map) {
+		int su = orderManagerDAO.setErAdminMemo(map);
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+	
+	//교환환불사유 팝업창
+	@RequestMapping(value="/admin/erReasonPopup.do", method=RequestMethod.GET)
+	public String erReasonPopup(@RequestParam String orderCode, Model model) {
+		model.addAttribute("orderCode", orderCode);
+		return "/admin/order/erReasonPopup";
+	}
+	
+	//교환환불사유등록
+	@RequestMapping(value="/admin/setErReason.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void setErReason(@RequestParam Map<String, String> map) {
+		orderManagerDAO.setErReason(map);
+	}
+	
+	//erState를 위해서 order를 가져오기
+	@RequestMapping(value="/admin/getOrderErState.do", method=RequestMethod.POST)
+	public ModelAndView getOrderErState(@RequestParam Map<String, Object> map) {
+		OrderDTO orderDTO = orderManagerDAO.getOrderErState(map);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("orderDTO", orderDTO);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//erState갱신 : tbl_order에서 정보 수정
+	@RequestMapping(value="/admin/changeErState.do",method=RequestMethod.POST)
+	@ResponseBody
+	public void changeErState(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		orderManagerDAO.changeErState(map);
+	}
+	
+	
+	//erState갱신 : tbl_orderlist에서 정보수정
+	@RequestMapping(value="/admin/changeOrderlistErState.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void changeOrderlistErState(@RequestParam Map<String, Object> map) {
+		System.out.println(map);
+		orderManagerDAO.changeOrderlistErState(map);
+	}
+	
+	//erState갱신 : 환불완료 후에 user의 총구매액 변경
+	@RequestMapping(value="/admin/changeTotalPayment.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void changeTotalPayment(@RequestParam Map<String, String> map) {
+		orderManagerDAO.changeTotalPayment(map);
+
+	}
 }
+
+
+
+

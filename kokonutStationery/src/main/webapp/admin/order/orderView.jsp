@@ -111,6 +111,15 @@
     border: 1px solid transparent;
     background-color: powderblue;
 }
+
+.erBtn{
+	min-width: 140px;
+    padding: 0 30px;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 40px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -126,7 +135,7 @@
 	<div style="text-align:right; margin-bottom:10px; font-size:18px;">
 		<div>
 			<span>주문상태 선택 &nbsp;: </span>&nbsp;
-			<select id="orderStateSelectBox" style="width:100px; height: 25px; padding: 1px; font-size:18px;">
+			<select id="orderStateSelectBox" style="width:120px; height: 25px; padding: 1px; font-size:18px;">
 				<option value="0">주문취소</option>
 				<option value="1">주문접수</option>
 				<option value="2">배송준비</option>
@@ -140,7 +149,7 @@
 	<div style="text-align:right; font-size:18px;">
 		<div >
 			<span>교환/환불상태 선택 &nbsp;: </span>&nbsp;
-			<select id="erStateSelectBox" style="width:100px; height:25px; padding: 1px; font-size:18px;">
+			<select id="erStateSelectBox" style="width:120px; height:25px; padding: 1px; font-size:18px;">
 				<option value="교환접수">교환접수</option>
 				<option value="교환완료">교환완료</option>
 				<option value="환불접수">환불접수</option>
@@ -223,30 +232,60 @@
 					배송중
 					</c:if>
 					<c:if test="${orderDTO.orderState==4}">
+					배송완료
 					</c:if>
 					<c:if test="${orderDTO.orderState==5}">
 					주문완료
 					</c:if>
 				</td>
 				
-				<td class="erState" id="erState" style="text-align : center;">
+				<td class="erState" id="erState${orderDTO.productCode}" style="text-align : center;">
 					<c:if test="${orderDTO.exchange==1}">
-					교환신청(<b>${orderDTO.exchangeQty}</b>)
+						교환접수
 					</c:if>
 					<c:if test="${orderDTO.exchange==2}">
-					교환완료
+						교환완료
 					</c:if>
 					<c:if test="${orderDTO.refund==1}">
-					환불신청(<b>${orderDTO.refundQty}</b>)
+						환불접수
 					</c:if>
 					<c:if test="${orderDTO.refund==2}">
-					환불완료
+						환불완료
 					</c:if>
 				</td>
 			</tr>			
 		</c:forEach>
 		</table>
-
+		
+		<div id="erWrapper" style="width:640px; padding:10px 5px 10px 10px; margin:10px 0 10px 0; line-height:20px; border: 2px solid powderblue;">
+			<div style="font-size:25px;">교환/환불 사유</div>
+			<div id="erReasonDiv" style="margin: 8px 0 8px 0;">
+				<table id="erReasonTable">
+					<tr>
+						<td>
+							<select name="erReason" id="erReason" style="font-size:18px;">
+								<option value="" selected>사유</option>
+								<option value="배송지연">배송지연</option>
+								<option value="포장불량">포장불량</option>
+								<option value="상품불만족">상품불만족</option>
+								<option value="상품불량">상품불량</option>
+								<option value="서비스불만족">서비스불만족</option>
+								<option value="기타">기타</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="erDetailDiv" style="margin: 8px 0 8px 0;">
+				<span style="font-size:20px;">상세사유</span><br>
+				<textarea id="erDetail" rows="10" cols="60" placeholder="사유를 정확하고 자세하게 적으세요" style="font-size:16px; outline:none; margin-top:5px;"></textarea>
+			</div>
+			<div style="margin-top: 10px;">
+				<input type="button" id="erRegBtn" class="erBtn" value="등 록">
+				<input type="reset" id="erResetBtn" class="erBtn" value="취 소">
+			</div>
+		</div>
+		
 		<div id="wrapper">
   			<div class="column">
    			 <div class="item" style="order:1; margin-left:0px;">
@@ -294,22 +333,22 @@
 <button id="closeBtn">닫기</button>
 </div>
 </body>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-
+var userId = '';
 
 //주문자정보 / 배송정보 / 결제금액 찍기
 $(document).ready(function(){
 	
 	$.ajax({
+		async : false,
 		type : 'post',
 		url : '/kokonutStationery/admin/getUserInfo.do',
 		data : {'orderCode' : '${orderCode}'},
 		dataType : 'json',
 		success : function(data){
-			var userDTO = data.userDTO
-			
+			var userDTO = data.userDTO;
+			userId = userDTO.userId;
 			var user = '주문자 : '+userDTO.userName+'('+userDTO.userId+')';  //최상단에 찍어주는 것
 			var userName = userDTO.userName;
 			var userPhone = userDTO.userPhone1+' - '+userDTO.userPhone2+' - '+userDTO.userPhone3;
@@ -377,9 +416,31 @@ $(document).ready(function(){
 	//결제금액
 	var totalPayment = totalPricePerOrder + deliveryFee - usePoint;
 	$('#totalPayment').text(addComma(totalPayment));
+	
+	//교환환불사유div
+	$('#erWrapper').hide();
 
 });
 
+//체크한 productcode가져오기
+function checkedProductCode(){
+	var checkedList = $('.check:checked');		 			 //체크된 체크박스 태그 배열
+	var productCodeList = new Array();						 //productCode 배열
+	checkedList.each(function(index){
+		productCodeList.push(checkedList[index].getAttribute('id'));
+	});
+
+ 	/*
+ 	//다른방법
+ 	for(var i=0; i<checkedList.length; i++){
+		alert(checkedList[i].checked);
+		if(checkList[i].checked){
+			productCodeList.push(checkListed[i].getAttribute('id'));
+		}
+	} 
+ 	*/
+	return productCodeList;
+}
 
 //주문상태갱신
 $('#orderStateChangeBtn').click(function(){
@@ -400,27 +461,16 @@ $('#orderStateChangeBtn').click(function(){
 	}
 
  	var checkedCnt = $('.check:checked').length; 			 //체크된 체크박스 개수
- 	var checkedList = $('.check:checked');		 			 //체크된 체크박스 태그 배열
-	var orderCode = $('#orderCode').val()					 //orderCode
-	var productCodeList = new Array();						 //productCode 배열
+ 	var orderCode = $('#orderCode').val()					 //orderCode
 	var orderStateSel = $('#orderStateSelectBox option:selected').val() //갱신할 주문상태
 		
 	//alert(checkedList);
 	//alert(orderStateSel);
-	checkedList.each(function(index){
-		productCodeList.push(checkedList[index].getAttribute('id'));
-	});
-	
- 	/*
- 	for(var i=0; i<checkedList.length; i++){
-		alert(checkedList[i].checked);
-		if(checkList[i].checked){
-			productCodeList.push(checkListed[i].getAttribute('id'));
-		}
-	} 
- 	*/
-	alert(productCodeList.length);
-	
+
+	//체크한 productcode가져오기
+ 	var orderProductCodeList = checkedProductCode();
+ 	//alert(productCodeList);
+ 	
  	if(checkedCnt == 0){
 		alert('주문상태를 갱신할 상품을 선택하세요');
 	}
@@ -433,10 +483,9 @@ $('#orderStateChangeBtn').click(function(){
  			}
  		}
   		
-  		//주문상태 갱신가능 :다시 만들기!!
-  		if(orderStateSel == 0) { //주문취소 상태로 갱신
-  			window.open('/kokonutStationery/admin/orderCancelRegisterForm.do?orderCode='+orderCode,
-  					'','width=840, height=600, left=100, resizable=no, toolbar=no','true'); 
+  		//주문상태 갱신가능 [cf)다시 만들기!!]
+  		if(orderStateSel == 0) { //주문취소 상태로 갱신 : 주문관리메인페이지에서 진행가능(전체취소만)
+  			alert('주문취소는 여기서 진행할 수 없습니다');
   		}
   			
   		else{ //그외 상태로 갱신 
@@ -447,16 +496,15 @@ $('#orderStateChangeBtn').click(function(){
   				productCodeStr += (productCodeList[i] + ',');
   			} 
   			*/
-  			for(var i = 0; i < productCodeList.length; i++){
+  			for(var i = 0; i < orderProductCodeList.length; i++){
 	  			$.ajax({
 	  				type : 'POST',
 	  				url : '/kokonutStationery/admin/changeOrderState.do',
 	  				data : {'orderCode' : orderCode,
 	  						'orderState': orderStateSel,
-	  						 'productCode' : productCodeList[i]*1 },
+	  						 'productCode' : orderProductCodeList[i]*1 },
 	  				success : function(data){
 	  					if(data == 'success'){
-	  						alert("주문상태가 갱신되었습니다.");
 	  						$('.orderState').each(function(index){
 	  							if(orderStateSel == 0){
 	  								$('.orderState')[index].innerText = "주문취소";
@@ -477,23 +525,170 @@ $('#orderStateChangeBtn').click(function(){
 	  								$('.orderState')[index].innerText = "주문완료";
 	  							}
 	  						});
-	  						opener.location.reload();
 	  					}
 	  					else
 	  						alert("주문상태 갱신에 실패하였습니다.");
 	  				}
 	  			});//ajax
   			}
-  		}
+  			opener.location.reload();
+  			alert("주문상태가 갱신되었습니다.");
+   		}
  	}  
 });
+
+
 //교환환불상태갱신
 $('#erStateChangeBtn').click(function(){
-	var erState = $('#erState').val();
-	alert(erState);
-		
-});
+	//alert(userId);
+ 	var checkedCnt = $('.check:checked').length; 			 //체크된 체크박스 개수
+ 	var checkedList = $('.check:checked');		 			 //체크된 체크박스 태그 배열
+	var orderCode = '${orderCode}';
+	var erStateVal = $('#erStateSelectBox option:selected').val(); //갱신할 교환환불상태
+	var orderState = '${orderState}';
 
+	if(checkedCnt <= 0){
+		alert('교환/환불상태를 갱신할 상품을 선택하세요');
+		return;
+	}
+	else{
+		//체크한 상품코드 가져오기
+	 	var erProductCodeList = checkedProductCode();
+	 	
+	
+		if(orderState < 4){
+			alert('배송완료 전에는 교환/환불상태를 변경할 수 없습니다')
+		}
+		else if(orderState == 5) {
+			alert('주문완료 상태에서는 교환/환불을 진행할 수 없습니다.]')
+			
+		}
+		else{//주문상태 : 배송완료상태
+			var exchange = new Array(); //교환상태
+			var refund = new Array();   //환불상태
+			
+			//체크한 상품에 대한 교환/환불상태를 가져옴
+			for(var i = 0; i<erProductCodeList.length; i++){
+				$.ajax({
+					async : false,
+					type : 'POST',
+					url : '/kokonutStationery/admin/getOrderErState.do', //orderDTO가져오기
+					data : {'orderCode' : orderCode,
+							'productCode' : erProductCodeList[i]*1 },
+					dataType : 'json',
+					success : function(data){
+						exchange.push(data.orderDTO.exchange);
+						refund.push(data.orderDTO.refund);
+					}//success
+				});//ajax
+			}//for
+			
+			//현재 교환환불상태와 갱신할 상태 비교
+			if(erStateVal == '교환접수'){
+				for(var i=0; i<exchange.length; i++){
+					if(exchange[i] != 0 || refund[i] == 1) {
+						alert('선택하신 상태로 갱신할 수 없는 상품이 존재합니다');
+						return;
+					}
+				}
+				$('#erWrapper').show();
+			}			
+			else if(erStateVal == '교환완료'){
+				for(var i = 0; i<exchange.length;i++){
+					if(exchange[i] != 1 || refund[i] != 0){
+						alert('교환 접수상태에서만 갱신이 가능합니다');
+						return;
+					}
+				}
+			}
+			else if(erStateVal == '환불접수'){
+				for(var i =0; i<refund.length;i++){
+					if(refund[i] != 0 || exchange[i] == 1){
+						alert('선택하신 상태로 갱신할 수 없는 상품이 존재합니다');
+						return;
+					}
+				}
+				$('#erWrapper').show();
+			}
+			
+			else if(erStateVal == '환불완료') {
+				for(var i =0; i<refund.length; i++){
+					if(refund[i] != 1 | exchange[i] != 0){
+						alert('환불접수인 상태에서만 갱신이 가능합니다');
+						return;
+					}
+				}
+			}
+
+			//order의 교환환불 정보 수정	
+			for(var i = 0; i <erProductCodeList.length; i++){
+				$.ajax({
+					type : 'POST',
+					url  : '/kokonutStationery/admin/changeErState.do',
+					data : { 'erState' : erStateVal,
+						     'orderCode' : orderCode,
+						     'productCode': erProductCodeList[i]*1 }
+				});//ajax
+				$('#erState'+erProductCodeList[i]).text(erStateVal);
+			}//for
+		
+		
+			//orderlist의 교환환불 정보 수정 
+			$.ajax({
+				type : 'POST',
+				url  : '/kokonutStationery/admin/changeOrderlistErState.do',
+				data : {'erState' : erStateVal,
+					    'orderCode' : orderCode },
+				dataType : 'text',
+				success : function(){
+					opener.location.reload();
+					alert('교환환불상태가 갱신되었습니다');
+				}//success
+			});//ajax
+			
+		
+			if(erStateVal == '환불완료'){//총구매액 수정
+				$.ajax({
+					type : 'POST',
+					url  : '/kokonutStationery/admin/changeTotalPayment.do',
+					data : {'userId' : userId,
+						    'orderCode' : orderCode },
+					dataType : 'text',
+					success : function(){
+						alert("총구매액수정완료");	
+					}//success
+				});//ajax
+			}//if_환불완료
+		}//else_주문상태 배송완료
+	}//else_checked	
+});//click function
+
+//교환환불사유 등록버튼 클릭 
+$('#erRegBtn').click(function(){
+	//er사유 등록
+	var orderCode = $('#orderCode').val();
+	var erReason = $('#erReason option:selected').val()
+	var erDetail = $('#erDetail').val(); 
+
+	$.ajax({
+		async :false,
+		type : 'POST',
+		url : '/kokonutStationery/admin/setErReason.do',
+		data : {'erReason' : erReason,
+				'erDetail' : erDetail,
+				'orderCode' : orderCode	},
+		dataType : 'text',
+		success :function(data){
+			$('#erWrapper').hide();	
+			alert("사유등록완료");			
+		}
+	});
+});
+	
+//er사유 등록취소 버튼 클릭
+$('#erResetBtn').click(function(){
+	$('#erWrapper').hide();
+});
 
 //체크박스 전체 선택
 $('#check_all').click(function(){

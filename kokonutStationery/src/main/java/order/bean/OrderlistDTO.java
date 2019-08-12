@@ -27,11 +27,16 @@ public class OrderlistDTO {
 	private String erDetail;  			//교환/환불에 대한 구체적인 사유
 	private String cancelReason; 		//취소사유
 	private String cancelDetail; 		//취소구체적인 사유
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date cancelDate;			//취소날짜
 	private int whoCancel; 				//취소한 사람이 누구인지 0 : 주문자 / 1 : 관리자		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date exchangeRegDate;		//교환신청날짜		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date exchangeFinDate; 		//교환완료날짜
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date refundRegDate; 		//환불신청날짜		
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy.MM.dd HH:mm:ss", timezone = "GMT+9")
 	private Date refundFinDate; 		//환불완료날짜
 	private String erAdminMemo;			//교환/환불에 관한 관리자메모	
 }

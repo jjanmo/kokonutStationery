@@ -404,7 +404,6 @@
 </div><!-- 메인컨텐츠 끝 -->
 
 </body>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 
@@ -503,7 +502,7 @@ $(document).ready(function(){
 					style : 'padding-right: 5px;'
 				})).append($('<td/>', {
 					align : 'center',
-					text : orderState
+					text : orderState					
 				}).append('<br>').append($('<span/>',{
 					class : 'whoCancel',
 					id : 'whoCancel'+ items.orderCode
@@ -516,9 +515,10 @@ $(document).ready(function(){
 					text : '처리',
 				}))).append($('<td/>',{
 					align : 'center',
+					text : items.erState,
+					id : 'erState'+ items.orderCode
 				})).append($('<td/>',{
-					align : 'center',
-					text : items.erState
+					align : 'center'
 				}).append($('<button/>',{
 					class : 'erDetail_button tbl_button',
 					id : 'erDetail'+items.orderCode,
@@ -542,7 +542,7 @@ $(document).ready(function(){
 
 //orderState/erState에 따른 변화
 function changeByState(orderState,whoCancel,erState,orderCode){
-	//주문취소일 때
+	//주문취소인 경우
 	if(orderState == 0){
 		//버튼변경
 		$('#cancel_button'+orderCode).text('상세');
@@ -563,17 +563,18 @@ function changeByState(orderState,whoCancel,erState,orderCode){
 			$('#whoCancel'+orderCode).text('<관리자>').css('font-size','12px');
 		}
 	}
-		
+	//배송완료 or 주문완료인 경우
+	else if(orderState == 4 || orderState == 5){
+		$('.cancel_button').hide();
+	}	
 	//교환/환불 버튼
 	if(erState == null){
-		$('.erDetail_button').hide();
+		$('#erDetail'+orderCode).hide();
 	}
 	else{
-		$('.erDetail_button').show();
+		$('#erDetail'+orderCode).show();
 	}
 }
-
-
 
 //주문관리 클릭
 $('#orderManager').click(function(){
@@ -610,8 +611,11 @@ $(document).on('click','.cancel_detail',function(){
 
 //환불상세버튼 클릭
 $(document).on('click','.erDetail_button',function(){
-	window.open('/kokonutStationery/admin/erDetailForm.do?orderCode='+orderCode,
-			'','width=1100, height=750, left=200, resizable=no, toolbar=no','true');
+	var orderCode = $(this).attr('id');
+	var orderCode = orderCode.substring(8);
+	var erState = $('#erState'+orderCode).text();
+ 	window.open('/kokonutStationery/admin/erDetailForm.do?orderCode='+orderCode+'&erState='+erState,
+			'','width=740, height=600, left=100, resizable=no, toolbar=no','true'); 
 });
 
 //체크박스 전체 선택
@@ -943,9 +947,9 @@ $('#order_searchBtn').click(function(){
 					text : '처리',
 				}))).append($('<td/>',{
 					align : 'center',
-				})).append($('<td/>',{
-					align : 'center',
 					text : items.erState
+				})).append($('<td/>',{
+					align : 'center'
 				}).append($('<button/>',{
 					class : 'erDetail_button tbl_button',
 					type : 'button',
@@ -971,7 +975,6 @@ function orderSearchPaging(pg){
 	$('#pg').val(pg);
 	$('#order_searchBtn').trigger('click');
 }
-
 
 //선택삭제
 function selectDelete(){

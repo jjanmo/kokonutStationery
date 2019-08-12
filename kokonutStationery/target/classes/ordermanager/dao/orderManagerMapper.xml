@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderManagerSQL">
 	<!-- 주문 리스트 -->
-	<select id="getOrderList" parameterType="java.util.Map" resultType="orderlist">
+	<select id="getOrderlist" parameterType="java.util.Map" resultType="orderlist">
 		select * from 
 		(select rownum rn, tt.* from
 		(select * from TBL_ORDERLIST order by orderDate desc, orderCode desc) tt)
@@ -244,6 +244,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getWhoCancel" parameterType="String" resultType="orderlist">
 		select * from TBL_ORDERLIST where orderCode = #{orderCode}
 	</select>
+
+	<!-- 교환환불에서  관리자메모 등록 -->
+	<update id="setErAdminMemo" parameterType="java.util.Map">
+		update TBL_ORDERLIST set erAdminMemo = #{erAdminMemo}
+							 where orderCode = #{orderCode}
+	</update>
+	
+	<!-- 교환환불 사유 입력 -->
+	<update id="setErReason">
+		update TBL_ORDERLIST set erReason = #{erReason},
+								 erDetail = #{erDetail}
+							 where orderCode = #{orderCode}
+	</update>
+	
+	<!-- tbl_order에서 교환환불상태가져오기 : 교환환불상태변화에서 선택한 상품의 order정보 가져오기-->
+	<select id="getOrderErState" parameterType="java.util.Map" resultType="order">
+		select * from TBL_ORDER where orderCode = #{orderCode}
+								and productCode = #{productCode}
+	</select>
+	
+	<!-- 상세페이지에서 erState변경 : tbl_order수정-->
+	<update id="changeErState" parameterType="java.util.Map">
+		<if test="erState == '교환접수'">
+			update TBL_ORDER set exchange = 1,
+								 exchangeQty = (select purchaseQty from TBL_ORDER 
+							 				where orderCode = #{orderCode} and productCode = #{productCode})
+							 where orderCode = #{orderCode} and productCode = #{productCode}
+		</if>
+		<if test="erState == '교환완료'">
+			update TBL_ORDER set exchange = 2
+							 where orderCode = #{orderCode} and productCode = #{productCode}
+		</if>
+		<if test="erState == '환불접수'">
+			begin
+				update TBL_ORDER set refund = 1,
+									 refundQty = (select purchaseQty from TBL_ORDER 
+								 				where orderCode = #{orderCode} and productCode = #{productCode}),
+								 	 refundAmount = refundAmount 
+								 				 + (select totalPrice from TBL_ORDER where orderCode = #{orderCode} and productCode = #{productCode}) 			
+				 				 where orderCode = #{orderCode} and productCode = #{productCode};
+				
+				update TBL_ORDERLIST set crPayment = crPayment 
+												   + (select refundAmount from TBL_ORDER where orderCode = #{orderCode} and productCode = #{productCode})
+									 where orderCode = #{orderCode};
+			end;
+		</if>
+		<if test="erState == '환불완료'">
+			update TBL_ORDER set refund = 2
+							 where orderCode = #{orderCode} and productCode = #{productCode}
+		</if>
+	</update>
+	
+	<!-- 상세페이지에서 erState변경 : tbl_orderlist에서도 수정 -->
+	<update id="changeOrderlistErState" parameterType="java.util.Map" >
+			update TBL_ORDERLIST set erState = #{erState}
+								<if test="erState == '교환접수'">
+									,exchangeRegDate = sysdate	 				
+								</if>
+								<if test="erState == '교환완료'">
+									,exchangeFinDate = sysdate
+								</if>
+								<if test="erState == '환불접수'">
+									,refundRegDate = sysdate
+								</if>
+								<if test="erState == '환불완료'">
+									,refundFinDate = sysdate
+								</if>
+							 where orderCode = #{orderCode}
+	</update>
+	<update id="changeTotalPayment" parameterType="java.util.Map">
+		update TBL_USER set totalPayment = totalPayment
+											  -(select crPayment from TBL_ORDERLIST where orderCode = #{orderCode})
+							 where userId = #{userId} 
+	</update>
 </mapper>
 
 
