@@ -283,7 +283,7 @@
 							<input type="radio" name="erState" value="" checked >&nbsp;전체&emsp;
 							<input type="radio" name="erState" value="교환접수">&nbsp;교환접수&emsp;
 							<input type="radio" name="erState" value="교환완료">&nbsp;교환완료&emsp;
-							<input type="radio" name="erState" value="환불준비">&nbsp;환불준비&emsp;
+							<input type="radio" name="erState" value="환불접수">&nbsp;환불접수&emsp;
 							<input type="radio" name="erState" value="환불완료">&nbsp;환불완료
 						</td>
 					</tr>
@@ -614,6 +614,7 @@ $(document).on('click','.erDetail_button',function(){
 	var orderCode = $(this).attr('id');
 	var orderCode = orderCode.substring(8);
 	var erState = $('#erState'+orderCode).text();
+	alert(erState);
  	window.open('/kokonutStationery/admin/erDetailForm.do?orderCode='+orderCode+'&erState='+erState,
 			'','width=740, height=600, left=100, resizable=no, toolbar=no','true'); 
 });
@@ -947,11 +948,13 @@ $('#order_searchBtn').click(function(){
 					text : '처리',
 				}))).append($('<td/>',{
 					align : 'center',
-					text : items.erState
+					text : items.erState,
+					id : 'erState'+ items.orderCode
 				})).append($('<td/>',{
 					align : 'center'
 				}).append($('<button/>',{
 					class : 'erDetail_button tbl_button',
+					id : 'erDetail'+items.orderCode,
 					type : 'button',
 					text : '상세'
 				}))).appendTo($('#orderList_table'));
