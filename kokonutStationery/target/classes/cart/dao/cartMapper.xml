@@ -40,7 +40,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 장바구니 선택삭제 -->
 	<delete id="deleteCart" parameterType="java.util.Map">
-		delete tbl_cart where userId = #{userId} and productCode = #{productCode} and optionContent = #{optionContent}
+		delete tbl_cart where userId = #{userId} and productCode = #{productCode} 
+		
+		<if test="optionContent != null"> 
+			and optionContent = #{optionContent} 
+		</if>
+		
 	</delete>
 	
 	<!-- 장바구니 전체지우기 -->

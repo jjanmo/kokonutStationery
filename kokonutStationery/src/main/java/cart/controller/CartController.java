@@ -136,6 +136,8 @@ public class CartController {
 	public void deleteCart(@RequestParam String userId, @RequestParam String productCode,
 			@RequestParam String optionContent) {
 		Map<String, String> map = new HashMap<String, String>();
+		
+		System.out.println("[회원 장바구니 선택삭제] userId="+userId+" productCode="+productCode +" optionContent="+optionContent);
 		map.put("userId", userId);
 		map.put("productCode", productCode);
 		map.put("optionContent", optionContent);

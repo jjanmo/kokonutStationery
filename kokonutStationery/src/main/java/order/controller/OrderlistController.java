@@ -68,7 +68,7 @@ public class OrderlistController {
 	
 	@RequestMapping(value="/order/orderCancel.do",method=RequestMethod.POST)
 	public void orderCancel(@RequestParam Map<String,String> map) {
-		
+		System.out.println("x_totalPayment="+map.get("x_totalPayment")+" x_userPoint="+map.get("x_userPoint"));
 		String orderCode = map.get("orderCode");
 		List<OrderDTO> list= orderDAO.getOrder(orderCode);
 		//재고 돌려놓기
