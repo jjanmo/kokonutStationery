@@ -468,7 +468,7 @@ $('.selectDelete').click(function() {
 				productCode = $('#productCode' + i).val();
 	
 				if ($('#productOption' + i).val() == 0) { //옵션이 없을 때
-					optionContent = 'none';
+					optionContent = null;
 				} else { //옵션이 있을 때
 					optionContent = $('#optionContent' + i).val();
 				}
