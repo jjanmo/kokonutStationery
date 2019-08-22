@@ -14,8 +14,6 @@ public interface OrderDAO {
 
 	public GoodsDTO getProduct(int productCode);
 
-	public List<PostDTO> postSearch(Map<String, String> map);
-
 	public int updateUserInfo(UserDTO userDTO);
 
 	public int setOrderInfo(OrderDTO orderDTO);

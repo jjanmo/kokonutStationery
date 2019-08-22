@@ -116,17 +116,6 @@ public class OrderController {
 		return mav;
 	}
 
-	
-	//배송지 검색
-	@RequestMapping(value="/postSearch.do", method=RequestMethod.POST)
-	public ModelAndView postSearch(@RequestParam Map<String, String> map) {
-		List<PostDTO> list = orderDAO.postSearch(map);	
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.setViewName("jsonView");
-		return mav;
-	}
-
 	//배송 정보 추가
 	@RequestMapping(value="/updateUserInfo.do", method=RequestMethod.POST)
 	@ResponseBody

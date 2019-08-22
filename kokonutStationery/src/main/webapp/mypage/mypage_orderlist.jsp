@@ -45,11 +45,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 $(document).on('ready',function(event,str){
-	if(str!='trigger') {//trigger이벤트일 땐 2~이상의 페이지/ 검색하지않을때는 1페이지보여주기
-		$('#pg').val(1);		
-	}
-	alert($('#pg').val());
-	
+
 	var userId = $('#userId').val();
 	var pg = $('#pg').val();
 	
@@ -254,6 +250,7 @@ $(document).on('ready',function(event,str){
 
 /* 페이징 링크 */
 function orderManagerPaging(pg){
+
 	//location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
   	var userId = $('#userId').val();
 	
@@ -457,9 +454,6 @@ function orderManagerPaging(pg){
 		}//success
 		
 	});//ajax
-   
-   
-   
 }
 
 //숫자 3자리당 쉼표찍기
@@ -468,6 +462,4 @@ function AddComma(number) {
 }
 
 </script>
-
-
 </html>

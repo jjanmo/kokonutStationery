@@ -84,9 +84,11 @@
 		<span class="title">주문번호</span><span id="orderCode" class="value">${orderlistDTO.orderCode }</span>
 		<span class="title" style="width:65px;">주문자</span><span class="value">${orderlistDTO.userName}(${orderlistDTO.userId})</span><br>
 		<span class="title">주문일자</span><span class="value">${orderDate}</span>
-		<span class="title" style="width:65px;">취소일자</span><span class="value"><input type="text" id="cancelDate" placeholder="YYYYMMDD형식으로 입력" style="font-size : 20px;"></span><br>
-		<span class="title">주문금액</span><span class="value">${orderlistDTO.totalProductPayment} 원</span>
-		<span class="title" style="width:65px;">취소금액</span><span class="value"><input type="text" id="crPayment" style="font-size : 20px;"> 원</span><br>
+		<c:set var="now" value="<%=new java.util.Date() %>"></c:set>
+		<fmt:formatDate value="${now}" type="date" var="fmtDate" pattern="yyyy-MM-dd hh:mm:ss" />
+		<span class="title" style="width:65px;">취소날짜</span><span class="value"><input type="text" id="cancelDate" value="${fmtDate}" style="font-size : 20px;"></span><br>
+		<span class="title">주문금액</span><span id="totalProductPayment" class="value">${orderlistDTO.totalProductPayment}<span> 원</span></span>
+		<span class="title" style="width:65px;">취소금액</span><span class="value"><input type="text" id="crPayment" style="font-size : 20px;" value="${orderlistDTO.totalProductPayment}"> 원</span><br>
 		<span style="margin-left:35px; font-size:12px;">(배송료제외)</span>
 	</div>
 	<div style="border:3px solid powderblue; margin:10px 0 10px 0; width:800px;"></div>
@@ -133,36 +135,63 @@
 </div>
 </form>
 </body>
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+//등록버큰 클릭시
 $('#cancelRegBtn').click(function(){
 	var orderCode = $('#orderCode').text();
-	var cancelDate = $('#cancelDate').val();
-	var crPayment = $('#crPayment').val();
+	//var cancelDate = $('#cancelDate').val();
+	//var datePattern = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/; 
+	var crPayment = $('#crPayment').val()*1;
 	var cancelReason = $('input[name="cancelReason"]:checked').val();
 	var cancelDetail = $('#cancelDetail').val();
+	var length = $('#totalProductPayment').text().length;
+	var totalProductPayment = ($('#totalProductPayment').text().substring(0,length-2)*1);
 	
-	$.ajax({
-		async : false,
-		type : 'post',
-		url : '/kokonutStationery/admin/orderCancelRegister.do',
-		data : {'orderCode'  : orderCode,
-				'cancelDate' : cancelDate,
-				'crPayment'  : crPayment,
-				'cancelReason' : cancelReason,
-				'cancelDetail' : cancelDetail },
-		dataType : 'text',		
-		success  : function(data){
-			if(data == 'success') alert("주문취소 처리되었습니다");
-			else alert("주문취소에 실패하였습니다.");
-		}
-	});
-	opener.parent.location.reload();
-	window.close();
+	//취소처리 유효성 검사
+	if(crPayment == ''){
+		alert("취소금액을 입력해주세요");
+	}
+	else if(isNaN(crPayment)){
+		alert("숫자를 입력해주세요");
+	}
+	else if(crPayment > totalProductPayment){
+		alert("취소금액이 주문금액보다 클수 없습니다");
+	}
+	else if((typeof cancelReason) == 'undefined'){
+		alert("취소사유를 선택해주세요");
+	}
+	else if(cancelDetail == '') {
+		alert("취소상세사유를 입력하세요");
+	}
+	else{
+		$.ajax({
+			async : false,
+			type : 'post',
+			url : '/kokonutStationery/admin/orderCancelRegister.do',
+			data : {'orderCode'  : orderCode,
+					'crPayment'  : crPayment,
+					'cancelReason' : cancelReason,
+					'cancelDetail' : cancelDetail },
+			dataType : 'text',		
+			success  : function(data){
+				if(data == 'success') alert("주문취소 처리되었습니다");
+				else alert("주문취소에 실패하였습니다.");
+			}
+		});
+		opener.parent.location.reload();
+		window.close();
+	}
 });
 
-	
+//취소버튼 클릭시
+$('#cancelResetBtn').click(function(){
+	$('#cancelDate').val('');
+	$('#crPayment').val('');
+	$('input[name="cancelReason"]:checked').val('');
+	$('#cancelDetail').val('')
+	window.close();
+});
 
 
 

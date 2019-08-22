@@ -98,7 +98,7 @@
 		<div id="cancelReason" style="margin:10px 0 0 10px;">${orderlistDTO.cancelReason}</div>
 		<div id="cancelDetailDiv">
 		<span style="font-size:22px;">취소상세사유</span><br>
-		<textarea id="cancelDetail" rows="10" cols="70">${orderlistDTO.cancelDetail}</textarea>
+		<textarea id="cancelDetail" rows="10" cols="70" style="outline:none;" readonly>${orderlistDTO.cancelDetail}</textarea>
 		</div>	
 	</div>
 	<div id="closeBtnDiv" align="center" style="margin-top:10px;">

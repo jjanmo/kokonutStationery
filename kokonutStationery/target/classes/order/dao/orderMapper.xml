@@ -8,14 +8,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from TBL_PRODUCT where productCode = #{productCode}
 	</select>
 	
-	<!-- 배송지 우편번호  검색-->
-	<select id="postSearch" parameterType="java.util.Map" resultType="post">
-		select * from NEWZIPCODE 
-		where sido like '%'||#{sido}||'%'
-              and nvl(sigungu, '0') like '%'||#{sigungu}||'%' 
-              and roadname like '%'||#{roadname}||'%'
-	</select>
-
 	<!--배송정보 추가 -->
 	<update id="updateUserInfo" parameterType="user">
 		update TBL_USER set userName = #{userName}
@@ -178,19 +170,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 재고처리 옵션없음 -->
 	<update id="reduceSaleProduct" parameterType="java.util.Map">
-		update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
-							, saleQty = saleQty + ${purchaseQty}
+		update TBL_PRODUCT set stockQty = stockQty - #{purchaseQty}
+							, saleQty = saleQty + #{purchaseQty}
 		where productCode = #{productCode}
 	</update>
 	<!-- 재고처리 옵션 있음 -->
 	<update id="reduceSaleProductOption" parameterType="java.util.Map">
 		begin
-			update TBL_PRODUCTOPTION set subStockQty = subStockQty - ${purchaseQty}
-									, subSaleQty = subSaleQty + ${purchaseQty}
+			update TBL_PRODUCTOPTION set subStockQty = subStockQty - #{purchaseQty}
+									, subSaleQty = subSaleQty + #{purchaseQty}
 			where productCode = #{productCode} and optionContent = #{optionContent};
 			
-			update TBL_PRODUCT set stockQty = stockQty - ${purchaseQty}
-								, saleQty = saleQty + ${purchaseQty}
+			update TBL_PRODUCT set stockQty = stockQty - #{purchaseQty}
+								, saleQty = saleQty + #{purchaseQty}
 			where productCode = #{productCode}; 
 		end;
 	</update>

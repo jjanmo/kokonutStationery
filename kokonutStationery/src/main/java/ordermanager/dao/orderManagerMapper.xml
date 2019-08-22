@@ -145,7 +145,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          order by orderDate desc)tt) 
          where rn between #{startNum} and #{endNum}
 	</select>
-
+	
+	
 	<!-- 주문관리페이지 체크된 주문상태 변경 -->
 	<update id="selectedOrderStateChange" parameterType="java.util.Map">
 		begin
@@ -209,7 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 주문취소 등록1 : orderlist 수정-->
 	<update id="updateOrderlist" parameterType="java.util.Map">
-		update TBL_ORDERLIST set cancelDate = TO_DATE(#{cancelDate},'YYYYMMDD'),
+		update TBL_ORDERLIST set cancelDate = sysdate,
 								 cancelReason = #{cancelReason},
 								 cancelDetail = #{cancelDetail},
 								 whoCancel = 1,
@@ -318,6 +319,155 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 											  -(select crPayment from TBL_ORDERLIST where orderCode = #{orderCode})
 							 where userId = #{userId} 
 	</update>
+	
+	<!--주문등록에서 상품찾기 : 검색버튼 클릭 -->
+	<select id="searchProductInRegOrder" parameterType="java.util.Map" resultType="goods">
+		<choose>
+			<when test="searchOption != 'category'">
+				select * from TBL_PRODUCT where ${searchOption} like '%'||#{searchKeyword}||'%'
+			</when>
+			<otherwise>
+				<if test="selectKeyword == '문구'">
+					select * from TBL_PRODUCT where stationery = 1
+				</if>
+				<if test="selectKeyword == '리빙'">
+					select * from TBL_PRODUCT where living = 1
+				</if>
+				<if test="selectKeyword == '여행'">
+					select * from TBL_PRODUCT where travel = 1
+				</if>
+				<if test="selectKeyword == '%콜라%'">
+					select * from TBL_PRODUCT where collabo = 1
+				</if>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 주문등록에서 상품의 옵션내용 가져오기-->
+	<select id="getOptionContent" parameterType="Integer" resultType="option">
+		select * from TBL_PRODUCTOPTION where productCode = #{productCode}
+	</select>
+	
+	<select id="searchUserInRegOrder" parameterType="java.util.Map" resultType="user">
+		select * from TBL_USER where ${searchOption} like '%'||#{searchKeyword}||'%'
+	</select>
+	
+	<!-- 주문등록 : orderlist 등록 -->
+	<insert id="setOrderlistInManagerOrder" parameterType="orderlist">
+		insert into TBL_ORDERLIST(orderCode 
+								,orderDate
+								,userId 
+								,userName 
+								,totalProductPayment
+								,paymentType 
+								,deliveryFee
+								,totalPayment
+								,orderState ) 
+								values
+								(to_char(sysdate,'yymmdd')||orderCode_seq.nextval
+                    			,sysdate
+								,#{userId}
+								,#{userName}
+								,#{totalProductPayment}
+								,#{paymentType}
+								,#{deliveryFee}
+								,#{totalPayment}
+								,7 )
+	</insert>
+
+	<!-- 주문등록 : order 등록 -->
+	<insert id="setOrderInManagerOrder" parameterType="order">
+		insert into TBL_ORDER(orderCode
+							  ,orderDate
+							  ,userId
+							  ,userName
+							  ,thumbImg
+							  ,productCode
+							  ,productName
+							  ,discountPrice
+							  ,purchaseQty
+							  ,totalPrice
+							  ,paymentType
+							  ,totalPayment
+							  ,productOption
+							  ,optionContent
+							  ,orderState 
+							  ) values(
+							  (select orderCode from TBL_ORDERLIST where orderState = 7 and userId = #{userId})
+							  ,sysdate	
+							  ,#{userId}
+							  ,#{userName}
+							  ,(select thumbImg from TBL_PRODUCT where productCode = #{productCode})
+							  ,#{productCode}
+							  ,#{productName}
+							  ,#{discountPrice}
+							  ,#{purchaseQty}
+							  ,#{discountPrice}*#{purchaseQty}
+							  ,#{paymentType}
+							  ,#{totalPayment}
+							  ,#{productOption}
+							  ,#{optionContent}
+							  ,1 )
+	</insert>
+	
+	<!-- 주문등록 : change stock -->
+	<update id="changeStockInManagerOrder" parameterType="java.util.Map">
+		<if test="productOption == 0">
+			update TBL_PRODUCT set stockQty = stockQty - #{purchaseQty} 
+									   ,saleQty = saleQty + #{purchaseQty}
+		 	   					   where productCode = #{productCode}
+		</if>
+		<if test="productOption == 1">
+			begin
+					update TBL_PRODUCT set stockQty = stockQty - #{purchaseQty} 
+									   	   ,saleQty = saleQty + #{purchaseQty}
+		 	   					  	   where productCode = #{productCode};
+				
+					update TBL_PRODUCTOPTION set subStockQty = subStockQty - #{purchaseQty}
+												,subSaleQty = subSaleQty + #{purchaseQty}
+											where productCode = #{productCode} 
+												  and optionContent = #{optionContent};
+			end;
+		</if>
+	</update>
+	
+	<!--주문등록 : point 사용내역 등록-->
+	<insert id="setPointInfoInManagerOrder" parameterType="java.util.Map">
+		insert into TBL_POINT (userId
+							   ,contents
+							   ,orderCode
+							   ,usePoint
+							   ,pointType
+							   ) values(
+							   #{userId}
+							   ,'구매에 의한 포인트 사용'
+							   ,(select orderCode from TBL_ORDERLIST where orderState = 7 and userId = #{userId})
+							   ,#{usePoint}
+							   ,2 )
+	</insert>
+	
+	
+	<!-- 주문등록 : 변경된 회원정보 업데이트  -->
+	<update id="changeUserInfo" parameterType="java.util.Map">
+		update TBL_USER set receiverName =  #{receiverName}
+							,receiverZipcode = #{receiverZipcode}
+							,receiverAddr1 = #{receiverAddr1}
+							,receiverAddr2 = #{receiverAddr2}
+							,receiverPhone1 = #{receiverPhone1}
+			 				,receiverPhone2 = #{receiverPhone2}
+			 				,receiverPhone3 = #{receiverPhone3}
+			 				,deliveryMsg = #{deliveryMsg}
+			 				,totalPayment = totalPayment + #{totalPayment}
+			 				,userPoint = #{userPoint}
+			 			where userId = #{userId}
+	</update>
+	
+	<!-- 주문등록 : orderlist의 orderState 변경(7->1) -->
+	<update id="updateOrderStateOfOrderlist" parameterType="String">
+		update TBL_ORDERLIST set orderState = 1
+								where orderState = 7 and userId = #{userId}
+	</update>
+
 </mapper>
 
 
