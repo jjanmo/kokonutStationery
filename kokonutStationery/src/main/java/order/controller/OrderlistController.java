@@ -36,7 +36,7 @@ public class OrderlistController {
 	@Autowired
 	private OrderManagerPaging orderManagerPaging;
 	
-	@RequestMapping(value="/order/mypage_orderlist.do", method=RequestMethod.POST)
+	@RequestMapping(value="/order/mypage_orderlist.do", method=RequestMethod.GET)
 	public ModelAndView getOrderList(
 				@RequestParam(required=false, defaultValue="1") String pg
 				,@RequestParam Map<String,String> map ) {

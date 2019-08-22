@@ -188,11 +188,6 @@
 	          </span>
           </td>
         </tr>
-        <tr>
-          <td id="pament_info" colspan="2">
-            <span>- 네이버 마일리지가 사용된 결제시도건의 경우 마일리지 사용액이 저장되지 않아 재결제시에 결제금액이 다르게 보일 수 있습니다.</span>
-          </td>
-        </tr>
       </table>
       <table class="box_style1">
         <tr>

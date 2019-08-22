@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import user.bean.UserDTO;
@@ -147,6 +149,63 @@ public class OrderManagerImpl implements OrderManagerDAO {
 		sqlSession.update("orderManagerSQL.changeTotalPayment", map);
 		
 	}
+
+	//주문등록에서 상품찾기 : 검색버튼 클릭	
+	@Override
+	public List<GoodsDTO> searchProductInRegOrder(Map<String, String> map) {
+		return sqlSession.selectList("orderManagerSQL.searchProductInRegOrder",map);
+	}
+
+	//주문등록에서 상품의 옵션 가져오기
+	@Override
+	public List<ProductOptionDTO> getOptionContent(int productCode) {
+		return sqlSession.selectList("orderManagerSQL.getOptionContent", productCode);
+	}
+
+	//주문등록에서 회원정보 가져오기
+	@Override
+	public List<UserDTO> searchUserInRegOrder(Map<String, String> map) {
+		return sqlSession.selectList("orderManagerSQL.searchUserInRegOrder",map);
+	}
+	
+	//주문등록 : orderlist 정보 입력
+	@Override
+	public int setOrderlistInManagerOrder(OrderlistDTO orderlistDTO) {
+		return sqlSession.insert("orderManagerSQL.setOrderlistInManagerOrder", orderlistDTO);
+	}
+	
+	//주문등록 : order 정보 입력
+	@Override
+	public int setOrderInManagerOrder(OrderDTO orderDTO) {
+		return sqlSession.insert("orderManagerSQL.setOrderInManagerOrder", orderDTO);
+	}
+
+	//주문등록 : stock 변경
+	@Override
+	public int changeStockInManagerOrder(Map<String, Object> map) {
+		return sqlSession.update("orderManagerSQL.changeStockInManagerOrder", map);
+	}
+	
+	//주문등록 : point 사용 정보 입력
+	@Override
+	public int setPointInfoInManagerOrder(Map<String, Object> map) {
+		return sqlSession.insert("orderManagerSQL.setPointInfoInManagerOrder", map);
+	}
+
+	//주문등록 : 변경된 userInfo 업데이트 
+	@Override
+	public int changeUserInfo(Map<String, Object> map) {
+		return sqlSession.update("orderManagerSQL.changeUserInfo", map);
+	}
+	
+	//주문등록 : orderlist의 orderState변경
+	@Override
+	public void updateOrderStateOfOrderlist(String userId) {
+		sqlSession.update("orderManagerSQL.updateOrderStateOfOrderlist", userId);
+		
+	}
+
+
 
 
 

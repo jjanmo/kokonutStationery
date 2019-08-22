@@ -337,17 +337,17 @@ $('#memoRegBtn').click(function(){
 		url : '/kokonutStationery/admin/setErAdminMemo.do',
 		data : {'erAdminMemo'  : erAdminMemo,
 				'orderCode' : '${orderCode }' },
-		dataType : 'json',		
+		dataType : 'text',		
 		success  : function(data){
-			if(data == 1){
+			if(data == "success"){
 				alert("관리자 메모가 등록되었습니다");
+				window.close(); 
 			}
 			else {
 				alert("메모 등록 실패!");
 			}
 		}
 	}); 
-	window.close(); 
 });
 
 </script>

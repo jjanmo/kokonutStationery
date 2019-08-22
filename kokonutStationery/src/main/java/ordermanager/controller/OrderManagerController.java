@@ -9,12 +9,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 import order.bean.OrderDTO;
 import order.bean.OrderManagerPaging;
 import order.bean.OrderlistDTO;
@@ -334,6 +337,126 @@ public class OrderManagerController {
 		orderManagerDAO.changeTotalPayment(map);
 
 	}
+	
+	//주문관리에서 주문등록페이지 이동
+	@RequestMapping(value="/admin/orderRegister.do", method=RequestMethod.GET)
+	public ModelAndView orderRegister() {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("display","/admin/order/orderRegisterForm.jsp");
+		mav.setViewName("/admin/index");
+		return mav;
+	}
+	
+	//주문등록에서 상품찾기 : 검색버튼 클릭
+	@RequestMapping(value="/admin/searchProductInRegOrder.do",method=RequestMethod.POST)
+	public ModelAndView searchProductInRegOrder(@RequestParam Map<String, String> map) {
+		List<GoodsDTO> list = orderManagerDAO.searchProductInRegOrder(map);
+		//System.out.println(list);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//주문등록에서 상품찾는도중 옵션내용 가져오기
+	@RequestMapping(value="/admin/getOptionContent.do",method=RequestMethod.POST)
+	public ModelAndView getOptionContent(@RequestParam String productCode) {
+		
+		List<ProductOptionDTO> list = orderManagerDAO.getOptionContent(Integer.parseInt(productCode));
+		//System.out.println(list);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//주문등록에서 회원정보 가져오기
+	@RequestMapping(value="/admin/searchUserInRegOrder.do", method=RequestMethod.POST)
+	public ModelAndView searchUserInRegOrder(@RequestParam Map<String, String> map) {
+		List<UserDTO> list = orderManagerDAO.searchUserInRegOrder(map);
+		System.out.println(list);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("list", list);
+		mav.setViewName("jsonView");
+		return mav;
+	}
+	
+	//주문등록 : orderlist정보 입력(but orderState 변경 전)
+	@RequestMapping(value="/admin/setOrderlistInManagerOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String setOrderlistInManagerOrder(@ModelAttribute OrderlistDTO orderlistDTO) {
+		int su = orderManagerDAO.setOrderlistInManagerOrder(orderlistDTO);
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+	
+	
+	//주문등록 : order정보 입력
+	@RequestMapping(value="/admin/setOrderInManagerOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String setOrderInManagerOrder(@ModelAttribute OrderDTO orderDTO) {
+			
+		int su = orderManagerDAO.setOrderInManagerOrder(orderDTO);
+		//System.out.println(su);
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+	
+	//주문등록 : stock정보변경
+	@RequestMapping(value="/admin/changeStockInManagerOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String changeStockInManagerOrder(@RequestParam Map<String, Object> map) {
+			
+		int su = orderManagerDAO.changeStockInManagerOrder(map);
+		//System.out.println(su); //옵션이 있는 경우는 -1 나온다... :update문을 2번 돌기때문에
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+	
+	//주문등록 : 결제할 때 point를 사용시 정보
+	@RequestMapping(value="/admin/setPointInfoInManagerOrder.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String setPointInfoInManagerOrder(@RequestParam Map<String, Object> map) {
+		
+		int su = orderManagerDAO.setPointInfoInManagerOrder(map);
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+	}
+	
+	
+	//주문등록 : 주문등록시 변경된 회원정보 업데이트 + orderlist의 orderState의 정보 변경(7 -> 1)
+	@RequestMapping(value="/admin/changeUserInfo.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String changeUserInfo(@RequestParam Map<String, Object> map) {
+		
+		int su =  orderManagerDAO.changeUserInfo(map);
+		String userId = (String)map.get("userId");
+		orderManagerDAO.updateOrderStateOfOrderlist(userId);
+		if(su == 1) {
+			return "success";
+		}
+		else {
+			return "fail";
+		}
+		
+	}
+	
 }
 
 

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import goods.bean.GoodsDTO;
+import goods.bean.ProductOptionDTO;
 import order.bean.OrderDTO;
 import order.bean.OrderlistDTO;
 import user.bean.UserDTO;
@@ -56,5 +58,25 @@ public interface OrderManagerDAO {
 	public void changeOrderlistErState(Map<String, Object> map);
 
 	public void changeTotalPayment(Map<String, String> map);
+
+	public List<GoodsDTO> searchProductInRegOrder(Map<String, String> map);
+
+	public List<ProductOptionDTO> getOptionContent(int productCode);
+
+	public List<UserDTO> searchUserInRegOrder(Map<String, String> map);
+	
+	public int setOrderlistInManagerOrder(OrderlistDTO orderlistDTO);
+	
+	public int setOrderInManagerOrder(OrderDTO orderDTO);
+
+	public int changeStockInManagerOrder(Map<String, Object> map);
+
+	public int setPointInfoInManagerOrder(Map<String, Object> map);
+
+	public int changeUserInfo(Map<String, Object> map);
+
+	public void updateOrderStateOfOrderlist(String userId);
+
+	
 
 }

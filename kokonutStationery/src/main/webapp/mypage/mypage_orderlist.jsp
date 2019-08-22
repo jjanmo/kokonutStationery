@@ -49,7 +49,7 @@ $(document).ready(function(){
 	var pg = $('#pg').val();
 	
 	$.ajax({
-		type : 'POST',
+		type : 'GET',
 		url : '/kokonutStationery/order/mypage_orderlist.do',
 		data : { 'userId' : userId,
 				 'pg' : pg},
@@ -279,7 +279,8 @@ $(document).ready(function(){
 
 /* 페이징 링크 */
 function orderManagerPaging(pg){
-	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg;
+	var userId = $('#userId').val();
+	location.href="/kokonutStationery/order/mypage_orderlist.do?pg="+pg+'&userId='+userId;
 }
 
 //숫자 3자리당 쉼표찍기
@@ -288,6 +289,4 @@ function AddComma(number) {
 }
 
 </script>
-
-
 </html>

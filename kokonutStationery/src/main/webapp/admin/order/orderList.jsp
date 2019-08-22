@@ -603,8 +603,8 @@ $(document).on('click','.cancel_button',function(){
 
 //취소상세버튼 클릭 : 취소처리확인
 $(document).on('click','.cancel_detail',function(){
-	var orderCode = $(this).attr('id');
-	var orderCode = orderCode.substring(13);
+	//var orderState = $(this).parent().prev().text().substring(0,4);
+	var orderCode = $(this).attr('id').substring(13);
 	window.open('/kokonutStationery/admin/orderCancelDetail.do?orderCode='+orderCode,
 			'','width=840, height=550, left=100, resizable=no, toolbar=no','true'); 
 });

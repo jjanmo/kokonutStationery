@@ -28,12 +28,6 @@ public class OrderDAOImpl implements OrderDAO {
 		return sqlSession.selectOne("orderSQL.getProduct",productCode);
 	}
 	
-	//배송지 검색
-	@Override
-	public List<PostDTO> postSearch(Map<String, String> map) {
-		return sqlSession.selectList("orderSQL.postSearch", map);
-	}
-
 	//배송정보 추가
 	@Override
 	public int updateUserInfo(UserDTO userDTO) {
